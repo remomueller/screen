@@ -31,9 +31,9 @@
       <th>Visit at</th>
       <th>Visit duration</th>
       <th>Visit units</th>
-      <th>Eligibility</th>
-      <th>Exclusion</th>
-      <th>Risk factors</th>
+      <% Prescreen::EDITABLES.each do |item| %>
+        <th><%= item.titleize %></th>
+      <% end %>
       <th></th>
       <th></th>
       <th></th>
@@ -47,11 +47,28 @@
       <td><%= prescreen.visit_at %></td>
       <td><%= prescreen.visit_duration %></td>
       <td><%= prescreen.visit_units %></td>
-      <td><%= prescreen.eligibility %></td>
-      <td><%= prescreen.exclusion %></td>
-      <td><%= prescreen.risk_factors %></td>
+      <% Prescreen::EDITABLES.each do |item| %>
+        <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
+          <%= prescreen.send(item) %>
+        </td>
+      <% end %>
       <td><%= link_to 'Show', prescreen %></td>
-      <td><%= link_to 'Edit', edit_prescreen_path(prescreen) %></td>
+      <td>
+        <%= link_to 'Edit', edit_prescreen_path(prescreen) %>
+        <%= javascript_tag do %>
+          $(document).ready(function(){
+            <% Prescreen::EDITABLES.each do |item| %>
+              $("#prescreen_<%= prescreen.id %>_<%= item %>_inline_edit").editInPlace({
+                url: '<%= inline_update_prescreen_path(prescreen) %>',
+                params: 'item=<%= item %>',
+                success: function(response){ eval(response) },
+                field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>',
+                select_options: 'potentially eligible, ineligible'
+              });
+            <% end %>
+          });
+        <% end %>
+      </td>
       <td><%= link_to 'Destroy', prescreen, confirm: 'Are you sure?', method: :delete %></td>
     </tr>
   <% end %>

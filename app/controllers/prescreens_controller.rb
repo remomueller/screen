@@ -2,6 +2,12 @@ class PrescreensController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin
 
+  def inline_update
+    @prescreen = Prescreen.find_by_id(params[:id])
+    item = Prescreen::EDITABLES.include?(params[:item]) ? params[:item].to_sym : ''
+    @prescreen.update_attribute(item, params[:update_value]) if @prescreen and not item.blank?
+  end
+
   def bulk
     new_count = Prescreen.process_bulk(params)
     redirect_to prescreens_path, notice: "#{new_count} Prescreen#{'s' unless new_count == 1} added!"

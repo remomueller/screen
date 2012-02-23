@@ -4,6 +4,7 @@
   * Created Patient-Event model along with Prescreens
   * Patient information stored as star schema
   * Prescreens can be added en-masse by copying from a tab-delimited spreadsheet
+  * Prescreen table is now editable inline
 
 == 0.0.0
 

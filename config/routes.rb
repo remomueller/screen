@@ -5,6 +5,9 @@ Screen::Application.routes.draw do
   resources :patients
 
   resources :prescreens do
+    member do
+      post :inline_update
+    end
     collection do
       post :bulk
     end

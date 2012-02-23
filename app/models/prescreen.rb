@@ -1,4 +1,7 @@
 class Prescreen < ActiveRecord::Base
+
+  EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
+
   # Named Scopes
   scope :current, conditions: { deleted: false }
 

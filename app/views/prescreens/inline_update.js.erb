@@ -1,0 +1,3 @@
+<% Prescreen::EDITABLES.each do |item| %>
+  $('#prescreen_<%= @prescreen.id %>_<%= item %>_inline_edit').html("<%= escape_javascript(@prescreen.send(item)) %>");
+<% end %>
