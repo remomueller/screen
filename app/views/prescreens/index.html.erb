@@ -1,0 +1,41 @@
+<h1>Listing prescreens</h1>
+
+<div class="frame">
+  <table>
+    <tr>
+      <th>Patient</th>
+      <th>Clinic</th>
+      <th>Cardiologist</th>
+      <th>Visit at</th>
+      <th>Visit duration</th>
+      <th>Visit units</th>
+      <th>Eligibility</th>
+      <th>Exclusion</th>
+      <th>Risk factors</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @prescreens.each do |prescreen| %>
+    <tr>
+      <td><%= prescreen.patient_id %></td>
+      <td><%= prescreen.clinic %></td>
+      <td><%= prescreen.cardiologist %></td>
+      <td><%= prescreen.visit_at %></td>
+      <td><%= prescreen.visit_duration %></td>
+      <td><%= prescreen.visit_units %></td>
+      <td><%= prescreen.eligibility %></td>
+      <td><%= prescreen.exclusion %></td>
+      <td><%= prescreen.risk_factors %></td>
+      <td><%= link_to 'Show', prescreen %></td>
+      <td><%= link_to 'Edit', edit_prescreen_path(prescreen) %></td>
+      <td><%= link_to 'Destroy', prescreen, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<br />
+
+<%= link_to 'New Prescreen', new_prescreen_path %>

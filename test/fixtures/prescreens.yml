@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  patient_id: 1
+  clinic: MyString
+  cardiologist: MyString
+  visit_at: 2012-02-23 10:29:41
+  visit_duration: 1
+  visit_units: MyString
+  eligibility: MyString
+  exclusion: MyString
+  risk_factors: MyString
+
+two:
+  patient_id: 1
+  clinic: MyString
+  cardiologist: MyString
+  visit_at: 2012-02-23 10:29:41
+  visit_duration: 1
+  visit_units: MyString
+  eligibility: MyString
+  exclusion: MyString
+  risk_factors: MyString

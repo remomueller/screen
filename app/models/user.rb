@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def reverse_name
+    "#{last_name}, #{first_name}"
+  end
+
   def apply_omniauth(omniauth)
     unless omniauth['info'].blank?
       self.email = omniauth['info']['email'] if email.blank?

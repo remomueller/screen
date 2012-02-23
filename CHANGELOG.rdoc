@@ -1,3 +1,9 @@
+== 0.1.0
+
+* Enhancements
+  * Created Patient-Event model along with Prescreens
+  * Patient information stored as star schema
+
 == 0.0.0
 
 * Skeleton files to initialize Rails application with testing framework and continuous integration

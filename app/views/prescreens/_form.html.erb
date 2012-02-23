@@ -1,0 +1,53 @@
+<%= form_for(@prescreen) do |f| %>
+  <% if @prescreen.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@prescreen.errors.count, "error") %> prohibited this prescreen from being saved:</h2>
+
+      <ul>
+      <% @prescreen.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :patient_id %><br />
+    <%= f.number_field :patient_id %>
+  </div>
+  <div class="field">
+    <%= f.label :clinic %><br />
+    <%= f.text_field :clinic %>
+  </div>
+  <div class="field">
+    <%= f.label :cardiologist %><br />
+    <%= f.text_field :cardiologist %>
+  </div>
+  <div class="field">
+    <%= f.label :visit_at %><br />
+    <%= f.datetime_select :visit_at %>
+  </div>
+  <div class="field">
+    <%= f.label :visit_duration %><br />
+    <%= f.number_field :visit_duration %>
+  </div>
+  <div class="field">
+    <%= f.label :visit_units %><br />
+    <%= f.text_field :visit_units %>
+  </div>
+  <div class="field">
+    <%= f.label :eligibility %><br />
+    <%= f.text_field :eligibility %>
+  </div>
+  <div class="field">
+    <%= f.label :exclusion %><br />
+    <%= f.text_field :exclusion %>
+  </div>
+  <div class="field">
+    <%= f.label :risk_factors %><br />
+    <%= f.text_field :risk_factors %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

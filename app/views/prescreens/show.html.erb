@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Patient:</b>
+  <%= @prescreen.patient_id %>
+</p>
+
+<p>
+  <b>Clinic:</b>
+  <%= @prescreen.clinic %>
+</p>
+
+<p>
+  <b>Cardiologist:</b>
+  <%= @prescreen.cardiologist %>
+</p>
+
+<p>
+  <b>Visit at:</b>
+  <%= @prescreen.visit_at %>
+</p>
+
+<p>
+  <b>Visit duration:</b>
+  <%= @prescreen.visit_duration %>
+</p>
+
+<p>
+  <b>Visit units:</b>
+  <%= @prescreen.visit_units %>
+</p>
+
+<p>
+  <b>Eligibility:</b>
+  <%= @prescreen.eligibility %>
+</p>
+
+<p>
+  <b>Exclusion:</b>
+  <%= @prescreen.exclusion %>
+</p>
+
+<p>
+  <b>Risk factors:</b>
+  <%= @prescreen.risk_factors %>
+</p>
+
+
+<%= link_to 'Edit', edit_prescreen_path(@prescreen) %> |
+<%= link_to 'Back', prescreens_path %>

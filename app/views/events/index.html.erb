@@ -1,0 +1,30 @@
+<h1>Listing events</h1>
+
+<div class="frame">
+  <table>
+    <tr>
+      <th>Patient</th>
+      <th>Class name</th>
+      <th>Class</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @events.each do |event| %>
+    <tr>
+      <td><%= event.patient_id %></td>
+      <td><%= event.class_name %></td>
+      <td><%= event.class_id %></td>
+      <td><%= link_to 'Show', event %></td>
+      <td><%= link_to 'Edit', edit_event_path(event) %></td>
+      <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<br />
+
+<%= link_to 'New Event', new_event_path %>
+
