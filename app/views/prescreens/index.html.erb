@@ -1,4 +1,26 @@
-<h1>Listing prescreens</h1>
+<% @title = 'Prescreens' %>
+<h1><%= @title %></h1>
+
+<% width = '1074px' %>
+
+<%= form_tag bulk_prescreens_path, method: :post do %>
+  <fieldset>
+    <legend>
+      Spreadsheet Prescreen Import
+    </legend>
+    <div class="field">
+      <label>Visit Date:</label>
+      <%= text_field_tag :visit_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
+    </div>
+    <div class="field">
+      <label>Spreadsheet Dump:</label><br />
+      <%= text_area_tag :tab_dump, '', rows: 7, style: "width:#{width}" %>
+    </div>
+  </fieldset>
+
+  <%= submit_tag 'Import' %>
+
+<% end %>
 
 <div class="frame">
   <table>
@@ -19,7 +41,7 @@
 
   <% @prescreens.each do |prescreen| %>
     <tr>
-      <td><%= prescreen.patient_id %></td>
+      <td><%= link_to (prescreen.patient.mrn + '<br />' + prescreen.patient.reverse_name).html_safe, prescreen.patient if prescreen.patient %></td>
       <td><%= prescreen.clinic %></td>
       <td><%= prescreen.cardiologist %></td>
       <td><%= prescreen.visit_at %></td>

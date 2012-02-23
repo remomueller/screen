@@ -1,0 +1,32 @@
+<div style="float:right">
+  Per Page
+  <span class="per_page">
+    20
+  </span>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%">
+    <tr>
+      <th>Patient</th>
+      <th>Event</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @events.each do |event| %>
+    <tr>
+      <td><%= link_to event.patient.mrn, event.patient if event.patient %></td>
+      <td><%= e = event.class_name.constantize.find_by_id(event.class_id); link_to(event.class_name, e) %></td>
+      <td><%= link_to 'Show', event %></td>
+      <td><%= link_to 'Edit', edit_event_path(event) %></td>
+      <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<center><%= paginate @events %></center>

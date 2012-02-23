@@ -2,10 +2,15 @@ class PrescreensController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin
 
+  def bulk
+    new_count = Prescreen.process_bulk(params)
+    redirect_to prescreens_path, notice: "#{new_count} Prescreen#{'s' unless new_count == 1} added!"
+  end
+
   # GET /prescreens
   # GET /prescreens.json
   def index
-    @prescreens = Prescreen.all
+    @prescreens = Prescreen.current.order(:cardiologist, :visit_at)
 
     respond_to do |format|
       format.html # index.html.erb

@@ -3,6 +3,7 @@
 * Enhancements
   * Created Patient-Event model along with Prescreens
   * Patient information stored as star schema
+  * Prescreens can be added en-masse by copying from a tab-delimited spreadsheet
 
 == 0.0.0
 
