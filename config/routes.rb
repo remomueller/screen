@@ -2,7 +2,11 @@ Screen::Application.routes.draw do
 
   resources :events
 
-  resources :patients
+  resources :patients do
+    member do
+      post :inline_update
+    end
+  end
 
   resources :prescreens do
     member do

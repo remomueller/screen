@@ -1,4 +1,6 @@
 class Patient < ActiveRecord::Base
+  EDITABLES = ['phone', 'address']
+
   # Named Scopes
   scope :current, conditions: { deleted: false }
   scope :with_mrn, lambda { |*args| { conditions: ["patients.mrn LIKE (?)", args.first.to_s + '%'] } }

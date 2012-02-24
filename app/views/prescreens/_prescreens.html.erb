@@ -16,17 +16,24 @@
       <% Prescreen::EDITABLES.each do |item| %>
         <th><%= item.titleize %></th>
       <% end %>
+      <th>Phone</th>
+      <th>Location (City, State)</th>
       <th></th>
     </tr>
 
   <% @prescreens.each do |prescreen| %>
     <tr>
       <td><%= link_to (prescreen.patient.mrn + '<br />' + prescreen.patient.reverse_name).html_safe, prescreen.patient if prescreen.patient %></td>
-      <td><%= prescreen.cardiologist %></td>
+      <td><%= prescreen.cardiologist.to_s.split(',').first %></td>
       <td><%= simple_date(prescreen.visit_at) %><br /><%= prescreen.visit_at_range_short %></td>
       <% Prescreen::EDITABLES.each do |item| %>
         <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
           <%= prescreen.send(item) %>
+        </td>
+      <% end %>
+      <% Patient::EDITABLES.each do |item| %>
+        <td id="patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit">
+          <%= prescreen.patient.send(item) %>
         </td>
       <% end %>
       <td><%= link_to 'Show', prescreen %>
@@ -43,6 +50,15 @@
                 select_options: '<%= item == 'eligibility' ? ',potentially eligible,ineligible' : '' %>'
               });
             <% end %>
+
+            <% Patient::EDITABLES.each do |item| %>
+              $("#patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit").editInPlace({
+                url: '<%= inline_update_patient_path(prescreen.patient) %>',
+                params: 'item=<%= item %>',
+                success: function(response){ eval(response) }
+              });
+            <% end %>
+
           });
         <% end %>
       </td>

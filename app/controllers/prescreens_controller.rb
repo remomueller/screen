@@ -23,7 +23,7 @@ class PrescreensController < ApplicationController
     prescreen_scope = prescreen_scope.order(:cardiologist, :visit_at)
 
 
-    @prescreens = prescreen_scope.page(params[:page]).per(10) # (current_user.prescreens_per_page)
+    @prescreens = prescreen_scope.page(params[:page]).per(40) # (current_user.prescreens_per_page)
   end
 
 

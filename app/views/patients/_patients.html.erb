@@ -14,6 +14,7 @@
       <th>First name</th>
       <th>Last name</th>
       <th>Phone</th>
+      <th>Location</th>
       <th>Sex</th>
       <th>Age</th>
       <th></th>
@@ -23,7 +24,7 @@
 
   <% @patients.each do |patient| %>
     <tr onmouseover="$('.patient_<%= patient.id %>_short').hide();$('.patient_<%= patient.id %>').show();" onmouseout="$('.patient_<%= patient.id %>').hide();$('.patient_<%= patient.id %>_short').show();">
-      <% ['mrn', 'first_name', 'last_name', 'phone', 'sex', 'age'].each do |item| %>
+      <% ['mrn', 'first_name', 'last_name', 'phone', 'address', 'sex', 'age'].each do |item| %>
         <td><span class="patient_<%= patient.id %>_short"><%= patient.send(item).to_s.first %></span><span class="patient_<%= patient.id %>" style="display:none"><%= patient.send(item) %></span></td>
       <% end %>
       <td><%= link_to 'Show', patient %></td>

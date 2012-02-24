@@ -2,6 +2,13 @@ class PatientsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin
 
+  def inline_update
+    @patient = Patient.find_by_id(params[:id])
+    item = Patient::EDITABLES.include?(params[:item]) ? params[:item].to_sym : ''
+    @patient.update_attribute(item, params[:update_value]) if @patient and not item.blank?
+  end
+
+
   def index
     # current_user.update_attribute :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
     patient_scope = Patient.current # current_user.all_viewable_patients

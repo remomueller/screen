@@ -1,0 +1,3 @@
+<% Patient::EDITABLES.each do |item| %>
+  $('#patient_<%= @patient.id %>_<%= item %>_inline_edit').html("<%= escape_javascript(@patient.send(item)) %>");
+<% end %>
