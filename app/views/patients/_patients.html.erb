@@ -1,0 +1,37 @@
+<div style="float:right">
+  Per Page
+  <span class="per_page">
+    20
+  </span>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%;table-layout:fixed">
+    <tr>
+      <th>MRN</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Phone</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @patients.each do |patient| %>
+    <tr onmouseover="$('.patient_<%= patient.id %>_short').hide();$('.patient_<%= patient.id %>').show();" onmouseout="$('.patient_<%= patient.id %>').hide();$('.patient_<%= patient.id %>_short').show();">
+      <% ['mrn', 'first_name', 'last_name', 'phone', 'sex', 'age'].each do |item| %>
+        <td><span class="patient_<%= patient.id %>_short"><%= patient.send(item).to_s.first %></span><span class="patient_<%= patient.id %>" style="display:none"><%= patient.send(item) %></span></td>
+      <% end %>
+      <td><%= link_to 'Show', patient %></td>
+      <td><%= link_to 'Edit', edit_patient_path(patient) %></td>
+      <td><%= link_to 'Destroy', patient, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<center><%= paginate @patients %></center>

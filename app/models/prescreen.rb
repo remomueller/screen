@@ -8,6 +8,7 @@ class Prescreen < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_mrn, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where patients.mrn LIKE (?))", args.first.to_s + '%'] } }
 
   # Model Validation
   # validates_presence_of     :first_name
@@ -20,6 +21,26 @@ class Prescreen < ActiveRecord::Base
 
   def event_at
     self.visit_at
+  end
+
+  def visit_at_string
+    visit_at.blank? ? '' : visit_at.localtime.strftime("%l:%M %p").strip
+  end
+
+  def visit_at_string_short
+    self.visit_at_string.gsub(':00', '').gsub(' AM', '').gsub(' PM', 'p')
+  end
+
+  def visit_at_end_string
+    (visit_at.blank? or self.visit_duration <= 0) ? '' : (visit_at + self.visit_duration.send(self.visit_units)).localtime.strftime("%l:%M %p").strip
+  end
+
+  def visit_at_end_string_short
+    self.visit_at_end_string.gsub(':00', '').gsub(' AM', '').gsub(' PM', 'p')
+  end
+
+  def visit_at_range_short
+    self.visit_at_string_short + (self.visit_at_end_string_short.blank? ? '' : '-' + self.visit_at_end_string_short)
   end
 
   # Tab delimited

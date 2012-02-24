@@ -2,16 +2,28 @@ class PatientsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin
 
-  # GET /patients
-  # GET /patients.json
   def index
-    @patients = Patient.all
+    # current_user.update_attribute :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
+    patient_scope = Patient.current # current_user.all_viewable_patients
+    patient_scope = patient_scope.with_mrn(params[:mrn]) unless params[:mrn].blank?
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @patients }
-    end
+    @order = Patient.column_names.collect{|column_name| "patients.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "patients.id"
+    patient_scope = patient_scope.order(@order)
+
+    @patients = patient_scope.page(params[:page]).per(20) # (current_user.patients_per_page)
   end
+
+
+  # # GET /patients
+  # # GET /patients.json
+  # def index
+  #   @patients = Patient.all
+
+  #   respond_to do |format|
+  #     format.html # index.html.erb
+  #     format.json { render json: @patients }
+  #   end
+  # end
 
   # GET /patients/1
   # GET /patients/1.json

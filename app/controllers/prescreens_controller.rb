@@ -13,16 +13,28 @@ class PrescreensController < ApplicationController
     redirect_to prescreens_path, notice: "#{new_count} Prescreen#{'s' unless new_count == 1} added!"
   end
 
-  # GET /prescreens
-  # GET /prescreens.json
   def index
-    @prescreens = Prescreen.current.order(:cardiologist, :visit_at)
+    # current_user.update_attribute :prescreens_per_page, params[:prescreens_per_page].to_i if params[:prescreens_per_page].to_i >= 10 and params[:prescreens_per_page].to_i <= 200
+    prescreen_scope = Prescreen.current # current_user.all_viewable_prescreens
+    prescreen_scope = prescreen_scope.with_mrn(params[:mrn]) unless params[:mrn].blank?
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @prescreens }
-    end
+    # @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.id"
+    # prescreen_scope = prescreen_scope.order(@order)
+    prescreen_scope = prescreen_scope.order(:cardiologist, :visit_at)
+
+
+    @prescreens = prescreen_scope.page(params[:page]).per(10) # (current_user.prescreens_per_page)
   end
+
+
+  # def index
+  #   @prescreens = Prescreen.current.order(:cardiologist, :visit_at)
+
+  #   respond_to do |format|
+  #     format.html # index.html.erb
+  #     format.json { render json: @prescreens }
+  #   end
+  # end
 
   # GET /prescreens/1
   # GET /prescreens/1.json

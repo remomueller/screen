@@ -1,36 +1,18 @@
 <% @title = "Patients" %>
 <h1><%= @title %></h1>
 
-<div class="frame">
-  <table>
-    <tr>
-      <th>MRN</th>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Phone</th>
-      <th>Sex</th>
-      <th>Age</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
+<%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Patient", new_patient_path, class: 'button positive' %>
 
-  <% @patients.each do |patient| %>
-    <tr>
-      <td><%= patient.mrn %></td>
-      <td><%= patient.first_name %></td>
-      <td><%= patient.last_name %></td>
-      <td><%= patient.phone %></td>
-      <td><%= patient.sex %></td>
-      <td><%= patient.age %></td>
-      <td><%= link_to 'Show', patient %></td>
-      <td><%= link_to 'Edit', edit_patient_path(patient) %></td>
-      <td><%= link_to 'Destroy', patient, confirm: 'Are you sure?', method: :delete %></td>
-    </tr>
-  <% end %>
-  </table>
-</div>
+<div style="clear:both"></div>
 
-<br />
+<%= form_tag patients_path, method: :get, remote: true, id: "patients_search", style: "margin-bottom:-5px" do %>
+  Search <%= text_field_tag 'mrn', params[:mrn] %> <%#= information %>
+<% end %>
 
-<%= link_to 'New Patient', new_patient_path %>
+<div id="patients"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#patients_search").attr("action"), $("#patients_search").serialize(), null, "script");
+  });
+<% end %>

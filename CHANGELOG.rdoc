@@ -6,6 +6,7 @@
   * Prescreens can be added en-masse by copying from a tab-delimited spreadsheet
     * Can now be set to filter by a whitelist doctors and clinic, and within age range
   * Prescreen table is now editable inline
+  * Patient List is now masked
 
 == 0.0.0
 

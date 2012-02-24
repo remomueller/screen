@@ -1,0 +1,54 @@
+<div style="float:right">
+  Per Page
+  <span class="per_page">
+    40
+  </span>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%;table-layout:fixed">
+    <tr>
+      <th>Patient</th>
+      <th>Cardiologist</th>
+      <th>Visit</th>
+      <% Prescreen::EDITABLES.each do |item| %>
+        <th><%= item.titleize %></th>
+      <% end %>
+      <th></th>
+    </tr>
+
+  <% @prescreens.each do |prescreen| %>
+    <tr>
+      <td><%= link_to (prescreen.patient.mrn + '<br />' + prescreen.patient.reverse_name).html_safe, prescreen.patient if prescreen.patient %></td>
+      <td><%= prescreen.cardiologist %></td>
+      <td><%= simple_date(prescreen.visit_at) %><br /><%= prescreen.visit_at_range_short %></td>
+      <% Prescreen::EDITABLES.each do |item| %>
+        <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
+          <%= prescreen.send(item) %>
+        </td>
+      <% end %>
+      <td><%= link_to 'Show', prescreen %>
+        <%= link_to 'Edit', edit_prescreen_path(prescreen) %>
+        <%= link_to 'Destroy', prescreen, confirm: 'Are you sure?', method: :delete %>
+        <%= javascript_tag do %>
+          $(document).ready(function(){
+            <% Prescreen::EDITABLES.each do |item| %>
+              $("#prescreen_<%= prescreen.id %>_<%= item %>_inline_edit").editInPlace({
+                url: '<%= inline_update_prescreen_path(prescreen) %>',
+                params: 'item=<%= item %>',
+                success: function(response){ eval(response) },
+                field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>',
+                select_options: '<%= item == 'eligibility' ? ',potentially eligible,ineligible' : '' %>'
+              });
+            <% end %>
+          });
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<center><%= paginate @prescreens %></center>

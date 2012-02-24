@@ -3,6 +3,11 @@
 
 <% width = '1074px' %>
 
+<%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Prescreen", new_prescreen_path, class: 'button positive' %>
+
+<div style="clear:both"></div>
+
+
 <%= form_tag bulk_prescreens_path, method: :post do %>
   <fieldset>
     <legend>
@@ -22,59 +27,15 @@
 
 <% end %>
 
-<div class="frame">
-  <table>
-    <tr>
-      <th>Patient</th>
-      <th>Clinic</th>
-      <th>Cardiologist</th>
-      <th>Visit at</th>
-      <th>Visit duration</th>
-      <th>Visit units</th>
-      <% Prescreen::EDITABLES.each do |item| %>
-        <th><%= item.titleize %></th>
-      <% end %>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
 
-  <% @prescreens.each do |prescreen| %>
-    <tr>
-      <td><%= link_to (prescreen.patient.mrn + '<br />' + prescreen.patient.reverse_name).html_safe, prescreen.patient if prescreen.patient %></td>
-      <td><%= prescreen.clinic %></td>
-      <td><%= prescreen.cardiologist %></td>
-      <td><%= prescreen.visit_at %></td>
-      <td><%= prescreen.visit_duration %></td>
-      <td><%= prescreen.visit_units %></td>
-      <% Prescreen::EDITABLES.each do |item| %>
-        <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
-          <%= prescreen.send(item) %>
-        </td>
-      <% end %>
-      <td><%= link_to 'Show', prescreen %></td>
-      <td>
-        <%= link_to 'Edit', edit_prescreen_path(prescreen) %>
-        <%= javascript_tag do %>
-          $(document).ready(function(){
-            <% Prescreen::EDITABLES.each do |item| %>
-              $("#prescreen_<%= prescreen.id %>_<%= item %>_inline_edit").editInPlace({
-                url: '<%= inline_update_prescreen_path(prescreen) %>',
-                params: 'item=<%= item %>',
-                success: function(response){ eval(response) },
-                field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>',
-                select_options: 'potentially eligible, ineligible'
-              });
-            <% end %>
-          });
-        <% end %>
-      </td>
-      <td><%= link_to 'Destroy', prescreen, confirm: 'Are you sure?', method: :delete %></td>
-    </tr>
-  <% end %>
-  </table>
-</div>
+<%= form_tag prescreens_path, method: :get, remote: true, id: "prescreens_search", style: "margin-bottom:-5px" do %>
+  Search <%= text_field_tag 'mrn', params[:mrn] %> <%#= information %>
+<% end %>
 
-<br />
+<div id="prescreens"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Prescreen', new_prescreen_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#prescreens_search").attr("action"), $("#prescreens_search").serialize(), null, "script");
+  });
+<% end %>

@@ -1,6 +1,7 @@
 class Patient < ActiveRecord::Base
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_mrn, lambda { |*args| { conditions: ["patients.mrn LIKE (?)", args.first.to_s + '%'] } }
 
   # Model Validation
   # validates_presence_of     :first_name
