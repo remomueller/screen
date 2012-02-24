@@ -1,0 +1,33 @@
+<h1>Listing mailings</h1>
+
+<table>
+  <tr>
+    <th>Sent date</th>
+    <th>Received date</th>
+    <th>Berlin</th>
+    <th>Ess</th>
+    <th>Status</th>
+    <th>Eligible</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mailings.each do |mailing| %>
+  <tr>
+    <td><%= mailing.sent_date %></td>
+    <td><%= mailing.received_date %></td>
+    <td><%= mailing.berlin %></td>
+    <td><%= mailing.ess %></td>
+    <td><%= mailing.status %></td>
+    <td><%= mailing.eligible %></td>
+    <td><%= link_to 'Show', mailing %></td>
+    <td><%= link_to 'Edit', edit_mailing_path(mailing) %></td>
+    <td><%= link_to 'Destroy', mailing, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mailing', new_mailing_path %>

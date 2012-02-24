@@ -5,7 +5,7 @@ class CreatePrescreens < ActiveRecord::Migration
       t.string :clinic
       t.string :cardiologist
       t.datetime :visit_at
-      t.integer :visit_duration
+      t.integer :visit_duration, null: false, default: 0
       t.string :visit_units
       t.string :eligibility
       t.string :exclusion

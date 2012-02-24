@@ -52,7 +52,8 @@ class Prescreen < ActiveRecord::Base
     prescreens = Prescreen.count
     cardiologist = ''
     appointment_date = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue Date.today
-    params[:tab_dump].split(/\r|\n/).each_with_index do |row, row_index|
+    # gsub(/\u00a0/, ' ') This replaces non-breaking whitespace
+    params[:tab_dump].gsub(/\u00a0/, ' ').split(/\r|\n/).each_with_index do |row, row_index|
       row = row.strip
       unless row.blank?
         row_array = row.split(/\t/)
@@ -65,10 +66,11 @@ class Prescreen < ActiveRecord::Base
           clinic = row_array[2]
           name = row_array[3]
           last_name = name.split(',').first.strip
-          first_name = name.split(',')[1..-1].join(',').strip
+
+          first_name = (name.split(',')[1..-1] || []).join(',').strip
           sex_age = row_array[4]
           sex = sex_age.split(' ').first
-          age = sex_age.split(' ')[1..-1].join(' ').to_i
+          age = (sex_age.split(' ')[1..-1] || []).join(' ').to_i
           mrn = row_array[5]
           reason_for_visit = row_array[6]
           comment = row_array[7]

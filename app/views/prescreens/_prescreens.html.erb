@@ -16,8 +16,9 @@
       <% Prescreen::EDITABLES.each do |item| %>
         <th><%= item.titleize %></th>
       <% end %>
-      <th>Phone</th>
-      <th>Location (City, State)</th>
+      <% Patient::EDITABLES.each do |item| %>
+        <th><%= item.titleize %></th>
+      <% end  %>
       <th></th>
     </tr>
 

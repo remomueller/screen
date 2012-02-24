@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  sent_date: 2012-02-24
+  received_date: 2012-02-24
+  berlin: MyString
+  ess: MyString
+  status: MyText
+  eligible: MyString
+
+two:
+  sent_date: 2012-02-24
+  received_date: 2012-02-24
+  berlin: MyString
+  ess: MyString
+  status: MyText
+  eligible: MyString

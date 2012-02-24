@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Sent date:</b>
+  <%= @mailing.sent_date %>
+</p>
+
+<p>
+  <b>Received date:</b>
+  <%= @mailing.received_date %>
+</p>
+
+<p>
+  <b>Berlin:</b>
+  <%= @mailing.berlin %>
+</p>
+
+<p>
+  <b>Ess:</b>
+  <%= @mailing.ess %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @mailing.status %>
+</p>
+
+<p>
+  <b>Eligible:</b>
+  <%= @mailing.eligible %>
+</p>
+
+
+<%= link_to 'Edit', edit_mailing_path(@mailing) %> |
+<%= link_to 'Back', mailings_path %>

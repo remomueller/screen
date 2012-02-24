@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-  EDITABLES = ['phone', 'address']
+  EDITABLES = ['phone_home', 'address1']
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

@@ -31,15 +31,15 @@ Contour.setup do |config|
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
     {
-      name: 'Home', display: 'always', path: 'root_path', position: 'left', condition: 'true', image: '', image_options: {},
-      links: []
-    },
-    {
-      name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left',
+      name: 'About', display: 'not_signed_in', path: 'root_path', position: 'left',
       links: []
     },
     {
       name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left',
+      links: []
+    },
+    {
+      name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left',
       links: []
     },
     {
