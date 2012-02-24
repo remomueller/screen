@@ -2,6 +2,7 @@ class Prescreen < ActiveRecord::Base
 
   VALID_AGE = ()
   WHITELIST_MD = []
+  WHITELIST_CLINIC = []
   EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
 
 
@@ -51,7 +52,9 @@ class Prescreen < ActiveRecord::Base
           reason_for_visit = row_array[6]
           comment = row_array[7]
 
-          if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and (Prescreen::WHITELIST_MD.blank? or Prescreen::WHITELIST_MD.include?(cardiologist))
+          if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and
+             (Prescreen::WHITELIST_MD.blank? or Prescreen::WHITELIST_MD.include?(cardiologist)) and
+             (Prescreen::WHITELIST_CLINIC.blank? or Prescreen::WHITELIST_CLINIC.include?(clinic))
             patient = Patient.find_or_create_by_mrn(mrn)
             patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
             prescreen = patient.prescreens.find_or_create_by_visit_at(time_start)
