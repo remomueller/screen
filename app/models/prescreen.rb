@@ -1,6 +1,9 @@
 class Prescreen < ActiveRecord::Base
 
+  VALID_AGE = ()
+  WHITELIST_MD = []
   EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
+
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -33,7 +36,6 @@ class Prescreen < ActiveRecord::Base
         row_array = row.split(/\t/)
         cardiologist = row_array.first if row_array.size == 1
         if not cardiologist.blank? and row_array.size > 1
-          Rails.logger.debug row_array
           time = row_array[0]
           time_start = Time.zone.parse(appointment_date.strftime('%Y-%m-%d') + ' ' + time.split(' - ').first)
           time_end = Time.zone.parse(appointment_date.strftime('%Y-%m-%d') + ' ' + time.split(' - ').last)
@@ -44,15 +46,18 @@ class Prescreen < ActiveRecord::Base
           first_name = name.split(',')[1..-1].join(',').strip
           sex_age = row_array[4]
           sex = sex_age.split(' ').first
-          age = sex_age.split(' ')[1..-1].join(' ')
+          age = sex_age.split(' ')[1..-1].join(' ').to_i
           mrn = row_array[5]
           reason_for_visit = row_array[6]
           comment = row_array[7]
-          patient = Patient.find_or_create_by_mrn(mrn)
-          patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
-          prescreen = patient.prescreens.find_or_create_by_visit_at(time_start)
-          prescreen.update_attributes(clinic: clinic, cardiologist: cardiologist, visit_duration: minutes, visit_units: 'minutes')
-          event = patient.events.find_or_create_by_class_name_and_class_id(prescreen.class.name, prescreen.id)
+
+          if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and (Prescreen::WHITELIST_MD.blank? or Prescreen::WHITELIST_MD.include?(cardiologist))
+            patient = Patient.find_or_create_by_mrn(mrn)
+            patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
+            prescreen = patient.prescreens.find_or_create_by_visit_at(time_start)
+            prescreen.update_attributes(clinic: clinic, cardiologist: cardiologist, visit_duration: minutes, visit_units: 'minutes')
+            event = patient.events.find_or_create_by_class_name_and_class_id(prescreen.class.name, prescreen.id)
+          end
         end
       end
     end
