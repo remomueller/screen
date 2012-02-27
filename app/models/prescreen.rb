@@ -1,8 +1,8 @@
 class Prescreen < ActiveRecord::Base
 
-  VALID_AGE = RULE_AGE || ()
-  WHITELIST_MD = RULE_MD || []
-  WHITELIST_CLINIC = RULE_CLINIC || []
+  VALID_AGE = defined?(RULE_AGE) ? RULE_AGE : ()
+  WHITELIST_MD = defined?(RULE_MD) ? RULE_MD : []
+  WHITELIST_CLINIC = defined?(RULE_CLINIC) ? RULE_CLINIC : []
   EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
 
 
