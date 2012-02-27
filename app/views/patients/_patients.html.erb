@@ -23,7 +23,11 @@
       <% items.each do |item| %>
         <td><span class="patient_<%= patient.id %>_short"><%= patient.send(item).to_s.first %></span><span class="patient_<%= patient.id %>" style="display:none"><%= link_to_if item == 'mrn', patient.send(item), patient %></span></td>
       <% end %>
-      <td style="white-space:nowrap"><%= image_tag "gentleface/16/#{patient.events.first.image}.png", alt: '', style: 'vertical-align:text-bottom' if patient.events.first %> <%= link_to patient.events.first.name, patient.events.first if patient.events.first %></td>
+      <td style="white-space:nowrap">
+        <% event = patient.events.order('event_time DESC').first %>
+        <%= image_tag "gentleface/16/#{patient.events.first.image}.png", alt: '', style: 'vertical-align:text-bottom' if event %>
+        <%= link_to event.name, event if event %>
+      </td>
     </tr>
   <% end %>
   </table>
