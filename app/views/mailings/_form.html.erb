@@ -1,3 +1,28 @@
+<% width = '1074px' %>
+
+<% if @mailing.patient %>
+  <div class="frame">
+    <table style="width:100%;table-layout:fixed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address1</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip</th>
+        </tr>
+      </thead>
+      <tr>
+        <td><%= @mailing.patient.name %></td>
+        <td><%= @mailing.patient.address1 %></td>
+        <td><%= @mailing.patient.city %></td>
+        <td><%= @mailing.patient.state %></td>
+        <td><%= @mailing.patient.zip %></td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
 <%= form_for(@mailing) do |f| %>
   <% if @mailing.errors.any? %>
     <div id="error_explanation">
@@ -11,31 +36,45 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :sent_date %><br />
-    <%= f.date_select :sent_date %>
-  </div>
-  <div class="field">
-    <%= f.label :response_date %><br />
-    <%= f.date_select :response_date %>
-  </div>
-  <div class="field">
-    <%= f.label :berlin %><br />
-    <%= f.text_field :berlin %>
-  </div>
-  <div class="field">
-    <%= f.label :ess %><br />
-    <%= f.text_field :ess %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br />
-    <%= f.text_area :status %>
-  </div>
-  <div class="field">
-    <%= f.label :eligible %><br />
-    <%= f.text_field :eligible %>
-  </div>
+  <fieldset>
+    <legend><%= @title %></legend>
+
+    <div class="field">
+      <%= f.label :patient_id %><br />
+      <%= link_to @mailing.patient.mrn, @mailing.patient if @mailing.patient %>
+      <%= f.hidden_field :patient_id %>
+    </div>
+
+    <div class="field">
+      <%= f.label :sent_date %><br />
+      <%= f.text_field :sent_date, class: 'datepicker', value: @mailing.sent_date ? @mailing.sent_date.strftime('%m/%d/%Y') : '' %>
+    </div>
+    <div class="field">
+      <%= f.label :response_date %><br />
+      <%= f.text_field :response_date, class: 'datepicker', value: @mailing.response_date ? @mailing.response_date.strftime('%m/%d/%Y') : '' %>
+    </div>
+    <div class="field">
+      <%= f.label :berlin %><br />
+      <%= f.text_field :berlin %>
+    </div>
+    <div class="field">
+      <%= f.label :ess %><br />
+      <%= f.text_field :ess %>
+    </div>
+    <div class="field">
+      <%= f.label :eligible %><br />
+      <%= f.text_field :eligible %>
+    </div>
+    <div class="field">
+      <%= f.label :status %><br />
+      <%= f.text_area :status, rows: 7, style: "width:#{width}" %>
+    </div>
+  </fieldset>
+
   <div class="actions">
-    <%= f.submit %>
+    <% form_name = @mailing.new_record? ? 'new_mailing' : "edit_mailing_#{@mailing.id}" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@mailing.new_record? ? "Create Mailing" : "Update Mailing"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= cancel %>
+    <br />
   </div>
 <% end %>

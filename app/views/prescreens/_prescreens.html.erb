@@ -39,9 +39,7 @@
         </td>
       <% end %>
       <td>
-        <% if prescreen.patient.mailings.size > 0 %><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %> <%= prescreen.patient.mailings.size %><br /><% end %>
-        <% if prescreen.patient.prescreens.size > 1 %><%= image_tag 'gentleface/16/3x3_grid.png', alt: '', style: 'vertical-align:text-bottom' %> <%= prescreen.patient.prescreens.size %><br /><% end %>
-        <% if prescreen.patient.calls.size > 0 %><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> <%= prescreen.patient.calls.size %><% end %>
+        <%= @patient = prescreen.patient; render partial: 'patients/statistics', locals: { prescreen: 1 } %>
       </td>
       <td><%= link_to 'Show', prescreen %>
         <%= link_to 'Edit', edit_prescreen_path(prescreen) %>

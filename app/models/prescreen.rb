@@ -6,6 +6,8 @@ class Prescreen < ActiveRecord::Base
   EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
   RISK_FACTORS = defined?(RULE_RISK_FACTORS) ? RULE_RISK_FACTORS : []
 
+  # Callbacks
+  after_save :save_event
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -46,6 +48,8 @@ class Prescreen < ActiveRecord::Base
 
   def destroy
     update_attribute :deleted, true
+    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.visit_at, 'Prescreen')
+    event.update_attribute :deleted, true if event
   end
 
   # Tab delimited
@@ -93,5 +97,9 @@ class Prescreen < ActiveRecord::Base
       end
     end
     Prescreen.count - prescreens
+  end
+
+  def save_event
+    event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.visit_at, 'Prescreen')
   end
 end

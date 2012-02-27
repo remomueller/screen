@@ -15,75 +15,48 @@ class MailingsController < ApplicationController
     @mailings = mailing_scope.page(params[:page]).per(20) # (current_user.mailings_per_page)
   end
 
-
-  # GET /mailings/1
-  # GET /mailings/1.json
   def show
     @mailing = Mailing.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @mailing }
-    end
   end
 
-  # GET /mailings/new
-  # GET /mailings/new.json
   def new
-    @mailing = Mailing.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @mailing }
-    end
+    @mailing = Mailing.new(patient_id: params[:patient_id])
   end
 
-  # GET /mailings/1/edit
   def edit
     @mailing = Mailing.find(params[:id])
   end
 
-  # POST /mailings
-  # POST /mailings.json
   def create
+    params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
+    params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
+
     @mailing = Mailing.new(params[:mailing])
 
-    respond_to do |format|
-      if @mailing.save
-        format.html { redirect_to @mailing, notice: 'Mailing was successfully created.' }
-        format.json { render json: @mailing, status: :created, location: @mailing }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @mailing.errors, status: :unprocessable_entity }
-      end
+    if @mailing.save
+      redirect_to @mailing, notice: 'Mailing was successfully created.'
+    else
+      render action: "new"
     end
   end
 
-  # PUT /mailings/1
-  # PUT /mailings/1.json
   def update
+    params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
+    params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
+
     @mailing = Mailing.find(params[:id])
 
-    respond_to do |format|
-      if @mailing.update_attributes(params[:mailing])
-        format.html { redirect_to @mailing, notice: 'Mailing was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @mailing.errors, status: :unprocessable_entity }
-      end
+    if @mailing.update_attributes(params[:mailing])
+      redirect_to @mailing, notice: 'Mailing was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
-  # DELETE /mailings/1
-  # DELETE /mailings/1.json
   def destroy
     @mailing = Mailing.find(params[:id])
     @mailing.destroy
 
-    respond_to do |format|
-      format.html { redirect_to mailings_url }
-      format.json { head :no_content }
-    end
+    redirect_to mailings_path
   end
 end

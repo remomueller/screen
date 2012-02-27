@@ -17,6 +17,7 @@
       <th>Ess</th>
       <th>Eligible</th>
       <th>Comments</th>
+      <th></th>
     </tr>
 
   <% @calls.each do |call| %>
@@ -28,6 +29,9 @@
       <td><%= call.ess %></td>
       <td><%= call.eligible %></td>
       <td><%= call.comments %></td>
+      <td>
+        <%= @patient = call.patient; render partial: 'patients/statistics', locals: { call: 1 } %>
+      </td>
     </tr>
   <% end %>
   </table>

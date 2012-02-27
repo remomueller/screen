@@ -42,6 +42,7 @@
       <%= link_to @call.patient.mrn, @call.patient if @call.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
+
     <div class="field">
       <%= f.label :response %><br />
       <%= f.text_field :response %>

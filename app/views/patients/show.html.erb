@@ -66,7 +66,7 @@
 </fieldset>
 
 <%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + 'Create Phone Call Event', new_call_path(patient_id: @patient.id), class: 'button positive' %>
-<%= link_to image_tag('gentleface/16/mail.png', alt: '') + 'Create Mailing Sent Event', '#', class: 'button positive' %>
+<%= link_to image_tag('gentleface/16/mail.png', alt: '') + 'Create Mailing Sent Event', new_mailing_path(patient_id: @patient.id), class: 'button positive' %>
 <%#= link_to image_tag('gentleface/16/mail_2.png', alt: '') + 'Create Mailing Received', '#', class: 'button positive' %>
 
 <div style="clear:both"></div>

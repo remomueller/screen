@@ -1,7 +1,7 @@
 class Call < ActiveRecord::Base
 
   # Callbacks
-  after_create :create_event
+  after_save :save_event
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -24,9 +24,11 @@ class Call < ActiveRecord::Base
 
   def destroy
     update_attribute :deleted, true
+    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.call_time, 'Phone Call')
+    event.update_attribute :deleted, true if event
   end
 
-  def create_event
+  def save_event
     event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.call_time, 'Phone Call') unless self.call_time.blank?
   end
 
