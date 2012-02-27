@@ -82,14 +82,10 @@ class PatientsController < ApplicationController
   def update
     @patient = Patient.find(params[:id])
 
-    respond_to do |format|
-      if @patient.update_attributes(params[:patient])
-        format.html { redirect_to @patient, notice: 'Patient was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @patient.errors, status: :unprocessable_entity }
-      end
+    if @patient.update_attributes(params[:patient])
+      redirect_to @patient, notice: 'Patient was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 

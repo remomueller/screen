@@ -1,19 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  mrn: MyString
+  mrn: 0001
   first_name: MyString
   last_name: MyString
-  phone: MyString
+  phone_home: MyString
   sex: MyString
   age: 1
-  address: MyString
+  address1: MyString
 
 two:
-  mrn: MyString
+  mrn: 0002
   first_name: MyString
   last_name: MyString
-  phone: MyString
+  phone_home: MyString
   sex: MyString
   age: 1
-  address: MyString
+  address1: MyString

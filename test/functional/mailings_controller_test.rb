@@ -3,6 +3,7 @@ require 'test_helper'
 class MailingsControllerTest < ActionController::TestCase
   setup do
     @mailing = mailings(:one)
+    login(users(:admin))
   end
 
   test "should get index" do

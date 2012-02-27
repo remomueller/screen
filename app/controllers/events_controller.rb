@@ -5,7 +5,9 @@ class EventsController < ApplicationController
   def index
     # current_user.update_attribute :events_per_page, params[:events_per_page].to_i if params[:events_per_page].to_i >= 10 and params[:events_per_page].to_i <= 200
     event_scope = Event.current # current_user.all_viewable_events
-    event_scope = event_scope.with_mrn(params[:mrn]) unless params[:mrn].blank?
+    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+      event_scope = event_scope.with_mrn(term) unless term.blank?
+    end
 
     @order = Event.column_names.collect{|column_name| "events.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "events.event_time DESC"
     event_scope = event_scope.order(@order)

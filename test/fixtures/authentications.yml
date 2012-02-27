@@ -1,11 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  user_id: 1
-  provider: MyString
-  uid: MyString
+open_id:
+  user: valid
+  provider: open_id
+  uid: open_id@open_id.com
 
-two:
-  user_id: 1
-  provider: MyString
-  uid: MyString
+google_apps:
+  user: valid
+  provider: google_apps
+  uid: test@gmail.com
+
+ldap:
+  user: valid
+  provider: ldap
+  uid: "CN=ldapid,CN=Users,DC=example,DC=com"

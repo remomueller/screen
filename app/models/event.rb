@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_mrn, lambda { |*args| { conditions: ["events.patient_id in (select patients.id from patients where patients.mrn LIKE (?))", args.first.to_s + '%'] } }
+  scope :with_mrn, lambda { |*args| { conditions: ["events.patient_id in (select patients.id from patients where patients.mrn LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
 
   # Model Validation
   # validates_presence_of     :first_name
