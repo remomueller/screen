@@ -53,6 +53,10 @@ Contour.setup do |config|
     {
       name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left',
       links: []
+    },
+    {
+      name: 'Users', display: 'signed_in', path: 'calls_path', position: 'left', condition: 'current_user.system_admin?',
+      links: []
     }
 
   ]

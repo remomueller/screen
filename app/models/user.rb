@@ -8,6 +8,10 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :first_name, :last_name
 
+  # Callbacks
+  after_create :notify_system_admins
+  before_update :status_activated
+
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
   # Named Scopes
@@ -58,5 +62,21 @@ class User < ActiveRecord::Base
 
   def password_required?
     (authentications.empty? || !password.blank?) && super
+  end
+
+  private
+
+  def notify_system_admins
+    User.current.system_admins.each do |system_admin|
+      UserMailer.notify_system_admin(system_admin, self).deliver if Rails.env.production?
+    end
+  end
+
+  def status_activated
+    unless self.new_record? or self.changes.blank?
+      if self.changes['status'] and self.changes['status'][1] == 'active'
+        UserMailer.status_activated(self).deliver if Rails.env.production?
+      end
+    end
   end
 end
