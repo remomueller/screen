@@ -41,7 +41,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test "should destroy event" do
-    assert_difference('Event.count', -1) do
+    assert_difference('Event.current.count', -1) do
       delete :destroy, id: @event
     end
 

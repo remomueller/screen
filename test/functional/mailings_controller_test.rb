@@ -41,7 +41,7 @@ class MailingsControllerTest < ActionController::TestCase
   end
 
   test "should destroy mailing" do
-    assert_difference('Mailing.count', -1) do
+    assert_difference('Mailing.current.count', -1) do
       delete :destroy, id: @mailing
     end
 

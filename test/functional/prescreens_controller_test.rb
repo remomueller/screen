@@ -41,7 +41,7 @@ class PrescreensControllerTest < ActionController::TestCase
   end
 
   test "should destroy prescreen" do
-    assert_difference('Prescreen.count', -1) do
+    assert_difference('Prescreen.current.count', -1) do
       delete :destroy, id: @prescreen
     end
 

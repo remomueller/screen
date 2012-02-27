@@ -49,6 +49,10 @@ Contour.setup do |config|
     {
       name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left',
       links: []
+    },
+    {
+      name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left',
+      links: []
     }
 
   ]

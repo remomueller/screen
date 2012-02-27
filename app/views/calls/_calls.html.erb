@@ -1,0 +1,36 @@
+<div style="float:right">
+  Per Page
+  <span class="per_page">
+    20
+  </span>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%">
+    <tr>
+      <th>Patient</th>
+      <th>Response</th>
+      <th>Call time</th>
+      <th>Berlin</th>
+      <th>Ess</th>
+      <th>Eligible</th>
+      <th>Comments</th>
+    </tr>
+
+  <% @calls.each do |call| %>
+    <tr>
+      <td><%= link_to call.patient.mrn, call.patient if call.patient %></td>
+      <td><%= call.response %></td>
+      <td><%= link_to call.call_time, call %></td>
+      <td><%= call.berlin %></td>
+      <td><%= call.ess %></td>
+      <td><%= call.eligible %></td>
+      <td><%= call.comments %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<center><%= paginate @calls %></center>

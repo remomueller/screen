@@ -1,0 +1,44 @@
+<% if current_user.system_admin? %> <%# current_user.all_calls.include?(@call) %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Call", edit_call_path(@call), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Call", @call, confirm: "Are you sure you want to delete Call #{@call.name}?", method: :delete, class: 'button negative' %>
+<% end %>
+<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Calls", calls_path, class: 'button' %>
+<div style="clear:both"></div>
+
+<fieldset>
+  <legend><%= image_tag "gentleface/16/phone_1.png", alt: '', style: 'vertical-align:text-bottom' %> Call</legend>
+  <p>
+    <b>Patient:</b>
+    <%= link_to @call.patient.mrn, @call.patient if @call.patient %>
+  </p>
+
+  <p>
+    <b>Response:</b>
+    <%= @call.response %>
+  </p>
+
+  <p>
+    <b>Call time:</b>
+    <%= simple_time(@call.call_time) %>
+  </p>
+
+  <p>
+    <b>Berlin:</b>
+    <%= @call.berlin %>
+  </p>
+
+  <p>
+    <b>Ess:</b>
+    <%= @call.ess %>
+  </p>
+
+  <p>
+    <b>Eligible:</b>
+    <%= @call.eligible %>
+  </p>
+
+  <p>
+    <b>Comments:</b>
+    <%= @call.comments %>
+  </p>
+</fieldset>

@@ -12,9 +12,17 @@ class Event < ActiveRecord::Base
 
   # Class Methods
 
+  def destroy
+    update_attribute :deleted, true
+  end
+
   def image
     case class_name when 'Mailing'
       'mail'
+    when 'Call'
+      'phone_1'
+    when 'Prescreen'
+      '3x3_grid'
     else
       '3x3_grid'
     end

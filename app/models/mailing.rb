@@ -9,5 +9,8 @@ class Mailing < ActiveRecord::Base
   belongs_to :patient, conditions: { deleted: false }
 
   # Class Methods
+  def destroy
+    update_attribute :deleted, true
+  end
 
 end

@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-  EDITABLES = ['phone_home', 'address1']
+  EDITABLES = ['phone_home', 'city', 'state']
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -12,6 +12,7 @@ class Patient < ActiveRecord::Base
   validates_uniqueness_of   :mrn
 
   # Model Relationships
+  has_many :calls, conditions: { deleted: false }
   has_many :events, conditions: { deleted: false }
   has_many :mailings, conditions: { deleted: false }
   has_many :prescreens, conditions: { deleted: false }
@@ -28,6 +29,10 @@ class Patient < ActiveRecord::Base
 
   def address
     [self.address1, self.city, self.state, self.zip].select{|i| not i.blank?}.join(', ')
+  end
+
+  def destroy
+    update_attribute :deleted, true
   end
 
 end

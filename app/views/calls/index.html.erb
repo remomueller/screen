@@ -1,0 +1,14 @@
+<% @title = 'Calls' %>
+<h1><%= @title %></h1>
+
+<%= form_tag calls_path, method: :get, remote: true, id: "calls_search", style: "margin-bottom:-5px" do %>
+  Search <%= text_field_tag 'mrn', params[:mrn] %> <%#= information %>
+<% end %>
+
+<div id="calls"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#calls_search").attr("action"), $("#calls_search").serialize(), null, "script");
+  });
+<% end %>

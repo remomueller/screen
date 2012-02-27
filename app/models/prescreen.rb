@@ -4,6 +4,7 @@ class Prescreen < ActiveRecord::Base
   WHITELIST_MD = defined?(RULE_MD) ? RULE_MD : []
   WHITELIST_CLINIC = defined?(RULE_CLINIC) ? RULE_CLINIC : []
   EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
+  RISK_FACTORS = defined?(RULE_RISK_FACTORS) ? RULE_RISK_FACTORS : []
 
 
   # Named Scopes
@@ -41,6 +42,10 @@ class Prescreen < ActiveRecord::Base
 
   def visit_at_range_short
     self.visit_at_string_short + (self.visit_at_end_string_short.blank? ? '' : '-' + self.visit_at_end_string_short)
+  end
+
+  def destroy
+    update_attribute :deleted, true
   end
 
   # Tab delimited

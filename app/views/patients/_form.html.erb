@@ -65,6 +65,9 @@
   </fieldset>
 
   <div class="actions">
-    <%= f.submit %>
+    <% form_name = @patient.new_record? ? 'new_patient' : "edit_patient_#{@patient.id}" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@patient.new_record? ? "Create Patient" : "Update Patient"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= cancel %>
+    <br />
   </div>
 <% end %>

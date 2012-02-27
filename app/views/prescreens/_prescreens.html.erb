@@ -20,6 +20,7 @@
         <th><%= item.titleize %></th>
       <% end  %>
       <th></th>
+      <th></th>
     </tr>
 
   <% @prescreens.each do |prescreen| %>
@@ -37,6 +38,11 @@
           <%= prescreen.patient.send(item) %>
         </td>
       <% end %>
+      <td>
+        <% if prescreen.patient.mailings.size > 0 %><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %> <%= prescreen.patient.mailings.size %><br /><% end %>
+        <% if prescreen.patient.prescreens.size > 1 %><%= image_tag 'gentleface/16/3x3_grid.png', alt: '', style: 'vertical-align:text-bottom' %> <%= prescreen.patient.prescreens.size %><br /><% end %>
+        <% if prescreen.patient.calls.size > 0 %><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> <%= prescreen.patient.calls.size %><% end %>
+      </td>
       <td><%= link_to 'Show', prescreen %>
         <%= link_to 'Edit', edit_prescreen_path(prescreen) %>
         <%= link_to 'Destroy', prescreen, confirm: 'Are you sure?', method: :delete %>
@@ -47,8 +53,8 @@
                 url: '<%= inline_update_prescreen_path(prescreen) %>',
                 params: 'item=<%= item %>',
                 success: function(response){ eval(response) },
-                field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>',
-                select_options: '<%= item == 'eligibility' ? ',potentially eligible,ineligible' : '' %>'
+                field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>', <%#=  or item == 'risk_factors' %>
+                select_options: '<%= item == 'eligibility' ? ',potentially eligible,ineligible' : (item == 'risk_factors' ? ['', Prescreen::RISK_FACTORS].flatten.join(',').html_safe : '') %>'
               });
             <% end %>
 

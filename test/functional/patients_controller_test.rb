@@ -41,7 +41,7 @@ class PatientsControllerTest < ActionController::TestCase
   end
 
   test "should destroy patient" do
-    assert_difference('Patient.count', -1) do
+    assert_difference('Patient.current.count', -1) do
       delete :destroy, id: @patient
     end
 

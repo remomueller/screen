@@ -1,0 +1,77 @@
+<% width = '1074px' %>
+
+<% if @call.patient %>
+  <div class="frame">
+    <table style="width:100%;table-layout:fixed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Home Phone</th>
+          <th>Day Phone</th>
+          <th>Alt Phone</th>
+        </tr>
+      </thead>
+      <tr>
+        <td><%= @call.patient.name %></td>
+        <td><%= @call.patient.phone_home %></td>
+        <td><%= @call.patient.phone_day %></td>
+        <td><%= @call.patient.phone_alt %></td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<%= form_for(@call) do |f| %>
+  <% if @call.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@call.errors.count, "error") %> prohibited this call from being saved:</h2>
+
+      <ul>
+      <% @call.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend><%= @title %></legend>
+
+    <div class="field">
+      <%= f.label :patient_id %><br />
+      <%= link_to @call.patient.mrn, @call.patient if @call.patient %>
+      <%= f.hidden_field :patient_id %>
+    </div>
+    <div class="field">
+      <%= f.label :response %><br />
+      <%= f.text_field :response %>
+    </div>
+    <div class="field">
+      <%= f.label :call_time %><br />
+      <%= f.datetime_select :call_time %>
+    </div>
+    <div class="field">
+      <%= f.label :berlin %><br />
+      <%= f.number_field :berlin %>
+    </div>
+    <div class="field">
+      <%= f.label :ess %><br />
+      <%= f.number_field :ess %>
+    </div>
+    <div class="field">
+      <%= f.label :eligible %><br />
+      <%= f.text_field :eligible %>
+    </div>
+    <div class="field">
+      <%= f.label :comments %><br />
+      <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>
+    </div>
+  </fieldset>
+
+  <div class="actions">
+    <% form_name = @call.new_record? ? 'new_call' : "edit_call_#{@call.id}" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@call.new_record? ? "Create Call" : "Update Call"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= cancel %>
+    <br />
+  </div>
+<% end %>
