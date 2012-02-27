@@ -8,6 +8,7 @@
   * Prescreen table is now editable inline
     * Patient Location and Phone also editable
   * Patient List is now masked
+  * Mailing model for mailings sent and mailing received
 
 == 0.0.0
 

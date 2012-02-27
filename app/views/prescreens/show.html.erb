@@ -1,50 +1,53 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <b>Patient:</b>
-  <%= @prescreen.patient_id %>
-</p>
+<div style="clear:both"></div>
 
-<p>
-  <b>Clinic:</b>
-  <%= @prescreen.clinic %>
-</p>
+<fieldset>
+  <legend>Prescreen</legend>
+  <p>
+    <b>Patient:</b>
+    <%= link_to @prescreen.patient.mrn, @prescreen.patient if @prescreen.patient %>
+  </p>
 
-<p>
-  <b>Cardiologist:</b>
-  <%= @prescreen.cardiologist %>
-</p>
+  <p>
+    <b>Clinic:</b>
+    <%= @prescreen.clinic %>
+  </p>
 
-<p>
-  <b>Visit at:</b>
-  <%= @prescreen.visit_at %>
-</p>
+  <p>
+    <b>Cardiologist:</b>
+    <%= @prescreen.cardiologist %>
+  </p>
 
-<p>
-  <b>Visit duration:</b>
-  <%= @prescreen.visit_duration %>
-</p>
+  <p>
+    <b>Visit at:</b>
+    <%= @prescreen.visit_at %>
+  </p>
 
-<p>
-  <b>Visit units:</b>
-  <%= @prescreen.visit_units %>
-</p>
+  <p>
+    <b>Visit duration:</b>
+    <%= @prescreen.visit_duration %>
+  </p>
 
-<p>
-  <b>Eligibility:</b>
-  <%= @prescreen.eligibility %>
-</p>
+  <p>
+    <b>Visit units:</b>
+    <%= @prescreen.visit_units %>
+  </p>
 
-<p>
-  <b>Exclusion:</b>
-  <%= @prescreen.exclusion %>
-</p>
+  <p>
+    <b>Eligibility:</b>
+    <%= @prescreen.eligibility %>
+  </p>
 
-<p>
-  <b>Risk factors:</b>
-  <%= @prescreen.risk_factors %>
-</p>
+  <p>
+    <b>Exclusion:</b>
+    <%= @prescreen.exclusion %>
+  </p>
 
+  <p>
+    <b>Risk factors:</b>
+    <%= @prescreen.risk_factors %>
+  </p>
+</fieldset>
 
 <%= link_to 'Edit', edit_prescreen_path(@prescreen) %> |
 <%= link_to 'Back', prescreens_path %>

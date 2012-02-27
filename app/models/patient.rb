@@ -3,7 +3,7 @@ class Patient < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_mrn, lambda { |*args| { conditions: ["patients.mrn LIKE (?)", args.first.to_s + '%'] } }
+  scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?)", args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
 
   # Model Validation
   # validates_presence_of     :first_name
@@ -13,6 +13,7 @@ class Patient < ActiveRecord::Base
 
   # Model Relationships
   has_many :events, conditions: { deleted: false }
+  has_many :mailings, conditions: { deleted: false }
   has_many :prescreens, conditions: { deleted: false }
 
   # Class Methods
@@ -23,6 +24,10 @@ class Patient < ActiveRecord::Base
 
   def reverse_name
     "#{last_name}, #{first_name}"
+  end
+
+  def address
+    [self.address1, self.city, self.state, self.zip].select{|i| not i.blank?}.join(', ')
   end
 
 end

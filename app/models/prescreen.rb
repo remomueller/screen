@@ -1,14 +1,14 @@
 class Prescreen < ActiveRecord::Base
 
-  VALID_AGE = ()
-  WHITELIST_MD = []
-  WHITELIST_CLINIC = []
+  VALID_AGE = RULE_AGE || ()
+  WHITELIST_MD = RULE_MD || []
+  WHITELIST_CLINIC = RULE_CLINIC || []
   EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
 
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_mrn, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where patients.mrn LIKE (?))", args.first.to_s + '%'] } }
+  scope :with_mrn, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where patients.mrn LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
 
   # Model Validation
   # validates_presence_of     :first_name
@@ -28,7 +28,7 @@ class Prescreen < ActiveRecord::Base
   end
 
   def visit_at_string_short
-    self.visit_at_string.gsub(':00', '').gsub(' AM', '').gsub(' PM', 'p')
+    self.visit_at_string.gsub(':00', '').gsub(' AM', 'a').gsub(' PM', 'p')
   end
 
   def visit_at_end_string
@@ -36,7 +36,7 @@ class Prescreen < ActiveRecord::Base
   end
 
   def visit_at_end_string_short
-    self.visit_at_end_string.gsub(':00', '').gsub(' AM', '').gsub(' PM', 'p')
+    self.visit_at_end_string.gsub(':00', '').gsub(' AM', 'a').gsub(' PM', 'p')
   end
 
   def visit_at_range_short

@@ -11,4 +11,12 @@ class Event < ActiveRecord::Base
   belongs_to :patient, conditions: { deleted: false }
 
   # Class Methods
+
+  def image
+    case class_name when 'Mailing'
+      'mail'
+    else
+      '3x3_grid'
+    end
+  end
 end

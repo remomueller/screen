@@ -1,35 +1,41 @@
-<p id="notice"><%= notice %></p>
+<fieldset>
+  <legend><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %> Mailing</legend>
 
-<p>
-  <b>Sent date:</b>
-  <%= @mailing.sent_date %>
-</p>
+  <p>
+    <b>Patient:</b>
+    <%= link_to @mailing.patient.mrn, @mailing.patient if @mailing.patient %>
+  </p>
 
-<p>
-  <b>Received date:</b>
-  <%= @mailing.received_date %>
-</p>
+  <p>
+    <b>Sent date:</b>
+    <%= @mailing.sent_date %>
+  </p>
 
-<p>
-  <b>Berlin:</b>
-  <%= @mailing.berlin %>
-</p>
+  <p>
+    <b>Response date:</b>
+    <%= @mailing.response_date %>
+  </p>
 
-<p>
-  <b>Ess:</b>
-  <%= @mailing.ess %>
-</p>
+  <p>
+    <b>Berlin:</b>
+    <%= @mailing.berlin %>
+  </p>
 
-<p>
-  <b>Status:</b>
-  <%= @mailing.status %>
-</p>
+  <p>
+    <b>Ess:</b>
+    <%= @mailing.ess %>
+  </p>
 
-<p>
-  <b>Eligible:</b>
-  <%= @mailing.eligible %>
-</p>
+  <p>
+    <b>Status:</b>
+    <%= @mailing.status %>
+  </p>
 
+  <p>
+    <b>Eligible:</b>
+    <%= @mailing.eligible %>
+  </p>
+</fieldset>
 
 <%= link_to 'Edit', edit_mailing_path(@mailing) %> |
 <%= link_to 'Back', mailings_path %>

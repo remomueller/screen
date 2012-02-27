@@ -11,19 +11,20 @@
   <table style="width:100%">
     <tr>
       <th>Patient</th>
+      <th>Event Type</th>
+      <th>Time</th>
       <th>Event</th>
-      <th></th>
-      <th></th>
-      <th></th>
     </tr>
 
   <% @events.each do |event| %>
     <tr>
       <td><%= link_to event.patient.mrn, event.patient if event.patient %></td>
-      <td><%= e = event.class_name.constantize.find_by_id(event.class_id); link_to(event.class_name, e) %></td>
-      <td><%= link_to 'Show', event %></td>
-      <td><%= link_to 'Edit', edit_event_path(event) %></td>
-      <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
+      <td><%= link_to event.name, event %></td>
+      <td><%= simple_time(event.event_time) %></td>
+      <td>
+        <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
+        <%= e = event.class_name.constantize.find_by_id(event.class_id); link_to(event.class_name, e) %>
+      </td>
     </tr>
   <% end %>
   </table>

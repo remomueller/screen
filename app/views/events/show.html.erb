@@ -1,20 +1,30 @@
-<p id="notice"><%= notice %></p>
+<% if current_user.system_admin? %> <%# current_user.all_events.include?(@event) %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Event", edit_event_path(@event), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Event", @event, confirm: "Are you sure you want to delete Event #{@event.name}?", method: :delete, class: 'button negative' %>
+<% end %>
+<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Events", events_path, class: 'button' %>
+<div style="clear:both"></div>
 
-<p>
-  <b>Patient:</b>
-  <%= @event.patient_id %>
-</p>
+<fieldset>
+  <legend><%= image_tag "gentleface/16/#{@event.image}.png", alt: '', style: 'vertical-align:text-bottom' %> Event</legend>
 
-<p>
-  <b>Class name:</b>
-  <%= @event.class_name %>
-</p>
+  <p>
+    <b>Patient:</b>
+    <%= link_to @event.patient.mrn, @event.patient if @event.patient %>
+  </p>
 
-<p>
-  <b>Class:</b>
-  <%= @event.class_id %>
-</p>
+  <p>
+    <b>Name:</b>
+    <%= @event.name %>
+  </p>
 
+  <p>
+    <b>Time:</b>
+    <%= simple_time(@event.event_time) %>
+  </p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+  <p>
+    <b>Event Details:</b>
+    <%= e = @event.class_name.constantize.find_by_id(@event.class_id); link_to(@event.class_name, e) %>
+  </p>
+</fieldset>

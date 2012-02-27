@@ -24,7 +24,7 @@
 
   <% @prescreens.each do |prescreen| %>
     <tr>
-      <td><%= link_to (prescreen.patient.mrn + '<br />' + prescreen.patient.reverse_name).html_safe, prescreen.patient if prescreen.patient %></td>
+      <td><%= link_to prescreen.patient.mrn, prescreen.patient if prescreen.patient %></td>
       <td><%= prescreen.cardiologist.to_s.split(',').first %></td>
       <td><%= simple_date(prescreen.visit_at) %><br /><%= prescreen.visit_at_range_short %></td>
       <% Prescreen::EDITABLES.each do |item| %>

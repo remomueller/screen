@@ -45,8 +45,11 @@ Contour.setup do |config|
     {
       name: 'Events', display: 'signed_in', path: 'events_path', position: 'left',
       links: []
+    },
+    {
+      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left',
+      links: []
     }
-
 
   ]
 

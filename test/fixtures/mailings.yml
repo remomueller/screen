@@ -2,7 +2,7 @@
 
 one:
   sent_date: 2012-02-24
-  received_date: 2012-02-24
+  response_date: 2012-02-24
   berlin: MyString
   ess: MyString
   status: MyText
@@ -10,7 +10,7 @@ one:
 
 two:
   sent_date: 2012-02-24
-  received_date: 2012-02-24
+  response_date: 2012-02-24
   berlin: MyString
   ess: MyString
   status: MyText

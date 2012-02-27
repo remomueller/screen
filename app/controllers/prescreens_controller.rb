@@ -16,11 +16,14 @@ class PrescreensController < ApplicationController
   def index
     # current_user.update_attribute :prescreens_per_page, params[:prescreens_per_page].to_i if params[:prescreens_per_page].to_i >= 10 and params[:prescreens_per_page].to_i <= 200
     prescreen_scope = Prescreen.current # current_user.all_viewable_prescreens
-    prescreen_scope = prescreen_scope.with_mrn(params[:mrn]) unless params[:mrn].blank?
+    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+      prescreen_scope = prescreen_scope.with_mrn(term) unless term.blank?
+    end
+
 
     # @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.id"
     # prescreen_scope = prescreen_scope.order(@order)
-    prescreen_scope = prescreen_scope.order(:cardiologist, :visit_at)
+    prescreen_scope = prescreen_scope.order(:cardiologist, 'visit_at DESC')
 
 
     @prescreens = prescreen_scope.page(params[:page]).per(40) # (current_user.prescreens_per_page)

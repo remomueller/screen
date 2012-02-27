@@ -2,21 +2,12 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin
 
-  # def index
-  #   @events = Event.all
-
-  #   respond_to do |format|
-  #     format.html # index.html.erb
-  #     format.json { render json: @events }
-  #   end
-  # end
-
   def index
     # current_user.update_attribute :events_per_page, params[:events_per_page].to_i if params[:events_per_page].to_i >= 10 and params[:events_per_page].to_i <= 200
     event_scope = Event.current # current_user.all_viewable_events
     event_scope = event_scope.with_mrn(params[:mrn]) unless params[:mrn].blank?
 
-    @order = Event.column_names.collect{|column_name| "events.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "events.id"
+    @order = Event.column_names.collect{|column_name| "events.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "events.event_time DESC"
     event_scope = event_scope.order(@order)
 
     @events = event_scope.page(params[:page]).per(20) # (current_user.events_per_page)

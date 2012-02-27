@@ -1,14 +1,18 @@
 class MailingsController < ApplicationController
-  # GET /mailings
-  # GET /mailings.json
-  def index
-    @mailings = Mailing.all
+  before_filter :authenticate_user!
+  before_filter :check_system_admin
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @mailings }
-    end
+  def index
+    # current_user.update_attribute :mailings_per_page, params[:mailings_per_page].to_i if params[:mailings_per_page].to_i >= 10 and params[:mailings_per_page].to_i <= 200
+    mailing_scope = Mailing.current # current_user.all_viewable_mailings
+    mailing_scope = mailing_scope.with_mrn(params[:mrn]) unless params[:mrn].blank?
+
+    @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.id"
+    mailing_scope = mailing_scope.order(@order)
+
+    @mailings = mailing_scope.page(params[:page]).per(20) # (current_user.mailings_per_page)
   end
+
 
   # GET /mailings/1
   # GET /mailings/1.json

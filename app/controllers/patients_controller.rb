@@ -12,7 +12,9 @@ class PatientsController < ApplicationController
   def index
     # current_user.update_attribute :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
     patient_scope = Patient.current # current_user.all_viewable_patients
-    patient_scope = patient_scope.with_mrn(params[:mrn]) unless params[:mrn].blank?
+    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+      patient_scope = patient_scope.with_mrn(term) unless term.blank?
+    end
 
     @order = Patient.column_names.collect{|column_name| "patients.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "patients.id"
     patient_scope = patient_scope.order(@order)

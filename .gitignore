@@ -46,3 +46,4 @@
 
 # Don't include Rake tasks for the moment
 /lib/tasks/*
+/config/initializers/rules.rb

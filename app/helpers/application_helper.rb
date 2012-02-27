@@ -22,4 +22,15 @@ module ApplicationHelper
   def simple_date_and_weekday(date)
     [simple_date(date), simple_weekday(date)].select{|i| not i.blank?}.join(', ')
   end
+
+  def simple_time(past_time)
+    return '' if past_time.blank?
+    if past_time.to_date == Date.today
+      past_time.strftime("at %I:%M %p")
+    elsif past_time.year == Date.today.year
+      past_time.strftime("on %b %d at %I:%M %p")
+    else
+      past_time.strftime("on %b %d, %Y at %I:%M %p")
+    end
+  end
 end
