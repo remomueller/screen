@@ -19,7 +19,7 @@ class MailingsControllerTest < ActionController::TestCase
 
   test "should create mailing" do
     assert_difference('Mailing.count') do
-      post :create, mailing: @mailing.attributes
+      post :create, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012' }
     end
 
     assert_redirected_to mailing_path(assigns(:mailing))
@@ -36,7 +36,7 @@ class MailingsControllerTest < ActionController::TestCase
   end
 
   test "should update mailing" do
-    put :update, id: @mailing, mailing: @mailing.attributes
+    put :update, id: @mailing, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012' }
     assert_redirected_to mailing_path(assigns(:mailing))
   end
 
