@@ -13,10 +13,11 @@ span.selected {
   border-radius: 3px;
 }
 
-a:link.negative:link, a:link.negative:visited {
+/* TODO: This fix should be in Contour */
+a:link.negative, a:visited.negative {
   color: #D12F19;
 }
 
-a:link.positive:link, a:link.positive:visited {
+a:link.positive:link, a:visited.positive {
   color: #529214;
 }
