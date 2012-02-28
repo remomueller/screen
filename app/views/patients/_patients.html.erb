@@ -27,7 +27,7 @@
         <%= link_to(event.name, event.class_name.constantize.find_by_id(event.class_id)) if event %>
       </td>
       <% items.each do |item| %>
-        <td><span class="patient_<%= patient.id %>_short"><%= patient.send(item).to_s.first %></span><span class="patient_<%= patient.id %>" style="display:none"><%= link_to_if item == 'mrn', patient.send(item), patient %></span></td>
+        <td><span class="patient_<%= patient.id %>_short"><%= patient.send(item).to_s[0..1] %></span><span class="patient_<%= patient.id %>" style="display:none"><%= link_to_if item == 'mrn', patient.send(item), patient %></span></td>
       <% end %>
       <td><%= @patient = patient; render partial: 'patients/statistics' %></td>
     </tr>

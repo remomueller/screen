@@ -9,7 +9,7 @@ class CreatePrescreens < ActiveRecord::Migration
       t.string :visit_units
       t.string :eligibility
       t.string :exclusion
-      t.string :risk_factors
+      t.string :old_risk_factors
       t.boolean :deleted, null: false, default: false
 
       t.timestamps

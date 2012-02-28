@@ -9,7 +9,7 @@ one:
   visit_units: MyString
   eligibility: MyString
   exclusion: MyString
-  risk_factors: MyString
+  old_risk_factors: MyString
 
 two:
   patient: one
@@ -20,4 +20,4 @@ two:
   visit_units: MyString
   eligibility: MyString
   exclusion: MyString
-  risk_factors: MyString
+  old_risk_factors: MyString

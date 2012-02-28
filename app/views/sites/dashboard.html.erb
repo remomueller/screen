@@ -26,11 +26,11 @@
         <br />
         <div class="field">
           <%= ineligible = Prescreen.current.where(eligibility: 'ineligible').size %>
-          (<%= "%d%%" % ((ineligible * 100) / Prescreen.current.size) rescue 'N/A' %>) ineligible
+          <%= "(%d%%)" % ((ineligible * 100) / Prescreen.current.size) rescue '' %> ineligible
         </div>
         <div class="field">
           <%= potentially_eligible = Prescreen.current.where(eligibility: 'potentially eligible').size %>
-          (<%= "%d%%" % ((potentially_eligible * 100) / Prescreen.current.size) rescue 'N/A' %>) potentially eligible
+          <%= "(%d%%)" % ((potentially_eligible * 100) / Prescreen.current.size) rescue '' %> potentially eligible
         </div>
       </fieldset>
     </td>
@@ -46,7 +46,7 @@
         <br />
         <div class="field">
           <%= received_mailings = Mailing.current.where("response_date >= ? or response_date <= ?", Date.today, Date.today).size %>
-          (<%= "%d%%" % ((received_mailings * 100) / Mailing.current.size) rescue 'N/A' %>) received
+          <%= "(%d%%)" % ((received_mailings * 100) / Mailing.current.size) rescue '' %> received
         </div>
         <div class="field">
           <%= Mailing.current.where("response_date >= ? and response_date <= ?", Date.today - 1.month, Date.today).size %> received in past month

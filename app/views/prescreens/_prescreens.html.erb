@@ -46,8 +46,8 @@
                 url: '<%= inline_update_prescreen_path(prescreen) %>',
                 params: 'item=<%= item %>',
                 success: function(response){ eval(response) },
-                field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>', <%#=  or item == 'risk_factors' %>
-                select_options: '<%= item == 'eligibility' ? ',potentially eligible,ineligible' : (item == 'risk_factors' ? ['', Prescreen::RISK_FACTORS].flatten.join(',').html_safe : '') %>'
+                field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>',
+                select_options: '<%= item == 'eligibility' ? ',potentially eligible,ineligible' : '' %>'
               });
             <% end %>
 

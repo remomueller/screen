@@ -1,7 +1,7 @@
 class Prescreen < ActiveRecord::Base
 
   VALID_AGE = defined?(RULE_AGE) ? RULE_AGE : ()
-  EDITABLES = ['eligibility', 'exclusion', 'risk_factors']
+  EDITABLES = ['eligibility', 'exclusion', 'old_risk_factors']
   RISK_FACTORS = defined?(RULE_RISK_FACTORS) ? RULE_RISK_FACTORS : []
 
   # Callbacks
