@@ -3,7 +3,7 @@
 
 <% width = '1074px' %>
 
-<%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Prescreen", new_prescreen_path, class: 'button positive' %>
+<%= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Prescreen", new_prescreen_path, class: 'button positive' %>
 
 <div style="clear:both"></div>
 
@@ -29,6 +29,7 @@
 
 
 <%= form_tag prescreens_path, method: :get, remote: true, id: "prescreens_search", style: "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :order %>
   Search <%= text_field_tag 'mrn', params[:mrn] %> <%#= information %>
 <% end %>
 

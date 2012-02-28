@@ -10,9 +10,9 @@
 <div class="frame">
   <table style="width:100%">
     <tr>
-      <th>Patient</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.patient_id', 'Patient', 'calls_search') %></th>
       <th>Response</th>
-      <th>Call time</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.call_time', 'Call time', 'calls_search') %></th>
       <th>Berlin</th>
       <th>Ess</th>
       <th>Eligible</th>

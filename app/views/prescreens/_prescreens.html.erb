@@ -10,9 +10,9 @@
 <div class="frame">
   <table style="width:100%;table-layout:fixed">
     <tr>
-      <th>Patient</th>
-      <th>Cardiologist</th>
-      <th>Visit</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.patient_id', 'Patient', 'prescreens_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.cardiologist', 'Cardiologist', 'prescreens_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.visit_at', 'Visit', 'prescreens_search') %></th>
       <% Prescreen::EDITABLES.each do |item| %>
         <th><%= item.titleize %></th>
       <% end %>
@@ -20,14 +20,13 @@
         <th><%= item.titleize %></th>
       <% end  %>
       <th></th>
-      <th></th>
     </tr>
 
   <% @prescreens.each do |prescreen| %>
     <tr>
       <td><%= link_to prescreen.patient.mrn, prescreen.patient if prescreen.patient %></td>
       <td><%= prescreen.cardiologist.to_s.split(',').first %></td>
-      <td><%= simple_date(prescreen.visit_at) %><br /><%= prescreen.visit_at_range_short %></td>
+      <td><%= link_to simple_date(prescreen.visit_at), prescreen %><br /><%= prescreen.visit_at_range_short %></td>
       <% Prescreen::EDITABLES.each do |item| %>
         <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
           <%= prescreen.send(item) %>
@@ -40,10 +39,6 @@
       <% end %>
       <td>
         <%= @patient = prescreen.patient; render partial: 'patients/statistics', locals: { prescreen: 1 } %>
-      </td>
-      <td><%= link_to 'Show', prescreen %>
-        <%= link_to 'Edit', edit_prescreen_path(prescreen) %>
-        <%= link_to 'Destroy', prescreen, confirm: 'Are you sure?', method: :delete %>
         <%= javascript_tag do %>
           $(document).ready(function(){
             <% Prescreen::EDITABLES.each do |item| %>

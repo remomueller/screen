@@ -75,4 +75,17 @@
 <div style="clear:both"></div>
 
 
-<%= @events = @patient.events.order('event_time desc').page(0); render partial: 'events/events' %>
+<%= form_tag events_path(mrn: @patient.mrn), method: :get, remote: true, id: "events_search", style: "display:inline" do %>
+  <%= hidden_field_tag :order %>
+<% end %>
+
+<div id="events"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#events_search").attr("action"), $("#events_search").serialize(), null, "script");
+  });
+<% end %>
+
+
+<%#= @order = 'events.event_time DESC'; @events = @patient.events.order(@order).page(0); render partial: 'events/events' %>

@@ -8,11 +8,13 @@ class UsersController < ApplicationController
       return
     end
     # current_user.update_attribute :users_per_page, params[:users_per_page].to_i if params[:users_per_page].to_i >= 10 and params[:users_per_page].to_i <= 200
-    @order = params[:order].blank? ? 'users.current_sign_in_at DESC' : params[:order]
     user_scope = User.current
     @search_terms = (params[:search] || params[:q]).to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| user_scope = user_scope.search(search_term) }
+
+    @order = User.column_names.collect{|column_name| "users.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "users.current_sign_in_at DESC"
     user_scope = user_scope.order(@order)
+
     @users = user_scope.page(params[:page]).per(20) # (current_user.users_per_page)
     respond_to do |format|
       format.html

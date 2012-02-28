@@ -12,7 +12,7 @@
     <tr>
       <th>Patient</th>
       <th>Event</th>
-      <th>Time</th>
+      <th><%== sort_field_helper(@order, 'events.event_time', 'Time', 'events_search') %></th>
     </tr>
 
   <% @events.each do |event| %>
