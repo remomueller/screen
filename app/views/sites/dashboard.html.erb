@@ -5,7 +5,7 @@
   <tr>
     <td style="vertical-align:top">
       <fieldset>
-        <legend>Patients</legend>
+        <legend><%= link_to 'Patients', patients_path %> <%= image_tag 'gentleface/16/users.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
         <div class="field">
           <%= pluralize Patient.current.size, 'Patient' %> in Screen
         </div>
@@ -16,7 +16,7 @@
     </td>
     <td style="vertical-align:top">
       <fieldset>
-        <legend>Prescreens</legend>
+        <legend><%= link_to 'Prescreens', prescreens_path %> <%= image_tag 'gentleface/16/3x3_grid.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
         <div class="field">
           <%= pluralize Prescreen.current.size, 'Screen' %>
         </div>
@@ -36,7 +36,7 @@
     </td>
     <td style="vertical-align:top">
       <fieldset>
-        <legend>Mailings</legend>
+        <legend><%= link_to 'Mailings', mailings_path %> <%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
         <div class="field">
           <%= pluralize Mailing.current.size, 'Mailing' %> sent
         </div>
@@ -55,7 +55,7 @@
     </td>
     <td style="vertical-align:top">
       <fieldset>
-        <legend>Calls</legend>
+        <legend><%= link_to 'Calls', calls_path %> <%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
         <div class="field">
           <%= pluralize Call.current.size, 'Call' %>
         </div>

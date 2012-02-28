@@ -35,15 +35,11 @@ Contour.setup do |config|
       links: []
     },
     {
-      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left',
-      links: []
-    },
-    {
       name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left',
       links: []
     },
     {
-      name: 'Events', display: 'signed_in', path: 'events_path', position: 'left',
+      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left',
       links: []
     },
     {
