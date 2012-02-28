@@ -19,7 +19,7 @@ class MailingsControllerTest < ActionController::TestCase
 
   test "should create mailing" do
     assert_difference('Mailing.count') do
-      post :create, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012' }
+      post :create, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012', doctor_id: @mailing.doctor_id }
     end
 
     assert_redirected_to mailing_path(assigns(:mailing))

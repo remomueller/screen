@@ -47,10 +47,17 @@
       <%= f.label :response %><br />
       <%= f.text_field :response %>
     </div>
+
     <div class="field">
-      <%= f.label :call_time %><br />
-      <%= f.datetime_select :call_time %>
+      <%= label_tag :call_date %><br />
+      <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %>
     </div>
+
+    <div class="field">
+      <%= label_tag :call_time %><br />
+      <%= text_field_tag :call_time, @call.call_at_string %>
+    </div>
+
     <div class="field">
       <%= f.label :berlin %><br />
       <%= f.number_field :berlin %>

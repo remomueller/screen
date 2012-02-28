@@ -11,10 +11,15 @@ class PrescreensController < ApplicationController
   def bulk
     count_hash = Prescreen.process_bulk(params)
     notices = []
+    alerts = []
     count_hash.each do |key, count|
-      notices << "#{count} #{key}#{'s' unless count == 1} added"
+      if key.to_s == 'ignored prescreen'
+        alerts << "#{count} prescreen#{'s' unless count == 1} ignored" if count > 0
+      else
+        notices << "#{count} #{key}#{'s' unless count == 1} added" if (count > 0 and key.to_s != 'prescreen') or key.to_s == 'prescreen'
+      end
     end
-    redirect_to prescreens_path, notice: notices.join(', ')
+    redirect_to prescreens_path, notice: notices.join(', '), alert: alerts.join(', ')
   end
 
   def index

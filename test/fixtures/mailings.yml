@@ -2,6 +2,7 @@
 
 one:
   patient: one
+  doctor: one
   sent_date: 2012-02-24
   response_date: 2012-02-24
   berlin: MyString
@@ -11,6 +12,7 @@ one:
 
 two:
   patient: one
+  doctor: one
   sent_date: 2012-02-24
   response_date: 2012-02-24
   berlin: MyString

@@ -6,6 +6,7 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Cardiologist</th>
           <th>Address1</th>
           <th>City</th>
           <th>State</th>
@@ -43,6 +44,11 @@
       <%= f.label :patient_id %><br />
       <%= link_to @mailing.patient.mrn, @mailing.patient if @mailing.patient %>
       <%= f.hidden_field :patient_id %>
+    </div>
+
+    <div class="field">
+      <%= f.label :doctor_id, 'Cardiologist' %><br />
+      <%= f.select :doctor_id, options_for_select([['---', nil]] + Doctor.current.where(status: 'whitelist').collect{ |d| [d.name, d.id] }) %>
     </div>
 
     <div class="field">

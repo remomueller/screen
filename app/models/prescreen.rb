@@ -68,6 +68,7 @@ class Prescreen < ActiveRecord::Base
   # Includes Cardiologist
   def self.process_bulk(params)
     prescreens = Prescreen.current.count
+    ignored_prescreens = 0
     doctors = Doctor.current.count
     clinics = Clinic.current.count
     doctor_name = ''
@@ -103,12 +104,14 @@ class Prescreen < ActiveRecord::Base
             patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
             prescreen = patient.prescreens.find_or_create_by_visit_at_and_clinic_id_and_doctor_id(time_start, clinic.id, doctor.id)
             prescreen.update_attributes(visit_duration: minutes, visit_units: 'minutes')
+          else
+            ignored_prescreens += 1
           end
         end
       end
     end
 
-    { prescreen: Prescreen.current.count - prescreens, doctor: Doctor.current.count - doctors, clinic: Clinic.current.count - clinics }
+    { prescreen: Prescreen.current.count - prescreens, doctor: Doctor.current.count - doctors, clinic: Clinic.current.count - clinics, 'ignored prescreen' => ignored_prescreens }
   end
 
   def save_event

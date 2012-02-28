@@ -15,6 +15,14 @@ class Call < ActiveRecord::Base
 
   # Class Methods
 
+  def call_date
+    self.call_time.strftime("%m/%d/%Y") rescue ""
+  end
+
+  def call_at_string
+    self.call_time.blank? ? '' : call_time.localtime.strftime("%l:%M %p").strip
+  end
+
   def name
     if self.patient
       self.patient.mrn

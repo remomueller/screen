@@ -28,6 +28,11 @@ class CallsController < ApplicationController
   end
 
   def create
+    params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
+    params[:call_time] = Time.zone.parse(params[:call_time]) rescue Time.zone.parse("12am")
+    params[:call_time] = Time.zone.parse("12am") if params[:call_time].blank?
+    params[:call][:call_time] = Time.zone.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
+
     @call = Call.new(params[:call])
 
     if @call.save
@@ -38,6 +43,11 @@ class CallsController < ApplicationController
   end
 
   def update
+    params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
+    params[:call_time] = Time.zone.parse(params[:call_time]) rescue Time.zone.parse("12am")
+    params[:call_time] = Time.zone.parse("12am") if params[:call_time].blank?
+    params[:call][:call_time] = Time.zone.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
+
     @call = Call.find(params[:id])
 
     if @call.update_attributes(params[:call])
