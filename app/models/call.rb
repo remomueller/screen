@@ -9,6 +9,7 @@ class Call < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :patient_id
+  validates_presence_of :call_time
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }

@@ -19,7 +19,7 @@ class CallsControllerTest < ActionController::TestCase
 
   test "should create call" do
     assert_difference('Call.count') do
-      post :create, call: @call.attributes
+      post :create, call: { patient_id: @call.patient_id }, call_date: "02/28/2012", call_time: "5:45pm"
     end
 
     assert_redirected_to call_path(assigns(:call))
@@ -36,7 +36,7 @@ class CallsControllerTest < ActionController::TestCase
   end
 
   test "should update call" do
-    put :update, id: @call, call: @call.attributes
+    put :update, id: @call, call: { patient_id: @call.patient_id }, call_date: "02/28/2012", call_time: "5:50pm"
     assert_redirected_to call_path(assigns(:call))
   end
 
