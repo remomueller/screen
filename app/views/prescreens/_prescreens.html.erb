@@ -11,7 +11,7 @@
   <table style="width:100%;table-layout:fixed">
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.patient_id', 'Patient', 'prescreens_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.cardiologist', 'Cardiologist', 'prescreens_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.doctor_id', 'Cardiologist', 'prescreens_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.visit_at', 'Visit', 'prescreens_search') %></th>
       <% Prescreen::EDITABLES.each do |item| %>
         <th><%= item.titleize %></th>
@@ -25,7 +25,7 @@
   <% @prescreens.each do |prescreen| %>
     <tr>
       <td><%= link_to prescreen.patient.mrn, prescreen.patient if prescreen.patient %></td>
-      <td><%= prescreen.cardiologist.to_s.split(',').first %></td>
+      <td><%= link_to prescreen.doctor.name.split(',').first, prescreen.doctor %></td>
       <td><%= link_to simple_date(prescreen.visit_at), prescreen %><br /><%= prescreen.visit_at_range_short %></td>
       <% Prescreen::EDITABLES.each do |item| %>
         <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">

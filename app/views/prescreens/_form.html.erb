@@ -23,12 +23,12 @@
     </div>
 
     <div class="field">
-      <%= f.label :clinic %><br />
-      <%= f.text_field :clinic %>
+      <%= f.label :clinic_id %><br />
+      <%= f.select :clinic_id, options_for_select([['---', nil]] + Clinic.current.where(status: 'whitelist').collect{ |c| [c.name, c.id] }) %>
     </div>
     <div class="field">
-      <%= f.label :cardiologist %><br />
-      <%= f.text_field :cardiologist %>
+      <%= f.label :doctor_id, 'Cardiologist' %><br />
+      <%= f.select :doctor_id, options_for_select([['---', nil]] + Doctor.current.where(status: 'whitelist').collect{ |d| [d.name, d.id] }) %>
     </div>
 
     <div class="field">

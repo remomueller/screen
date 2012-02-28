@@ -11,6 +11,7 @@
   * Mailing model for mailings sent and received
   * Phone calls tracked by patient
   * Site Overview added
+  * Doctors and Clinics can be added to whitelist or blacklist
 
 == 0.0.0
 

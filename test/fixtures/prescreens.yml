@@ -2,8 +2,8 @@
 
 one:
   patient: one
-  clinic: MyString
-  cardiologist: MyString
+  clinic: one
+  doctor: one
   visit_at: 2012-02-23 10:29:41
   visit_duration: 1
   visit_units: MyString
@@ -13,8 +13,8 @@ one:
 
 two:
   patient: one
-  clinic: MyString
-  cardiologist: MyString
+  clinic: one
+  doctor: one
   visit_at: 2012-02-23 10:29:41
   visit_duration: 1
   visit_units: MyString

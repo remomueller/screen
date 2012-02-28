@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: ClinicOne
+  status: MyString
+  deleted: false
+
+two:
+  name: ClinicTwo
+  status: MyString
+  deleted: false

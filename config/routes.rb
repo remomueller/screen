@@ -1,5 +1,9 @@
 Screen::Application.routes.draw do
 
+  resources :clinics
+
+  resources :doctors
+
   resources :calls
 
   resources :mailings

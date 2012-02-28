@@ -12,3 +12,11 @@ span.selected {
   -webkit-border-radius: 3px; /* Webkit */
   border-radius: 3px;
 }
+
+a:link.negative:link, a:link.negative:visited {
+  color: #D12F19;
+}
+
+a:link.positive:link, a:link.positive:visited {
+  color: #529214;
+}

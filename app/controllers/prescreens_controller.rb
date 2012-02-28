@@ -9,8 +9,12 @@ class PrescreensController < ApplicationController
   end
 
   def bulk
-    new_count = Prescreen.process_bulk(params)
-    redirect_to prescreens_path, notice: "#{new_count} Prescreen#{'s' unless new_count == 1} added!"
+    count_hash = Prescreen.process_bulk(params)
+    notices = []
+    count_hash.each do |key, count|
+      notices << "#{count} #{key}#{'s' unless count == 1} added"
+    end
+    redirect_to prescreens_path, notice: notices.join(', ')
   end
 
   def index
@@ -20,7 +24,7 @@ class PrescreensController < ApplicationController
       prescreen_scope = prescreen_scope.with_mrn(term) unless term.blank?
     end
 
-    @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.cardiologist, prescreens.visit_at DESC"
+    @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.doctor_id, prescreens.visit_at DESC"
     prescreen_scope = prescreen_scope.order(@order)
 
     @prescreens = prescreen_scope.page(params[:page]).per(40) # (current_user.prescreens_per_page)

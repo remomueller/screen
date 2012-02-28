@@ -1,0 +1,29 @@
+<%= form_for(@doctor) do |f| %>
+  <% if @doctor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@doctor.errors.count, "error") %> prohibited this doctor from being saved:</h2>
+
+      <ul>
+      <% @doctor.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :doctor_type %><br />
+    <%= f.text_field :doctor_type %>
+  </div>
+  <div class="field">
+    <%= f.label :status %> NOTE: BLACKLISTING will DELETE all associated PRESCREENS<br />
+    <%= f.select :status, options_for_select([['---', nil],['Whitelist', 'whitelist'],['Blacklist', 'blacklist']]) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
