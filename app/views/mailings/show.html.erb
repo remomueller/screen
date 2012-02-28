@@ -1,3 +1,6 @@
+<% @title = "Mailing: #{@mailing.name}" %>
+<h1><%= @title %></h1>
+
 <% if current_user.system_admin? %> <%# current_user.all_mailings.include?(@mailing) %>
   <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Mailing", edit_mailing_path(@mailing), class: 'button' %>
   <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Mailing", @mailing, confirm: "Are you sure you want to delete Mailing #{@mailing.name}?", method: :delete, class: 'button negative' %>

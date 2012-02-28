@@ -1,4 +1,11 @@
+<% @title = "Prescreen: #{@prescreen.name}" %>
+<h1><%= @title %></h1>
 
+<% if current_user.system_admin? %> <%# current_user.all_prescreens.include?(@prescreen) %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Prescreen", edit_prescreen_path(@prescreen), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Prescreen", @prescreen, confirm: "Are you sure you want to delete Prescreen #{@prescreen.name}?", method: :delete, class: 'button negative' %>
+<% end %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Prescreens", prescreens_path, class: 'button' %>
 <div style="clear:both"></div>
 
 <fieldset>
@@ -20,7 +27,7 @@
 
   <p>
     <b>Visit at:</b>
-    <%= @prescreen.visit_at %>
+    <%= simple_time(@prescreen.visit_at) %>
   </p>
 
   <p>
@@ -48,6 +55,3 @@
     <%= @prescreen.risk_factors %>
   </p>
 </fieldset>
-
-<%= link_to 'Edit', edit_prescreen_path(@prescreen) %> |
-<%= link_to 'Back', prescreens_path %>

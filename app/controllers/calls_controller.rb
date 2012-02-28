@@ -37,31 +37,20 @@ class CallsController < ApplicationController
     end
   end
 
-  # PUT /calls/1
-  # PUT /calls/1.json
   def update
     @call = Call.find(params[:id])
 
-    respond_to do |format|
-      if @call.update_attributes(params[:call])
-        format.html { redirect_to @call, notice: 'Call was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @call.errors, status: :unprocessable_entity }
-      end
+    if @call.update_attributes(params[:call])
+      redirect_to @call, notice: 'Call was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
-  # DELETE /calls/1
-  # DELETE /calls/1.json
   def destroy
     @call = Call.find(params[:id])
     @call.destroy
 
-    respond_to do |format|
-      format.html { redirect_to calls_url }
-      format.json { head :no_content }
-    end
+    redirect_to calls_path
   end
 end

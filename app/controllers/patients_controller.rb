@@ -8,7 +8,6 @@ class PatientsController < ApplicationController
     @patient.update_attribute(item, params[:update_value]) if @patient and not item.blank?
   end
 
-
   def index
     # current_user.update_attribute :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
     patient_scope = Patient.current # current_user.all_viewable_patients
@@ -22,63 +21,28 @@ class PatientsController < ApplicationController
     @patients = patient_scope.page(params[:page]).per(20) # (current_user.patients_per_page)
   end
 
-
-  # # GET /patients
-  # # GET /patients.json
-  # def index
-  #   @patients = Patient.all
-
-  #   respond_to do |format|
-  #     format.html # index.html.erb
-  #     format.json { render json: @patients }
-  #   end
-  # end
-
-  # GET /patients/1
-  # GET /patients/1.json
   def show
     @patient = Patient.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @patient }
-    end
   end
 
-  # GET /patients/new
-  # GET /patients/new.json
   def new
     @patient = Patient.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @patient }
-    end
   end
 
-  # GET /patients/1/edit
   def edit
     @patient = Patient.find(params[:id])
   end
 
-  # POST /patients
-  # POST /patients.json
   def create
     @patient = Patient.new(params[:patient])
 
-    respond_to do |format|
-      if @patient.save
-        format.html { redirect_to @patient, notice: 'Patient was successfully created.' }
-        format.json { render json: @patient, status: :created, location: @patient }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @patient.errors, status: :unprocessable_entity }
-      end
+    if @patient.save
+      redirect_to @patient, notice: 'Patient was successfully created.'
+    else
+      render action: "new"
     end
   end
 
-  # PUT /patients/1
-  # PUT /patients/1.json
   def update
     @patient = Patient.find(params[:id])
 
@@ -89,15 +53,10 @@ class PatientsController < ApplicationController
     end
   end
 
-  # DELETE /patients/1
-  # DELETE /patients/1.json
   def destroy
     @patient = Patient.find(params[:id])
     @patient.destroy
 
-    respond_to do |format|
-      format.html { redirect_to patients_url }
-      format.json { head :no_content }
-    end
+    redirect_to patients_path
   end
 end

@@ -1,3 +1,5 @@
+<% width = '1074px' %>
+
 <%= form_for(@prescreen) do |f| %>
   <% if @prescreen.errors.any? %>
     <div id="error_explanation">
@@ -11,43 +13,59 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :patient_id %><br />
-    <%= f.number_field :patient_id %>
-  </div>
-  <div class="field">
-    <%= f.label :clinic %><br />
-    <%= f.text_field :clinic %>
-  </div>
-  <div class="field">
-    <%= f.label :cardiologist %><br />
-    <%= f.text_field :cardiologist %>
-  </div>
-  <div class="field">
-    <%= f.label :visit_at %><br />
-    <%= f.datetime_select :visit_at %>
-  </div>
-  <div class="field">
-    <%= f.label :visit_duration %><br />
-    <%= f.number_field :visit_duration %>
-  </div>
-  <div class="field">
-    <%= f.label :visit_units %><br />
-    <%= f.text_field :visit_units %>
-  </div>
-  <div class="field">
-    <%= f.label :eligibility %><br />
-    <%= f.text_field :eligibility %>
-  </div>
-  <div class="field">
-    <%= f.label :exclusion %><br />
-    <%= f.text_field :exclusion %>
-  </div>
-  <div class="field">
-    <%= f.label :risk_factors %><br />
-    <%= f.text_field :risk_factors %>
-  </div>
+  <fieldset>
+    <legend><%= @title %></legend>
+
+    <div class="field">
+      <%= f.label :patient_id %><br />
+      <%= link_to @prescreen.patient.mrn, @prescreen.patient if @prescreen.patient %>
+      <%= f.hidden_field :patient_id %>
+    </div>
+
+    <div class="field">
+      <%= f.label :clinic %><br />
+      <%= f.text_field :clinic %>
+    </div>
+    <div class="field">
+      <%= f.label :cardiologist %><br />
+      <%= f.text_field :cardiologist %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :visit_date %><br />
+      <%= text_field_tag :visit_date, @prescreen.visit_date, class: 'datepicker' %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :visit_time %><br />
+      <%= text_field_tag :visit_time, @prescreen.visit_at_string %>
+    </div>
+
+    <div class="field">
+      <%= f.label :visit_duration %><br />
+      <%= f.number_field :visit_duration, { min: 0 } %> <%= f.select :visit_units, options_for_select(['minutes', 'hours'].collect{|i| [i,i]}, @prescreen.visit_units) %>
+    </div>
+
+    <div class="field">
+      <%= f.label :eligibility %><br />
+      <%= f.text_field :eligibility %>
+    </div>
+
+    <div class="field">
+      <%= f.label :exclusion %><br />
+      <%= f.text_field :exclusion %>
+    </div>
+
+    <div class="field">
+      <%= f.label :risk_factors %><br />
+      <%= f.text_field :risk_factors %>
+    </div>
+  </fieldset>
+
   <div class="actions">
-    <%= f.submit %>
+    <% form_name = @prescreen.new_record? ? 'new_prescreen' : "edit_prescreen_#{@prescreen.id}" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@prescreen.new_record? ? "Create Prescreen" : "Update Prescreen"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= cancel %>
+    <br />
   </div>
 <% end %>

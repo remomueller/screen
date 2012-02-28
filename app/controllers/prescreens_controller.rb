@@ -20,93 +20,59 @@ class PrescreensController < ApplicationController
       prescreen_scope = prescreen_scope.with_mrn(term) unless term.blank?
     end
 
-
     # @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.id"
     # prescreen_scope = prescreen_scope.order(@order)
     prescreen_scope = prescreen_scope.order(:cardiologist, 'visit_at DESC')
 
-
     @prescreens = prescreen_scope.page(params[:page]).per(40) # (current_user.prescreens_per_page)
   end
 
-
-  # def index
-  #   @prescreens = Prescreen.current.order(:cardiologist, :visit_at)
-
-  #   respond_to do |format|
-  #     format.html # index.html.erb
-  #     format.json { render json: @prescreens }
-  #   end
-  # end
-
-  # GET /prescreens/1
-  # GET /prescreens/1.json
   def show
     @prescreen = Prescreen.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @prescreen }
-    end
   end
 
-  # GET /prescreens/new
-  # GET /prescreens/new.json
   def new
-    @prescreen = Prescreen.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @prescreen }
-    end
+    @prescreen = Prescreen.new(patient_id: params[:patient_id])
   end
 
-  # GET /prescreens/1/edit
   def edit
     @prescreen = Prescreen.find(params[:id])
   end
 
-  # POST /prescreens
-  # POST /prescreens.json
   def create
+    params[:visit_date] = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue ""
+    params[:visit_time] = Time.zone.parse(params[:visit_time]) rescue Time.zone.parse("12am")
+    params[:visit_time] = Time.zone.parse("12am") if params[:visit_time].blank?
+    params[:prescreen][:visit_at] = Time.zone.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
+
     @prescreen = Prescreen.new(params[:prescreen])
 
-    respond_to do |format|
-      if @prescreen.save
-        format.html { redirect_to @prescreen, notice: 'Prescreen was successfully created.' }
-        format.json { render json: @prescreen, status: :created, location: @prescreen }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @prescreen.errors, status: :unprocessable_entity }
-      end
+    if @prescreen.save
+      redirect_to @prescreen, notice: 'Prescreen was successfully created.'
+    else
+      render action: "new"
     end
   end
 
-  # PUT /prescreens/1
-  # PUT /prescreens/1.json
   def update
+    params[:visit_date] = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue ""
+    params[:visit_time] = Time.zone.parse(params[:visit_time]) rescue Time.zone.parse("12am")
+    params[:visit_time] = Time.zone.parse("12am") if params[:visit_time].blank?
+    params[:prescreen][:visit_at] = Time.zone.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
+
     @prescreen = Prescreen.find(params[:id])
 
-    respond_to do |format|
-      if @prescreen.update_attributes(params[:prescreen])
-        format.html { redirect_to @prescreen, notice: 'Prescreen was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @prescreen.errors, status: :unprocessable_entity }
-      end
+    if @prescreen.update_attributes(params[:prescreen])
+      redirect_to @prescreen, notice: 'Prescreen was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
-  # DELETE /prescreens/1
-  # DELETE /prescreens/1.json
   def destroy
     @prescreen = Prescreen.find(params[:id])
     @prescreen.destroy
 
-    respond_to do |format|
-      format.html { redirect_to prescreens_url }
-      format.json { head :no_content }
-    end
+    redirect_to prescreens_path
   end
 end

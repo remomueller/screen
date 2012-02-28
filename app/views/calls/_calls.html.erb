@@ -24,7 +24,7 @@
     <tr>
       <td><%= link_to call.patient.mrn, call.patient if call.patient %></td>
       <td><%= call.response %></td>
-      <td><%= link_to call.call_time, call %></td>
+      <td><%= link_to simple_time(call.call_time), call %></td>
       <td><%= call.berlin %></td>
       <td><%= call.ess %></td>
       <td><%= call.eligible %></td>

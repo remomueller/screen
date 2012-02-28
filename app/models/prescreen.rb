@@ -14,16 +14,23 @@ class Prescreen < ActiveRecord::Base
   scope :with_mrn, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where patients.mrn LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
 
   # Model Validation
-  # validates_presence_of     :first_name
-  # validates_presence_of     :last_name
+  validates_presence_of :patient_id
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }
 
   # Class Methods
 
-  def event_at
-    self.visit_at
+  def name
+    if self.patient
+      self.patient.mrn
+    else
+      self.id
+    end.to_s
+  end
+
+  def visit_date
+    self.visit_at.strftime("%m/%d/%Y") rescue ""
   end
 
   def visit_at_string
@@ -100,6 +107,11 @@ class Prescreen < ActiveRecord::Base
   end
 
   def save_event
+    events = self.patient.events.find_all_by_class_name_and_class_id(self.class.name, self.id)
+
     event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.visit_at, 'Prescreen')
+    events = events - [event]
+
+    events.each{ |e| e.destroy }
   end
 end
