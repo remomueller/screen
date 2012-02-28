@@ -25,6 +25,6 @@ Screen::Application.routes.draw do
 
   resources :users
 
-  root to: 'prescreens#index'
+  root to: 'sites#dashboard'
 
 end

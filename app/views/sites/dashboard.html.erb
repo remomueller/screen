@@ -1,0 +1,68 @@
+<% @title = "Screen Overview" %>
+<h1><%= @title %></h1>
+
+<table class="blank padded" style="width:100%;table-layout:fixed">
+  <tr>
+    <td style="vertical-align:top">
+      <fieldset>
+        <legend>Patients</legend>
+        <div class="field">
+          <%= pluralize Patient.current.size, 'Patient' %> in Screen
+        </div>
+        <div class="field">
+          <%= Patient.current.where("created_at >= ?", Time.now - 1.month).size %> added in past month
+        </div>
+      </fieldset>
+    </td>
+    <td style="vertical-align:top">
+      <fieldset>
+        <legend>Prescreens</legend>
+        <div class="field">
+          <%= pluralize Prescreen.current.size, 'Screen' %>
+        </div>
+        <div class="field">
+          <%= Prescreen.current.where("visit_at >= ?", Time.now - 1.month).size %> in past month
+        </div>
+        <br />
+        <div class="field">
+          <%= ineligible = Prescreen.current.where(eligibility: 'ineligible').size %>
+          (<%= "%d%%" % ((ineligible * 100) / Prescreen.current.size) rescue 'N/A' %>) ineligible
+        </div>
+        <div class="field">
+          <%= potentially_eligible = Prescreen.current.where(eligibility: 'potentially eligible').size %>
+          (<%= "%d%%" % ((potentially_eligible * 100) / Prescreen.current.size) rescue 'N/A' %>) potentially eligible
+        </div>
+      </fieldset>
+    </td>
+    <td style="vertical-align:top">
+      <fieldset>
+        <legend>Mailings</legend>
+        <div class="field">
+          <%= pluralize Mailing.current.size, 'Mailing' %> sent
+        </div>
+        <div class="field">
+          <%= Mailing.current.where("sent_date >= ?", Date.today - 1.month).size %> in past month
+        </div>
+        <br />
+        <div class="field">
+          <%= received_mailings = Mailing.current.where("response_date >= ? or response_date <= ?", Date.today, Date.today).size %>
+          (<%= "%d%%" % ((received_mailings * 100) / Mailing.current.size) rescue 'N/A' %>) received
+        </div>
+        <div class="field">
+          <%= Mailing.current.where("response_date >= ? and response_date <= ?", Date.today - 1.month, Date.today).size %> received in past month
+        </div>
+      </fieldset>
+    </td>
+    <td style="vertical-align:top">
+      <fieldset>
+        <legend>Calls</legend>
+        <div class="field">
+          <%= pluralize Call.current.size, 'Call' %>
+        </div>
+        <div class="field">
+          <%= Call.current.where("call_time >= ?", Time.now - 1.month).size %> in past month
+        </div>
+      </fieldset>
+    </td>
+  </tr>
+</table>
