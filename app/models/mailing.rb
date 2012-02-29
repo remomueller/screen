@@ -1,5 +1,7 @@
 class Mailing < ActiveRecord::Base
 
+  ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
+
   # Callbacks
   after_save :save_event
 

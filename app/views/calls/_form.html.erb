@@ -68,7 +68,7 @@
     </div>
     <div class="field">
       <%= f.label :eligibility %><br />
-      <%= f.text_field :eligibility %>
+      <%= f.select :eligibility, Call::ELIGIBILITY %>
     </div>
     <div class="field">
       <%= f.label :exclusion %><br />

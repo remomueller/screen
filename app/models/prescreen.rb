@@ -4,6 +4,8 @@ class Prescreen < ActiveRecord::Base
   EDITABLES = ['eligibility', 'exclusion', 'old_risk_factors']
   RISK_FACTORS = defined?(RULE_RISK_FACTORS) ? RULE_RISK_FACTORS : []
 
+  ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
+
   # Callbacks
   after_save :save_event
 
@@ -17,8 +19,8 @@ class Prescreen < ActiveRecord::Base
   validates_presence_of :patient_id
 
   # Model Relationships
-  belongs_to :clinic, conditions: { deleted: false }, touch: true
-  belongs_to :doctor, conditions: { deleted: false }, touch: true
+  belongs_to :clinic, conditions: { deleted: false }
+  belongs_to :doctor, conditions: { deleted: false }
   belongs_to :patient, conditions: { deleted: false }, touch: true
 
   # Class Methods
