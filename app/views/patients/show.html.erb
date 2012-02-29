@@ -8,65 +8,79 @@
 <%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Patients", patients_path, class: 'button' %>
 <div style="clear:both"></div>
 
-<fieldset>
-  <legend><%= image_tag 'gentleface/16/user.png', alt: '', style: 'vertical-align:text-bottom' %> Patient</legend>
+<table class="blank padded" style="width:100%;table-layout:fixed">
+  <tr>
+    <td>
+      <fieldset>
+        <legend><%= image_tag 'gentleface/16/user.png', alt: '', style: 'vertical-align:text-bottom' %> Patient</legend>
 
-  <p>
-    <b>Mrn:</b>
-    <%= @patient.mrn %>
-  </p>
+        <p>
+          <b>Mrn:</b>
+          <%= @patient.mrn %>
+        </p>
 
-  <p>
-    <b>First name:</b>
-    <%= @patient.first_name %>
-  </p>
+        <p>
+          <b>First name:</b>
+          <%= @patient.first_name %>
+        </p>
 
-  <p>
-    <b>Last name:</b>
-    <%= @patient.last_name %>
-  </p>
+        <p>
+          <b>Last name:</b>
+          <%= @patient.last_name %>
+        </p>
 
-  <p>
-    <b>Home Phone:</b>
-    <%= @patient.phone_home %>
-  </p>
+        <p>
+          <b>Sex:</b>
+          <%= @patient.sex %>
+        </p>
 
-  <p>
-    <b>Day Phone:</b>
-    <%= @patient.phone_day %>
-  </p>
+        <p>
+          <b>Age:</b>
+          <%= @patient.age %>
+        </p>
 
-  <p>
-    <b>Alt Phone:</b>
-    <%= @patient.phone_alt %>
-  </p>
+        <p>
+          <b>ESS:</b>
+          <%= @patient.ess %>
+        </p>
 
-  <p>
-    <b>Sex:</b>
-    <%= @patient.sex %>
-  </p>
+        <p>
+          <b>Berlin:</b>
+          <%= @patient.berlin %>
+        </p>
 
-  <p>
-    <b>Age:</b>
-    <%= @patient.age %>
-  </p>
+      </fieldset>
+    </td>
+    <td>
+      <fieldset>
+        <legend><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> Contact</legend>
+        <p>
+          <b>Home Phone:</b>
+          <%= @patient.phone_home %>
+        </p>
 
-  <p>
-    <b>Address:</b>
-    <%= @patient.address %>
-  </p>
+        <p>
+          <b>Day Phone:</b>
+          <%= @patient.phone_day %>
+        </p>
 
-  <p>
-    <b>ESS:</b>
-    <%= @patient.ess %>
-  </p>
-
-  <p>
-    <b>Berlin:</b>
-    <%= @patient.berlin %>
-  </p>
-
-</fieldset>
+        <p>
+          <b>Alt Phone:</b>
+          <%= @patient.phone_alt %>
+        </p>
+      </fieldset>
+    </td>
+    <td>
+      <fieldset>
+        <legend><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %> Address</legend>
+        <p>
+          <b>Address:</b>
+          <%= @patient.address %>
+        </p>
+      </fieldset>
+    </td>
+  </tr>
+</table>
 
 <%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + 'Create Call', new_call_path(patient_id: @patient.id), class: 'button positive' %>
 <%= link_to image_tag('gentleface/16/mail.png', alt: '') + 'Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'button positive' %>
