@@ -13,7 +13,12 @@
 
   <p>
     <b>Patient:</b>
-    <%= link_to @mailing.patient.mrn, @mailing.patient if @mailing.patient %>
+    <%= link_to @mailing.patient.mrn, @mailing.patient %>
+  </p>
+
+  <p>
+    <b><%= @mailing.doctor.doctor_type.titleize %></b>
+    <%= link_to @mailing.doctor.name, @mailing.doctor %>
   </p>
 
   <p>
@@ -37,12 +42,12 @@
   </p>
 
   <p>
-    <b>Status:</b>
-    <%= @mailing.status %>
+    <b>Eligible:</b>
+    <%= @mailing.eligible %>
   </p>
 
   <p>
-    <b>Eligible:</b>
-    <%= @mailing.eligible %>
+    <b>Comments:</b>
+    <%= @mailing.comments %>
   </p>
 </fieldset>
