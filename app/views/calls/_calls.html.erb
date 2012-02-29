@@ -15,7 +15,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.call_time', 'Call time', 'calls_search') %></th>
       <th>Berlin</th>
       <th>Ess</th>
-      <th>Eligible</th>
+      <th>Eligibility</th>
       <th>Comments</th>
       <th></th>
     </tr>
@@ -27,7 +27,7 @@
       <td><%= link_to simple_time(call.call_time), call %></td>
       <td><%= call.berlin %></td>
       <td><%= call.ess %></td>
-      <td><%= call.eligible %></td>
+      <td><%= call.eligibility %></td>
       <td><%= call.comments %></td>
       <td>
         <%= @patient = call.patient; render partial: 'patients/statistics', locals: { call: 1 } %>

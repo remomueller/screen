@@ -3,11 +3,6 @@
 
 <% width = '1074px' %>
 
-<%= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Prescreen", new_prescreen_path, class: 'button positive' %>
-
-<div style="clear:both"></div>
-
-
 <% form_name = "bulk_prescreen_form" %>
 <%= form_tag bulk_prescreens_path, method: :post, id: form_name do %>
   <fieldset>

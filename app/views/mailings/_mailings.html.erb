@@ -15,7 +15,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'mailings.response_date', 'Response date', 'mailings_search') %></th>
       <th>Berlin</th>
       <th>Ess</th>
-      <th>Eligible</th>
+      <th>Eligibility</th>
       <th>Comments</th>
       <th></th>
     </tr>
@@ -27,7 +27,7 @@
       <td><%= simple_date(mailing.response_date) %></td>
       <td><%= mailing.berlin %></td>
       <td><%= mailing.ess %></td>
-      <td><%= mailing.eligible %></td>
+      <td><%= mailing.eligibility %></td>
       <td><%= mailing.comments %></td>
       <td>
         <%= @patient = mailing.patient; render partial: 'patients/statistics', locals: { mailing: 1 } %>
