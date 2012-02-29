@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :patient_id
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }
+  belongs_to :patient, conditions: { deleted: false }, touch: true
 
   # Class Methods
 

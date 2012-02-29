@@ -12,7 +12,7 @@ class Call < ActiveRecord::Base
   validates_presence_of :call_time
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }
+  belongs_to :patient, conditions: { deleted: false }, touch: true
 
   # Class Methods
 

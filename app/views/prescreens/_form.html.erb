@@ -24,11 +24,11 @@
 
     <div class="field">
       <%= f.label :clinic_id %><br />
-      <%= f.select :clinic_id, options_for_select([['---', nil]] + Clinic.current.where(status: 'whitelist').collect{ |c| [c.name, c.id] }) %>
+      <%= f.select :clinic_id, Clinic::clinic_select %>
     </div>
     <div class="field">
       <%= f.label :doctor_id, 'Cardiologist' %><br />
-      <%= f.select :doctor_id, options_for_select([['---', nil]] + Doctor.current.where(status: 'whitelist').collect{ |d| [d.name, d.id] }) %>
+      <%= f.select :doctor_id, Doctor::doctor_select %>
     </div>
 
     <div class="field">
@@ -43,7 +43,7 @@
 
     <div class="field">
       <%= f.label :visit_duration %><br />
-      <%= f.number_field :visit_duration, { min: 0 } %> <%= f.select :visit_units, options_for_select(['minutes', 'hours'].collect{|i| [i,i]}, @prescreen.visit_units) %>
+      <%= f.number_field :visit_duration, { min: 0 } %> <%= f.select :visit_units, ['minutes', 'hours'].collect{|i| [i,i]} %>
     </div>
 
     <div class="field">

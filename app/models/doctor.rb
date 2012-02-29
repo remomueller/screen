@@ -27,4 +27,8 @@ class Doctor < ActiveRecord::Base
     prescreens.destroy_all if self.blacklisted?
   end
 
+  def self.doctor_select
+    [['---Whitelist---', nil]] + Doctor.current.where("status != 'blacklist'").order('name').collect{ |d| [d.name, d.id] } + [['',nil],['---Blacklist---', nil]] + Doctor.current.where(status: 'blacklist').order('name').collect{ |d| [d.name, d.id] }
+  end
+
 end

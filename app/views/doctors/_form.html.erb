@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :status %> NOTE: BLACKLISTING will DELETE all associated PRESCREENS<br />
-    <%= f.select :status, options_for_select([['---', nil],['Whitelist', 'whitelist'],['Blacklist', 'blacklist']]) %>
+    <%= f.select :status, [['---', nil],['Whitelist', 'whitelist'],['Blacklist', 'blacklist']] %>
   </div>
   <div class="actions">
     <%= f.submit %>

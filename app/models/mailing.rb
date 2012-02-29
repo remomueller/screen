@@ -12,8 +12,8 @@ class Mailing < ActiveRecord::Base
   validates_presence_of :doctor_id
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }
-  belongs_to :doctor, conditions: { deleted: false }
+  belongs_to :patient, conditions: { deleted: false }, touch: true
+  belongs_to :doctor, conditions: { deleted: false }, touch: true
 
   # Class Methods
 

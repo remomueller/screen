@@ -17,9 +17,9 @@ class Prescreen < ActiveRecord::Base
   validates_presence_of :patient_id
 
   # Model Relationships
-  belongs_to :clinic, conditions: { deleted: false }
-  belongs_to :doctor, conditions: { deleted: false }
-  belongs_to :patient, conditions: { deleted: false }
+  belongs_to :clinic, conditions: { deleted: false }, touch: true
+  belongs_to :doctor, conditions: { deleted: false }, touch: true
+  belongs_to :patient, conditions: { deleted: false }, touch: true
 
   # Class Methods
 

@@ -48,7 +48,7 @@
 
     <div class="field">
       <%= f.label :doctor_id, 'Cardiologist' %><br />
-      <%= f.select :doctor_id, options_for_select([['---', nil]] + Doctor.current.where(status: 'whitelist').collect{ |d| [d.name, d.id] }) %>
+      <%= f.select :doctor_id, Doctor::doctor_select %>
     </div>
 
     <div class="field">
