@@ -57,6 +57,10 @@
 
   <p>
     <b>Risk factors:</b>
-    <%#= @prescreen.risk_factors %>
+    <ul>
+      <% @prescreen.risk_factors.each do |choice| %>
+        <li><%= @choice = choice; render partial: 'choices/show' %> <%= choice.description %></li>
+      <% end %>
+    </ul>
   </p>
 </fieldset>

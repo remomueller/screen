@@ -10,6 +10,7 @@ class Choice < ActiveRecord::Base
   validates_uniqueness_of :name, scope: :category
 
   # Model Relationships
+  has_and_belongs_to_many :prescreens
 
   # Class Methods
   def destroy

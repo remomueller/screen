@@ -4,8 +4,14 @@ class PrescreensController < ApplicationController
 
   def inline_update
     @prescreen = Prescreen.find_by_id(params[:id])
-    item = Prescreen::EDITABLES.include?(params[:item]) ? params[:item].to_sym : ''
-    @prescreen.update_attribute(item, params[:update_value]) if @prescreen and not item.blank?
+    if params[:item] == 'risk_factors'
+      params[:prescreen] ||= {}
+      params[:prescreen][:risk_factor_ids] ||= []
+      @prescreen.update_attributes(params[:prescreen])
+    else
+      item = Prescreen::EDITABLES.include?(params[:item]) ? params[:item].to_sym : ''
+      @prescreen.update_attribute(item, params[:update_value]) if @prescreen and not item.blank?
+    end
   end
 
   def bulk

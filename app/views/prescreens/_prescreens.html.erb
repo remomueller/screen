@@ -16,6 +16,7 @@
       <% Prescreen::EDITABLES.each do |item| %>
         <th><%= item.titleize %></th>
       <% end %>
+      <th>Risk Factors</th>
       <% Patient::EDITABLES.each do |item| %>
         <th><%= item.titleize %></th>
       <% end  %>
@@ -37,6 +38,14 @@
             <% end %>
           </td>
         <% end %>
+        <td id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit">
+          <div id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit_show">
+            <%= @prescreen = prescreen; render partial: 'prescreens/risk_factors' %>
+          </div>
+          <div id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit_form" style="display:none">
+            <%= @prescreen = prescreen; render partial: 'prescreens/risk_factors_form' %>
+          </div>
+        </td>
         <% Patient::EDITABLES.each do |item| %>
           <td id="patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit">
             <%= prescreen.patient.send(item) %>
@@ -60,6 +69,13 @@
                 });
               <% end %>
 
+              $("#prescreen_<%= prescreen.id %>_risk_factors_inline_edit").on('click', function(event) {
+                if(event.target.id != ''){
+                  $("#"+this.id+"_show").hide();
+                  $("#"+this.id+"_form").show();
+                }
+              });
+
               <% Patient::EDITABLES.each do |item| %>
                 $("#patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit").editInPlace({
                   url: '<%= inline_update_patient_path(prescreen.patient) %>',
@@ -67,7 +83,6 @@
                   success: function(response){ eval(response) }
                 });
               <% end %>
-
             });
           <% end %>
         </td>

@@ -2,3 +2,8 @@
   <% value = (item == 'exclusion') ? @prescreen.send(item+'_name') : @prescreen.send(item) %>
   $('#prescreen_<%= @prescreen.id %>_<%= item %>_inline_edit').html("<%= escape_javascript(value) %>");
 <% end %>
+
+$('#prescreen_<%= @prescreen.id %>_risk_factors_inline_edit_show').html("<%= escape_javascript(render partial: 'prescreens/risk_factors') %>");
+$('#prescreen_<%= @prescreen.id %>_risk_factors_inline_edit_form').html("<%= escape_javascript(render partial: 'prescreens/risk_factors_form') %>")
+$('#prescreen_<%= @prescreen.id %>_risk_factors_inline_edit_show').show();
+$('#prescreen_<%= @prescreen.id %>_risk_factors_inline_edit_form').hide();

@@ -60,6 +60,19 @@
       <%= f.label :old_risk_factors %><br />
       <%= f.text_field :old_risk_factors %>
     </div>
+
+    <div class="field">
+      <%= f.label :risk_factors %><br />
+      <table class="blank padded" style="width:100%;table-layout:fixed">
+      <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>
+        <tr>
+          <% row_risk_factors.each do |choice| %>
+            <td><% if choice %><%= check_box_tag "prescreen[risk_factor_ids][]", choice.id, @prescreen.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %><% end %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+    </div>
   </fieldset>
 
   <div class="actions">

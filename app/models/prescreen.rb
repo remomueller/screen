@@ -22,6 +22,7 @@ class Prescreen < ActiveRecord::Base
   belongs_to :clinic, conditions: { deleted: false }
   belongs_to :doctor, conditions: { deleted: false }
   belongs_to :patient, conditions: { deleted: false }, touch: true
+  has_and_belongs_to_many :risk_factors, class_name: 'Choice'
 
   # Class Methods
 
