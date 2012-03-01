@@ -10,7 +10,7 @@
 <div class="frame">
   <table style="width:100%">
     <tr>
-      <% unless @patient %><th>Patient</th><% end %>
+      <% unless params[:hide_patient] == '1' %><th>Patient</th><% end %>
       <th>Event</th>
       <th><%== sort_field_helper(@order, 'events.event_time', 'Time', 'events_search') %></th>
       <th>Eligibility</th>
@@ -20,14 +20,14 @@
   <% @events.each do |event| %>
     <% object = event.class_name.constantize.find_by_id(event.class_id) %>
     <tr>
-      <% unless @patient %><td><%= link_to event.patient.mrn, event.patient if event.patient %></td><% end %>
+      <% unless params[:hide_patient] == '1' %><td><%= link_to event.patient.mrn, event.patient if event.patient %></td><% end %>
       <td>
         <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
         <%= link_to(event.name, object) %>
       </td>
       <td><%= simple_time(event.event_time) %></td>
       <td><%= object.eligibility %></td>
-      <td><%= object.exclusion %></td>
+      <td><%= object.exclusion_name %></td>
     </tr>
   <% end %>
   </table>

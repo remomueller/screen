@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  category: exclusion
+  name: MyString
+  description: MyText
+
+two:
+  category: participation
+  name: MyString
+  description: MyText
+
+three:
+  category: risk factors
+  name: MyString
+  description: MyText

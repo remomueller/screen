@@ -34,6 +34,14 @@ class Call < ActiveRecord::Base
     end.to_s
   end
 
+  def participation_name
+    (choice = Choice.find_by_id(self.participation)) ? choice.name : ''
+  end
+
+  def exclusion_name
+    (choice = Choice.find_by_id(self.exclusion)) ? choice.name : ''
+  end
+
   def destroy
     update_attribute :deleted, true
     event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.call_time, 'Phone Call')

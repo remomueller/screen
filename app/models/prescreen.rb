@@ -33,6 +33,10 @@ class Prescreen < ActiveRecord::Base
     end.to_s
   end
 
+  def exclusion_name
+    (choice = Choice.find_by_id(self.exclusion)) ? choice.name : ''
+  end
+
   def visit_date
     self.visit_at.strftime("%m/%d/%Y") rescue ""
   end

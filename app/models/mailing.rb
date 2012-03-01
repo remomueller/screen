@@ -27,6 +27,14 @@ class Mailing < ActiveRecord::Base
     end.to_s
   end
 
+  def participation_name
+    (choice = Choice.find_by_id(self.participation)) ? choice.name : ''
+  end
+
+  def exclusion_name
+    (choice = Choice.find_by_id(self.exclusion)) ? choice.name : ''
+  end
+
   def sent_time
     self.sent_date.blank? ? '' : Time.zone.parse(self.sent_date.to_s + " 00:00:00")
   end

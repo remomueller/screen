@@ -28,7 +28,7 @@ class Doctor < ActiveRecord::Base
   end
 
   def self.doctor_select
-    [['---Whitelist---', nil]] + Doctor.current.where("status != 'blacklist'").order('name').collect{ |d| [d.name, d.id] } + [['',nil],['---Blacklist---', nil]] + Doctor.current.where(status: 'blacklist').order('name').collect{ |d| [d.name, d.id] }
+    [['---Whitelist---', nil]] + Doctor.current.where("status != 'blacklist' or status IS NULL").order('name').collect{ |d| [d.name, d.id] } + [['',nil],['---Blacklist---', nil]] + Doctor.current.where(status: 'blacklist').order('name').collect{ |d| [d.name, d.id] }
   end
 
 end

@@ -50,7 +50,7 @@
 
     <div class="field">
       <%= label_tag :call_date %><br />
-      <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %>
+      <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %> <%= link_to_function 'Current Time', "#", id: 'set_current_time' %>
     </div>
 
     <div class="field">
@@ -72,11 +72,11 @@
     </div>
     <div class="field">
       <%= f.label :exclusion %><br />
-      <%= f.text_field :exclusion %>
+      <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
     <div class="field">
       <%= f.label :participation %><br />
-      <%= f.text_field :participation %>
+      <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]} %>
     </div>
     <div class="field">
       <%= f.label :comments %><br />

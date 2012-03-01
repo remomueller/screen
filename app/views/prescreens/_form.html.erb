@@ -53,7 +53,7 @@
 
     <div class="field">
       <%= f.label :exclusion %><br />
-      <%= f.text_field :exclusion %>
+      <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
 
     <div class="field">

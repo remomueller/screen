@@ -1,5 +1,7 @@
 Screen::Application.routes.draw do
 
+  resources :choices
+
   resources :clinics
 
   resources :doctors
