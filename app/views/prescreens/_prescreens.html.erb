@@ -30,7 +30,11 @@
         <td><%= link_to simple_date(prescreen.visit_at), prescreen %><br /><%= prescreen.visit_at_range_short %></td>
         <% Prescreen::EDITABLES.each do |item| %>
           <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
-            <%= prescreen.send(item) %>
+            <% if item == 'exclusion' %>
+              <%= prescreen.send(item+'_name') %>
+            <% else %>
+              <%= prescreen.send(item) %>
+            <% end %>
           </td>
         <% end %>
         <% Patient::EDITABLES.each do |item| %>
@@ -47,8 +51,12 @@
                   url: '<%= inline_update_prescreen_path(prescreen) %>',
                   params: 'item=<%= item %>',
                   success: function(response){ eval(response) },
-                  field_type: '<%= item == 'eligibility' ? 'select' : 'text' %>',
-                  select_options: '<%= item == 'eligibility' ? ',potentially eligible,ineligible' : '' %>'
+                  field_type: '<%= ['eligibility', 'exclusion'].include?(item) ? 'select' : 'text' %>',
+                  <% if item == 'eligibility' %>
+                    select_options: ',potentially eligible,ineligible'
+                  <% elsif item == 'exclusion' %>
+                    select_options: '<%= Choice.where(category: 'exclusion').collect{|c| "#{c.name}:#{c.id}"}.join(',') %>'
+                  <% end %>
                 });
               <% end %>
 
