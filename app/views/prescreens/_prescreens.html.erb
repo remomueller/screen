@@ -64,7 +64,7 @@
                   <% if item == 'eligibility' %>
                     select_options: ',potentially eligible,ineligible'
                   <% elsif item == 'exclusion' %>
-                    select_options: [<%= (["['','0']"] + Choice.where(category: 'exclusion').collect{|c| "['#{c.name.gsub("'", "\\\\'")}','#{c.id}']"}).join(',').html_safe %>]
+                    select_options: [<%= (["['','0']"] + Choice.where(category: 'exclusion').collect{|c| "['#{c.name.gsub(/\\/, "\\\\\\").gsub("'", "\\\\'")}','#{c.id}']"}).join(',').html_safe %>]
                   <% end %>
                 });
               <% end %>
