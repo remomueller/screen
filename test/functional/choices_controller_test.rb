@@ -25,6 +25,17 @@ class ChoicesControllerTest < ActionController::TestCase
     assert_redirected_to choice_path(assigns(:choice))
   end
 
+  test "should not create choice with blank name" do
+    assert_difference('Choice.count', 0) do
+      post :create, choice: { category: 'exclusion', name: '' }
+    end
+
+    assert_not_nil assigns(:choice)
+    assert assigns(:choice).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:choice).errors[:name]
+    assert_template 'new'
+  end
+
   test "should show choice" do
     get :show, id: @choice
     assert_response :success
@@ -38,6 +49,14 @@ class ChoicesControllerTest < ActionController::TestCase
   test "should update choice" do
     put :update, id: @choice, choice: { category: 'exclusion', name: 'Updated Name' }
     assert_redirected_to choice_path(assigns(:choice))
+  end
+
+  test "should not update choice with blank name" do
+    put :update, id: @choice, choice: { category: 'exclusion', name: '' }
+    assert_not_nil assigns(:choice)
+    assert assigns(:choice).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:choice).errors[:name]
+    assert_template 'edit'
   end
 
   test "should destroy choice" do

@@ -12,6 +12,14 @@ class CallsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:calls)
   end
 
+  test "should get index with js" do
+    get :index, format: 'js', mrn: '0'
+    assert_not_nil assigns(:order)
+    assert_not_nil assigns(:calls)
+    assert_template 'index'
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success
@@ -23,6 +31,17 @@ class CallsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to call_path(assigns(:call))
+  end
+
+  test "should not create call with blank call date" do
+    assert_difference('Call.count', 0) do
+      post :create, call: { patient_id: @call.patient_id }, call_date: '', call_time: "5:45pm"
+    end
+
+    assert_not_nil assigns(:call)
+    assert assigns(:call).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:call).errors[:call_time]
+    assert_template 'new'
   end
 
   test "should show call" do
@@ -38,6 +57,14 @@ class CallsControllerTest < ActionController::TestCase
   test "should update call" do
     put :update, id: @call, call: { patient_id: @call.patient_id }, call_date: "02/28/2012", call_time: "5:50pm"
     assert_redirected_to call_path(assigns(:call))
+  end
+
+  test "should not update call with blank call date" do
+    put :update, id: @call, call: { patient_id: @call.patient_id }, call_date: "", call_time: "5:50pm"
+    assert_not_nil assigns(:call)
+    assert assigns(:call).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:call).errors[:call_time]
+    assert_template 'edit'
   end
 
   test "should destroy call" do

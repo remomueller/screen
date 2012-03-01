@@ -27,11 +27,7 @@ class Prescreen < ActiveRecord::Base
   # Class Methods
 
   def name
-    if self.patient
-      self.patient.mrn
-    else
-      self.id
-    end.to_s
+    self.patient ? self.patient.mrn : self.id
   end
 
   def exclusion_name

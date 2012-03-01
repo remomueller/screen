@@ -27,11 +27,7 @@ class Call < ActiveRecord::Base
   end
 
   def name
-    if self.patient
-      self.patient.mrn
-    else
-      self.id
-    end.to_s
+    self.patient ? self.patient.mrn : self.id
   end
 
   def participation_name

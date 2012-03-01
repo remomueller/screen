@@ -9,3 +9,8 @@ two:
   patient: one
   class_name: Mailing
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+
+three:
+  patient: one
+  class_name: Call
+  class_id: <%= ActiveRecord::Fixtures.identify(:one) %>

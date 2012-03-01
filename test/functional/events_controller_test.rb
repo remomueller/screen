@@ -12,6 +12,22 @@ class EventsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:events)
   end
 
+  test "should get index with js" do
+    get :index, format: 'js'
+    assert_not_nil assigns(:order)
+    assert_not_nil assigns(:events)
+    assert_template 'index'
+    assert_response :success
+  end
+
+  test "should get index with js and mrn" do
+    get :index, format: 'js', mrn: '0'
+    assert_not_nil assigns(:order)
+    assert_not_nil assigns(:events)
+    assert_template 'index'
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success
@@ -23,6 +39,17 @@ class EventsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to event_path(assigns(:event))
+  end
+
+  test "should not create event with invalid patient" do
+    assert_difference('Event.count', 0) do
+      post :create, event: { patient_id: '', class_name: '', class_id: '' }
+    end
+
+    assert_not_nil assigns(:event)
+    assert assigns(:event).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:event).errors[:patient_id]
+    assert_template 'new'
   end
 
   test "should show event" do
@@ -38,6 +65,14 @@ class EventsControllerTest < ActionController::TestCase
   test "should update event" do
     put :update, id: @event, event: @event.attributes
     assert_redirected_to event_path(assigns(:event))
+  end
+
+  test "should not update event with invalid patient" do
+    put :update, id: @event, event: { patient_id: '' }
+    assert_not_nil assigns(:event)
+    assert assigns(:event).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:event).errors[:patient_id]
+    assert_template 'edit'
   end
 
   test "should destroy event" do

@@ -1,0 +1,23 @@
+	Time	Status	Clinic	Patient Name	Sex/Age	MRN	Visit Type	Reason for Visit	PG
+	Teagan,Florianus,M.D.
+	00:00 - 00:30		SEASPONGE MEDICINE CLINIC	Gaiane, Israhel I 	M 52	00000001	NEW	A door bolts a detectable believer behind a compromise.
+	00:30 - 00:50		SEASPONGE MEDICINE CLINIC	Sasithorn, Silvia E 	F 90	00000002	NEW	The diplomatic laughter postulates an anagram.
+	00:50 - 01:20		SEASPONGE MEDICINE CLINIC	Matic, Lucine R 	F 61	00000003	NEW	How can the doubled pool stir throughout the ideology?
+	01:20 - 01:50		SEASPONGE MEDICINE CLINIC	Cayetano, Hughard WW 	M 11	00000004	NEW	The legible backbone bobs the badge past each accidental misery.
+	Miles,Joleen,M.D.
+	01:50 - 02:30		SEASPONGE MEDICINE CLINIC	Firmino, Kamala L 	F 10	00000005	NEW	The vain outlook talks.
+	02:30 - 02:40		SEASPONGE MEDICINE CLINIC	Jamila, Rob "Dog" 	M 56	00000006	NEW	When will an override spread a trace?
+	02:40 - 03:10		SEASPONGE MEDICINE CLINIC	Hughard, Sherrie U 	F 67	00000007	NEW	The shocking penny sounds the cosmology.
+	03:10 - 03:30		SEASPONGE MEDICINE CLINIC	Valencia, Rasha O 	F 56	00000008	NEW	Beside an emulator fasts an appalled gown.
+	03:30 - 04:00		SEASPONGE MEDICINE CLINIC	Paulina, Albrecht G 	M 91	00000009	NEW	The observer behaves?
+	04:30 - 04:50		BLACKBOX MANAGEMENT GROUP	Gid'on, Vicent Q 	M 76	0000000A	NEW	Past her triumphs a shell bigotry.
+	04:50 - 05:10		BLACKBOX MANAGEMENT GROUP	Martijn, Diethelm P 	M 56	0000000B	NEW	The beer bashes the imaginary riot.
+	05:10 - 05:30		BLACKBOX MANAGEMENT GROUP	Blanka, Suibhne 	F 27	0000000C	NEW	The interpreter volunteers inside the misleading peripheral.
+	05:30 - 06:05		BLACKBOX MANAGEMENT GROUP	Larisa, Ora 	F 27	0000000D	NEW	Beneath the flag pretends the nominated swamp.
+	06:05 - 06:15		BLACKBOX MANAGEMENT GROUP	Colombo, Vanessa G 	F 80	0000000E	NEW	A pitfall vintages its acceptance.
+	Serafina,Beau Z.,M.D.
+	06:15 - 06:30		BLACKBOX MANAGEMENT GROUP	Mitja, Antonia 	F 78	0000000F	NEW	Under an unnatural damp tears every explicit insect.
+	06:30 - 07:00		BLACKBOX MANAGEMENT GROUP	Yoon, Kathie X 	F 29	00000010	NEW	A moved sphere leaps the worth.
+	07:00 - 08:10		BLACKBOX MANAGEMENT GROUP	Bettina, Helena S 	F 89	00000011	NEW	The hooked umbrella prosecutes after whatever wrath.
+	08:10 - 08:30		BLACKBOX MANAGEMENT GROUP	Jozefa, Jaan 	M 37	00000012	NEW	How does the mechanic inventor steam?
+	08:30 - 09:00		BLACKBOX MANAGEMENT GROUP	Atsuko, Daniel 	M 23	00000013	NEW	The lager underlines the exam.

@@ -25,6 +25,17 @@ class DoctorsControllerTest < ActionController::TestCase
     assert_redirected_to doctor_path(assigns(:doctor))
   end
 
+  test "should not create doctor with blank name" do
+    assert_difference('Doctor.count', 0) do
+      post :create, doctor: { name: '' }
+    end
+
+    assert_not_nil assigns(:doctor)
+    assert assigns(:doctor).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:doctor).errors[:name]
+    assert_template 'new'
+  end
+
   test "should show doctor" do
     get :show, id: @doctor
     assert_response :success
@@ -38,6 +49,14 @@ class DoctorsControllerTest < ActionController::TestCase
   test "should update doctor" do
     put :update, id: @doctor, doctor: { name: 'DoctorOneUpdate' }
     assert_redirected_to doctor_path(assigns(:doctor))
+  end
+
+  test "should not update doctor with blank name" do
+    put :update, id: @doctor, doctor: { name: '' }
+    assert_not_nil assigns(:doctor)
+    assert assigns(:doctor).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:doctor).errors[:name]
+    assert_template 'edit'
   end
 
   test "should destroy doctor" do
