@@ -1,13 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: DoctorOne
-  doctor_type: MyString
-  status: MyString
-  deleted: false
+  name: "Teagan,Florianus,M.D."
+  doctor_type: cardiologist
 
-two:
-  name: DoctorTwo
-  doctor_type: MyString
-  status: MyString
-  deleted: false
+whitelisted:
+  name: "Miles,Joleen,M.D."
+  doctor_type: cardiologist
+  status: whitelist
+
+blacklisted:
+  name: "DontScreenMe,M.D."
+  doctor_type: cardiologist
+  status: blacklist

@@ -51,6 +51,20 @@ class DoctorsControllerTest < ActionController::TestCase
     assert_redirected_to doctor_path(assigns(:doctor))
   end
 
+  test "should update and whitelist doctor" do
+    put :update, id: @doctor, doctor: { status: 'whitelist' }, from: 'prescreens'
+    assert_not_nil assigns(:doctor)
+    assert 'whitelist', assigns(:doctor).status
+    assert_redirected_to prescreens_path
+  end
+
+  test "should update and blacklist doctor" do
+    put :update, id: @doctor, doctor: { status: 'blacklist' }, from: 'prescreens'
+    assert_not_nil assigns(:doctor)
+    assert 'blacklist', assigns(:doctor).status
+    assert_redirected_to prescreens_path
+  end
+
   test "should not update doctor with blank name" do
     put :update, id: @doctor, doctor: { name: '' }
     assert_not_nil assigns(:doctor)
