@@ -14,7 +14,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.doctor_id', 'Cardiologist', 'prescreens_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.visit_at', 'Visit', 'prescreens_search') %></th>
       <% Prescreen::EDITABLES.each do |item| %>
-        <th><%= item.titleize %></th>
+        <th><%== sort_field_helper(@order, "prescreens.#{item}", item.titleize, 'prescreens_search') %></th>
       <% end %>
       <th>Risk Factors</th>
       <% Patient::EDITABLES.each do |item| %>

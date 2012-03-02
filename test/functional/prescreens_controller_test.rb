@@ -55,7 +55,7 @@ class PrescreensControllerTest < ActionController::TestCase
       post :create, prescreen: @prescreen.attributes
     end
 
-    assert_redirected_to prescreen_path(assigns(:prescreen))
+    assert_redirected_to patient_path(assigns(:prescreen).patient)
   end
 
   test "should not create prescreen with invalid patient" do

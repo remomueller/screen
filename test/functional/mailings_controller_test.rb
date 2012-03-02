@@ -30,7 +30,7 @@ class MailingsControllerTest < ActionController::TestCase
       post :create, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012', doctor_id: @mailing.doctor_id }
     end
 
-    assert_redirected_to mailing_path(assigns(:mailing))
+    assert_redirected_to patient_path(assigns(:mailing).patient)
   end
 
   test "should not create mailing with invalid doctor" do

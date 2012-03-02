@@ -62,7 +62,7 @@ class PrescreensController < ApplicationController
     @prescreen = Prescreen.new(params[:prescreen])
 
     if @prescreen.save
-      redirect_to @prescreen, notice: 'Prescreen was successfully created.'
+      redirect_to @prescreen.patient, notice: 'Prescreen was successfully created.'
     else
       render action: "new"
     end

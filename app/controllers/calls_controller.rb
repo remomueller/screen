@@ -36,7 +36,7 @@ class CallsController < ApplicationController
     @call = Call.new(params[:call])
 
     if @call.save
-      redirect_to @call, notice: 'Call was successfully created.'
+      redirect_to @call.patient, notice: 'Call was successfully created.'
     else
       render action: "new"
     end

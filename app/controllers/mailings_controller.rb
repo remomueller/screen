@@ -34,7 +34,7 @@ class MailingsController < ApplicationController
     @mailing = Mailing.new(params[:mailing])
 
     if @mailing.save
-      redirect_to @mailing, notice: 'Mailing was successfully created.'
+      redirect_to @mailing.patient, notice: 'Mailing was successfully created.'
     else
       render action: "new"
     end

@@ -30,7 +30,7 @@ class CallsControllerTest < ActionController::TestCase
       post :create, call: { patient_id: @call.patient_id }, call_date: "02/28/2012", call_time: "5:45pm"
     end
 
-    assert_redirected_to call_path(assigns(:call))
+    assert_redirected_to patient_path(assigns(:call).patient)
   end
 
   test "should not create call with blank call date" do
