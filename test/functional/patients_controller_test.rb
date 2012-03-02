@@ -3,7 +3,7 @@ require 'test_helper'
 class PatientsControllerTest < ActionController::TestCase
   setup do
     @patient = patients(:one)
-    login(users(:admin))
+    login(users(:screener))
   end
 
   test "should get inline update" do

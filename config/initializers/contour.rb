@@ -35,19 +35,19 @@ Contour.setup do |config|
       links: []
     },
     {
-      name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left',
+      name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left', condition: 'current_user.screener?',
       links: []
     },
     {
-      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left',
+      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left', condition: 'current_user.screener?',
       links: []
     },
     {
-      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left',
+      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left', condition: 'current_user.screener?',
       links: []
     },
     {
-      name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left',
+      name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left', condition: 'current_user.screener?',
       links: []
     },
     {

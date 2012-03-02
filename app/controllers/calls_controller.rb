@@ -1,6 +1,6 @@
 class CallsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_filter :check_screener
 
   def index
     # current_user.update_attribute :calls_per_page, params[:calls_per_page].to_i if params[:calls_per_page].to_i >= 10 and params[:calls_per_page].to_i <= 200

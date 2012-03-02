@@ -3,7 +3,7 @@ require 'test_helper'
 class PrescreensControllerTest < ActionController::TestCase
   setup do
     @prescreen = prescreens(:one)
-    login(users(:admin))
+    login(users(:screener))
   end
 
   test "should get inline update" do

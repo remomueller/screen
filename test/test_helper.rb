@@ -31,7 +31,8 @@ class ActionController::IntegrationTest
     user.update_attribute :status, user_template.status
     user.update_attribute :deleted, user_template.deleted?
     user.update_attribute :system_admin, user_template.system_admin?
-    post_via_redirect 'users/login', user: {email: email, password: password}
+    user.update_attribute :screener, user_template.screener?
+    post_via_redirect 'users/login', user: { email: email, password: password }
     user
   end
 end

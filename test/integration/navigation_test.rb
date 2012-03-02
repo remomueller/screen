@@ -6,7 +6,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    @valid = users(:admin) # TODO CHANGE TO VALID USER # users(:valid)
+    @valid = users(:screener) # TODO CHANGE TO VALID USER # users(:valid)
     @pending = users(:pending)
     @deleted = users(:deleted)
   end

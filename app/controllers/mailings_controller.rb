@@ -1,6 +1,6 @@
 class MailingsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_filter :check_screener
 
   def index
     # current_user.update_attribute :mailings_per_page, params[:mailings_per_page].to_i if params[:mailings_per_page].to_i >= 10 and params[:mailings_per_page].to_i <= 200

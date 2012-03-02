@@ -1,6 +1,6 @@
 class DoctorsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_filter :check_screener
 
   # GET /doctors
   # GET /doctors.json

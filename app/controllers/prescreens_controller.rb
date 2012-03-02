@@ -1,6 +1,6 @@
 class PrescreensController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_filter :check_screener
 
   def inline_update
     @prescreen = Prescreen.find_by_id(params[:id])

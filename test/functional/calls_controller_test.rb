@@ -3,7 +3,7 @@ require 'test_helper'
 class CallsControllerTest < ActionController::TestCase
   setup do
     @call = calls(:one)
-    login(users(:admin))
+    login(users(:screener))
   end
 
   test "should get index" do

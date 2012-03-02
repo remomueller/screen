@@ -3,7 +3,7 @@ require 'test_helper'
 class ClinicsControllerTest < ActionController::TestCase
   setup do
     @clinic = clinics(:one)
-    login(users(:admin))
+    login(users(:screener))
   end
 
   test "should get index" do
