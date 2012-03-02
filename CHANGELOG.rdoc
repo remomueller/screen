@@ -1,17 +1,21 @@
 == 0.1.0
 
 * Enhancements
-  * Created Patient-Event model along with Prescreens
-  * Patient information stored as star schema
-  * Prescreens can be added en-masse by copying from a tab-delimited spreadsheet
-    * Can now be set to filter by a whitelist doctors and clinic, and within age range
-  * Prescreen table is now editable inline
-    * Patient Location and Phone also editable
-  * Patient List is now masked
-  * Mailing model for mailings sent and received
-  * Phone calls tracked by patient
-  * Site Overview added
-  * Doctors and Clinics can be added to whitelist or blacklist
+  * Prescreen management
+    * Inline editing of eligibility, risk factors, and exclusion criteria
+    * Bulk import from tab-delimited spreadsheets automatically filtered
+      * By customized age range
+      * By white- or black-listed doctors and clinics
+  * Patient Study Management
+    * Calls made to ascertain study eligibility
+    * Mailings sent and received
+  * Reporting
+    * Patient-Event model stored as star schema for easier reporting and extensibility
+    * Simple Site Overview with basic statistics on number of prescreens, calls, and mailings
+  * Security
+    * PHI separated from study management data and accessible only by screeners entering the data
+    * Patient list is masked and only accessible by the screener
+    * Patient-Event joins use internal ID, references to patient model use de-identified and scrambled id
 
 == 0.0.0
 
