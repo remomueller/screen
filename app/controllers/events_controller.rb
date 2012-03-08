@@ -9,6 +9,8 @@ class EventsController < ApplicationController
       event_scope = event_scope.with_mrn(term) unless term.blank?
     end
 
+    event_scope = event_scope.with_patient(params[:patient_id]) unless params[:patient_id].blank?
+
     @order = Event.column_names.collect{|column_name| "events.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "events.event_time DESC"
     event_scope = event_scope.order(@order)
 

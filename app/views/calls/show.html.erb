@@ -12,7 +12,7 @@
   <legend><%= image_tag "gentleface/16/phone_1.png", alt: '', style: 'vertical-align:text-bottom' %> Call</legend>
   <p>
     <b>Patient:</b>
-    <%= link_to @call.patient.mrn, @call.patient if @call.patient %>
+    <%= link_to @call.patient.code, @call.patient if @call.patient %>
   </p>
 
   <p>

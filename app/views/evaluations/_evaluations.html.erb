@@ -29,7 +29,7 @@
 
   <% @evaluations.each do |evaluation| %>
     <tr>
-      <td><%= link_to evaluation.patient.mrn, evaluation.patient if evaluation.patient %></td>
+      <td><%= link_to evaluation.patient.code, evaluation.patient if evaluation.patient %></td>
       <td><%= link_to evaluation.assessment_type_name + " " + evaluation.evaluation_type_name, evaluation %></td>
       <td><%= evaluation.source %></td>
       <td><%= evaluation.embletta_unit_number %></td>

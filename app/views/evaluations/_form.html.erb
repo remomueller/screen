@@ -18,7 +18,7 @@
 
     <div class="field">
       <%= f.label :patient_id %><br />
-      <%= link_to @evaluation.patient.mrn, @evaluation.patient if @evaluation.patient %>
+      <%= link_to @evaluation.patient.code, @evaluation.patient if @evaluation.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
 

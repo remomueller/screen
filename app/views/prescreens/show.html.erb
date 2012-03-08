@@ -12,7 +12,7 @@
   <legend>Prescreen</legend>
   <p>
     <b>Patient:</b>
-    <%= link_to @prescreen.patient.mrn, @prescreen.patient if @prescreen.patient %>
+    <%= link_to @prescreen.patient.code, @prescreen.patient if @prescreen.patient %>
   </p>
 
   <p>

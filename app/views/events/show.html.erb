@@ -13,7 +13,7 @@
 
   <p>
     <b>Patient:</b>
-    <%= link_to @event.patient.mrn, @event.patient if @event.patient %>
+    <%= link_to @event.patient.code, @event.patient if @event.patient %>
   </p>
 
   <p>

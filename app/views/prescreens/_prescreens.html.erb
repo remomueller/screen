@@ -26,7 +26,7 @@
   <% @prescreens.each do |prescreen| %>
     <%# cache [ "v1", prescreen ] do %>
       <tr>
-        <td><%= link_to prescreen.patient.mrn, prescreen.patient if prescreen.patient %></td>
+        <td><%= link_to prescreen.patient.code, prescreen.patient if prescreen.patient %></td>
         <td><%= link_to prescreen.doctor.name.split(',').first, prescreen.doctor %></td>
         <td><%= link_to simple_date_and_weekday(prescreen.visit_at), prescreen %><br /><%= prescreen.visit_at_range_short %></td>
         <% Prescreen::EDITABLES.each do |item| %>

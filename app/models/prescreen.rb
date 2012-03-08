@@ -27,7 +27,7 @@ class Prescreen < ActiveRecord::Base
   # Class Methods
 
   def name
-    self.patient ? self.patient.mrn : self.id
+    self.patient ? self.patient.code : self.id
   end
 
   def exclusion_name
