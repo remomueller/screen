@@ -1,6 +1,6 @@
 class Choice < ActiveRecord::Base
 
-  CATEGORIES = ['exclusion', 'participation', 'risk factors', 'evaluation type', 'administration type', 'visit type', 'visit outcome', 'call type'].collect{|i| [i,i]}
+  CATEGORIES = ['exclusion', 'participation', 'risk factors', 'evaluation type', 'administration type', 'visit type', 'visit outcome', 'call type', 'call response'].collect{|i| [i,i]}
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

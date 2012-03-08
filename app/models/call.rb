@@ -25,6 +25,10 @@ class Call < ActiveRecord::Base
     (choice = Choice.find_by_id(self.call_type)) ? choice.name : ''
   end
 
+  def response_name
+    (choice = Choice.find_by_id(self.response)) ? choice.name : ''
+  end
+
   def call_date
     self.call_time.strftime("%m/%d/%Y") rescue ""
   end

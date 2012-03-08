@@ -39,3 +39,8 @@ call_type:
   category: call type
   name: MyString
   description: MyText
+
+call_response:
+  category: call response
+  name: MyString
+  description: MyText

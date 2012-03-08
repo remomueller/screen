@@ -21,6 +21,7 @@
       * Unscheduled
     * Phone Direction
       * Incoming, Outgoing
+    * Call Response now based on preset choices
 
 == 0.1.0
 
