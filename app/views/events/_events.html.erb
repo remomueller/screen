@@ -23,7 +23,11 @@
       <% unless params[:hide_patient] == '1' %><td><%= link_to event.patient.code, event.patient if event.patient %></td><% end %>
       <td>
         <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
-        <%= link_to(event.name, object) %>
+        <% if object.class.name == 'Evaluation' %>
+          <%= link_to "#{object.administration_type_name} #{event.name}", object %>
+        <% else %>
+          <%= link_to event.name, object %>
+        <% end %>
       </td>
       <td><%= simple_time(event.event_time) %></td>
       <td><%= object.eligibility %></td>

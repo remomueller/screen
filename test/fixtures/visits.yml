@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  patient_id: 1
+  visit_type: MyString
+  visit_date: 2012-03-08
+  outcome: MyString
+  comments: MyText
+  deleted: false
+
+two:
+  patient_id: 1
+  visit_type: MyString
+  visit_date: 2012-03-08
+  outcome: MyString
+  comments: MyText
+  deleted: false

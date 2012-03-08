@@ -27,20 +27,20 @@ class EvaluationsControllerTest < ActionController::TestCase
 
   test "should create evaluation" do
     assert_difference('Evaluation.count') do
-      post :create, evaluation: { patient_id: @evaluation.patient_id, assessment_date: '02/16/2012', assessment_type: choices(:four), evaluation_type: choices(:five) }
+      post :create, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/16/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
     end
 
     assert_redirected_to evaluation_path(assigns(:evaluation))
   end
 
-  test "should not create evaluation with blank assessment type" do
+  test "should not create evaluation with blank administration type" do
     assert_difference('Evaluation.count', 0) do
-      post :create, evaluation: { patient_id: @evaluation.patient_id, assessment_date: '02/16/2012', assessment_type: '' }
+      post :create, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/16/2012', administration_type: '' }
     end
 
     assert_not_nil assigns(:evaluation)
     assert assigns(:evaluation).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:evaluation).errors[:assessment_type]
+    assert_equal ["can't be blank"], assigns(:evaluation).errors[:administration_type]
     assert_template 'new'
   end
 
@@ -55,15 +55,15 @@ class EvaluationsControllerTest < ActionController::TestCase
   end
 
   test "should update evaluation" do
-    put :update, id: @evaluation, evalution: { patient_id: @evaluation.patient_id, assessment_date: '02/20/2012', assessment_type: choices(:four), evaluation_type: choices(:five) }
+    put :update, id: @evaluation, evalution: { patient_id: @evaluation.patient_id, administration_date: '02/20/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
     assert_redirected_to evaluation_path(assigns(:evaluation))
   end
 
-  test "should not update evaluation with blank assessment type" do
-    put :update, id: @evaluation, evaluation: { patient_id: @evaluation.patient_id, assessment_date: '02/16/2012', assessment_type: '' }
+  test "should not update evaluation with blank administration type" do
+    put :update, id: @evaluation, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/16/2012', administration_type: '' }
     assert_not_nil assigns(:evaluation)
     assert assigns(:evaluation).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:evaluation).errors[:assessment_type]
+    assert_equal ["can't be blank"], assigns(:evaluation).errors[:administration_type]
     assert_template 'edit'
   end
 

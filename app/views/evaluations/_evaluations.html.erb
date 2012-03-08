@@ -11,10 +11,10 @@
   <table style="width:100%">
     <tr>
       <th>Patient</th>
-      <th>Assessment type</th>
+      <th>Administration type</th>
       <th>Source</th>
       <th>Embletta unit number</th>
-      <th>Assessment date</th>
+      <th>Administration date</th>
       <th>Expected receipt date</th>
       <th>Receipt date</th>
       <th>Storage date</th>
@@ -30,10 +30,10 @@
   <% @evaluations.each do |evaluation| %>
     <tr>
       <td><%= link_to evaluation.patient.code, evaluation.patient if evaluation.patient %></td>
-      <td><%= link_to evaluation.assessment_type_name + " " + evaluation.evaluation_type_name, evaluation %></td>
+      <td><%= link_to evaluation.administration_type_name + " " + evaluation.evaluation_type_name, evaluation %></td>
       <td><%= evaluation.source %></td>
       <td><%= evaluation.embletta_unit_number %></td>
-      <td><%= simple_date evaluation.assessment_date %></td>
+      <td><%= simple_date evaluation.administration_date %></td>
       <td><%= simple_date evaluation.expected_receipt_date %></td>
       <td><%= simple_date evaluation.receipt_date %></td>
       <td><%= simple_date evaluation.storage_date %></td>

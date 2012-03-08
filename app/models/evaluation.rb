@@ -1,5 +1,5 @@
 class Evaluation < ActiveRecord::Base
-  ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
+  ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible'], ['fully eligible', 'fully eligible']]
   STATUS = [['---', nil], ['pass', 'pass'], ['fail', 'fail']]
 
   # Callbacks
@@ -11,8 +11,8 @@ class Evaluation < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :patient_id
-  validates_presence_of :assessment_date
-  validates_presence_of :assessment_type, :evaluation_type
+  validates_presence_of :administration_date
+  validates_presence_of :administration_type, :evaluation_type
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true
@@ -27,16 +27,16 @@ class Evaluation < ActiveRecord::Base
     (choice = Choice.find_by_id(self.exclusion)) ? choice.name : ''
   end
 
-  def assessment_type_name
-    (choice = Choice.find_by_id(self.assessment_type)) ? choice.name : ''
+  def administration_type_name
+    (choice = Choice.find_by_id(self.administration_type)) ? choice.name : ''
   end
 
   def evaluation_type_name
     (choice = Choice.find_by_id(self.evaluation_type)) ? choice.name : ''
   end
 
-  def assessment_time
-    self.assessment_date.blank? ? '' : Time.zone.parse(self.assessment_date.to_s + " 00:00:00")
+  def administration_time
+    self.administration_date.blank? ? '' : Time.zone.parse(self.administration_date.to_s + " 00:00:00")
   end
 
   def receipt_time
@@ -50,26 +50,26 @@ class Evaluation < ActiveRecord::Base
 
   def destroy
     update_attribute :deleted, true
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, assessment_time, 'Evaluation Assessed')
+    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, administration_time, 'Administered')
     event.update_attribute :deleted, true if event
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, receipt_time, 'Evaluation Received')
+    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, receipt_time, 'Received')
     event.update_attribute :deleted, true if event
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, scored_time, 'Evaluation Scored')
+    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, scored_time, 'Scored')
     event.update_attribute :deleted, true if event
   end
 
   def save_event
     events = self.patient.events.find_all_by_class_name_and_class_id(self.class.name, self.id)
-    unless self.assessment_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, assessment_time, 'Evaluation Assessed')
+    unless self.administration_date.blank?
+      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, administration_time, 'Administered')
       events = events - [event]
     end
     unless self.receipt_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, receipt_time, 'Evaluation Received')
+      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, receipt_time, 'Received')
       events = events - [event]
     end
     unless self.scored_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, scored_time, 'Evaluation Scored')
+      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, scored_time, 'Scored')
       events = events - [event]
     end
     events.each{ |e| e.destroy }

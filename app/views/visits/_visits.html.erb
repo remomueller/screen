@@ -1,0 +1,30 @@
+<div style="float:right">
+  Per Page
+  <span class="per_page">
+    20
+  </span>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%">
+    <tr>
+      <th>Patient</th>
+      <th>Visit type</th>
+      <th>Visit date</th>
+      <th>Outcome</th>
+    </tr>
+
+  <% @visits.each do |visit| %>
+    <tr>
+      <td><%= link_to visit.patient.code, visit.patient if visit.patient %></td>
+      <td><%= link_to visit.visit_type_name, visit %></td>
+      <td><%= simple_date visit.visit_date %></td>
+      <td><%= visit.outcome_name %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<center><%= paginate @visits %></center>

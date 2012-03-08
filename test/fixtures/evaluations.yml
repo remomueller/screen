@@ -2,11 +2,11 @@
 
 one:
   patient: one
-  assessment_type: MyString
+  administration_type: MyString
   evaluation_type: MyString
   source: MyString
   embletta_unit_number: MyString
-  assessment_date: 2012-03-08
+  administration_date: 2012-03-08
   expected_receipt_date: 2012-03-08
   receipt_date: 2012-03-08
   storage_date: 2012-03-08
@@ -22,11 +22,11 @@ one:
 
 two:
   patient: one
-  assessment_type: MyString
+  administration_type: MyString
   evaluation_type: MyString
   source: MyString
   embletta_unit_number: MyString
-  assessment_date: 2012-03-08
+  administration_date: 2012-03-08
   expected_receipt_date: 2012-03-08
   receipt_date: 2012-03-08
   storage_date: 2012-03-08

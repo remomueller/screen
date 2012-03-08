@@ -16,7 +16,7 @@ three:
   description: MyText
 
 four:
-  category: assessment type
+  category: administration type
   name: MyString
   description: MyText
 

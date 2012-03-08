@@ -19,3 +19,8 @@ four:
   patient: one
   class_name: Evaluation
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+
+five:
+  patient: one
+  class_name: Visit
+  class_id: <%= ActiveRecord::Fixtures.identify(:one) %>

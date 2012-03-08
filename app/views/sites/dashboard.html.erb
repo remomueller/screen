@@ -69,12 +69,12 @@
     <td style="vertical-align:top"></td>
     <td style="vertical-align:top">
       <fieldset>
-        <legend><%= link_to 'Evaluations', evaluations_path %> <%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
+        <legend><%= link_to 'Evaluations', evaluations_path %> <%= image_tag 'gentleface/16/cert.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
         <div class="field">
-          <%= pluralize Evaluation.current.size, 'Evaluation' %> assessed
+          <%= pluralize Evaluation.current.size, 'Evaluation' %> administered
         </div>
         <div class="field">
-          <%= Evaluation.current.where("assessment_date >= ?", Date.today - 1.month).size %> in past month
+          <%= Evaluation.current.where("administration_date >= ?", Date.today - 1.month).size %> in past month
         </div>
         <br />
         <div class="field">
@@ -84,9 +84,27 @@
         <div class="field">
           <%= Evaluation.current.where("receipt_date >= ? and receipt_date <= ?", Date.today - 1.month, Date.today).size %> received in past month
         </div>
+        <br />
+        <div class="field">
+          <%= received_evaluations = Evaluation.current.where("scored_date >= ? or scored_date <= ?", Date.today, Date.today).size %>
+          <%= "(%d%%)" % ((received_evaluations * 100) / Evaluation.current.size) rescue '' %> scored
+        </div>
+        <div class="field">
+          <%= Evaluation.current.where("scored_date >= ? and scored_date <= ?", Date.today - 1.month, Date.today).size %> scored in past month
+        </div>
       </fieldset>
     </td>
-    <td style="vertical-align:top"></td>
+    <td style="vertical-align:top">
+      <fieldset>
+        <legend><%= link_to 'Visits', visits_path %> <%= image_tag 'gentleface/16/users.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
+        <div class="field">
+          <%= pluralize Visit.current.size, 'Visit' %>
+        </div>
+        <div class="field">
+          <%= Visit.current.where("visit_date >= ?", Date.today - 1.month).size %> in past month
+        </div>
+      </fieldset>
+    </td>
     <td style="vertical-align:top"></td>
   </tr>
 </table>

@@ -28,7 +28,7 @@ class EvaluationsController < ApplicationController
   end
 
   def create
-    params[:evaluation][:assessment_date] = Date.strptime(params[:evaluation][:assessment_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:assessment_date].blank?
+    params[:evaluation][:administration_date] = Date.strptime(params[:evaluation][:administration_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:administration_date].blank?
     params[:evaluation][:expected_receipt_date] = Date.strptime(params[:evaluation][:expected_receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:expected_receipt_date].blank?
     params[:evaluation][:receipt_date] = Date.strptime(params[:evaluation][:receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:receipt_date].blank?
     params[:evaluation][:storage_date] = Date.strptime(params[:evaluation][:storage_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:storage_date].blank?
@@ -45,7 +45,7 @@ class EvaluationsController < ApplicationController
   end
 
   def update
-    params[:evaluation][:assessment_date] = Date.strptime(params[:evaluation][:assessment_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:assessment_date].blank?
+    params[:evaluation][:administration_date] = Date.strptime(params[:evaluation][:administration_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:administration_date].blank?
     params[:evaluation][:expected_receipt_date] = Date.strptime(params[:evaluation][:expected_receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:expected_receipt_date].blank?
     params[:evaluation][:receipt_date] = Date.strptime(params[:evaluation][:receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:receipt_date].blank?
     params[:evaluation][:storage_date] = Date.strptime(params[:evaluation][:storage_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:storage_date].blank?

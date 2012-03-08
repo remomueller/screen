@@ -1,5 +1,7 @@
 Screen::Application.routes.draw do
 
+  resources :visits
+
   resources :evaluations
 
   resources :choices

@@ -23,8 +23,8 @@
     </div>
 
     <div class="field">
-      <%= f.label :assessment_type %><br />
-      <%= f.select :assessment_type, [['---', nil]] + Choice.where(category: 'assessment type').collect{|c| [c.name, c.id]} %>
+      <%= f.label :administration_type %><br />
+      <%= f.select :administration_type, [['---', nil]] + Choice.where(category: 'administration type').collect{|c| [c.name, c.id]} %>
     </div>
     <div class="field">
       <%= f.label :evaluation_type %><br />
@@ -39,8 +39,8 @@
       <%= f.text_field :embletta_unit_number %>
     </div>
     <div class="field">
-      <%= f.label :assessment_date %><br />
-      <%= f.text_field :assessment_date, class: 'datepicker', value: @evaluation.assessment_date ? @evaluation.assessment_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.label :administration_date %><br />
+      <%= f.text_field :administration_date, class: 'datepicker', value: @evaluation.administration_date ? @evaluation.administration_date.strftime('%m/%d/%Y') : '' %>
     </div>
     <div class="field">
       <%= f.label :expected_receipt_date %><br />
