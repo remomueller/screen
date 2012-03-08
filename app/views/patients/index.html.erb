@@ -6,6 +6,7 @@
 <div style="clear:both"></div>
 
 <%= form_tag patients_path, method: :get, remote: true, id: "patients_search", style: "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :order %>
   Search <%= text_field_tag 'mrn', params[:mrn] %> <%#= information %>
 <% end %>
 
