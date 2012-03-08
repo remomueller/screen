@@ -1,0 +1,53 @@
+<div style="float:right">
+  Per Page
+  <span class="per_page">
+    20
+  </span>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%">
+    <tr>
+      <th>Patient</th>
+      <th>Assessment type</th>
+      <th>Source</th>
+      <th>Embletta unit number</th>
+      <th>Assessment date</th>
+      <th>Expected receipt date</th>
+      <th>Receipt date</th>
+      <th>Storage date</th>
+      <th>Subject notified</th>
+      <th>Reimbursement form date</th>
+      <th>Scored date</th>
+      <th>Ahi</th>
+      <th>Eligibility</th>
+      <th>Exclusion</th>
+      <th>Status</th>
+    </tr>
+
+  <% @evaluations.each do |evaluation| %>
+    <tr>
+      <td><%= link_to evaluation.patient.mrn, evaluation.patient if evaluation.patient %></td>
+      <td><%= link_to evaluation.assessment_type_name + " " + evaluation.evaluation_type_name, evaluation %></td>
+      <td><%= evaluation.source %></td>
+      <td><%= evaluation.embletta_unit_number %></td>
+      <td><%= simple_date evaluation.assessment_date %></td>
+      <td><%= simple_date evaluation.expected_receipt_date %></td>
+      <td><%= simple_date evaluation.receipt_date %></td>
+      <td><%= simple_date evaluation.storage_date %></td>
+      <td style="text-align:center"><%= check_box_tag 'evaluation', 'subject_notified', evaluation.subject_notified?, disabled: true %></td>
+      <td><%= simple_date evaluation.reimbursement_form_date %></td>
+      <td><%= simple_date evaluation.scored_date %></td>
+      <td><%= evaluation.ahi %></td>
+      <td><%= evaluation.eligibility %></td>
+      <td><%= evaluation.exclusion %></td>
+      <td><%= evaluation.status %></td>
+    </tr>
+  <% end %>
+
+  </table>
+</div>
+
+<center><%= paginate @evaluations %></center>

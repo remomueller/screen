@@ -14,3 +14,8 @@ three:
   patient: one
   class_name: Call
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+
+four:
+  patient: one
+  class_name: Evaluation
+  class_id: <%= ActiveRecord::Fixtures.identify(:one) %>

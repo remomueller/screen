@@ -14,3 +14,13 @@ three:
   category: risk factors
   name: MyString
   description: MyText
+
+four:
+  category: assessment type
+  name: MyString
+  description: MyText
+
+five:
+  category: evaluation type
+  name: MyString
+  description: MyText

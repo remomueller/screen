@@ -51,6 +51,10 @@ Contour.setup do |config|
       links: []
     },
     {
+      name: 'Emblettas', display: 'signed_in', path: 'evaluations_path', position: 'left', condition: 'current_user.screener?',
+      links: []
+    },
+    {
       name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
       links: []
     }

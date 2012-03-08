@@ -24,6 +24,8 @@ class Event < ActiveRecord::Base
       'mail'
     when 'Call'
       'phone_1'
+    when 'Evaluation'
+      'cert'
     else # 'Prescreen'
       '3x3_grid'
     end

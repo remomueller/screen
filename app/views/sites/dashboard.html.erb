@@ -65,4 +65,28 @@
       </fieldset>
     </td>
   </tr>
+  <tr>
+    <td style="vertical-align:top"></td>
+    <td style="vertical-align:top">
+      <fieldset>
+        <legend><%= link_to 'Evaluations', evaluations_path %> <%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %></legend>
+        <div class="field">
+          <%= pluralize Evaluation.current.size, 'Evaluation' %> assessed
+        </div>
+        <div class="field">
+          <%= Evaluation.current.where("assessment_date >= ?", Date.today - 1.month).size %> in past month
+        </div>
+        <br />
+        <div class="field">
+          <%= received_evaluations = Evaluation.current.where("receipt_date >= ? or receipt_date <= ?", Date.today, Date.today).size %>
+          <%= "(%d%%)" % ((received_evaluations * 100) / Evaluation.current.size) rescue '' %> received
+        </div>
+        <div class="field">
+          <%= Evaluation.current.where("receipt_date >= ? and receipt_date <= ?", Date.today - 1.month, Date.today).size %> received in past month
+        </div>
+      </fieldset>
+    </td>
+    <td style="vertical-align:top"></td>
+    <td style="vertical-align:top"></td>
+  </tr>
 </table>

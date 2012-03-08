@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  patient: one
+  assessment_type: MyString
+  evaluation_type: MyString
+  source: MyString
+  embletta_unit_number: MyString
+  assessment_date: 2012-03-08
+  expected_receipt_date: 2012-03-08
+  receipt_date: 2012-03-08
+  storage_date: 2012-03-08
+  subject_notified: false
+  reimbursement_form_date: 2012-03-08
+  scored_date: 2012-03-08
+  ahi: 1
+  eligibility: MyString
+  exclusion: MyString
+  status: MyString
+  comments: MyText
+  deleted: false
+
+two:
+  patient: one
+  assessment_type: MyString
+  evaluation_type: MyString
+  source: MyString
+  embletta_unit_number: MyString
+  assessment_date: 2012-03-08
+  expected_receipt_date: 2012-03-08
+  receipt_date: 2012-03-08
+  storage_date: 2012-03-08
+  subject_notified: false
+  reimbursement_form_date: 2012-03-08
+  scored_date: 2012-03-08
+  ahi: 1
+  eligibility: MyString
+  exclusion: MyString
+  status: MyString
+  comments: MyText
+  deleted: false

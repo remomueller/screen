@@ -1,0 +1,94 @@
+<% @title = "Evaluation: #{@evaluation.name}" %>
+<h1><%= @title %></h1>
+
+<% if current_user.screener? %> <%# current_user.all_evaluations.include?(@evaluation) %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Evaluation", edit_evaluation_path(@evaluation), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Evaluation", @evaluation, confirm: "Are you sure you want to delete Evaluation #{@evaluation.name}?", method: :delete, class: 'button negative' %>
+<% end %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Evaluations", evaluations_path, class: 'button' %>
+<div style="clear:both"></div>
+
+<fieldset>
+  <legend><%= image_tag "gentleface/16/cert.png", alt: '', style: 'vertical-align:text-bottom' %> Evaluation</legend>
+
+  <p>
+    <b>Patient:</b>
+    <%= link_to @evaluation.patient.mrn, @evaluation.patient if @evaluation.patient %>
+  </p>
+
+  <p>
+    <b>Assessment type:</b>
+    <%= @evaluation.assessment_type_name %>
+    <%= @evaluation.evaluation_type_name %>
+  </p>
+
+  <p>
+    <b>Source:</b>
+    <%= @evaluation.source %>
+  </p>
+
+  <p>
+    <b>Embletta unit number:</b>
+    <%= @evaluation.embletta_unit_number %>
+  </p>
+
+  <p>
+    <b>Assessment date:</b>
+    <%= simple_date @evaluation.assessment_date %>
+  </p>
+
+  <p>
+    <b>Expected receipt date:</b>
+    <%= simple_date @evaluation.expected_receipt_date %>
+  </p>
+
+  <p>
+    <b>Receipt date:</b>
+    <%= simple_date @evaluation.receipt_date %>
+  </p>
+
+  <p>
+    <b>Storage date:</b>
+    <%= simple_date @evaluation.storage_date %>
+  </p>
+
+  <p>
+    <b>Subject notified:</b>
+    <%= check_box_tag 'evaluation', 'subject_notified', @evaluation.subject_notified?, disabled: true %>
+  </p>
+
+  <p>
+    <b>Reimbursement form date:</b>
+    <%= simple_date @evaluation.reimbursement_form_date %>
+  </p>
+
+  <p>
+    <b>Scored date:</b>
+    <%= simple_date @evaluation.scored_date %>
+  </p>
+
+  <p>
+    <b>Ahi:</b>
+    <%= @evaluation.ahi %>
+  </p>
+
+  <p>
+    <b>Eligibility:</b>
+    <%= @evaluation.eligibility %>
+  </p>
+
+  <p>
+    <b>Exclusion:</b>
+    <%= @evaluation.exclusion_name %>
+  </p>
+
+  <p>
+    <b>Status:</b>
+    <%= @evaluation.status %>
+  </p>
+
+  <p>
+    <b>Comments:</b>
+    <%= @evaluation.comments %>
+  </p>
+</fieldset>

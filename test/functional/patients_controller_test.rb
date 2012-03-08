@@ -34,7 +34,7 @@ class PatientsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create patient" do
+  test "should create patient with mrn" do
     assert_difference('Patient.count') do
       post :create, patient: { mrn: '0123456789', first_name: 'FirstName', last_name: 'LastName', address1: 'Address 1', city: 'City', state: 'State', zip: 'zip', phone_home: '1112223333' }
     end
@@ -42,14 +42,23 @@ class PatientsControllerTest < ActionController::TestCase
     assert_redirected_to patient_path(assigns(:patient))
   end
 
-  test "should not create patient with blank MRN" do
+  test "should create patient with subject code" do
+    assert_difference('Patient.count') do
+      post :create, patient: { subject_code: '0123456789', first_name: 'FirstName', last_name: 'LastName', address1: 'Address 1', city: 'City', state: 'State', zip: 'zip', phone_home: '1112223333' }
+    end
+
+    assert_redirected_to patient_path(assigns(:patient))
+  end
+
+  test "should not create patient with blank MRN and blank subject code" do
     assert_difference('Patient.count', 0) do
-      post :create, patient: { mrn: '', first_name: 'FirstName', last_name: 'LastName', address1: 'Address 1', city: 'City', state: 'State', zip: 'zip', phone_home: '1112223333' }
+      post :create, patient: { mrn: '', subject_code: '', first_name: 'FirstName', last_name: 'LastName', address1: 'Address 1', city: 'City', state: 'State', zip: 'zip', phone_home: '1112223333' }
     end
 
     assert_not_nil assigns(:patient)
     assert assigns(:patient).errors.size > 0
     assert_equal ["can't be blank"], assigns(:patient).errors[:mrn]
+    assert_equal ["can't be blank"], assigns(:patient).errors[:subject_code]
     assert_template 'new'
   end
 
@@ -68,11 +77,22 @@ class PatientsControllerTest < ActionController::TestCase
     assert_redirected_to patient_path(assigns(:patient))
   end
 
-  test "should not update patient with blank MRN" do
-    put :update, id: @patient, patient: { first_name: 'FirstNameUpdate', mrn: '' }
+  test "should update patient with MRN and blank subject code" do
+    put :update, id: @patient, patient: { first_name: 'FirstNameUpdate', mrn: 'newmrn', subject_code: '' }
+    assert_redirected_to patient_path(assigns(:patient))
+  end
+
+  test "should update patient with subject code and blank MRN" do
+    put :update, id: @patient, patient: { first_name: 'FirstNameUpdate', mrn: '', subject_code: 'newsubjectcode' }
+    assert_redirected_to patient_path(assigns(:patient))
+  end
+
+  test "should not update patient with blank MRN and blank subject code" do
+    put :update, id: @patient, patient: { first_name: 'FirstNameUpdate', mrn: '', subject_code: '' }
     assert_not_nil assigns(:patient)
     assert assigns(:patient).errors.size > 0
     assert_equal ["can't be blank"], assigns(:patient).errors[:mrn]
+    assert_equal ["can't be blank"], assigns(:patient).errors[:subject_code]
     assert_template 'edit'
   end
 

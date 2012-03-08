@@ -72,15 +72,10 @@ class ChoicesController < ApplicationController
     end
   end
 
-  # DELETE /choices/1
-  # DELETE /choices/1.json
   def destroy
     @choice = Choice.find(params[:id])
     @choice.destroy
 
-    respond_to do |format|
-      format.html { redirect_to choices_url }
-      format.json { head :no_content }
-    end
+    redirect_to choices_path
   end
 end

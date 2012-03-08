@@ -6,10 +6,10 @@ class Patient < ActiveRecord::Base
   scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?)", args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
 
   # Model Validation
-  # validates_presence_of     :first_name
-  # validates_presence_of     :last_name
-  validates_presence_of     :mrn
-  validates_uniqueness_of   :mrn
+  validates_presence_of :mrn, if: :no_subject_code?
+  validates_uniqueness_of :mrn, allow_blank: true
+  validates_presence_of :subject_code, if: :no_mrn?
+  validates_uniqueness_of :subject_code, allow_blank: true
 
   # Model Relationships
   has_many :calls, conditions: { deleted: false }
@@ -18,6 +18,11 @@ class Patient < ActiveRecord::Base
   has_many :prescreens, conditions: { deleted: false }
 
   # Class Methods
+
+  # Study Code if available, if not, MRN
+  def code
+    self.subject_code.blank? ? self.mrn : self.subject_code
+  end
 
   def name
     "#{first_name} #{last_name}"
@@ -33,6 +38,14 @@ class Patient < ActiveRecord::Base
 
   def destroy
     update_attribute :deleted, true
+  end
+
+  def no_subject_code?
+    self.subject_code.blank?
+  end
+
+  def no_mrn?
+    self.mrn.blank?
   end
 
 end

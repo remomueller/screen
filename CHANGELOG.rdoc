@@ -1,5 +1,16 @@
 == 0.2.0
 
+* Enhancements
+  * Evaluations have been added to track:
+    * Assessment Types:
+      * Emblettas
+      * Lab PSGs
+      * Run-Ins
+    * Evaluation Type:
+      * Screening
+      * Final Visit
+  * Patients can now be identified using study codes or MRNs
+
 == 0.1.0
 
 * Enhancements
