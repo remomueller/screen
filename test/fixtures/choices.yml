@@ -24,3 +24,13 @@ five:
   category: evaluation type
   name: MyString
   description: MyText
+
+visit_type:
+  category: visit type
+  name: MyString
+  description: MyText
+
+visit_outcome:
+  category: visit outcome
+  name: MyString
+  description: MyText

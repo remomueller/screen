@@ -27,7 +27,7 @@ class VisitsControllerTest < ActionController::TestCase
 
   test "should create visit" do
     assert_difference('Visit.count') do
-      post :create, visit: @visit.attributes
+      post :create, visit: { patient_id: @visit.patient_id, visit_date: '02/16/2012', visit_type: choices(:visit_type), outcome: choices(:visit_outcome) }
     end
 
     assert_redirected_to visit_path(assigns(:visit))
@@ -55,7 +55,7 @@ class VisitsControllerTest < ActionController::TestCase
   end
 
   test "should update visit" do
-    put :update, id: @visit, visit: @visit.attributes
+    put :update, id: @visit, visit: { patient_id: @visit.patient_id, visit_date: '02/16/2012', visit_type: choices(:visit_type), outcome: choices(:visit_outcome) }
     assert_redirected_to visit_path(assigns(:visit))
   end
 

@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  patient_id: 1
+  patient: one
   visit_type: MyString
   visit_date: 2012-03-08
   outcome: MyString
@@ -9,7 +9,7 @@ one:
   deleted: false
 
 two:
-  patient_id: 1
+  patient: one
   visit_type: MyString
   visit_date: 2012-03-08
   outcome: MyString

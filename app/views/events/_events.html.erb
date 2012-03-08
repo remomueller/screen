@@ -25,6 +25,8 @@
         <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
         <% if object.class.name == 'Evaluation' %>
           <%= link_to "#{object.administration_type_name} #{event.name}", object %>
+        <% elsif object.class.name == 'Visit' %>
+          <%= link_to "#{object.visit_type_name} #{event.name}", object %>
         <% else %>
           <%= link_to event.name, object %>
         <% end %>
