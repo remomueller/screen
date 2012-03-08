@@ -14,6 +14,13 @@
     * Visit Outcome
     * Visit Date
   * Patients can now be identified using study codes or MRNs
+  * Phone Calls Updated
+    * Phone Call Type
+      * Screening
+      * [2,4,6,8,10,12]-month
+      * Unscheduled
+    * Phone Direction
+      * Incoming, Outgoing
 
 == 0.1.0
 

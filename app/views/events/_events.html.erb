@@ -27,6 +27,8 @@
           <%= link_to "#{object.administration_type_name} #{event.name}", object %>
         <% elsif object.class.name == 'Visit' %>
           <%= link_to "#{object.visit_type_name} #{event.name}", object %>
+        <% elsif object.class.name == 'Call' %>
+          <%= link_to "#{object.call_type_name} #{event.name}", object %>
         <% else %>
           <%= link_to event.name, object %>
         <% end %>

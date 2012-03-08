@@ -21,8 +21,13 @@
   </p>
 
   <p>
+    <b>Call type:</b>
+    <%= @call.call_type_name %> <%= @call.direction %>
+  </p>
+
+  <p>
     <b>Call time:</b>
-    <%= simple_time(@call.call_time) %>
+    <%= simple_time @call.call_time %>
   </p>
 
   <p>

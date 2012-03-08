@@ -44,6 +44,16 @@
     </div>
 
     <div class="field">
+      <%= f.label :call_type %><br />
+      <%= f.select :call_type, [['---', nil]] + Choice.where(category: 'call type').collect{|c| [c.name, c.id]} %>
+    </div>
+
+    <div class="field">
+      <%= f.label :direction %><br />
+      <%= f.select :direction, Call::CALL_DIRECTION %>
+    </div>
+
+    <div class="field">
       <%= f.label :response %><br />
       <%= f.text_field :response %>
     </div>

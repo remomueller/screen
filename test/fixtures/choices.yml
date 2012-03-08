@@ -34,3 +34,8 @@ visit_outcome:
   category: visit outcome
   name: MyString
   description: MyText
+
+call_type:
+  category: call type
+  name: MyString
+  description: MyText

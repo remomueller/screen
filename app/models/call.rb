@@ -13,11 +13,17 @@ class Call < ActiveRecord::Base
   # Model Validation
   validates_presence_of :patient_id
   validates_presence_of :call_time
+  validates_presence_of :call_type
+  validates_presence_of :direction
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true
 
   # Class Methods
+
+  def call_type_name
+    (choice = Choice.find_by_id(self.call_type)) ? choice.name : ''
+  end
 
   def call_date
     self.call_time.strftime("%m/%d/%Y") rescue ""
