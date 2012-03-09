@@ -13,9 +13,11 @@ class Patient < ActiveRecord::Base
 
   # Model Relationships
   has_many :calls, conditions: { deleted: false }
+  has_many :evaluations, conditions: { deleted: false }
   has_many :events, conditions: { deleted: false }
   has_many :mailings, conditions: { deleted: false }
   has_many :prescreens, conditions: { deleted: false }
+  has_many :visits, conditions: { deleted: false }
   belongs_to :user
 
   # Class Methods

@@ -105,7 +105,7 @@ class Prescreen < ActiveRecord::Base
           doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist')
           doctor.update_attribute :user_id, current_user.id unless doctor.user
 
-          if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted?
+          if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted? and not mrn.blank?
             patient = Patient.find_or_create_by_mrn(mrn)
             patient.update_attribute :user_id, current_user.id unless patient.user
             patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
