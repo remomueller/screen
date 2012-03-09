@@ -23,6 +23,7 @@ class Prescreen < ActiveRecord::Base
   belongs_to :doctor, conditions: { deleted: false }
   belongs_to :patient, conditions: { deleted: false }, touch: true
   has_and_belongs_to_many :risk_factors, class_name: 'Choice'
+  belongs_to :user
 
   # Class Methods
 
@@ -69,7 +70,7 @@ class Prescreen < ActiveRecord::Base
   # Time  Status  Clinic  Patient Name  Sex/Age MRN Visit Type  Reason for Visit  PG
   # Includes "Appointment Date"
   # Includes Cardiologist
-  def self.process_bulk(params)
+  def self.process_bulk(params, current_user)
     prescreens = Prescreen.current.count
     ignored_prescreens = 0
     doctors = Doctor.current.count
@@ -100,12 +101,16 @@ class Prescreen < ActiveRecord::Base
           comment = row_array[7]
 
           clinic = Clinic.find_or_create_by_name(clinic_name)
+          clinic.update_attribute :user_id, current_user.id unless clinic.user
           doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist')
+          doctor.update_attribute :user_id, current_user.id unless doctor.user
 
           if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted?
             patient = Patient.find_or_create_by_mrn(mrn)
+            patient.update_attribute :user_id, current_user.id unless patient.user
             patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
             prescreen = patient.prescreens.find_or_create_by_visit_at_and_clinic_id_and_doctor_id(time_start, clinic.id, doctor.id)
+            prescreen.update_attribute :user_id, current_user.id unless prescreen.user
             prescreen.update_attributes(visit_duration: minutes, visit_units: 'minutes')
           else
             ignored_prescreens += 1

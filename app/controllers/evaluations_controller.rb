@@ -35,7 +35,7 @@ class EvaluationsController < ApplicationController
     params[:evaluation][:reimbursement_form_date] = Date.strptime(params[:evaluation][:reimbursement_form_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:reimbursement_form_date].blank?
     params[:evaluation][:scored_date] = Date.strptime(params[:evaluation][:scored_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:scored_date].blank?
 
-    @evaluation = Evaluation.new(params[:evaluation])
+    @evaluation = current_user.evaluations.new(params[:evaluation])
 
     if @evaluation.save
       redirect_to @evaluation.patient, notice: 'Evaluation was successfully created.'

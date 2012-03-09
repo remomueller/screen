@@ -43,7 +43,7 @@ class ClinicsController < ApplicationController
   # POST /clinics
   # POST /clinics.json
   def create
-    @clinic = Clinic.new(params[:clinic])
+    @clinic = current_user.clinics.new(params[:clinic])
 
     respond_to do |format|
       if @clinic.save

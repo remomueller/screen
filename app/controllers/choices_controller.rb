@@ -43,7 +43,7 @@ class ChoicesController < ApplicationController
   # POST /choices
   # POST /choices.json
   def create
-    @choice = Choice.new(params[:choice])
+    @choice = current_user.choices.new(params[:choice])
 
     respond_to do |format|
       if @choice.save

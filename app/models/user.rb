@@ -27,6 +27,15 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :authentications
+  has_many :calls, conditions: { deleted: false }
+  has_many :choices, conditions: { deleted: false }
+  has_many :clinics, conditions: { deleted: false }
+  has_many :doctors, conditions: { deleted: false }
+  has_many :evaluations, conditions: { deleted: false }
+  has_many :mailings, conditions: { deleted: false }
+  has_many :patients, conditions: { deleted: false }
+  has_many :prescreens, conditions: { deleted: false }
+  has_many :visits, conditions: { deleted: false }
 
   # User Methods
 

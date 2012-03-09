@@ -31,7 +31,7 @@ class MailingsController < ApplicationController
     params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
     params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
 
-    @mailing = Mailing.new(params[:mailing])
+    @mailing = current_user.mailings.new(params[:mailing])
 
     if @mailing.save
       redirect_to @mailing.patient, notice: 'Mailing was successfully created.'

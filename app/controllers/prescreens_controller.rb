@@ -15,7 +15,7 @@ class PrescreensController < ApplicationController
   end
 
   def bulk
-    count_hash = Prescreen.process_bulk(params)
+    count_hash = Prescreen.process_bulk(params, current_user)
     notices = []
     alerts = []
     count_hash.each do |key, count|
@@ -59,7 +59,7 @@ class PrescreensController < ApplicationController
     params[:visit_time] = Time.zone.parse("12am") if params[:visit_time].blank?
     params[:prescreen][:visit_at] = Time.zone.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
 
-    @prescreen = Prescreen.new(params[:prescreen])
+    @prescreen = current_user.prescreens.new(params[:prescreen])
 
     if @prescreen.save
       redirect_to @prescreen.patient, notice: 'Prescreen was successfully created.'

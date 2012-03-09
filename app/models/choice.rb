@@ -11,6 +11,7 @@ class Choice < ActiveRecord::Base
 
   # Model Relationships
   has_and_belongs_to_many :prescreens
+  belongs_to :user
 
   # Class Methods
   def destroy

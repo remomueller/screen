@@ -4,8 +4,10 @@ one:
   name: ClinicOne
   status: MyString
   deleted: false
+  user: valid
 
 two:
   name: ClinicTwo
   status: MyString
   deleted: false
+  user: valid

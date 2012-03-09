@@ -22,6 +22,8 @@ class ChoicesControllerTest < ActionController::TestCase
       post :create, choice: { category: 'exclusion', name: 'Second Choice' }
     end
 
+    assert_not_nil assigns(:choice)
+    assert_equal users(:admin), assigns(:choice).user
     assert_redirected_to choice_path(assigns(:choice))
   end
 

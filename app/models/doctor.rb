@@ -12,6 +12,7 @@ class Doctor < ActiveRecord::Base
 
   # Model Relationships
   has_many :prescreens, conditions: { deleted: false }
+  belongs_to :user
 
   # Class Methods
   def destroy

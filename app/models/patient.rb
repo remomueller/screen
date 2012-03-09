@@ -16,6 +16,7 @@ class Patient < ActiveRecord::Base
   has_many :events, conditions: { deleted: false }
   has_many :mailings, conditions: { deleted: false }
   has_many :prescreens, conditions: { deleted: false }
+  belongs_to :user
 
   # Class Methods
 

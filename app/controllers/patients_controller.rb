@@ -35,7 +35,7 @@ class PatientsController < ApplicationController
   end
 
   def create
-    @patient = Patient.new(params[:patient])
+    @patient = current_user.patients.new(params[:patient])
 
     if @patient.save
       redirect_to @patient, notice: 'Patient was successfully created.'

@@ -22,6 +22,8 @@ class DoctorsControllerTest < ActionController::TestCase
       post :create, doctor: { name: 'DoctorThree' }
     end
 
+    assert_not_nil assigns(:doctor)
+    assert_equal users(:screener), assigns(:doctor).user
     assert_redirected_to doctor_path(assigns(:doctor))
   end
 

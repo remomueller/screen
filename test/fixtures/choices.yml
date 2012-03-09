@@ -4,43 +4,52 @@ one:
   category: exclusion
   name: MyString
   description: MyText
+  user: valid
 
 two:
   category: participation
   name: MyString
   description: MyText
+  user: valid
 
 three:
   category: risk factors
   name: MyString
   description: MyText
+  user: valid
 
 four:
   category: administration type
   name: MyString
   description: MyText
+  user: valid
 
 five:
   category: evaluation type
   name: MyString
   description: MyText
+  user: valid
 
 visit_type:
   category: visit type
   name: MyString
   description: MyText
+  user: valid
 
 visit_outcome:
   category: visit outcome
   name: MyString
   description: MyText
+  user: valid
 
 call_type:
   category: call type
   name: MyString
   description: MyText
+  user: valid
 
 call_response:
   category: call response
   name: MyString
   description: MyText
+  user: valid

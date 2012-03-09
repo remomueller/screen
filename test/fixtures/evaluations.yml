@@ -19,6 +19,7 @@ one:
   status: MyString
   comments: MyText
   deleted: false
+  user: valid
 
 two:
   patient: one
@@ -39,3 +40,4 @@ two:
   status: MyString
   comments: MyText
   deleted: false
+  user: valid

@@ -30,6 +30,8 @@ class CallsControllerTest < ActionController::TestCase
       post :create, call: { patient_id: @call.patient_id, call_type: choices(:call_type), direction: 'incoming' }, call_date: "02/28/2012", call_time: "5:45pm"
     end
 
+    assert_not_nil assigns(:call)
+    assert_equal users(:screener), assigns(:call).user
     assert_redirected_to patient_path(assigns(:call).patient)
   end
 

@@ -30,6 +30,8 @@ class VisitsControllerTest < ActionController::TestCase
       post :create, visit: { patient_id: @visit.patient_id, visit_date: '02/16/2012', visit_type: choices(:visit_type), outcome: choices(:visit_outcome) }
     end
 
+    assert_not_nil assigns(:visit)
+    assert_equal users(:screener), assigns(:visit).user
     assert_redirected_to patient_path(assigns(:visit).patient)
   end
 

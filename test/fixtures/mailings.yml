@@ -9,6 +9,7 @@ one:
   ess: MyString
   eligibility: MyString
   comments: MyText
+  user: valid
 
 two:
   patient: one
@@ -19,3 +20,4 @@ two:
   ess: MyString
   eligibility: MyString
   comments: MyText
+  user: valid

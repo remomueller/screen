@@ -9,6 +9,7 @@ one:
   visit_units: minutes
   eligibility: MyString
   exclusion: MyString
+  user: valid
 
 two:
   patient: one
@@ -19,6 +20,7 @@ two:
   visit_units: minutes
   eligibility: MyString
   exclusion: MyString
+  user: valid
 
 three:
   patient: one
@@ -29,3 +31,4 @@ three:
   visit_units: minutes
   eligibility: MyString
   exclusion: MyString
+  user: valid

@@ -16,6 +16,7 @@ class Evaluation < ActiveRecord::Base
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true
+  belongs_to :user
 
   # Class Methods
 

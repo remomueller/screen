@@ -30,7 +30,7 @@ class VisitsController < ApplicationController
   def create
     params[:visit][:visit_date] = Date.strptime(params[:visit][:visit_date], "%m/%d/%Y") if params[:visit] and not params[:visit][:visit_date].blank?
 
-    @visit = Visit.new(params[:visit])
+    @visit = current_user.visits.new(params[:visit])
 
     if @visit.save
       redirect_to @visit.patient, notice: 'Visit was successfully created.'

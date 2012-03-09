@@ -3,13 +3,16 @@
 one:
   name: "Teagan,Florianus,M.D."
   doctor_type: cardiologist
+  user: valid
 
 whitelisted:
   name: "Miles,Joleen,M.D."
   doctor_type: cardiologist
   status: whitelist
+  user: valid
 
 blacklisted:
   name: "DontScreenMe,M.D."
   doctor_type: cardiologist
   status: blacklist
+  user: valid

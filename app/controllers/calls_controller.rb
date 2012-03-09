@@ -33,7 +33,7 @@ class CallsController < ApplicationController
     params[:call_time] = Time.zone.parse("12am") if params[:call_time].blank?
     params[:call][:call_time] = Time.zone.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
 
-    @call = Call.new(params[:call])
+    @call = current_user.calls.new(params[:call])
 
     if @call.save
       redirect_to @call.patient, notice: 'Call was successfully created.'

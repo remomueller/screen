@@ -8,6 +8,7 @@ one:
   sex: MyString
   age: 1
   address1: MyString
+  user: valid
 
 two:
   mrn: "0002"
@@ -17,3 +18,4 @@ two:
   sex: MyString
   age: 1
   address1: MyString
+  user: valid

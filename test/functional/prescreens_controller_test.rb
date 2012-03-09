@@ -28,6 +28,7 @@ class PrescreensControllerTest < ActionController::TestCase
     assert_difference('Prescreen.count', 19) do
       post :bulk, visit_date: "03/01/2012", tab_dump: File.read('test/support/prescreens/fake_bulk_import.txt')
     end
+
     assert_redirected_to prescreens_path
   end
 
@@ -52,9 +53,11 @@ class PrescreensControllerTest < ActionController::TestCase
 
   test "should create prescreen" do
     assert_difference('Prescreen.count') do
-      post :create, prescreen: @prescreen.attributes
+      post :create, prescreen: { patient_id: @prescreen.patient_id, clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id, visit_duration: 0, visit_units: 'minutes', eligibility: '', exclusion: '' }, visit_date: "03/09/2012", visit_time: "10:58am"
     end
 
+    assert_not_nil assigns(:prescreen)
+    assert_equal users(:screener), assigns(:prescreen).user
     assert_redirected_to patient_path(assigns(:prescreen).patient)
   end
 

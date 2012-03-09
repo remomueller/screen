@@ -30,6 +30,8 @@ class MailingsControllerTest < ActionController::TestCase
       post :create, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012', doctor_id: @mailing.doctor_id }
     end
 
+    assert_not_nil assigns(:mailing)
+    assert_equal users(:screener), assigns(:mailing).user
     assert_redirected_to patient_path(assigns(:mailing).patient)
   end
 
