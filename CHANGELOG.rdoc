@@ -1,5 +1,8 @@
 == 0.2.1
 
+* Bug Fix
+  * Changed AHI to a decimal instead of an integer
+
 == 0.2.0
 
 * Enhancements
