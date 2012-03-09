@@ -9,7 +9,6 @@ one:
   visit_units: minutes
   eligibility: MyString
   exclusion: MyString
-  old_risk_factors: MyString
 
 two:
   patient: one
@@ -20,7 +19,6 @@ two:
   visit_units: minutes
   eligibility: MyString
   exclusion: MyString
-  old_risk_factors: MyString
 
 three:
   patient: one
@@ -31,4 +29,3 @@ three:
   visit_units: minutes
   eligibility: MyString
   exclusion: MyString
-  old_risk_factors: MyString

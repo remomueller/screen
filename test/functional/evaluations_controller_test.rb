@@ -30,7 +30,7 @@ class EvaluationsControllerTest < ActionController::TestCase
       post :create, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/16/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
     end
 
-    assert_redirected_to evaluation_path(assigns(:evaluation))
+    assert_redirected_to patient_path(assigns(:evaluation).patient)
   end
 
   test "should not create evaluation with blank administration type" do

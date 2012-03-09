@@ -57,11 +57,6 @@
     </div>
 
     <div class="field">
-      <%= f.label :old_risk_factors %><br />
-      <%= f.text_field :old_risk_factors %>
-    </div>
-
-    <div class="field">
       <%= f.label :risk_factors %><br />
       <table class="blank padded" style="width:100%;table-layout:fixed">
       <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>

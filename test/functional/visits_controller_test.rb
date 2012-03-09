@@ -30,7 +30,7 @@ class VisitsControllerTest < ActionController::TestCase
       post :create, visit: { patient_id: @visit.patient_id, visit_date: '02/16/2012', visit_type: choices(:visit_type), outcome: choices(:visit_outcome) }
     end
 
-    assert_redirected_to visit_path(assigns(:visit))
+    assert_redirected_to patient_path(assigns(:visit).patient)
   end
 
   test "should not create visit with blank visit type" do

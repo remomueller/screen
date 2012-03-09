@@ -38,7 +38,7 @@ class EvaluationsController < ApplicationController
     @evaluation = Evaluation.new(params[:evaluation])
 
     if @evaluation.save
-      redirect_to @evaluation, notice: 'Evaluation was successfully created.'
+      redirect_to @evaluation.patient, notice: 'Evaluation was successfully created.'
     else
       render action: "new"
     end

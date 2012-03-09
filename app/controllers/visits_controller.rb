@@ -33,7 +33,7 @@ class VisitsController < ApplicationController
     @visit = Visit.new(params[:visit])
 
     if @visit.save
-      redirect_to @visit, notice: 'Visit was successfully created.'
+      redirect_to @visit.patient, notice: 'Visit was successfully created.'
     else
       render action: "new"
     end
