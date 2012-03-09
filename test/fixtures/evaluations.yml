@@ -13,7 +13,7 @@ one:
   subject_notified: false
   reimbursement_form_date: 2012-03-08
   scored_date: 2012-03-08
-  ahi: 1
+  ahi: 1.0
   eligibility: MyString
   exclusion: MyString
   status: MyString
@@ -34,7 +34,7 @@ two:
   subject_notified: false
   reimbursement_form_date: 2012-03-08
   scored_date: 2012-03-08
-  ahi: 1
+  ahi: 1.0
   eligibility: MyString
   exclusion: MyString
   status: MyString
