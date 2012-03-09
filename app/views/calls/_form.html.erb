@@ -9,6 +9,7 @@
           <th>Home Phone</th>
           <th>Day Phone</th>
           <th>Alt Phone</th>
+          <th>Doctor</th>
         </tr>
       </thead>
       <tr>
@@ -16,6 +17,16 @@
         <td><%= @call.patient.phone_home %></td>
         <td><%= @call.patient.phone_day %></td>
         <td><%= @call.patient.phone_alt %></td>
+        <td>
+          <% Doctor.where(id: @call.patient.prescreens.pluck(:doctor_id)).group_by(&:doctor_type).sort.each do |doctor_type, doctors| %>
+            <b><%= doctor_type.titleize %></b>
+            <ul>
+              <% doctors.each do |doctor| %>
+                <li><%= doctor.name %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </td>
       </tr>
     </table>
   </div>
