@@ -103,6 +103,9 @@
         <div class="field">
           <%= Visit.current.where("visit_date >= ?", Date.today - 1.month).size %> in past month
         </div>
+        <br />
+        <div id="progressbar"></div>
+        <%= javascript_tag "$(function() { $( '#progressbar' ).progressbar({ value: #{Visit.current.size * 100 / 180} });});" %>
       </fieldset>
     </td>
     <td style="vertical-align:top"></td>

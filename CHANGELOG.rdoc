@@ -6,6 +6,7 @@
   * Patients list cleaned up
   * Mailings now include Risk Factors
   * Visits and Evaluations lists are now sortable
+  * Overall visit progress bar added to dashboard
 
 == 0.2.1
 
