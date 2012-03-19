@@ -18,6 +18,7 @@ class Mailing < ActiveRecord::Base
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true
   belongs_to :doctor, conditions: { deleted: false }, touch: true
+  has_and_belongs_to_many :risk_factors, class_name: 'Choice'
   belongs_to :user
 
   # Class Methods

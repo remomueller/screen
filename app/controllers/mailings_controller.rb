@@ -48,6 +48,7 @@ class MailingsController < ApplicationController
   def update
     params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
     params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
+    params[:mailing][:risk_factor_ids] = [] if params[:mailing][:risk_factor_ids].blank?
 
     @mailing = Mailing.find_by_id(params[:id])
 

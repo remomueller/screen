@@ -11,6 +11,7 @@ class Choice < ActiveRecord::Base
 
   # Model Relationships
   has_and_belongs_to_many :prescreens
+  has_and_belongs_to_many :mailings
   belongs_to :user
 
   # Class Methods

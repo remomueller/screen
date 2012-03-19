@@ -57,6 +57,15 @@
   </p>
 
   <p>
+    <b>Risk factors:</b>
+    <ul>
+      <% @mailing.risk_factors.each do |choice| %>
+        <li><%= @choice = choice; render partial: 'choices/show' %> <%= choice.description %></li>
+      <% end %>
+    </ul>
+  </p>
+
+  <p>
     <b>Comments:</b>
     <%= @mailing.comments %>
   </p>

@@ -78,6 +78,20 @@
       <%= f.label :participation %><br />
       <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]} %>
     </div>
+
+    <div class="field">
+      <%= f.label :risk_factors %><br />
+      <table class="blank padded" style="width:100%;table-layout:fixed">
+        <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>
+          <tr>
+            <% row_risk_factors.each do |choice| %>
+              <td><% if choice %><%= check_box_tag "mailing[risk_factor_ids][]", choice.id, @mailing.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %><% end %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+
     <div class="field">
       <%= f.label :comments %><br />
       <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>

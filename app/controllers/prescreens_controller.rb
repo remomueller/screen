@@ -79,6 +79,7 @@ class PrescreensController < ApplicationController
     params[:visit_time] = Time.zone.parse(params[:visit_time]) rescue Time.zone.parse("12am")
     params[:visit_time] = Time.zone.parse("12am") if params[:visit_time].blank?
     params[:prescreen][:visit_at] = Time.zone.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
+    params[:prescreen][:risk_factor_ids] = [] if params[:prescreen][:risk_factor_ids].blank?
 
     @prescreen = Prescreen.find_by_id(params[:id])
 
