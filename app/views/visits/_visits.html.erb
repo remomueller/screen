@@ -10,10 +10,10 @@
 <div class="frame">
   <table style="width:100%">
     <tr>
-      <th>Patient</th>
-      <th>Visit type</th>
-      <th>Visit date</th>
-      <th>Outcome</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.patient_id", 'Patient', 'visits_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_type", 'Visit type', 'visits_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_date", 'Visit date', 'visits_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.outcome", 'Outcome', 'visits_search') %></th>
     </tr>
 
   <% @visits.each do |visit| %>

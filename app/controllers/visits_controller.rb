@@ -11,7 +11,7 @@ class VisitsController < ApplicationController
 
     visit_scope = visit_scope.subject_code_not_blank unless current_user.screener?
 
-    @order = Visit.column_names.collect{|column_name| "visits.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "visits.id"
+    @order = Visit.column_names.collect{|column_name| "visits.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "visits.patient_id"
     visit_scope = visit_scope.order(@order)
 
     @visits = visit_scope.page(params[:page]).per(20) # (current_user.visits_per_page)

@@ -28,7 +28,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "should show time" do
     time = Time.now
-    assert_equal time.strftime("at %I:%M %p"), simple_time(time)
+    assert_equal time.strftime("<b>Today</b> at %I:%M %p"), simple_time(time)
   end
 
   test "should show full time from yesterday" do

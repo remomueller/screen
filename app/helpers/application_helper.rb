@@ -47,7 +47,7 @@ module ApplicationHelper
   def simple_time(past_time)
     return '' if past_time.blank?
     if past_time.to_date == Date.today
-      past_time.strftime("at %I:%M %p")
+      past_time.strftime("<b>Today</b> at %I:%M %p").html_safe
     elsif past_time.year == Date.today.year
       past_time.strftime("on %b %d at %I:%M %p")
     else

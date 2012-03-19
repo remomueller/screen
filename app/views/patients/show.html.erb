@@ -30,33 +30,8 @@
         </p>
 
         <p>
-          <b>First name:</b>
-          <%= @patient.first_name %>
-        </p>
-
-        <p>
-          <b>Last name:</b>
-          <%= @patient.last_name %>
-        </p>
-
-        <p>
-          <b>Sex:</b>
-          <%= @patient.sex %>
-        </p>
-
-        <p>
-          <b>Age:</b>
-          <%= @patient.age %>
-        </p>
-
-        <p>
-          <b>ESS:</b>
-          <%= @patient.ess %>
-        </p>
-
-        <p>
-          <b>Berlin:</b>
-          <%= @patient.berlin %>
+          <b>Name:</b>
+          <%= @patient.name %>
         </p>
 
       </fieldset>
@@ -86,6 +61,30 @@
         <p>
           <b>Address:</b>
           <%= @patient.address %>
+        </p>
+      </fieldset>
+    </td>
+    <td style="vertical-align:top">
+      <fieldset>
+        <legend><%= image_tag 'gentleface/16/user.png', alt: '', style: 'vertical-align:text-bottom' %> Demographics</legend>
+        <p>
+          <b>Sex:</b>
+          <%= @patient.sex %>
+        </p>
+
+        <p>
+          <b>Age:</b>
+          <%= @patient.age %>
+        </p>
+
+        <p>
+          <b>ESS:</b>
+          <%= @patient.ess %>
+        </p>
+
+        <p>
+          <b>Berlin:</b>
+          <%= @patient.berlin %>
         </p>
       </fieldset>
     </td>

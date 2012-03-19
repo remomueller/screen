@@ -11,7 +11,7 @@ class MailingsController < ApplicationController
 
     mailing_scope = mailing_scope.subject_code_not_blank unless current_user.screener?
 
-    @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.id"
+    @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.patient_id"
     mailing_scope = mailing_scope.order(@order)
 
     @mailings = mailing_scope.page(params[:page]).per(20) # (current_user.mailings_per_page)

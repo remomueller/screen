@@ -11,7 +11,7 @@ class CallsController < ApplicationController
 
     call_scope = call_scope.subject_code_not_blank unless current_user.screener?
 
-    @order = Call.column_names.collect{|column_name| "calls.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "calls.id"
+    @order = Call.column_names.collect{|column_name| "calls.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "calls.patient_id"
     call_scope = call_scope.order(@order)
 
     @calls = call_scope.page(params[:page]).per(20) # (current_user.calls_per_page)

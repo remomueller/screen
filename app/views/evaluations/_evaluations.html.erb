@@ -10,40 +10,26 @@
 <div class="frame">
   <table style="width:100%">
     <tr>
-      <th>Patient</th>
-      <th>Administration type</th>
-      <th>Source</th>
-      <th>Embletta unit number</th>
-      <th>Administration date</th>
-      <th>Expected receipt date</th>
-      <th>Receipt date</th>
-      <th>Storage date</th>
-      <th>Subject notified</th>
-      <th>Reimbursement form date</th>
-      <th>Scored date</th>
-      <th>AHI</th>
-      <th>Eligibility</th>
-      <th>Exclusion</th>
-      <th>Status</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.patient_id", 'Patient', 'evaluations_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.administration_type", 'Administration type', 'evaluations_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.embletta_unit_number", 'Embletta unit number', 'evaluations_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.administration_date", 'Administration date', 'evaluations_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.receipt_date", 'Receipt date', 'evaluations_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.scored_date", 'Scored date', 'evaluations_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.ahi", 'AHI', 'evaluations_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.eligibility", 'Eligibility', 'evaluations_search') %></th>
     </tr>
 
   <% @evaluations.each do |evaluation| %>
     <tr>
       <td><%= link_to evaluation.patient.code, evaluation.patient if evaluation.patient %></td>
       <td><%= link_to evaluation.administration_type_name + " " + evaluation.evaluation_type_name, evaluation %></td>
-      <td><%= evaluation.source %></td>
       <td><%= evaluation.embletta_unit_number %></td>
       <td><%= simple_date evaluation.administration_date %></td>
-      <td><%= simple_date evaluation.expected_receipt_date %></td>
       <td><%= simple_date evaluation.receipt_date %></td>
-      <td><%= simple_date evaluation.storage_date %></td>
-      <td style="text-align:center"><%= check_box_tag 'evaluation', 'subject_notified', evaluation.subject_notified?, disabled: true %></td>
-      <td><%= simple_date evaluation.reimbursement_form_date %></td>
       <td><%= simple_date evaluation.scored_date %></td>
       <td><%= evaluation.ahi %></td>
       <td><%= evaluation.eligibility %></td>
-      <td><%= evaluation.exclusion %></td>
-      <td><%= evaluation.status %></td>
     </tr>
   <% end %>
 

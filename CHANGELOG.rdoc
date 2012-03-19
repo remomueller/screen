@@ -5,6 +5,7 @@
     * Can View, Create, Update, and Delete: Prescreens, Mailings, Calls, Evaluations, and Visits for Patients with Subject Codes
   * Patients list cleaned up
   * Mailings now include Risk Factors
+  * Visits and Evaluations lists are now sortable
 
 == 0.2.1
 

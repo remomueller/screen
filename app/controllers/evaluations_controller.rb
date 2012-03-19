@@ -11,7 +11,7 @@ class EvaluationsController < ApplicationController
 
     evaluation_scope = evaluation_scope.subject_code_not_blank unless current_user.screener?
 
-    @order = Evaluation.column_names.collect{|column_name| "evaluations.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "evaluations.id"
+    @order = Evaluation.column_names.collect{|column_name| "evaluations.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "evaluations.patient_id"
     evaluation_scope = evaluation_scope.order(@order)
 
     @evaluations = evaluation_scope.page(params[:page]).per(20) # (current_user.evaluations_per_page)
