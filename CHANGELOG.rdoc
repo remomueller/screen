@@ -7,6 +7,7 @@
   * Mailings now include Risk Factors
   * Visits and Evaluations lists are now sortable
   * Overall visit progress bar added to dashboard
+  * Patient events now display only the date for certain events (Mailings, Evaluations, and Visits)
 
 == 0.2.1
 

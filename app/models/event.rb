@@ -26,6 +26,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def use_date?
+    ['Evaluation', 'Mailing', 'Visit'].include?(object.class.name)
+  end
+
   def object
     self.class_name.constantize.find_by_id(self.class_id)
   end

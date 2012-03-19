@@ -24,7 +24,7 @@
         <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
         <%= link_to event.full_name, event.object %>
       </td>
-      <td><%= simple_time(event.event_time) %></td>
+      <td><%= event.use_date? ? simple_date(event.event_time) : simple_time(event.event_time) %></td>
       <td><%= event.object.eligibility %></td>
       <td><%= event.object.exclusion_name %></td>
     </tr>
