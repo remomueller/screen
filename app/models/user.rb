@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :system_admins, conditions: { system_admin: true }
   scope :screeners, conditions: { screener: true }
+  scope :subject_handlers, conditions: { subject_handler: true }
 
   # Model Validation
   validates_presence_of     :first_name

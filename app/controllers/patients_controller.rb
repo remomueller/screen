@@ -1,6 +1,6 @@
 class PatientsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_screener
+  before_filter :check_screener_or_subject_handler
 
   def inline_update
     @patient = Patient.find_by_id(params[:id])
@@ -15,6 +15,8 @@ class PatientsController < ApplicationController
       patient_scope = patient_scope.with_mrn(term) unless term.blank?
     end
 
+    patient_scope = patient_scope.subject_code_not_blank unless current_user.screener?
+
     @order = Patient.column_names.collect{|column_name| "patients.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "patients.id"
     patient_scope = patient_scope.order(@order)
 
@@ -22,8 +24,8 @@ class PatientsController < ApplicationController
   end
 
   def show
-    @patient = Patient.find(params[:id])
-
+    @patient = Patient.find_by_id(params[:id])
+    redirect_to root_path unless @patient and @patient.editable_by?(current_user)
   end
 
   def new
@@ -31,7 +33,8 @@ class PatientsController < ApplicationController
   end
 
   def edit
-    @patient = Patient.find(params[:id])
+    @patient = Patient.find_by_id(params[:id])
+    redirect_to root_path unless @patient and @patient.editable_by?(current_user)
   end
 
   def create
@@ -45,19 +48,26 @@ class PatientsController < ApplicationController
   end
 
   def update
-    @patient = Patient.find(params[:id])
+    @patient = Patient.find_by_id(params[:id])
 
-    if @patient.update_attributes(params[:patient])
-      redirect_to @patient, notice: 'Patient was successfully updated.'
+    if @patient and @patient.editable_by?(current_user)
+      if @patient.update_attributes(params[:patient])
+        redirect_to @patient, notice: 'Patient was successfully updated.'
+      else
+        render action: "edit"
+      end
     else
-      render action: "edit"
+      redirect_to root_path
     end
   end
 
   def destroy
-    @patient = Patient.find(params[:id])
-    @patient.destroy
-
-    redirect_to patients_path
+    @patient = Patient.find_by_id(params[:id])
+    if @patient and @patient.editable_by?(current_user)
+      @patient.destroy
+      redirect_to patients_path
+    else
+      redirect_to root_path
+    end
   end
 end

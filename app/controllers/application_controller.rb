@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
   def check_screener
     redirect_to root_path, alert: "You do not have sufficient privileges to access that page." unless current_user.screener?
   end
+
+  def check_screener_or_subject_handler
+    redirect_to root_path, alert: "You do not have sufficient privileges to access that page." unless current_user.screener? or current_user.subject_handler?
+  end
 end

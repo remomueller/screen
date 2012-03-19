@@ -48,3 +48,13 @@ screener:
   system_admin: false
   screener: true
   email: screener@example.com
+
+subject_handler:
+  first_name: MyString
+  last_name: MyString
+  status: active
+  deleted: false
+  system_admin: false
+  screener: false
+  subject_handler: true
+  email: subject_handler@example.com

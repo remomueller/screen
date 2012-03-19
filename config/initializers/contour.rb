@@ -35,27 +35,27 @@ Contour.setup do |config|
       links: []
     },
     {
-      name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left', condition: 'current_user.screener?',
+      name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
       links: []
     },
     {
-      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left', condition: 'current_user.screener?',
+      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
       links: []
     },
     {
-      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left', condition: 'current_user.screener?',
+      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
       links: []
     },
     {
-      name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left', condition: 'current_user.screener?',
+      name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
       links: []
     },
     {
-      name: 'Evaluations', display: 'signed_in', path: 'evaluations_path', position: 'left', condition: 'current_user.screener?',
+      name: 'Evaluations', display: 'signed_in', path: 'evaluations_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
       links: []
     },
     {
-      name: 'Visits', display: 'signed_in', path: 'visits_path', position: 'left', condition: 'current_user.screener?',
+      name: 'Visits', display: 'signed_in', path: 'visits_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
       links: []
     },
     {

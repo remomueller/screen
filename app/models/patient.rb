@@ -4,6 +4,7 @@ class Patient < ActiveRecord::Base
   # Named Scopes
   scope :current, conditions: { deleted: false }
   scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?)", args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
+  scope :subject_code_not_blank, conditions: ["patients.subject_code != ''"]
 
   # Model Validation
   validates_presence_of :mrn, if: :no_subject_code?
@@ -23,6 +24,11 @@ class Patient < ActiveRecord::Base
   # Class Methods
 
   # Study Code if available, if not, MRN
+
+  def editable_by?(current_user)
+    current_user.screener? or (not self.subject_code.blank? and current_user.subject_handler?)
+  end
+
   def code
     self.subject_code.blank? ? self.mrn : self.subject_code
   end

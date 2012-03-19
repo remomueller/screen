@@ -37,6 +37,10 @@
       <%= f.label :screener %><br />
       <%= f.check_box :screener %>
     </div>
+    <div class="field">
+      <%= f.label :subject_handler %><br />
+      <%= f.check_box :subject_handler %>
+    </div>
   </fieldset>
   <div class="actions">
     <% form_name = @user.new_record? ? 'new_user' : "edit_user_#{@user.id}" %>

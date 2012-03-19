@@ -71,13 +71,49 @@ class PatientsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not show patient without subject code to subject handler" do
+    login(users(:subject_handler))
+    get :show, id: patients(:without_subject_code)
+    assert_redirected_to root_path
+  end
+
+  test "should show patient with subject code to subject handler" do
+    login(users(:subject_handler))
+    get :show, id: patients(:with_subject_code)
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, id: @patient
     assert_response :success
   end
 
+  test "should not edit patient without subject code to subject handler" do
+    login(users(:subject_handler))
+    get :edit, id: patients(:without_subject_code)
+    assert_redirected_to root_path
+  end
+
+  test "should edit patient with subject code to subject handler" do
+    login(users(:subject_handler))
+    get :edit, id: patients(:with_subject_code)
+    assert_response :success
+  end
+
   test "should update patient" do
     put :update, id: @patient, patient: { first_name: 'FirstNameUpdate' }
+    assert_redirected_to patient_path(assigns(:patient))
+  end
+
+  test "should not update patient without subject code to subject handler" do
+    login(users(:subject_handler))
+    put :update, id: patients(:without_subject_code), patient: { first_name: 'FirstNameUpdate' }
+    assert_redirected_to root_path
+  end
+
+  test "should update patient with subject code to subject handler" do
+    login(users(:subject_handler))
+    put :update, id: patients(:with_subject_code), patient: { first_name: 'FirstNameUpdate' }
     assert_redirected_to patient_path(assigns(:patient))
   end
 
@@ -107,4 +143,23 @@ class PatientsControllerTest < ActionController::TestCase
 
     assert_redirected_to patients_path
   end
+
+  test "should not destroy patient without subject code to subject handler" do
+    login(users(:subject_handler))
+    assert_difference('Patient.current.count', 0) do
+      delete :destroy, id: patients(:without_subject_code)
+    end
+
+    assert_redirected_to root_path
+  end
+
+  test "should destroy patient with subject code to subject handler" do
+    login(users(:subject_handler))
+    assert_difference('Patient.current.count', -1) do
+      delete :destroy, id: patients(:with_subject_code)
+    end
+
+    assert_redirected_to patients_path
+  end
+
 end

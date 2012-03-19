@@ -19,3 +19,25 @@ two:
   age: 1
   address1: MyString
   user: valid
+
+without_subject_code:
+  mrn: "0003"
+  # subject_code:
+  first_name: MyString
+  last_name: MyString
+  phone_home: MyString
+  sex: MyString
+  age: 1
+  address1: MyString
+  user: valid
+
+with_subject_code:
+  # mrn: "0004"
+  subject_code: S1234
+  first_name: MyString
+  last_name: MyString
+  phone_home: MyString
+  sex: MyString
+  age: 1
+  address1: MyString
+  user: valid

@@ -67,7 +67,7 @@
       <%= f.text_field :scored_date, class: 'datepicker', value: @evaluation.scored_date ? @evaluation.scored_date.strftime('%m/%d/%Y') : '' %>
     </div>
     <div class="field">
-      <%= f.label :ahi %><br />
+      <%= f.label :ahi, 'AHI' %><br />
       <%= f.number_field :ahi, { min: 0 } %>
     </div>
     <div class="field">
