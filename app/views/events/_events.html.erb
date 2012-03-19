@@ -18,24 +18,15 @@
     </tr>
 
   <% @events.each do |event| %>
-    <% object = event.class_name.constantize.find_by_id(event.class_id) %>
     <tr>
       <% unless params[:hide_patient] == '1' %><td><%= link_to event.patient.code, event.patient if event.patient %></td><% end %>
       <td>
         <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
-        <% if object.class.name == 'Evaluation' %>
-          <%= link_to "#{object.administration_type_name} #{event.name}", object %>
-        <% elsif object.class.name == 'Visit' %>
-          <%= link_to "#{object.visit_type_name} #{event.name}", object %>
-        <% elsif object.class.name == 'Call' %>
-          <%= link_to "#{object.call_type_name} #{event.name}", object %>
-        <% else %>
-          <%= link_to event.name, object %>
-        <% end %>
+        <%= link_to event.full_name, event.object %>
       </td>
       <td><%= simple_time(event.event_time) %></td>
-      <td><%= object.eligibility %></td>
-      <td><%= object.exclusion_name %></td>
+      <td><%= event.object.eligibility %></td>
+      <td><%= event.object.exclusion_name %></td>
     </tr>
   <% end %>
   </table>

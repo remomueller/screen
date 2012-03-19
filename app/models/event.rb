@@ -14,6 +14,22 @@ class Event < ActiveRecord::Base
 
   # Class Methods
 
+  def full_name
+    if object.class.name == 'Evaluation'
+      "#{object.administration_type_name} #{self.name}"
+    elsif object.class.name == 'Visit'
+      "#{object.visit_type_name} #{self.name}"
+    elsif object.class.name == 'Call'
+      "#{object.call_type_name} #{self.name}"
+    else
+      self.name
+    end
+  end
+
+  def object
+    self.class_name.constantize.find_by_id(self.class_id)
+  end
+
   def destroy
     update_attribute :deleted, true
     # Does not make sense to delete the object if only one of its events is deleted.
