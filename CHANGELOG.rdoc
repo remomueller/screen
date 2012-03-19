@@ -3,6 +3,7 @@
 * Enhancements
   * Subject Handler Role Added:
     * Can View, Create, Update, and Delete: Prescreens, Mailings, Calls, Evaluations, and Visits for Patients with Subject Codes
+  * Patients list cleaned up
 
 == 0.2.1
 
