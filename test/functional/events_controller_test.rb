@@ -29,7 +29,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, patient_id: patients(:one)
     assert_response :success
   end
 

@@ -21,7 +21,7 @@ class EvaluationsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, patient_id: patients(:one)
     assert_response :success
   end
 
@@ -61,6 +61,12 @@ class EvaluationsControllerTest < ActionController::TestCase
     assert_redirected_to evaluation_path(assigns(:evaluation))
   end
 
+  test "should not update evaluation for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    put :update, id: evaluations(:without_subject_code), evalution: { patient_id: evaluations(:without_subject_code).patient_id, administration_date: '02/20/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
+    assert_redirected_to root_path
+  end
+
   test "should not update evaluation with blank administration type" do
     put :update, id: @evaluation, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/16/2012', administration_type: '' }
     assert_not_nil assigns(:evaluation)
@@ -75,5 +81,14 @@ class EvaluationsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to evaluations_path
+  end
+
+  test "should not destroy evaluation for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    assert_difference('Evaluation.current.count', 0) do
+      delete :destroy, id: evaluations(:without_subject_code)
+    end
+
+    assert_redirected_to root_path
   end
 end

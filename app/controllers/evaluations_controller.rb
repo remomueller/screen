@@ -1,6 +1,6 @@
 class EvaluationsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_screener
+  before_filter :check_screener_or_subject_handler
 
   def index
     # current_user.update_attribute :evaluations_per_page, params[:evaluations_per_page].to_i if params[:evaluations_per_page].to_i >= 10 and params[:evaluations_per_page].to_i <= 200
@@ -9,6 +9,8 @@ class EvaluationsController < ApplicationController
       evaluation_scope = evaluation_scope.with_mrn(term) unless term.blank?
     end
 
+    evaluation_scope = evaluation_scope.subject_code_not_blank unless current_user.screener?
+
     @order = Evaluation.column_names.collect{|column_name| "evaluations.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "evaluations.id"
     evaluation_scope = evaluation_scope.order(@order)
 
@@ -16,15 +18,18 @@ class EvaluationsController < ApplicationController
   end
 
   def show
-    @evaluation = Evaluation.find(params[:id])
+    @evaluation = Evaluation.find_by_id(params[:id])
+    redirect_to root_path unless @evaluation and @evaluation.patient.editable_by?(current_user)
   end
 
   def new
     @evaluation = Evaluation.new(patient_id: params[:patient_id])
+    redirect_to root_path unless @evaluation and @evaluation.patient.editable_by?(current_user)
   end
 
   def edit
-    @evaluation = Evaluation.find(params[:id])
+    @evaluation = Evaluation.find_by_id(params[:id])
+    redirect_to root_path unless @evaluation and @evaluation.patient.editable_by?(current_user)
   end
 
   def create
@@ -52,19 +57,26 @@ class EvaluationsController < ApplicationController
     params[:evaluation][:reimbursement_form_date] = Date.strptime(params[:evaluation][:reimbursement_form_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:reimbursement_form_date].blank?
     params[:evaluation][:scored_date] = Date.strptime(params[:evaluation][:scored_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:scored_date].blank?
 
-    @evaluation = Evaluation.find(params[:id])
+    @evaluation = Evaluation.find_by_id(params[:id])
 
-    if @evaluation.update_attributes(params[:evaluation])
-      redirect_to @evaluation, notice: 'Evaluation was successfully updated.'
+    if @evaluation and @evaluation.patient.editable_by?(current_user)
+      if @evaluation.update_attributes(params[:evaluation])
+        redirect_to @evaluation, notice: 'Evaluation was successfully updated.'
+      else
+        render action: "edit"
+      end
     else
-      render action: "edit"
+      redirect_to root_path
     end
   end
 
   def destroy
-    @evaluation = Evaluation.find(params[:id])
-    @evaluation.destroy
-
-    redirect_to evaluations_path
+    @evaluation = Evaluation.find_by_id(params[:id])
+    if @evaluation and @evaluation.patient.editable_by?(current_user)
+      @evaluation.destroy
+      redirect_to evaluations_path
+    else
+      redirect_to root_path
+    end
   end
 end

@@ -15,7 +15,7 @@
     <legend><%= @title %></legend>
     <div class="field">
       <%= f.label :mrn, 'MRN' %><br />
-      <%= f.text_field :mrn %>
+      <% if current_user.screener? %><%= f.text_field :mrn %><% else %><%= @patient.mrn %><% end %>
     </div>
     <div class="field">
       <%= f.label :subject_code %><br />

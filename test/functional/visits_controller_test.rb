@@ -21,7 +21,7 @@ class VisitsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, patient_id: patients(:one)
     assert_response :success
   end
 
@@ -69,6 +69,12 @@ class VisitsControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
+  test "should not update visit for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    put :update, id: visits(:without_subject_code), visit: { patient_id: visits(:without_subject_code).patient_id, visit_date: '02/16/2012', visit_type: choices(:visit_type), outcome: choices(:visit_outcome) }
+    assert_redirected_to root_path
+  end
+
   test "should destroy visit" do
     assert_difference('Visit.current.count', -1) do
       delete :destroy, id: @visit
@@ -76,4 +82,14 @@ class VisitsControllerTest < ActionController::TestCase
 
     assert_redirected_to visits_path
   end
+
+  test "should not destroy visit for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    assert_difference('Visit.current.count', 0) do
+      delete :destroy, id: visits(:without_subject_code)
+    end
+
+    assert_redirected_to root_path
+  end
+
 end

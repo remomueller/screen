@@ -1,6 +1,6 @@
 class MailingsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_screener
+  before_filter :check_screener_or_subject_handler
 
   def index
     # current_user.update_attribute :mailings_per_page, params[:mailings_per_page].to_i if params[:mailings_per_page].to_i >= 10 and params[:mailings_per_page].to_i <= 200
@@ -9,6 +9,8 @@ class MailingsController < ApplicationController
       mailing_scope = mailing_scope.with_mrn(term) unless term.blank?
     end
 
+    mailing_scope = mailing_scope.subject_code_not_blank unless current_user.screener?
+
     @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.id"
     mailing_scope = mailing_scope.order(@order)
 
@@ -16,15 +18,18 @@ class MailingsController < ApplicationController
   end
 
   def show
-    @mailing = Mailing.find(params[:id])
+    @mailing = Mailing.find_by_id(params[:id])
+    redirect_to root_path unless @mailing and @mailing.patient.editable_by?(current_user)
   end
 
   def new
     @mailing = Mailing.new(patient_id: params[:patient_id])
+    redirect_to root_path unless @mailing and @mailing.patient.editable_by?(current_user)
   end
 
   def edit
-    @mailing = Mailing.find(params[:id])
+    @mailing = Mailing.find_by_id(params[:id])
+    redirect_to root_path unless @mailing and @mailing.patient.editable_by?(current_user)
   end
 
   def create
@@ -44,19 +49,26 @@ class MailingsController < ApplicationController
     params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
     params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
 
-    @mailing = Mailing.find(params[:id])
+    @mailing = Mailing.find_by_id(params[:id])
 
-    if @mailing.update_attributes(params[:mailing])
-      redirect_to @mailing, notice: 'Mailing was successfully updated.'
+    if @mailing and @mailing.patient.editable_by?(current_user)
+      if @mailing.update_attributes(params[:mailing])
+        redirect_to @mailing, notice: 'Mailing was successfully updated.'
+      else
+        render action: "edit"
+      end
     else
-      render action: "edit"
+      redirect_to root_path
     end
   end
 
   def destroy
-    @mailing = Mailing.find(params[:id])
-    @mailing.destroy
-
-    redirect_to mailings_path
+    @mailing = Mailing.find_by_id(params[:id])
+    if @mailing and @mailing.patient.editable_by?(current_user)
+      @mailing.destroy
+      redirect_to mailings_path
+    else
+      redirect_to root_path
+    end
   end
 end

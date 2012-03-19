@@ -47,7 +47,7 @@ class PrescreensControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, patient_id: patients(:one)
     assert_response :success
   end
 
@@ -87,6 +87,12 @@ class PrescreensControllerTest < ActionController::TestCase
     assert_redirected_to prescreen_path(assigns(:prescreen))
   end
 
+  test "should not update prescreen for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    put :update, id: prescreens(:without_subject_code), prescreen: prescreens(:without_subject_code).attributes
+    assert_redirected_to root_path
+  end
+
   test "should not update prescreen with invalid patient" do
     put :update, id: @prescreen, prescreen:  { patient_id: '', clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id, visit_duration: 0, visit_units: 'minutes', eligibility: '', exclusion: '' }, visit_date: "03/01/2012", visit_time: "4:03pm"
     assert_not_nil assigns(:prescreen)
@@ -101,5 +107,14 @@ class PrescreensControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to prescreens_path
+  end
+
+  test "should not destroy prescreen for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    assert_difference('Prescreen.current.count', 0) do
+      delete :destroy, id: prescreens(:without_subject_code)
+    end
+
+    assert_redirected_to root_path
   end
 end

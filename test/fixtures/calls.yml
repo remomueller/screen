@@ -21,3 +21,14 @@ two:
   comments: MyText
   deleted: false
   user: valid
+
+without_subject_code:
+  patient: without_subject_code
+  response: MyString
+  call_time: 2012-02-27 15:16:01
+  berlin: 1
+  ess: 1
+  eligibility: MyString
+  comments: MyText
+  deleted: false
+  user: valid

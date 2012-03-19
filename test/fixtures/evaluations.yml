@@ -41,3 +41,24 @@ two:
   comments: MyText
   deleted: false
   user: valid
+
+without_subject_code:
+  patient: without_subject_code
+  administration_type: MyString
+  evaluation_type: MyString
+  source: MyString
+  embletta_unit_number: MyString
+  administration_date: 2012-03-08
+  expected_receipt_date: 2012-03-08
+  receipt_date: 2012-03-08
+  storage_date: 2012-03-08
+  subject_notified: false
+  reimbursement_form_date: 2012-03-08
+  scored_date: 2012-03-08
+  ahi: 1.0
+  eligibility: MyString
+  exclusion: MyString
+  status: MyString
+  comments: MyText
+  deleted: false
+  user: valid

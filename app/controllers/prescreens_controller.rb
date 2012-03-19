@@ -1,6 +1,7 @@
 class PrescreensController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_screener
+  before_filter :check_screener, only: [:bulk]
+  before_filter :check_screener_or_subject_handler, except: [:bulk]
 
   def inline_update
     @prescreen = Prescreen.find_by_id(params[:id])
@@ -35,6 +36,8 @@ class PrescreensController < ApplicationController
       prescreen_scope = prescreen_scope.with_mrn(term) unless term.blank?
     end
 
+    prescreen_scope = prescreen_scope.subject_code_not_blank unless current_user.screener?
+
     @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.doctor_id, prescreens.visit_at DESC"
     prescreen_scope = prescreen_scope.order(@order)
 
@@ -42,15 +45,18 @@ class PrescreensController < ApplicationController
   end
 
   def show
-    @prescreen = Prescreen.find(params[:id])
+    @prescreen = Prescreen.find_by_id(params[:id])
+    redirect_to root_path unless @prescreen and @prescreen.patient.editable_by?(current_user)
   end
 
   def new
     @prescreen = Prescreen.new(patient_id: params[:patient_id])
+    redirect_to root_path unless @prescreen and @prescreen.patient.editable_by?(current_user)
   end
 
   def edit
-    @prescreen = Prescreen.find(params[:id])
+    @prescreen = Prescreen.find_by_id(params[:id])
+    redirect_to root_path unless @prescreen and @prescreen.patient.editable_by?(current_user)
   end
 
   def create
@@ -74,19 +80,26 @@ class PrescreensController < ApplicationController
     params[:visit_time] = Time.zone.parse("12am") if params[:visit_time].blank?
     params[:prescreen][:visit_at] = Time.zone.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
 
-    @prescreen = Prescreen.find(params[:id])
+    @prescreen = Prescreen.find_by_id(params[:id])
 
-    if @prescreen.update_attributes(params[:prescreen])
-      redirect_to @prescreen, notice: 'Prescreen was successfully updated.'
+    if @prescreen and @prescreen.patient.editable_by?(current_user)
+      if @prescreen.update_attributes(params[:prescreen])
+        redirect_to @prescreen, notice: 'Prescreen was successfully updated.'
+      else
+        render action: "edit"
+      end
     else
-      render action: "edit"
+      redirect_to root_path
     end
   end
 
   def destroy
-    @prescreen = Prescreen.find(params[:id])
-    @prescreen.destroy
-
-    redirect_to prescreens_path
+    @prescreen = Prescreen.find_by_id(params[:id])
+    if @prescreen and @prescreen.patient.editable_by?(current_user)
+      @prescreen.destroy
+      redirect_to prescreens_path
+    else
+      redirect_to root_path
+    end
   end
 end

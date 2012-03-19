@@ -1,7 +1,7 @@
 <% @title = "Evaluation: #{@evaluation.name}" %>
 <h1><%= @title %></h1>
 
-<% if current_user.screener? %> <%# current_user.all_evaluations.include?(@evaluation) %>
+<% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_evaluations.include?(@evaluation) %>
   <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Evaluation", edit_evaluation_path(@evaluation), class: 'button' %>
   <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Evaluation", @evaluation, confirm: "Are you sure you want to delete Evaluation #{@evaluation.name}?", method: :delete, class: 'button negative' %>
 <% end %>

@@ -21,7 +21,7 @@ class MailingsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, patient_id: patients(:one)
     assert_response :success
   end
 
@@ -61,6 +61,12 @@ class MailingsControllerTest < ActionController::TestCase
     assert_redirected_to mailing_path(assigns(:mailing))
   end
 
+  test "should not update mailing for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    put :update, id: mailings(:without_subject_code), mailing: { patient_id: mailings(:without_subject_code).patient_id, sent_date: '02/16/2012' }
+    assert_redirected_to root_path
+  end
+
   test "should not update mailing with invalid doctor" do
     put :update, id: @mailing, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012', doctor_id: '' }
     assert_not_nil assigns(:mailing)
@@ -75,5 +81,14 @@ class MailingsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to mailings_path
+  end
+
+  test "should not destroy mailing for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    assert_difference('Mailing.current.count', 0) do
+      delete :destroy, id: mailings(:without_subject_code)
+    end
+
+    assert_redirected_to root_path
   end
 end

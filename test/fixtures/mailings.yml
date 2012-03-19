@@ -21,3 +21,14 @@ two:
   eligibility: MyString
   comments: MyText
   user: valid
+
+without_subject_code:
+  patient: without_subject_code
+  doctor: one
+  sent_date: 2012-02-24
+  response_date: 2012-02-24
+  berlin: MyString
+  ess: MyString
+  eligibility: MyString
+  comments: MyText
+  user: valid

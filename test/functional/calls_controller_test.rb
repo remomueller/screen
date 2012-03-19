@@ -21,7 +21,7 @@ class CallsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, patient_id: patients(:one)
     assert_response :success
   end
 
@@ -61,6 +61,12 @@ class CallsControllerTest < ActionController::TestCase
     assert_redirected_to call_path(assigns(:call))
   end
 
+  test "should not update call for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    put :update, id: calls(:without_subject_code), call: { patient_id: calls(:without_subject_code).patient_id, call_type: choices(:call_type), direction: 'incoming' }, call_date: "02/28/2012", call_time: "5:50pm"
+    assert_redirected_to root_path
+  end
+
   test "should not update call with blank call date" do
     put :update, id: @call, call: { patient_id: @call.patient_id, call_type: choices(:call_type), direction: 'incoming' }, call_date: "", call_time: "5:50pm"
     assert_not_nil assigns(:call)
@@ -75,5 +81,14 @@ class CallsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to calls_path
+  end
+
+  test "should not destroy call for patient without subject code as subject handler" do
+    login(users(:subject_handler))
+    assert_difference('Call.current.count', 0) do
+      delete :destroy, id: calls(:without_subject_code)
+    end
+
+    assert_redirected_to root_path
   end
 end
