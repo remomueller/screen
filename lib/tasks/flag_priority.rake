@@ -10,7 +10,7 @@ task flag_priority: :environment do
   call_response_ids = Choice.where(category: 'call response', name: ['Deferred', 'Left Message/Voicemail']).pluck(:id)
 
   embletta_call_response_ids = Choice.where(category: 'call response', name: ['Scheduled for Embletta']).pluck(:id)
-  embletta_evaluation_id = Choice.where(category: 'administration type', name: ['Embletta']).pluck(:id)
+  embletta_evaluation_ids = Choice.where(category: 'administration type', name: ['Embletta']).pluck(:id).collect{|id| id.to_s}
 
   baseline_visit_ids = Choice.where(category: 'visit type', name: ['Baseline']).pluck(:id).collect{|id| id.to_s}
   mo2_call_ids = Choice.where(category: 'call type', name: ['2-month']).pluck(:id).collect{|id| id.to_s}
@@ -32,7 +32,7 @@ task flag_priority: :environment do
       messages << "Latest Call is #{call.response_name}"
     end
 
-    if call = patient.calls.order('call_time').last and embletta_call_response_ids.include?(call.response.to_i) and patient.evaluations.where(administration_type: embletta_evaluation_id.to_s).size == 0
+    if call = patient.calls.order('call_time').last and embletta_call_response_ids.include?(call.response.to_i) and patient.evaluations.where(administration_type: embletta_evaluation_ids).size == 0
       priority += 1
       bump_priority = true
       messages << "Latest Call is #{call.response_name} and no Embletta Administered"
