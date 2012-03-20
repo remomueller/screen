@@ -103,9 +103,12 @@
         <div class="field">
           <%= Visit.current.where("visit_date >= ?", Date.today - 1.month).size %> in past month
         </div>
-        <br />
-        <div id="progressbar"></div>
-        <%= javascript_tag "$(function() { $( '#progressbar' ).progressbar({ value: #{Visit.current.size * 100 / 180} });});" %>
+        <% if baseline_choice = Choice.find_by_category_and_name('visit type', 'Baseline') %>
+          <br />
+          <div id="progressbar"></div>
+          <center><%= Visit.current.where(visit_type: baseline_choice.id.to_s).size %> out of 180 baseline visits</center>
+          <%= javascript_tag "$(function() { $( '#progressbar' ).progressbar({ value: #{Visit.current.where(visit_type: baseline_choice.id.to_s).size * 100 / 180} });});" %>
+        <% end %>
       </fieldset>
     </td>
     <td style="vertical-align:top"></td>
