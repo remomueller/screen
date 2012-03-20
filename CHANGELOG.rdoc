@@ -8,6 +8,7 @@
   * Visits and Evaluations lists are now sortable
   * Overall visit progress bar added to dashboard
   * Patient events now display only the date for certain events (Mailings, Evaluations, and Visits)
+  * Priority Followup added to allow filtering by patients who require immediate followup based on event criteria
 
 == 0.2.1
 

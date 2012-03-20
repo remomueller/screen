@@ -2,4 +2,6 @@
 <% if @patient.mailings.size > (defined?(mailing) ? 1 : 0) %><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom', title: pluralize(@patient.mailings.size, 'Mailing') %> <%= @patient.mailings.size %>&nbsp;<% end %>
 <% if @patient.prescreens.size > (defined?(prescreen) ? 1 : 0) %><%= image_tag 'gentleface/16/3x3_grid.png', alt: '', style: 'vertical-align:text-bottom', title: pluralize(@patient.prescreens.size, 'Prescreen') %> <%= @patient.prescreens.size %>&nbsp;<% end %>
 <% if @patient.calls.size > (defined?(call) ? 1 : 0) %><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom', title: pluralize(@patient.calls.size, 'Call') %> <%= @patient.calls.size %><% end %>
+<% if @patient.evaluations.size > (defined?(evaluation) ? 1 : 0) %><%= image_tag 'gentleface/16/cert.png', alt: '', style: 'vertical-align:text-bottom', title: pluralize(@patient.evaluations.size, 'Evaluation') %> <%= @patient.evaluations.size %><% end %>
+<% if @patient.visits.size > (defined?(visit) ? 1 : 0) %><%= image_tag 'gentleface/16/users.png', alt: '', style: 'vertical-align:text-bottom', title: pluralize(@patient.visits.size, 'Visit') %> <%= @patient.visits.size %><% end %>
 </span>

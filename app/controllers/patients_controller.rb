@@ -15,9 +15,13 @@ class PatientsController < ApplicationController
       patient_scope = patient_scope.with_mrn(term) unless term.blank?
     end
 
+    patient_scope = patient_scope.where("priority > 0") if params[:priority_only] == '1'
     patient_scope = patient_scope.subject_code_not_blank unless current_user.screener?
 
     @order = Patient.column_names.collect{|column_name| "patients.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "patients.id"
+
+    @order = "priority DESC, " + @order if params[:priority_only] == '1'
+
     patient_scope = patient_scope.order(@order)
 
     @patients = patient_scope.page(params[:page]).per(20) # (current_user.patients_per_page)

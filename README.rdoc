@@ -4,7 +4,9 @@ Manage prescreens and call log. Using Rails 3.2+ and Ruby 1.9.3+.
 
 == Installation
 
-NOTE: We assume you have already installed RVM, or the very least the latest version of Ruby (1.9.3 of this writing), and that you have the bundler gem installed.
+{Prerequisites Install Guide}[https://github.com/remomueller/documentation]: Instructions for installing prerequisites like Ruby, Git, JavaScript compiler, etc.
+
+Once you have the prerequisites in place, you can proceed to install bundler which will handle most of the remaining dependencies.
 
   gem install bundler
 
@@ -33,6 +35,14 @@ Run Rails Server (or use Apache or nginx)
 Open a browser and go to: http://localhost
 
 All done!
+
+== Setting up Daily Priority Flagging
+
+This will run the task lib/tasks/flag_priority.rake using Cron
+
+  sudo crontab -e
+
+  0 1 * * * source /etc/profile && /usr/local/rvm/bin/rvm 1.9.3-p125 && /usr/local/rvm/gems/ruby-1.9.3-p125/bin/rake --rakefile /var/www/screen/Rakefile flag_priority RAILS_ENV=production
 
 == Contributing to Screen
 

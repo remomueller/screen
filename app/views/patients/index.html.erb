@@ -8,6 +8,7 @@
 <%= form_tag patients_path, method: :get, remote: true, id: "patients_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order %>
   Search <%= text_field_tag 'mrn', params[:mrn] %> <%#= information %>
+  <%= check_box_tag :priority_only, '1', false, onclick: "$('#patients_search').submit()" %> <b>Priority Only</b>
 <% end %>
 
 <div id="patients"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

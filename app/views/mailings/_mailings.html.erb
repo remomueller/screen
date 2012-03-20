@@ -17,7 +17,6 @@
       <th>ESS</th>
       <th>Eligibility</th>
       <th>Comments</th>
-      <th></th>
     </tr>
 
   <% @mailings.each do |mailing| %>
@@ -29,9 +28,6 @@
       <td><%= mailing.ess %></td>
       <td><%= mailing.eligibility %></td>
       <td><%= mailing.comments %></td>
-      <td>
-        <%= @patient = mailing.patient; render partial: 'patients/statistics', locals: { mailing: 1 } %>
-      </td>
     </tr>
   <% end %>
   </table>

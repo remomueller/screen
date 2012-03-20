@@ -8,6 +8,17 @@
 <%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Patients", patients_path, class: 'button' %>
 <div style="clear:both"></div>
 
+<% unless @patient.priority_message.blank? %>
+    <fieldset>
+      <legend><%= image_tag 'gentleface/16/flag.png', style: 'vertical-align:text-bottom', alt: '', title: "Priority Level: #{@patient.priority}" %> Priority Followup</legend>
+      <ul style="margin-bottom:0">
+        <% @patient.priority_message.split(', ').each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </fieldset>
+<% end %>
+
 <table class="blank padded" style="width:100%;table-layout:fixed">
   <tr>
     <td style="vertical-align:top">

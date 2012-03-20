@@ -19,8 +19,7 @@
       <th>Risk Factors</th>
       <% Patient::EDITABLES.each do |item| %>
         <th><%= item.titleize %></th>
-      <% end  %>
-      <th></th>
+      <% end %>
     </tr>
 
   <% @prescreens.each do |prescreen| %>
@@ -51,41 +50,38 @@
             <%= prescreen.patient.send(item) %>
           </td>
         <% end %>
-        <td>
-          <%= @patient = prescreen.patient; render partial: 'patients/statistics', locals: { prescreen: 1 } %>
-          <%= javascript_tag do %>
-            $(document).ready(function(){
-              <% Prescreen::EDITABLES.each do |item| %>
-                $("#prescreen_<%= prescreen.id %>_<%= item %>_inline_edit").editInPlace({
-                  url: '<%= inline_update_prescreen_path(prescreen) %>',
-                  params: 'item=<%= item %>',
-                  success: function(response){ eval(response) },
-                  field_type: '<%= ['eligibility', 'exclusion'].include?(item) ? 'select' : 'text' %>',
-                  <% if item == 'eligibility' %>
-                    select_options: ',potentially eligible,ineligible'
-                  <% elsif item == 'exclusion' %>
-                    select_options: [<%= (["['','0']"] + Choice.where(category: 'exclusion').collect{|c| "['#{c.name.gsub(/\\/, "\\\\\\").gsub("'", "\\\\'")}','#{c.id}']"}).join(',').html_safe %>]
-                  <% end %>
-                });
-              <% end %>
-
-              $("#prescreen_<%= prescreen.id %>_risk_factors_inline_edit").on('click', function(event) {
-                if(event.target.id != ''){
-                  $("#"+this.id+"_show").hide();
-                  $("#"+this.id+"_form").show();
-                }
+        <%= javascript_tag do %>
+          $(document).ready(function(){
+            <% Prescreen::EDITABLES.each do |item| %>
+              $("#prescreen_<%= prescreen.id %>_<%= item %>_inline_edit").editInPlace({
+                url: '<%= inline_update_prescreen_path(prescreen) %>',
+                params: 'item=<%= item %>',
+                success: function(response){ eval(response) },
+                field_type: '<%= ['eligibility', 'exclusion'].include?(item) ? 'select' : 'text' %>',
+                <% if item == 'eligibility' %>
+                  select_options: ',potentially eligible,ineligible'
+                <% elsif item == 'exclusion' %>
+                  select_options: [<%= (["['','0']"] + Choice.where(category: 'exclusion').collect{|c| "['#{c.name.gsub(/\\/, "\\\\\\").gsub("'", "\\\\'")}','#{c.id}']"}).join(',').html_safe %>]
+                <% end %>
               });
+            <% end %>
 
-              <% Patient::EDITABLES.each do |item| %>
-                $("#patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit").editInPlace({
-                  url: '<%= inline_update_patient_path(prescreen.patient) %>',
-                  params: 'item=<%= item %>',
-                  success: function(response){ eval(response) }
-                });
-              <% end %>
+            $("#prescreen_<%= prescreen.id %>_risk_factors_inline_edit").on('click', function(event) {
+              if(event.target.id != ''){
+                $("#"+this.id+"_show").hide();
+                $("#"+this.id+"_form").show();
+              }
             });
-          <% end %>
-        </td>
+
+            <% Patient::EDITABLES.each do |item| %>
+              $("#patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit").editInPlace({
+                url: '<%= inline_update_patient_path(prescreen.patient) %>',
+                params: 'item=<%= item %>',
+                success: function(response){ eval(response) }
+              });
+            <% end %>
+          });
+        <% end %>
       </tr>
     <%# end %>
   <% end %>

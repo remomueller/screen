@@ -10,8 +10,9 @@
 <% items = [['mrn', 'MRN'], ['subject_code', 'Subject Code'], ['first_name', 'First Name'], ['last_name', 'Last Name']] %>
 
 <div class="frame">
-  <table style="width:100%;table-layout:fixed">
+  <table style="width:100%;table-layout:fixed"><col width="38px" />
     <tr>
+      <th><%= image_tag 'gentleface/16/flag.png', style: 'vertical-align:text-bottom', alt: '', title: 'Priority Followup' %></th>
       <th>Latest Event</th>
       <% items.each do |item, name| %>
         <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.#{item}", name, 'patients_search') %></th>
@@ -21,6 +22,7 @@
 
   <% @patients.each do |patient| %>
     <tr onmouseover="$('.patient_<%= patient.id %>_short').hide();$('.patient_<%= patient.id %>').show();" onmouseout="$('.patient_<%= patient.id %>').hide();$('.patient_<%= patient.id %>_short').show();">
+      <td style="text-align:center"><%= image_tag 'gentleface/16/flag.png', style: 'vertical-align:text-bottom', alt: '', title: patient.priority_message if patient.priority > 0 %></td>
       <td style="white-space:nowrap;overflow:hidden">
         <% event = patient.events.order('event_time DESC').first %>
         <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' if event %>
