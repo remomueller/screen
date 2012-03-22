@@ -9,6 +9,7 @@ class PatientsController < ApplicationController
   end
 
   def index
+    params[:mrn] ||= params[:term]
     # current_user.update_attribute :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
     patient_scope = Patient.current # current_user.all_viewable_patients
     params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
@@ -24,7 +25,12 @@ class PatientsController < ApplicationController
 
     patient_scope = patient_scope.order(@order)
 
-    @patients = patient_scope.page(params[:page]).per(20) # (current_user.patients_per_page)
+    if params[:autocomplete] == 'true'
+      @patients = patient_scope.page(params[:page]).per(10)
+      render 'autocomplete'
+    else
+      @patients = patient_scope.page(params[:page]).per(20) # (current_user.patients_per_page)
+    end
   end
 
   def show

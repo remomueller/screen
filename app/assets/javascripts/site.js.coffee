@@ -34,3 +34,11 @@ jQuery ->
     $("#call_date").val(month + "/" + day + "/" + year)
     false
   )
+
+  $("#mrn")
+    .autocomplete(
+      source: root_url + "patients?autocomplete=true"
+      html: true
+      close: (event, ui) ->
+        $(this).closest('form').submit()
+    )

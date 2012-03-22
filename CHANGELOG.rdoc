@@ -1,5 +1,8 @@
 == 0.4.0
 
+* Enhancements
+  * Searching on index pages now uses autocomplete
+
 == 0.3.0
 
 * Enhancements
