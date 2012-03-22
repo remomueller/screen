@@ -124,5 +124,6 @@
   });
 <% end %>
 
+<%= @events = @patient.events.order("events.event_time DESC"); render partial: 'events/events_mini' %>
 
 <%#= @order = 'events.event_time DESC'; @events = @patient.events.order(@order).page(0); render partial: 'events/events' %>

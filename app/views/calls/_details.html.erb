@@ -1,0 +1,41 @@
+<% @call = @object %>
+
+  <p>
+    <b>Response:</b>
+    <%= @call.response_name %>
+  </p>
+
+<div id="event_<%= @event.id %>_comments_long" style="display:none">
+
+  <p>
+    <b>Direction:</b>
+    <%= @call.direction %>
+  </p>
+
+  <p>
+    <b>Berlin:</b>
+    <%= @call.berlin %>
+  </p>
+
+  <p>
+    <b>ESS:</b>
+    <%= @call.ess %>
+  </p>
+
+  <p>
+    <b>Eligibility:</b>
+    <%= @call.eligibility %>
+  </p>
+
+  <p>
+    <b>Exclusion:</b>
+    <%= @call.exclusion_name %>
+  </p>
+
+  <p>
+    <b>Participation:</b>
+    <%= @call.participation_name %>
+  </p>
+
+  <%= simple_format @call.comments %>
+</div>

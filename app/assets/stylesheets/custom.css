@@ -39,3 +39,21 @@ a:link.positive:link, a:visited.positive {
   -webkit-border-radius: 3px; /* Webkit */
   border-radius: 3px;
 }
+
+div.left-bubble, div.right-bubble {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #bbb;
+  -moz-border-radius: 3px; /* Mozilla */
+  -webkit-border-radius: 3px; /* Webkit */
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+div.right-bubble {
+  margin-left: 51%;
+}
+
+div.left-bubble {
+  margin-right: 51%;
+}

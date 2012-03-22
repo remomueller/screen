@@ -1,0 +1,26 @@
+<div class="frame">
+  <% @events.each do |event| %>
+    <% @event = event %>
+    <div id="event_<%= @event.id %>_full" class="<%= cycle('left-bubble', 'right-bubble') %>"
+         onclick="$('#event_<%= @event.id %>_comments_long').toggle('slide', { direction: 'up' });"
+         onmouseover="$('#event_<%= @event.id %>_full').css('background-color', '#fffce5');"
+         onmouseout="$('#event_<%= @event.id %>_full').css('background-color', 'white');"
+         >
+      <table class="blank" style="width:100%;background-color:transparent">
+        <tr>
+          <td>
+            <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
+            <%= link_to event.full_name, event.object %>
+          </td>
+          <td></td>
+          <td style="text-align:right"><%= event.use_date? ? simple_date(event.event_time) : simple_time(event.event_time) %></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <%= @object = event.object; render partial: "#{event.object.class.name.downcase.pluralize}/details" %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  <% end %>
+</div>

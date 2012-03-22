@@ -1,0 +1,10 @@
+<% @visit = @object %>
+
+<p style="margin:0px">
+  Outcome:
+  <b><%= @visit.outcome_name %></b>
+</p>
+
+<div id="event_<%= @event.id %>_comments_long" style="display:none">
+  <%= simple_format @visit.comments %>
+</div>

@@ -1,0 +1,47 @@
+<% @evaluation = @object %>
+
+<div id="event_<%= @event.id %>_comments_long" style="display:none">
+
+  <p>
+    <b>Administration type:</b>
+    <%= @evaluation.administration_type_name %>
+    <%= @evaluation.evaluation_type_name %>
+  </p>
+
+  <p>
+    <b>Source:</b>
+    <%= @evaluation.source %>
+  </p>
+
+  <p>
+    <b>Embletta unit number:</b>
+    <%= @evaluation.embletta_unit_number %>
+  </p>
+
+  <p>
+    <b>Subject notified:</b>
+    <%= check_box_tag 'evaluation', 'subject_notified', @evaluation.subject_notified?, disabled: true %>
+  </p>
+
+  <p>
+    <b>AHI:</b>
+    <%= @evaluation.ahi %>
+  </p>
+
+  <p>
+    <b>Eligibility:</b>
+    <%= @evaluation.eligibility %>
+  </p>
+
+  <p>
+    <b>Exclusion:</b>
+    <%= @evaluation.exclusion_name %>
+  </p>
+
+  <p>
+    <b>Status:</b>
+    <%= @evaluation.status %>
+  </p>
+
+  <%= simple_format @evaluation.comments %>
+</div>

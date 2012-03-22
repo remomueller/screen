@@ -2,6 +2,7 @@
 
 * Enhancements
   * Searching on index pages now uses autocomplete
+  * Patient events now displayed as a timeline
 
 == 0.3.0
 
