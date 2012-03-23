@@ -22,12 +22,12 @@
       <% @event = event %>
       <% @object = @event.object %>
       <div id="event_<%= @event.id %>_full" class="center-bubble my_<%= month_year[:id] %>"
-           onclick=""
-           onmouseover="$(this).addClass('highlight');$('.right-bubble').hide();$('#event_<%= @event.id %>_comments_long').toggle();"
+           onmouseover="$(this).addClass('highlight');$('.right-bubble, .right-connection').hide();$('#event_<%= @event.id %>_comments_long').show();$('#event_<%= @event.id %>_connect').show();"
            onmouseout="$(this).removeClass('highlight');"
            style="margin-bottom:5px;position:relative"
            >
         <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
+        <div id="event_<%= @event.id %>_connect" style="display:none" class="right-connection"></div>
         <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed">
           <tr>
             <td style="white-space:nowrap;vertical-align:top">
@@ -49,7 +49,6 @@
                   <%= @choice = choice; render partial: 'choices/show' %>
                 <% end %>
               <% end %>
-              <%#= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
             </td>
           </tr>
         </table>
