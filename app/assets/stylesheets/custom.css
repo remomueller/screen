@@ -66,3 +66,7 @@ div.center-bubble {
 div.marginless p {
   margin: 0px;
 }
+
+div.highlight {
+  background-color: #fffce5;
+}

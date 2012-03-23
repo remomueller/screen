@@ -1,21 +1,30 @@
 <div class="frame">
   <% @events.group_by(&:month_year).each do |month_year, events| %>
-    <div class="month-bubble" style="float:left;margin-bottom:5px" onclick="$('.my_<%= month_year[:id] %>').toggle();">
+    <div class="month-bubble" style="float:left;margin-bottom:5px"
+         onclick="$('.my_<%= month_year[:id] %>').toggle();"
+         onmouseover="$(this).addClass('highlight');"
+         onmouseout="$(this).removeClass('highlight');">
       <%= month_year[:display] %>
     </div>
     <div class="center-bubble my_<%= month_year[:id] %>" style="margin-bottom:5px; display:none"
          onclick="$('.my_<%= month_year[:id] %>').toggle();"
-         onmouseover="$(this).css('background-color', '#fffce5');"
-         onmouseout="$(this).css('background-color', 'white');">
-      <center><%= link_to_function pluralize(events.size, "Hidden Event"), "return false;" %> for <%= month_year[:display] %></center>
+         onmouseover="$(this).addClass('highlight');"
+         onmouseout="$(this).removeClass('highlight');">
+      <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed;">
+        <tr>
+          <td style="vertical-align:top"></td>
+          <td style="vertical-align:top;text-align:center"><%= link_to_function pluralize(events.size, "Hidden Event"), "return false;" %></td>
+          <td style="vertical-align:top;text-align:right"><%= month_year[:display] %></td>
+        </tr>
+      </table>
     </div>
     <% events.each do |event| %>
       <% @event = event %>
       <% @object = @event.object %>
-      <div id="event_<%= @event.id %>_full" class="center-bubble<%#= cycle('left-bubble', 'right-bubble') %> my_<%= month_year[:id] %>"
-           onclick="$('#event_<%= @event.id %>_comments_long').toggle('slide', { direction: 'up' });"
-           onmouseover="$(this).css('background-color', '#fffce5');"
-           onmouseout="$(this).css('background-color', 'white');"
+      <div id="event_<%= @event.id %>_full" class="center-bubble my_<%= month_year[:id] %>"
+           onclick="$('#event_<%= @event.id %>_comments_long').toggle();"
+           onmouseover="$(this).addClass('highlight');"
+           onmouseout="$(this).removeClass('highlight');"
            style="margin-bottom:5px"
            >
         <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed">
