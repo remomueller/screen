@@ -56,12 +56,15 @@ div.right-bubble {
   width: 240px;
   top: -1px;
   background-color: inherit;
+  -moz-border-top-left-radius: 0px; /* Mozilla */
+  -webkit-border-top-left-radius: 0px; /* Webkit */
+  border-top-left-radius: 0px;
   /*margin-left: 51%;*/
 }
 
 div.right-connection {
   position: absolute;
-  left: 537px;
+  left: 536px;
   top: -1px;
   width: 13px;
   background-color: inherit;
