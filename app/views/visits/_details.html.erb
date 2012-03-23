@@ -1,4 +1,7 @@
 <% @visit = @object %>
-<div id="event_<%= @event.id %>_comments_long" style="display:none" class="marginless">
-  <%= simple_format @visit.comments %>
+<div id="event_<%= @event.id %>_comments_long" style="display:none" class="right-bubble">
+  <div class="marginless">
+    <b>Comments:</b>
+    <%= simple_format @visit.comments %>
+  </div>
 </div>

@@ -1,12 +1,6 @@
 <% @prescreen = @object %>
 
-<center>
-  <% @prescreen.risk_factors.each do |choice| %>
-    <%= @choice = choice; render partial: 'choices/show' %>
-  <% end %>
-</center>
-
-<div id="event_<%= @event.id %>_comments_long" style="display:none" class="marginless">
+<div id="event_<%= @event.id %>_comments_long" style="display:none" class="right-bubble">
 
   <p>
     <b>Clinic:</b>
@@ -18,8 +12,10 @@
     <%= @prescreen.doctor.name %>
   </p>
 
+<% unless @prescreen.exclusion_name.blank? %>
   <p>
     <b>Exclusion:</b>
     <%= @prescreen.exclusion_name %>
   </p>
+<% end %>
 </div>

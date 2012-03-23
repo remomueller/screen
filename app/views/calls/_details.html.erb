@@ -1,36 +1,45 @@
 <% @call = @object %>
 
-<div id="event_<%= @event.id %>_comments_long" style="display:none" class="marginless">
-
-  <p>
-    <b>Direction:</b>
-    <%= @call.direction %>
-  </p>
-
+<div id="event_<%= @event.id %>_comments_long" style="display:none;" class="right-bubble">
+<% unless @call.berlin.blank? %>
   <p>
     <b>Berlin:</b>
     <%= @call.berlin %>
   </p>
+<% end %>
 
+<% unless @call.ess.blank? %>
   <p>
     <b>ESS:</b>
     <%= @call.ess %>
   </p>
+<% end %>
 
+<% unless @call.eligibility.blank? %>
   <p>
     <b>Eligibility:</b>
     <%= @call.eligibility %>
   </p>
+<% end %>
 
+<% unless @call.exclusion_name.blank? %>
   <p>
     <b>Exclusion:</b>
     <%= @call.exclusion_name %>
   </p>
+<% end %>
 
+<% unless @call.participation_name.blank? %>
   <p>
     <b>Participation:</b>
     <%= @call.participation_name %>
   </p>
+<% end %>
 
-  <%= simple_format @call.comments %>
+<% unless @call.comments.blank? %>
+  <div class="marginless">
+    <b>Comments:</b>
+    <%= simple_format @call.comments %>
+  </div>
+<% end %>
 </div>

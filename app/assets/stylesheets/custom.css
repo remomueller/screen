@@ -51,7 +51,11 @@ div.left-bubble, div.right-bubble, div.center-bubble, div.month-bubble {
 }
 
 div.right-bubble {
-  margin-left: 51%;
+  position: absolute;
+  left: 102%;
+  width: 240px;
+  top: -1px;
+  /*margin-left: 51%;*/
 }
 
 div.left-bubble {

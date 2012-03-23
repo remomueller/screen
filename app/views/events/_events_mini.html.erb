@@ -22,11 +22,12 @@
       <% @event = event %>
       <% @object = @event.object %>
       <div id="event_<%= @event.id %>_full" class="center-bubble my_<%= month_year[:id] %>"
-           onclick="$('#event_<%= @event.id %>_comments_long').toggle();"
-           onmouseover="$(this).addClass('highlight');"
+           onclick=""
+           onmouseover="$(this).addClass('highlight');$('.right-bubble').hide();$('#event_<%= @event.id %>_comments_long').toggle();"
            onmouseout="$(this).removeClass('highlight');"
-           style="margin-bottom:5px"
+           style="margin-bottom:5px;position:relative"
            >
+        <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
         <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed">
           <tr>
             <td style="white-space:nowrap;vertical-align:top">
@@ -38,12 +39,17 @@
               <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details_short" %>
             </td>
             <td style="text-align:right;vertical-align:top">
-              <%= @event.use_date? ? simple_date(@event.event_time) : simple_time(@event.event_time).gsub(' at ', '<br />').html_safe %>
+              <%= @event.use_date? ? simple_date(@event.event_time) : simple_time(@event.event_time).gsub('on ', '').gsub(' at ', '<br />').html_safe %>
             </td>
           </tr>
           <tr>
-            <td colspan="3">
-              <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
+            <td style="text-align:center" colspan="3">
+              <% if @object.respond_to?('risk_factors') %>
+                <% @object.risk_factors.each do |choice| %>
+                  <%= @choice = choice; render partial: 'choices/show' %>
+                <% end %>
+              <% end %>
+              <%#= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
             </td>
           </tr>
         </table>
