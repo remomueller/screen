@@ -22,7 +22,9 @@
       <% @event = event %>
       <% @object = @event.object %>
       <div id="event_<%= @event.id %>_full" class="center-bubble my_<%= month_year[:id] %>"
-           onmouseover="$(this).addClass('highlight');$('.right-bubble, .right-connection').hide();$('#event_<%= @event.id %>_comments_long').show();$('#event_<%= @event.id %>_connect').show();"
+           onmouseover="$(this).addClass('highlight');$('.right-bubble, .right-connection').hide();
+            if($('#event_<%= @event.id %>_comments_long').html().replace(/[\s]/g, '') != ''){$('#event_<%= @event.id %>_comments_long').show();$('#event_<%= @event.id %>_connect').show();}
+            "
            onmouseout="$(this).removeClass('highlight');"
            style="margin-bottom:5px;position:relative"
            >
