@@ -40,7 +40,7 @@ a:link.positive:link, a:visited.positive {
   border-radius: 3px;
 }
 
-div.left-bubble, div.right-bubble {
+div.left-bubble, div.right-bubble, div.center-bubble, div.month-bubble {
   background-color: white;
   padding: 10px;
   border: 1px solid #bbb;
@@ -56,4 +56,13 @@ div.right-bubble {
 
 div.left-bubble {
   margin-right: 51%;
+}
+
+div.center-bubble {
+  margin-right: 25%;
+  margin-left: 25%;
+}
+
+div.marginless p {
+  margin: 0px;
 }

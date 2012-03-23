@@ -1,26 +1,45 @@
 <div class="frame">
-  <% @events.each do |event| %>
-    <% @event = event %>
-    <div id="event_<%= @event.id %>_full" class="<%= cycle('left-bubble', 'right-bubble') %>"
-         onclick="$('#event_<%= @event.id %>_comments_long').toggle('slide', { direction: 'up' });"
-         onmouseover="$('#event_<%= @event.id %>_full').css('background-color', '#fffce5');"
-         onmouseout="$('#event_<%= @event.id %>_full').css('background-color', 'white');"
-         >
-      <table class="blank" style="width:100%;background-color:transparent">
-        <tr>
-          <td>
-            <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
-            <%= link_to event.full_name, event.object %>
-          </td>
-          <td></td>
-          <td style="text-align:right"><%= event.use_date? ? simple_date(event.event_time) : simple_time(event.event_time) %></td>
-        </tr>
-        <tr>
-          <td colspan="3">
-            <%= @object = event.object; render partial: "#{event.object.class.name.downcase.pluralize}/details" %>
-          </td>
-        </tr>
-      </table>
+  <% @events.group_by(&:month_year).each do |month_year, events| %>
+    <div class="month-bubble" style="float:left;margin-bottom:5px" onclick="$('.my_<%= month_year[:id] %>').toggle();">
+      <%= month_year[:display] %>
     </div>
+    <div class="center-bubble my_<%= month_year[:id] %>" style="margin-bottom:5px; display:none"
+         onclick="$('.my_<%= month_year[:id] %>').toggle();"
+         onmouseover="$(this).css('background-color', '#fffce5');"
+         onmouseout="$(this).css('background-color', 'white');">
+      <center><%= link_to_function pluralize(events.size, "Hidden Event"), "return false;" %> for <%= month_year[:display] %></center>
+    </div>
+    <% events.each do |event| %>
+      <% @event = event %>
+      <% @object = @event.object %>
+      <div id="event_<%= @event.id %>_full" class="center-bubble<%#= cycle('left-bubble', 'right-bubble') %> my_<%= month_year[:id] %>"
+           onclick="$('#event_<%= @event.id %>_comments_long').toggle('slide', { direction: 'up' });"
+           onmouseover="$(this).css('background-color', '#fffce5');"
+           onmouseout="$(this).css('background-color', 'white');"
+           style="margin-bottom:5px"
+           >
+        <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed">
+          <tr>
+            <td style="white-space:nowrap;vertical-align:top">
+              <%= image_tag "gentleface/16/#{@object.direction == 'incoming' ? 'arrow_bottom_rigth' : 'arrow_top_right'}.png", alt: '', size: '10x10', style: 'vertical-align:text-middle;margin-left:-7px;margin-right:-7px;margin-bottom:8px;margin-top:-8px', title: @object.direction if @object.class.name == 'Call' %>
+              <%= image_tag "gentleface/16/#{@event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
+              <%= link_to @event.full_name, @object %>
+            </td>
+            <td style="text-align:center;vertical-align:top">
+              <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details_short" %>
+            </td>
+            <td style="text-align:right;vertical-align:top">
+              <%= @event.use_date? ? simple_date(@event.event_time) : simple_time(@event.event_time).gsub(' at ', '<br />').html_safe %>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
+            </td>
+          </tr>
+        </table>
+      </div>
+    <% end %>
+    <div style="clear:both;"></div>
   <% end %>
 </div>

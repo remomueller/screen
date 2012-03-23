@@ -1,0 +1,3 @@
+<% @evaluation = @object %>
+<% unless @evaluation.eligibility.blank? %><b><%= @evaluation.eligibility %></b><br /><% end %>
+<% unless @evaluation.ahi.blank? %>AHI: <b><%= @evaluation.ahi %></b><% end %>

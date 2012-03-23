@@ -1,12 +1,6 @@
 <% @evaluation = @object %>
 
-<div id="event_<%= @event.id %>_comments_long" style="display:none">
-
-  <p>
-    <b>Administration type:</b>
-    <%= @evaluation.administration_type_name %>
-    <%= @evaluation.evaluation_type_name %>
-  </p>
+<div id="event_<%= @event.id %>_comments_long" style="display:none" class="marginless">
 
   <p>
     <b>Source:</b>
@@ -21,16 +15,6 @@
   <p>
     <b>Subject notified:</b>
     <%= check_box_tag 'evaluation', 'subject_notified', @evaluation.subject_notified?, disabled: true %>
-  </p>
-
-  <p>
-    <b>AHI:</b>
-    <%= @evaluation.ahi %>
-  </p>
-
-  <p>
-    <b>Eligibility:</b>
-    <%= @evaluation.eligibility %>
   </p>
 
   <p>

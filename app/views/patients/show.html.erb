@@ -52,7 +52,7 @@
         <legend><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> Contact</legend>
         <p>
           <b>Home Phone:</b>
-          <%= @patient.phone_home %>
+          <%= @patient.phone_home_pretty %>
         </p>
 
         <p>
@@ -87,16 +87,6 @@
           <b>Age:</b>
           <%= @patient.age %>
         </p>
-
-        <p>
-          <b>ESS:</b>
-          <%= @patient.ess %>
-        </p>
-
-        <p>
-          <b>Berlin:</b>
-          <%= @patient.berlin %>
-        </p>
       </fieldset>
     </td>
   </tr>
@@ -111,7 +101,7 @@
 
 <div style="clear:both"></div>
 
-
+<% if false %>
 <%= form_tag events_path(patient_id: @patient.id, hide_patient: 1), method: :get, remote: true, id: "events_search", style: "display:inline" do %>
   <%= hidden_field_tag :order %>
 <% end %>
@@ -122,6 +112,7 @@
   $(function(){
     $.get($("#events_search").attr("action"), $("#events_search").serialize(), null, "script");
   });
+<% end %>
 <% end %>
 
 <%= @events = @patient.events.order("events.event_time DESC"); render partial: 'events/events_mini' %>

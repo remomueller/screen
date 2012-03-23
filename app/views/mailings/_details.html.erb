@@ -1,7 +1,12 @@
 <% @mailing = @object %>
 
-<div id="event_<%= @event.id %>_comments_long" style="display:none">
+<center>
+  <% @mailing.risk_factors.each do |choice| %>
+    <%= @choice = choice; render partial: 'choices/show' %>
+  <% end %>
+</center>
 
+<div id="event_<%= @event.id %>_comments_long" style="display:none" class="marginless">
   <p>
     <b>Berlin:</b>
     <%= @mailing.berlin %>
@@ -13,11 +18,6 @@
   </p>
 
   <p>
-    <b>Eligibility:</b>
-    <%= @mailing.eligibility %>
-  </p>
-
-  <p>
     <b>Exclusion:</b>
     <%= @mailing.exclusion_name %>
   </p>
@@ -25,14 +25,5 @@
   <p>
     <b>Participation:</b>
     <%= @mailing.participation_name %>
-  </p>
-
-  <p>
-    <b>Risk factors:</b>
-    <ul>
-      <% @mailing.risk_factors.each do |choice| %>
-        <li><%= @choice = choice; render partial: 'choices/show' %> <%= choice.description %></li>
-      <% end %>
-    </ul>
   </p>
 </div>

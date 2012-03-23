@@ -14,9 +14,13 @@ class Event < ActiveRecord::Base
 
   # Class Methods
 
+  def month_year
+    { display: self.event_time.strftime('%B') + (self.event_time.year == Date.today.year ? "" : " #{self.event_time.year}" ), id: self.event_time.strftime("%m%Y") }
+  end
+
   def full_name
     if object.class.name == 'Evaluation'
-      "#{object.administration_type_name} #{self.name}"
+      "#{object.evaluation_type_name} #{object.administration_type_name} #{self.name}"
     elsif object.class.name == 'Visit'
       "#{object.visit_type_name} #{self.name}"
     elsif object.class.name == 'Call'
