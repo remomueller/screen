@@ -77,6 +77,11 @@ class PatientsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show patient with eleven digit phone" do
+    get :show, id: patients(:two)
+    assert_response :success
+  end
+
   test "should not show patient without subject code to subject handler" do
     login(users(:subject_handler))
     get :show, id: patients(:without_subject_code)

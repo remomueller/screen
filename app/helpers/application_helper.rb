@@ -65,4 +65,15 @@ module ApplicationHelper
     result
   end
 
+  def pretty_phone(phone)
+    digits = phone.to_s.gsub(/[^\d]/, '')
+    if digits.size == 10
+      digits[0..2] + "-" + digits[3..5] + "-" + digits[6..-1]
+    elsif digits.size == 11
+      digits[0] + "-" + digits[1..3] + "-" + digits[4..6] + "-" + digits[7..-1]
+    else
+      phone
+    end
+  end
+
 end

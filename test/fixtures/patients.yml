@@ -4,7 +4,7 @@ one:
   mrn: "0001"
   first_name: FirstName
   last_name: LastName
-  phone_home: MyString
+  phone_home: 1231231234
   sex: MyString
   age: 1
   address1: MyString
@@ -14,7 +14,7 @@ two:
   mrn: "0002"
   first_name: MyString
   last_name: MyString
-  phone_home: MyString
+  phone_home: 13213211234
   sex: MyString
   age: 1
   address1: MyString

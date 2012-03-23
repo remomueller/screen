@@ -25,16 +25,6 @@ class Patient < ActiveRecord::Base
 
   # Study Code if available, if not, MRN
 
-  def phone_home_pretty
-    if self.phone_home.size == 10
-      self.phone_home[0..2] + "-" + self.phone_home[3..5] + "-" + self.phone_home[6..-1]
-    elsif self.phone_home.size == 11
-      self.phone_home[0] + "-" + self.phone_home[1..3] + "-" + self.phone_home[4..6] + "-" + self.phone_home[7..-1]
-    else
-      self.phone_home
-    end
-  end
-
   def editable_by?(current_user)
     current_user.screener? or (not self.subject_code.blank? and current_user.subject_handler?)
   end

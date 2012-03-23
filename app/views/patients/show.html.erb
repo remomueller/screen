@@ -52,17 +52,17 @@
         <legend><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> Contact</legend>
         <p>
           <b>Home Phone:</b>
-          <%= @patient.phone_home_pretty %>
+          <%= pretty_phone @patient.phone_home %>
         </p>
 
         <p>
           <b>Day Phone:</b>
-          <%= @patient.phone_day %>
+          <%= pretty_phone @patient.phone_day %>
         </p>
 
         <p>
           <b>Alt Phone:</b>
-          <%= @patient.phone_alt %>
+          <%= pretty_phone @patient.phone_alt %>
         </p>
       </fieldset>
     </td>

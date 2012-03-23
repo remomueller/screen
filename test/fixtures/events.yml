@@ -4,23 +4,28 @@ one:
   patient: one
   class_name: Prescreen
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+  event_time: 2011-12-23 11:32:01
 
 two:
   patient: one
   class_name: Mailing
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+  event_time: 2012-03-24 14:32:01
 
 three:
   patient: one
   class_name: Call
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+  event_time: 2012-03-25 16:32:01
 
 four:
   patient: one
   class_name: Evaluation
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+  event_time: 2012-03-26 18:32:01
 
 five:
   patient: one
   class_name: Visit
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
+  event_time: 2012-03-27 19:32:01
