@@ -10,7 +10,11 @@ Screen::Application.routes.draw do
 
   resources :doctors
 
-  resources :calls
+  resources :calls do
+    collection do
+      post :task_tracker_templates
+    end
+  end
 
   resources :mailings
 

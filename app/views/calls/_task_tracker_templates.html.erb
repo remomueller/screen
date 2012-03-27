@@ -1,0 +1,11 @@
+<% if current_user.task_tracker_screen_token.blank? or @templates.blank? %>
+  Please enter your Task Tracker Screen Token which you can find here:<br />
+  <%= link_to TASK_TRACKER_URL + "/settings#screen_token", TASK_TRACKER_URL + "/settings#screen_token", target: '_blank' %><br />
+  <%= label_tag 'task_tracker_screen_token' %>
+  <%= text_field_tag "task_tracker_screen_token", '' %>
+  <div style="clear:both"></div>
+  <%= link_to_function image_tag('gentleface/16/key.png', alt: '', size: '11x11') + 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#templates_form').attr('action'), $('#templates_form').serialize(), null, 'script');", class: 'button' %>
+<% else %>
+  <%= label 'call', 'tt_template_id' %>
+  <%= select 'call', 'tt_template_id', [['---', nil]] + @templates.collect{|t| [t['name'], t['id']]} %>
+<% end %>

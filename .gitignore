@@ -27,6 +27,7 @@
 /config/initializers/devise.rb
 /config/initializers/omniauth.rb
 /config/initializers/secret_token.rb
+/config/initializers/task_tracker.rb
 
 /public/cache/*
 /public/stylesheets/cache/*

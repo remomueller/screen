@@ -103,6 +103,9 @@
       <%= f.label :comments %><br />
       <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>
     </div>
+    <div class="field" id="task_tracker_templates">
+      <%= image_tag "ajax-loader.gif" %>
+    </div>
   </fieldset>
 
   <div class="actions">
@@ -111,4 +114,14 @@
     <%= cancel %>
     <br />
   </div>
+<% end %>
+
+<%= form_tag task_tracker_templates_calls_path, method: :post, remote: true, style: 'display:inline', id: 'templates_form' do %>
+  <%= hidden_field_tag 'screen_token', '' %>
+<% end %>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.post($("#templates_form").attr("action"), $("#templates_form").serialize(), null, "script");
+  });
 <% end %>
