@@ -11,55 +11,52 @@
     <%= link_to_function image_tag('gentleface/16/key.png', alt: '', size: '11x11') + 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#group_call_form').attr('action'), $('#group_call_form').serialize(), null, 'script');", class: 'button' %>
   </div>
 <% else %>
-  <div style="border-left: 1px solid #CCC;margin-left:5px;padding-left:5px">
-    <p>
-      <b>Group:</b>
-      <%= link_to @group['id'], @group['group_link'] %>
-    </p>
+<fieldset>
+  <legend>Group: <%= link_to @group['id'], @group['group_link'] %></legend>
 
-    <p>
-      <b>Creator:</b>
-      <%= @group['creator_name'] %>
-    </p>
+  <p>
+    <b>Creator:</b>
+    <%= @group['creator_name'] %>
+  </p>
 
-    <p>
-      <b>Generated From Template:</b>
-      <%= @group['template']['name'] if @group['template'] %>
-    </p>
+  <p>
+    <b>Generated From Template:</b>
+    <%= @group['template']['name'] if @group['template'] %>
+  </p>
 
-    <p>
-      <b>Description (Additional Information):</b>
-      <div style="padding-left:5px">
-        <%= simple_format @group['description'] %>
-      </div>
-    </p>
+  <p>
+    <b>Description (Additional Information):</b>
+    <div style="padding-left:5px">
+      <%= simple_format @group['description'] %>
+    </div>
+  </p>
 
-    <p>
-      <table class="blank padded" style="width:100%">
-        <thead>
-          <tr>
-            <th>Sticky</th>
-            <th>Due Date</th>
-            <th>Assigned To</th>
-            <th>Tags</th>
-          </tr>
-        </thead>
-        <% (@group['stickies'] || []).each do |sticky| %>
-          <tr>
-            <td>
-              <% if sticky['completed'] %>
-                <%= image_tag("gentleface/16/checkmark.png", alt: '', size: '10x10') %> <span style="text-decoration:line-through"><%= sticky['id'] %></span>
-              <% else %>
-                <%= sticky['id'] %>
-              <% end %>
-              <%= simple_format sticky['description'] %>
-            </td>
-            <td style="text-align:center"><%= simple_date Time.parse(sticky['due_date']) rescue '' %></td>
-            <td style="text-align:center">...</td>
-            <td style="text-align:center">...</td>
-          </tr>
-        <% end %>
-      </table>
-    </p>
-  </div>
+  <p>
+    <table class="blank padded" style="width:100%">
+      <thead>
+        <tr>
+          <th>Sticky</th>
+          <th>Due Date</th>
+          <th>Assigned To</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <% (@group['stickies'] || []).each do |sticky| %>
+        <tr>
+          <td>
+            <% if sticky['completed'] %>
+              <%= image_tag("gentleface/16/checkmark.png", alt: '', size: '10x10') %> <span style="text-decoration:line-through"><%= sticky['id'] %></span>
+            <% else %>
+              <%= sticky['id'] %>
+            <% end %>
+            <%= simple_format sticky['description'] %>
+          </td>
+          <td style="text-align:center"><%= simple_date Time.parse(sticky['due_date']) rescue '' %></td>
+          <td style="text-align:center">...</td>
+          <td style="text-align:center">...</td>
+        </tr>
+      <% end %>
+    </table>
+  </p>
+</fieldset>
 <% end %>

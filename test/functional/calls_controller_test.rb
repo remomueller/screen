@@ -143,6 +143,21 @@ class CallsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show group for call" do
+    post :show_group, id: @call, format: 'js'
+    assert_not_nil assigns(:call)
+    assert_not_nil assigns(:group)
+    assert_template 'show_group'
+    assert_response :success
+  end
+
+  test "should not show group for invalid call" do
+    post :show_group, id: -1, format: 'js'
+    assert_nil assigns(:group)
+    assert_nil assigns(:call)
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, id: @call
     assert_response :success

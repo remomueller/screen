@@ -35,7 +35,7 @@ class CallsController < ApplicationController
 
   def task_tracker_templates
     current_user.update_attribute :task_tracker_screen_token, params[:screen_token] unless params[:screen_token].blank?
-    result_hash = send_message("templates.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token }, "get")
+    result_hash = send_message("templates.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'editable_only' => '1' }, "get")
     @templates = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
   end
 

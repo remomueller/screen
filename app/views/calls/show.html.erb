@@ -59,20 +59,20 @@
     <b>Comments:</b>
     <%= @call.comments %>
   </p>
-
-  <% unless @call.tt_group_id.blank? %>
-    <div id="show_group">
-      <%= image_tag "ajax-loader.gif" %>
-    </div>
-
-    <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: 'group_call_form' do %>
-      <%= hidden_field_tag 'screen_token', '' %>
-    <% end %>
-
-    <%= javascript_tag do %>
-      $(function(){
-        $.post($("#group_call_form").attr("action"), $("#group_call_form").serialize(), null, "script");
-      });
-    <% end %>
-  <% end %>
 </fieldset>
+
+<% unless @call.tt_group_id.blank? %>
+  <div id="show_group">
+    <%= image_tag "ajax-loader.gif" %>
+  </div>
+
+  <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: 'group_call_form' do %>
+    <%= hidden_field_tag 'screen_token', '' %>
+  <% end %>
+
+  <%= javascript_tag do %>
+    $(function(){
+      $.post($("#group_call_form").attr("action"), $("#group_call_form").serialize(), null, "script");
+    });
+  <% end %>
+<% end %>
