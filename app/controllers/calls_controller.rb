@@ -111,6 +111,7 @@ class CallsController < ApplicationController
       https.open_timeout = 1000 # in seconds
       https.read_timeout = 3000 # in seconds
       https.use_ssl = true if use_secure
+      https.verify_mode = OpenSSL::SSL::VERIFY_NONE if use_secure
 
       headers = { 'Content-Type' => 'text/html', 'WWW-Authenticate' => 'Basic realm="Application"', 'Authorization' => "Basic #{Base64.strict_encode64("#{TT_EMAIL}:#{TT_PASSWORD}")}" }
 
