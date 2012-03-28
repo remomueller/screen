@@ -11,6 +11,9 @@ Screen::Application.routes.draw do
   resources :doctors
 
   resources :calls do
+    member do
+      post :show_group
+    end
     collection do
       post :task_tracker_templates
     end

@@ -22,6 +22,17 @@ class CallsController < ApplicationController
     redirect_to root_path unless @call and @call.patient.editable_by?(current_user)
   end
 
+  def show_group
+    @call = Call.find_by_id(params[:id])
+    if @call
+      current_user.update_attribute :task_tracker_screen_token, params[:screen_token] unless params[:screen_token].blank?
+      result_hash = send_message("groups/#{@call.tt_group_id}.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token }, "get")
+      @group = result_hash[:result].blank? ? {} : ActiveSupport::JSON.decode(result_hash[:result])
+    else
+      render nothing: true
+    end
+  end
+
   def task_tracker_templates
     current_user.update_attribute :task_tracker_screen_token, params[:screen_token] unless params[:screen_token].blank?
     result_hash = send_message("templates.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token }, "get")
@@ -53,6 +64,7 @@ class CallsController < ApplicationController
         additional_text = "Subject Code: #{@call.patient.subject_code}\n\nCreated by Screen\n"
         result_hash = send_message("groups.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'template_id' => @call.tt_template_id, 'initial_due_date' => params[:initial_due_date], 'additional_text' => additional_text }, "post")
         @group = result_hash[:result].blank? ? {} : ActiveSupport::JSON.decode(result_hash[:result])
+        @call.update_attribute :tt_group_id, @group['id'] unless @group['id'].blank?
       end
 
       redirect_to @call.patient, notice: 'Call was successfully created.'
