@@ -52,9 +52,7 @@ class CallsController < ApplicationController
       if @call.tt_template_id
         additional_text = "Subject Code: #{@call.patient.subject_code}\n\nCreated by Screen\n"
         result_hash = send_message("groups.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'template_id' => @call.tt_template_id, 'initial_due_date' => params[:initial_due_date], 'additional_text' => additional_text }, "post")
-        if result_hash[:error].blank?
-          @group = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
-        end
+        @group = result_hash[:result].blank? ? {} : ActiveSupport::JSON.decode(result_hash[:result])
       end
 
       redirect_to @call.patient, notice: 'Call was successfully created.'
