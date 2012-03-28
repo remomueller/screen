@@ -1,9 +1,74 @@
 require 'test_helper'
+require 'artifice'
 
 class CallsControllerTest < ActionController::TestCase
   setup do
     @call = calls(:one)
     login(users(:screener))
+  end
+
+  test "should get task tracker templates" do
+    app = proc do |env|
+      [200, { 'Content-Type' => 'application/json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
+    end
+    Artifice.activate_with(app) do
+      post :task_tracker_templates, format: 'js'
+    end
+    assert_not_nil assigns(:templates)
+    assert_equal 1, assigns(:templates).first['id']
+    assert_equal "Template One - Project One", assigns(:templates).first['full_name']
+    assert_template 'task_tracker_templates'
+    assert_response :success
+  end
+
+  test "should get task tracker templates with redirect" do
+    app = proc do |env|
+      if env['PATH_INFO'].split('/').last == 'templates.json'
+        # Temporary Redirect
+        [307, { 'Content-Type' => 'application/json', 'Location' => 'http://localhost/new/templates_new_location.json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
+      else
+        [200, { 'Content-Type' => 'application/json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
+      end
+    end
+    Artifice.activate_with(app) do
+      post :task_tracker_templates, format: 'js'
+    end
+    assert_not_nil assigns(:templates)
+    assert_equal 1, assigns(:templates).first['id']
+    assert_equal "Template One - Project One", assigns(:templates).first['full_name']
+    assert_template 'task_tracker_templates'
+    assert_response :success
+  end
+
+  test "should fail gracefully on unknown server response for task tracker templates" do
+    app = proc do |env|
+      [500, { 'Content-Type' => 'text/html' }, [ "Internal Server Error" ]]
+    end
+    Artifice.activate_with(app) do
+      post :task_tracker_templates, format: 'js'
+    end
+    assert_not_nil assigns(:templates)
+    assert_equal [], assigns(:templates)
+    assert_template 'task_tracker_templates'
+    assert_response :success
+  end
+
+  test "should recover from incorrect service url for task tracker templates" do
+    app = proc do |env|
+      if env['PATH_INFO'].split('/').last == 'templates.json'
+        # Temporary Redirect to an incorrect URL
+        [307, { 'Content-Type' => 'application/json', 'Location' => 'not\\a\\uri' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
+      else
+        [200, { 'Content-Type' => 'application/json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
+      end
+    end
+    Artifice.activate_with(app) do
+      post :task_tracker_templates, format: 'js'
+    end
+    assert_not_nil assigns(:templates)
+    assert_equal [], assigns(:templates)
+    assert_template 'task_tracker_templates'
+    assert_response :success
   end
 
   test "should get index" do
@@ -30,6 +95,24 @@ class CallsControllerTest < ActionController::TestCase
       post :create, call: { patient_id: @call.patient_id, call_type: choices(:call_type), direction: 'incoming' }, call_date: "02/28/2012", call_time: "5:45pm"
     end
 
+    assert_not_nil assigns(:call)
+    assert_equal users(:screener), assigns(:call).user
+    assert_redirected_to patient_path(assigns(:call).patient)
+  end
+
+  test "should create call using template and assigning group from task tracker" do
+    app = proc do |env|
+      [200, { 'Content-Type' => 'application/json' }, [ { id: 1, description: "Group Description", template_id: 5 }.to_json ]]
+    end
+    Artifice.activate_with(app) do
+      assert_difference('Call.count') do
+        post :create, call: { patient_id: @call.patient_id, call_type: choices(:call_type), direction: 'incoming', tt_template_id: 1 }, call_date: "02/28/2012", call_time: "5:45pm", initial_due_date: "03/28/2012"
+      end
+    end
+
+    assert_not_nil assigns(:group)
+    assert_equal 1, assigns(:group)['id']
+    assert_equal 5, assigns(:group)['template_id']
     assert_not_nil assigns(:call)
     assert_equal users(:screener), assigns(:call).user
     assert_redirected_to patient_path(assigns(:call).patient)

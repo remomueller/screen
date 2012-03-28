@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '3.2.2'
+gem 'rails',                '3.2.3.rc1'
 
 # Database Adapter
 # Install instructions for Windows: http://blog.mmediasys.com/2011/07/07/installing-mysql-on-windows-7-x64-and-using-ruby-with-it/
@@ -29,4 +29,5 @@ group :test do
   gem 'win32console',                             :platforms => [ :mswin, :mingw ]
   gem 'turn',               '~> 0.9.4'
   gem 'simplecov',          '~> 0.6.1',           :require => false
+  gem 'artifice'
 end

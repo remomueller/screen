@@ -103,7 +103,7 @@
       <%= f.label :comments %><br />
       <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>
     </div>
-    <div class="field" id="task_tracker_templates">
+    <div id="task_tracker_templates">
       <%= image_tag "ajax-loader.gif" %>
     </div>
   </fieldset>
@@ -118,6 +118,8 @@
 
 <%= form_tag task_tracker_templates_calls_path, method: :post, remote: true, style: 'display:inline', id: 'templates_form' do %>
   <%= hidden_field_tag 'screen_token', '' %>
+  <%= hidden_field_tag 'tt_template_id', @call.tt_template_id %>
+  <%= hidden_field_tag 'initial_due_date', params[:initial_due_date] %>
 <% end %>
 
 <%= javascript_tag do %>

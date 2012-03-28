@@ -1,5 +1,8 @@
 == 0.5.0
 
+* Enhancements
+  * Call creation integration with Task Tracker Templates
+
 == 0.4.0
 
 * Enhancements

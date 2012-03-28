@@ -24,16 +24,8 @@ class CallsController < ApplicationController
 
   def task_tracker_templates
     current_user.update_attribute :task_tracker_screen_token, params[:screen_token] unless params[:screen_token].blank?
-    if defined?(TASK_TRACKER_URL)
-      begin
-        result_hash = send_message("templates.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token }, "get")
-        @templates = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
-      rescue => e
-        Rails.logger.debug "Error connecting to #{TASK_TRACKER_URL}/templates.json: #{e}"
-      end
-    else
-      render nothing: true
-    end
+    result_hash = send_message("templates.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token }, "get")
+    @templates = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
   end
 
   def new
@@ -58,14 +50,10 @@ class CallsController < ApplicationController
     if @call.save
 
       if @call.tt_template_id
-        if defined?(TASK_TRACKER_URL)
-          begin
-            additional_text = "Subject Code: #{@call.patient.subject_code}\n\nCreated by Screen\n"
-            result_hash = send_message("groups.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'template_id' => @call.tt_template_id, 'initial_due_date' => @call.call_time.to_date, 'additional_text' => additional_text }, "post")
-            @group = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
-          rescue => e
-            Rails.logger.debug "Error connecting to #{TASK_TRACKER_URL}/groups.json: #{e}"
-          end
+        additional_text = "Subject Code: #{@call.patient.subject_code}\n\nCreated by Screen\n"
+        result_hash = send_message("groups.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'template_id' => @call.tt_template_id, 'initial_due_date' => params[:initial_due_date], 'additional_text' => additional_text }, "post")
+        if result_hash[:error].blank?
+          @group = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
         end
       end
 
@@ -106,7 +94,8 @@ class CallsController < ApplicationController
 
     private
 
-  def send_message(service, form_data = {}, method = "get", limit = 1)
+  def send_message(service, form_data = {}, method = "get", limit = 1, service_url = '')
+    return { result: '', error: 'No Task Tracker URL provided' } if TASK_TRACKER_URL.blank? or TT_EMAIL.blank? or TT_PASSWORD.blank?
     error = ''
     data = ''
     response = ''
@@ -114,13 +103,12 @@ class CallsController < ApplicationController
 
     t_msg_start = Time.now
 
-    service_url = "#{TASK_TRACKER_URL}/#{service}"
-
-    url = URI.parse(service_url)
-
-    use_secure = (url.scheme == 'https')
+    service_url = "#{TASK_TRACKER_URL}/#{service}" if service_url.blank?
 
     begin
+      url = URI.parse(service_url)
+      use_secure = (url.scheme == 'https')
+
       https = Net::HTTP.new(url.host, url.port)
       https.open_timeout = 1000 # in seconds
       https.read_timeout = 3000 # in seconds
@@ -129,12 +117,10 @@ class CallsController < ApplicationController
       headers = { 'Content-Type' => 'text/html', 'WWW-Authenticate' => 'Basic realm="Application"', 'Authorization' => "Basic #{Base64.strict_encode64("#{TT_EMAIL}:#{TT_PASSWORD}")}" }
 
       url = URI.parse(service_url)
-      if method == "get"
-        req = Net::HTTP::Get.new(url.path, headers)
-      elsif method == "post"
-        req = Net::HTTP::Post.new(url.path, headers)
-      else
-        return { error: 'Invalid HTTP Method' }
+      req = if method == "post"
+        Net::HTTP::Post.new(url.path, headers)
+      else # elsif method == "get"
+        Net::HTTP::Get.new(url.path, headers)
       end
       req.set_form_data(form_data.stringify_keys, ';') unless form_data.blank?
 
@@ -143,18 +129,18 @@ class CallsController < ApplicationController
       end
       data = response.body
 
-      case response.class.name
-      when 'Net::HTTPOK'
-      when 'Net::HTTPRedirection'
-        return send_message(response['location'].gsub(@source.file_server_host + "/", ''), {}, "get", limit - 1)
-        # TODO Test file redirect
-        # return send_message(response['location'].gsub(@source.file_server_host + "/", ''), form_data, method, limit - 1)
+      if response.kind_of?(Net::HTTPSuccess)
+        # Do nothing, success!
+      elsif response.kind_of?(Net::HTTPRedirection)
+        return send_message(service, form_data, method, limit - 1, response['location'])
       else
         error = "Error: #{response.class.name} #{data}"
+        data = ''
       end
     rescue => e
       error = e.to_s
-      Rails.logger.debug "error: #{error}"
+      Rails.logger.debug "Error: #{error} #{data}"
+      data = ''
     end
 
     { result: data, error: error }

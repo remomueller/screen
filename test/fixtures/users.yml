@@ -48,6 +48,7 @@ screener:
   system_admin: false
   screener: true
   email: screener@example.com
+  task_tracker_screen_token: 919570BACDF971204
 
 subject_handler:
   first_name: MyString
