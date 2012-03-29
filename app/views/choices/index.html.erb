@@ -1,31 +1,17 @@
-<h1>Listing choices</h1>
+<% @title = 'Choices' %>
+<h1><%= @title %></h1>
 
-<table>
-  <tr>
-    <th>Category</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Color</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<%#= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Choice", new_choice_path, class: 'button positive' %>
 
-<% @choices.each do |choice| %>
-  <tr>
-    <td><%= choice.category %></td>
-    <td><%= choice.name %></td>
-    <td><%= choice.description %></td>
-    <td><%= choice.color %></td>
-    <td><%= choice.deleted %></td>
-    <td><%= link_to 'Show', choice %></td>
-    <td><%= link_to 'Edit', edit_choice_path(choice) %></td>
-    <td><%= link_to 'Destroy', choice, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<%= form_tag choices_path, method: :get, remote: true, id: "choices_search", style: "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :order %>
+  Search <%= text_field_tag 'search', params[:search] %>
 <% end %>
-</table>
 
-<br />
+<div id="choices"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Choice', new_choice_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#choices_search").attr("action"), $("#choices_search").serialize(), null, "script");
+  });
+<% end %>

@@ -1,0 +1,29 @@
+<div style="float:right;text-align:right">
+  Per Page
+  <span class="per_page">40</span><br />
+  <%= "<b>Displaying #{@choices.count} of #{@clinic_count}</b>".html_safe if @clinic_count %>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%;table-layout:fixed">
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "choices.category", "Category", 'choices_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "choices.name", "Name", 'choices_search') %></th>
+      <th>Description</th>
+      <th>Color</th>
+    </tr>
+
+  <% @choices.each do |choice| %>
+    <tr>
+      <td><%= choice.category %></td>
+      <td><%= link_to choice.name, choice %></td>
+      <td><%= choice.description %></td>
+      <td><span class="choice_bubble" style="background-color: <%= choice.color %>"><%= choice.color %></span></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<center><%= paginate @choices %></center>

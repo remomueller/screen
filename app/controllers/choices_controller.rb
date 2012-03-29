@@ -2,15 +2,17 @@ class ChoicesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin
 
-  # GET /choices
-  # GET /choices.json
   def index
-    @choices = Choice.all
+    # current_user.update_attribute :choices_per_page, params[:choices_per_page].to_i if params[:choices_per_page].to_i >= 10 and params[:choices_per_page].to_i <= 200
+    choice_scope = Choice.current # current_user.all_viewable_choices
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| choice_scope = choice_scope.search(search_term) }
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @choices }
-    end
+    @order = Choice.column_names.collect{|column_name| "choices.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "choices.category"
+    choice_scope = choice_scope.order(@order)
+
+    @choice_count = choice_scope.count
+    @choices = choice_scope.page(params[:page]).per(40) # (current_user.choices_per_page)
   end
 
   # GET /choices/1

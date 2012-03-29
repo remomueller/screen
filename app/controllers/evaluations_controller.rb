@@ -10,10 +10,18 @@ class EvaluationsController < ApplicationController
     end
 
     evaluation_scope = evaluation_scope.subject_code_not_blank unless current_user.screener?
+    evaluation_scope = evaluation_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
+
+    @administration_after = begin Date.strptime(params[:administration_after], "%m/%d/%Y") rescue nil end
+    @administration_before = begin Date.strptime(params[:administration_before], "%m/%d/%Y") rescue nil end
+
+    evaluation_scope = evaluation_scope.administration_before(@administration_before) unless @administration_before.blank?
+    evaluation_scope = evaluation_scope.administration_after(@administration_after) unless @administration_after.blank?
 
     @order = Evaluation.column_names.collect{|column_name| "evaluations.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "evaluations.patient_id"
     evaluation_scope = evaluation_scope.order(@order)
 
+    @evaluation_count = evaluation_scope.count
     @evaluations = evaluation_scope.page(params[:page]).per(20) # (current_user.evaluations_per_page)
   end
 

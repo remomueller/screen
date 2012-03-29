@@ -1,7 +1,7 @@
 class PrescreensController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_screener, only: [:bulk]
-  before_filter :check_screener_or_subject_handler, except: [:bulk]
+  before_filter :check_screener_or_subject_handler, except: [:bulk, :import]
+  before_filter :check_screener, only: [:bulk, :import]
 
   def inline_update
     @prescreen = Prescreen.find_by_id(params[:id])
@@ -16,6 +16,10 @@ class PrescreensController < ApplicationController
   end
 
   def bulk
+
+  end
+
+  def import
     count_hash = Prescreen.process_bulk(params, current_user)
     notices = []
     alerts = []
@@ -37,10 +41,19 @@ class PrescreensController < ApplicationController
     end
 
     prescreen_scope = prescreen_scope.subject_code_not_blank unless current_user.screener?
+    prescreen_scope = prescreen_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
+
+    @visit_after = begin Date.strptime(params[:visit_after], "%m/%d/%Y") rescue nil end
+    @visit_before = begin Date.strptime(params[:visit_before], "%m/%d/%Y") rescue nil end
+
+    prescreen_scope = prescreen_scope.visit_before(@visit_before) unless @visit_before.blank?
+    prescreen_scope = prescreen_scope.visit_after(@visit_after) unless @visit_after.blank?
+
 
     @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.doctor_id, prescreens.visit_at DESC"
     prescreen_scope = prescreen_scope.order(@order)
 
+    @prescreen_count = prescreen_scope.count
     @prescreens = prescreen_scope.page(params[:page]).per(40) # (current_user.prescreens_per_page)
   end
 

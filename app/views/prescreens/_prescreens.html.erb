@@ -1,8 +1,7 @@
-<div style="float:right">
+<div style="float:right;text-align:right">
   Per Page
-  <span class="per_page">
-    40
-  </span>
+  <span class="per_page">40</span><br />
+  <%= "<b>Displaying #{@prescreens.count} of #{@prescreen_count}</b>".html_safe if @prescreen_count %>
 </div>
 
 <div style="clear:both"></div>

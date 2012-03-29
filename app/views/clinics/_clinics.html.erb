@@ -1,0 +1,25 @@
+<div style="float:right;text-align:right">
+  Per Page
+  <span class="per_page">40</span><br />
+  <%= "<b>Displaying #{@clinics.count} of #{@clinic_count}</b>".html_safe if @clinic_count %>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="frame">
+  <table style="width:100%;table-layout:fixed">
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "clinics.name", "Name", 'clinics_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "clinics.status", "Status", 'clinics_search') %></th>
+    </tr>
+
+  <% @clinics.each do |clinic| %>
+    <tr style="<%= 'background-color:#dedede' if clinic.status == 'blacklist' %>">
+      <td><%= link_to clinic.name, clinic %></td>
+      <td><%= clinic.status %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+
+<center><%= paginate @clinics %></center>

@@ -1,20 +1,18 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Clinic: #{@clinic.name}" %>
+<h1><%= @title %></h1>
 
-<p>
-  <b>Name:</b>
-  <%= @clinic.name %>
-</p>
+<% if current_user.screener? %> <%# current_user.all_clinics.include?(@clinic) %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Clinic", edit_clinic_path(@clinic), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Clinic", @clinic, confirm: "Are you sure you want to delete Clinic #{@clinic.name}?", method: :delete, class: 'button negative' %>
+<% end %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Clinics", clinics_path, class: 'button' %>
+<div style="clear:both"></div>
 
-<p>
-  <b>Status:</b>
-  <%= @clinic.status %>
-</p>
+<fieldset>
+  <legend><%= image_tag "gentleface/16/home.png", alt: '', style: 'vertical-align:text-bottom' %> Clinic</legend>
 
-<p>
-  <b>Deleted:</b>
-  <%= @clinic.deleted %>
-</p>
-
-
-<%= link_to 'Edit', edit_clinic_path(@clinic) %> |
-<%= link_to 'Back', clinics_path %>
+  <p>
+    <b>Status:</b>
+    <%= @clinic.status %>
+  </p>
+</fieldset>

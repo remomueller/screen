@@ -1,25 +1,23 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Doctor: #{@doctor.name}" %>
+<h1><%= @title %></h1>
 
-<p>
-  <b>Name:</b>
-  <%= @doctor.name %>
-</p>
+<% if current_user.screener? %> <%# current_user.all_doctors.include?(@doctor) %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Doctor", edit_doctor_path(@doctor), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Doctor", @doctor, confirm: "Are you sure you want to delete Doctor #{@doctor.name}?", method: :delete, class: 'button negative' %>
+<% end %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Doctors", doctors_path, class: 'button' %>
+<div style="clear:both"></div>
 
-<p>
-  <b>Type:</b>
-  <%= @doctor.doctor_type %>
-</p>
+<fieldset>
+  <legend><%= image_tag "gentleface/16/contact_card.png", alt: '', style: 'vertical-align:text-bottom' %> Doctor</legend>
 
-<p>
-  <b>Status:</b>
-  <%= @doctor.status %>
-</p>
+  <p>
+    <b>Type:</b>
+    <%= @doctor.doctor_type %>
+  </p>
 
-<p>
-  <b>Deleted:</b>
-  <%= @doctor.deleted %>
-</p>
-
-
-<%= link_to 'Edit', edit_doctor_path(@doctor) %> |
-<%= link_to 'Back', doctors_path %>
+  <p>
+    <b>Status:</b>
+    <%= @doctor.status %>
+  </p>
+</fieldset>

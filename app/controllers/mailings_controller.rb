@@ -1,6 +1,25 @@
 class MailingsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_screener_or_subject_handler
+  before_filter :check_screener_or_subject_handler, except: [:bulk, :import]
+  before_filter :check_screener, only: [:bulk, :import]
+
+  def bulk
+
+  end
+
+  def import
+    count_hash = Mailing.process_bulk(params, current_user)
+    notices = []
+    alerts = []
+    count_hash.each do |key, count|
+      if key.to_s == 'ignored mailing'
+        alerts << "#{count} mailing#{'s' unless count == 1} ignored" if count > 0
+      else
+        notices << "#{count} #{key}#{'s' unless count == 1} added" if (count > 0 and key.to_s != 'mailing') or key.to_s == 'mailing'
+      end
+    end
+    redirect_to mailings_path, notice: notices.join(', '), alert: alerts.join(', ')
+  end
 
   def index
     # current_user.update_attribute :mailings_per_page, params[:mailings_per_page].to_i if params[:mailings_per_page].to_i >= 10 and params[:mailings_per_page].to_i <= 200
@@ -10,10 +29,42 @@ class MailingsController < ApplicationController
     end
 
     mailing_scope = mailing_scope.subject_code_not_blank unless current_user.screener?
+    mailing_scope = mailing_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
+
+    @sent_after = begin Date.strptime(params[:sent_after], "%m/%d/%Y") rescue nil end
+    @sent_before = begin Date.strptime(params[:sent_before], "%m/%d/%Y") rescue nil end
+
+    mailing_scope = mailing_scope.sent_before(@sent_before) unless @sent_before.blank?
+    mailing_scope = mailing_scope.sent_after(@sent_after) unless @sent_after.blank?
 
     @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.patient_id"
     mailing_scope = mailing_scope.order(@order)
 
+    if params[:format] == 'csv'
+      @csv_string = CSV.generate do |csv|
+        csv << ["Cardiologist", "Date of Mailing", "MRN", "Last Name", "First Proper", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
+        mailing_scope.each do |mailing|
+          csv << [
+            mailing.doctor.name,
+            mailing.sent_date.strftime("%m/%d/%Y"),
+            mailing.patient.mrn,
+            mailing.patient.last_name,
+            mailing.patient.first_name,
+            mailing.patient.address1,
+            mailing.patient.city,
+            mailing.patient.state,
+            mailing.patient.zip,
+            pretty_phone(mailing.patient.phone_home),
+            pretty_phone(mailing.patient.phone_day)
+          ]
+        end
+      end
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                            disposition: "attachment; filename=\"Mailings #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+      return
+    end
+
+    @mailing_count = mailing_scope.count
     @mailings = mailing_scope.page(params[:page]).per(20) # (current_user.mailings_per_page)
   end
 

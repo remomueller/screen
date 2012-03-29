@@ -19,7 +19,12 @@ Screen::Application.routes.draw do
     end
   end
 
-  resources :mailings
+  resources :mailings do
+    collection do
+      get :bulk
+      post :import
+    end
+  end
 
   resources :events
 
@@ -34,7 +39,8 @@ Screen::Application.routes.draw do
       post :inline_update
     end
     collection do
-      post :bulk
+      get :bulk
+      post :import
     end
   end
 

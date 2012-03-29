@@ -1,30 +1,33 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Choice: #{@choice.name}" %>
+<h1><%= @title %></h1>
 
-<p>
-  <b>Category:</b>
-  <%= @choice.category %>
-</p>
+<% if current_user.screener? %> <%# current_user.all_choices.include?(@choice) %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Choice", edit_choice_path(@choice), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Choice", @choice, confirm: "Are you sure you want to delete Choice #{@choice.name}?", method: :delete, class: 'button negative' %>
+<% end %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Choices", choices_path, class: 'button' %>
+<div style="clear:both"></div>
 
-<p>
-  <b>Name:</b>
-  <%= @choice.name %>
-</p>
+<fieldset>
+  <legend><%= image_tag "gentleface/16/checkbox_checked.png", alt: '', style: 'vertical-align:text-bottom' %> Choice</legend>
 
-<p>
-  <b>Description:</b>
-  <%= @choice.description %>
-</p>
+  <p>
+    <b>Category:</b>
+    <%= @choice.category %>
+  </p>
 
-<p>
-  <b>Color:</b>
-  <%= @choice.color %>
-</p>
+  <p>
+    <b>Name:</b>
+    <%= @choice.name %>
+  </p>
 
-<p>
-  <b>Deleted:</b>
-  <%= @choice.deleted %>
-</p>
+  <p>
+    <b>Description:</b>
+    <%= @choice.description %>
+  </p>
 
-
-<%= link_to 'Edit', edit_choice_path(@choice) %> |
-<%= link_to 'Back', choices_path %>
+  <p>
+    <b>Color:</b>
+    <span class="choice_bubble" style="background-color: <%= @choice.color %>"><%= @choice.color %></span>
+  </p>
+</fieldset>

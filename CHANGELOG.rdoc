@@ -2,6 +2,15 @@
 
 * Enhancements
   * Call creation integration with Task Tracker Templates
+  * Mailings
+    * Bulk Import from spreadsheet now available
+  * Prescreens
+    * Bulk Import moved to its own page, now availabe as a submenu item under Prescreens
+  * Date ilters added for Prescreens, Mailings, Calls, Evaluations, and Visits
+  * Doctors, Clinics, and Choices GUI Updated
+  * Patient Demographics displays aggregated ESS and Berlin scores from Calls and Mailings
+  * Patients index filterable by priority message
+  * Update to Rails 3.2.3.rc2
 
 == 0.4.0
 

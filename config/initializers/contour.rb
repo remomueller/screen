@@ -40,11 +40,11 @@ Contour.setup do |config|
     },
     {
       name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
-      links: []
+      links: [{ name: 'Bulk Import', path: 'bulk_prescreens_path', condition: 'current_user.screener?'}]
     },
     {
       name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
-      links: []
+      links: [{ name: 'Bulk Import', path: 'bulk_mailings_path', condition: 'current_user.screener?'}]
     },
     {
       name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
@@ -56,6 +56,10 @@ Contour.setup do |config|
     },
     {
       name: 'Visits', display: 'signed_in', path: 'visits_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
+      links: []
+    },
+    {
+      name: 'Choices', display: 'signed_in', path: 'choices_path', position: 'left', condition: 'current_user.system_admin?',
       links: []
     },
     {

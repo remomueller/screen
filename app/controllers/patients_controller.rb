@@ -19,11 +19,14 @@ class PatientsController < ApplicationController
     patient_scope = patient_scope.where("priority > 0") if params[:priority_only] == '1'
     patient_scope = patient_scope.subject_code_not_blank unless current_user.screener?
 
+    patient_scope = patient_scope.with_priority_message(params[:priority_message]) unless params[:priority_message].blank?
+
     @order = Patient.column_names.collect{|column_name| "patients.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "patients.id"
 
     @order = "priority DESC, " + @order if params[:priority_only] == '1'
 
     patient_scope = patient_scope.order(@order)
+    @patient_count = patient_scope.count
 
     if params[:autocomplete] == 'true'
       @patients = patient_scope.page(params[:page]).per(10)

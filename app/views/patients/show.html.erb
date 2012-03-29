@@ -87,6 +87,16 @@
           <b>Age:</b>
           <%= @patient.age %>
         </p>
+
+        <p>
+          <b>Berlin:</b>
+          <%= @patient.berlin_from_calls_and_mailings.join(", ") %>
+        </p>
+
+        <p>
+          <b>ESS:</b>
+          <%= @patient.ess_from_calls_and_mailings.join(", ") %>
+        </p>
       </fieldset>
     </td>
   </tr>

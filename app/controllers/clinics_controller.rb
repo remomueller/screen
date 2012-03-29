@@ -2,15 +2,17 @@ class ClinicsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_screener
 
-  # GET /clinics
-  # GET /clinics.json
   def index
-    @clinics = Clinic.current
+    # current_user.update_attribute :clinics_per_page, params[:clinics_per_page].to_i if params[:clinics_per_page].to_i >= 10 and params[:clinics_per_page].to_i <= 200
+    clinic_scope = Clinic.current # current_user.all_viewable_clinics
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| clinic_scope = clinic_scope.search(search_term) }
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @clinics }
-    end
+    @order = Clinic.column_names.collect{|column_name| "clinics.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "clinics.name"
+    clinic_scope = clinic_scope.order(@order)
+
+    @clinic_count = clinic_scope.count
+    @clinics = clinic_scope.page(params[:page]).per(40) # (current_user.clinics_per_page)
   end
 
   # GET /clinics/1

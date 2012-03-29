@@ -25,8 +25,13 @@ class PrescreensControllerTest < ActionController::TestCase
   end
 
   test "should get bulk" do
+    get :bulk
+    assert_response :success
+  end
+
+  test "should import prescreens" do
     assert_difference('Prescreen.count', 19) do
-      post :bulk, visit_date: "03/01/2012", tab_dump: File.read('test/support/prescreens/fake_bulk_import.txt')
+      post :import, visit_date: "03/01/2012", tab_dump: File.read('test/support/prescreens/fake_bulk_import.txt')
     end
 
     assert_redirected_to prescreens_path

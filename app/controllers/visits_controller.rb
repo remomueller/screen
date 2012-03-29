@@ -11,9 +11,17 @@ class VisitsController < ApplicationController
 
     visit_scope = visit_scope.subject_code_not_blank unless current_user.screener?
 
+    @visit_after = begin Date.strptime(params[:visit_after], "%m/%d/%Y") rescue nil end
+    @visit_before = begin Date.strptime(params[:visit_before], "%m/%d/%Y") rescue nil end
+
+    visit_scope = visit_scope.visit_before(@visit_before) unless @visit_before.blank?
+    visit_scope = visit_scope.visit_after(@visit_after) unless @visit_after.blank?
+    visit_scope = visit_scope.where( outcome: params[:outcome] ) unless params[:outcome].blank?
+
     @order = Visit.column_names.collect{|column_name| "visits.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "visits.patient_id"
     visit_scope = visit_scope.order(@order)
 
+    @visit_count = visit_scope.count
     @visits = visit_scope.page(params[:page]).per(20) # (current_user.visits_per_page)
   end
 

@@ -7,8 +7,33 @@
 
 <%= form_tag patients_path, method: :get, remote: true, id: "patients_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order %>
-  Search <%= text_field_tag 'mrn', params[:mrn] %> <%#= information %>
-  <%= check_box_tag :priority_only, '1', false, onclick: "$('#patients_search').submit()" %> <b>Priority Only</b>
+
+  <fieldset>
+    <legend>
+      Search Filters
+    </legend>
+    <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
+      <thead>
+        <tr>
+          <th>Search</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= text_field_tag 'mrn', params[:mrn] %></td>
+          <td>
+            <%= check_box_tag :priority_only, '1', false, onclick: "$('#patients_search').submit()" %> <b>Priority Only</b>
+            <% priority_messages = [['---', nil], ["Latest Call is ...", "Latest Call is %"], ["Latest Call is ... and no Embletta Administered", "Latest Call is % and no Embletta Administered"], ["Baseline Visit and no 2-month Call after 68 days", "Baseline Visit and no 2-month Call after 68 days"]]  %>
+            <%= select_tag :priority_message, options_for_select(priority_messages, params[:priority_message]) %>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <%= button_tag image_tag('gentleface/16/cog.png') + 'Filter Search' %>
+  </fieldset>
 <% end %>
 
 <div id="patients"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

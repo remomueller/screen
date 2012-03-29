@@ -2,15 +2,17 @@ class DoctorsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_screener
 
-  # GET /doctors
-  # GET /doctors.json
   def index
-    @doctors = Doctor.current
+    # current_user.update_attribute :doctors_per_page, params[:doctors_per_page].to_i if params[:doctors_per_page].to_i >= 10 and params[:doctors_per_page].to_i <= 200
+    doctor_scope = Doctor.current # current_user.all_viewable_doctors
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| doctor_scope = doctor_scope.search(search_term) }
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @doctors }
-    end
+    @order = Doctor.column_names.collect{|column_name| "doctors.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "doctors.name"
+    doctor_scope = doctor_scope.order(@order)
+
+    @doctor_count = doctor_scope.count
+    @doctors = doctor_scope.page(params[:page]).per(40) # (current_user.doctors_per_page)
   end
 
   # GET /doctors/1

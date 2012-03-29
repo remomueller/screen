@@ -6,6 +6,25 @@ class MailingsControllerTest < ActionController::TestCase
     login(users(:screener))
   end
 
+  test "should get bulk" do
+    get :bulk
+    assert_response :success
+  end
+
+  test "should import mailings" do
+    assert_difference('Mailing.count', 2) do
+      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import.txt')
+    end
+
+    assert_redirected_to mailings_path
+  end
+
+  test "should get csv" do
+    get :index, format: 'csv'
+    assert_not_nil assigns(:csv_string)
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

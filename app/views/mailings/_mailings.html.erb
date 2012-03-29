@@ -1,8 +1,7 @@
-<div style="float:right">
+<div style="float:right;text-align:right">
   Per Page
-  <span class="per_page">
-    20
-  </span>
+  <span class="per_page">20</span><br />
+  <%= "<b>Displaying #{@mailings.count} of #{@mailing_count}</b>".html_safe if @mailing_count %>
 </div>
 
 <div style="clear:both"></div>

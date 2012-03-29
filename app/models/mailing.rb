@@ -8,7 +8,10 @@ class Mailing < ActiveRecord::Base
   # Named Scopes
   scope :current, conditions: { deleted: false }
   scope :with_mrn, lambda { |*args| { conditions: ["mailings.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
+  scope :with_eligibility, lambda { |*args| { conditions: ["mailings.eligibility IN (?)", args.first] } }
   scope :subject_code_not_blank, conditions: ["mailings.patient_id in (select patients.id from patients where patients.subject_code != '')"]
+  scope :sent_before, lambda { |*args| { conditions: ["mailings.sent_date < ?", (args.first+1.day)]} }
+  scope :sent_after, lambda { |*args| { conditions: ["mailings.sent_date >= ?", args.first]} }
 
   # Model Validation
   validates_presence_of :patient_id
@@ -63,4 +66,60 @@ class Mailing < ActiveRecord::Base
     end
     events.each{ |e| e.destroy }
   end
+
+    # Tab delimited
+  # Ignores Header Row (since it can't parse the date)
+  # Cardiologist  Date of Mailing MRN Last Name First Name  Address1  City  State Zip Code  Home Phone  Day Phone
+  def self.process_bulk(params, current_user)
+    mailings = Mailing.current.count
+    ignored_mailings = 0
+    doctors = Doctor.current.count
+    doctor_name = ''
+    # gsub(/\u00a0/, ' ') This replaces non-breaking whitespace
+    params[:tab_dump].gsub(/\u00a0/, ' ').split(/\r|\n/).each_with_index do |row, row_index|
+      row = row.strip
+      unless row.blank?
+        row_array = row.split(/\t/)
+        doctor_name = row_array[0]
+        sent_date = if row_array[1].to_s.split('/').last.size == 4
+          Date.strptime(row_array[1].to_s, "%m/%d/%Y") rescue ""
+        else
+          Date.strptime(row_array[1].to_s, "%m/%d/%y") rescue ""
+        end
+
+        if not doctor_name.blank? and row_array.size > 1 and not sent_date.blank?
+          Rails.logger.debug "Gets here"
+          mrn = row_array[2].to_s.strip
+          last_name = row_array[3].to_s.strip
+          first_name = row_array[4].to_s.strip
+          address1 = row_array[5].to_s.strip
+          city = row_array[6].to_s.strip
+          state = row_array[7].to_s.strip
+          zip = row_array[8].to_s.strip
+          phone_home = row_array[9].to_s.strip
+          phone_day = row_array[10].to_s.strip
+
+          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist')
+          doctor.update_attribute :user_id, current_user.id unless doctor.user
+
+          unless mrn.blank?
+            patient = Patient.find_or_create_by_mrn(mrn)
+            patient.update_attribute :user_id, current_user.id unless patient.user
+
+            patient_params = { first_name: first_name, last_name: last_name, address1: address1, city: city, state: state, zip: zip, phone_home: phone_home, phone_day: phone_day }
+            patient_params.reject!{|key, val| val.blank?}
+            patient.update_attributes(patient_params)
+
+            mailing = patient.mailings.find_or_create_by_sent_date_and_doctor_id(sent_date, doctor.id)
+            mailing.update_attribute :user_id, current_user.id unless mailing.user
+          else
+            ignored_mailings += 1
+          end
+        end
+      end
+    end
+
+    { mailing: Mailing.current.count - mailings, doctor: Doctor.current.count - doctors, 'ignored mailing' => ignored_mailings }
+  end
+
 end

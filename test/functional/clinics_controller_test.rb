@@ -12,6 +12,14 @@ class ClinicsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:clinics)
   end
 
+  test "should get index with js" do
+    get :index, format: 'js', search: ''
+    assert_not_nil assigns(:order)
+    assert_not_nil assigns(:clinics)
+    assert_template 'index'
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success

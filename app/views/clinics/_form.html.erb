@@ -1,3 +1,5 @@
+<% width = '1074px' %>
+
 <%= form_for(@clinic) do |f| %>
   <% if @clinic.errors.any? %>
     <div id="error_explanation">
@@ -11,15 +13,23 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :status %> NOTE: BLACKLISTING will DELETE all associated PRESCREENS<br />
-    <%= f.select :status, [['---', nil], ['Whitelist', 'whitelist'], ['Blacklist', 'blacklist']] %>
-  </div>
+  <fieldset>
+    <legend><%= @title %></legend>
+
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :status %> NOTE: BLACKLISTING will DELETE all associated PRESCREENS<br />
+      <%= f.select :status, [['---', nil], ['Whitelist', 'whitelist'], ['Blacklist', 'blacklist']] %>
+    </div>
+  </fieldset>
+
   <div class="actions">
-    <%= f.submit %>
+    <% form_name = @clinic.new_record? ? 'new_clinic' : "edit_clinic_#{@clinic.id}" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@clinic.new_record? ? "Create Clinic" : "Update Clinic"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= cancel %>
+    <br />
   </div>
 <% end %>

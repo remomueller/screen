@@ -10,10 +10,18 @@ class CallsController < ApplicationController
     end
 
     call_scope = call_scope.subject_code_not_blank unless current_user.screener?
+    call_scope = call_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
+
+    @call_after = begin Date.strptime(params[:call_after], "%m/%d/%Y") rescue nil end
+    @call_before = begin Date.strptime(params[:call_before], "%m/%d/%Y") rescue nil end
+
+    call_scope = call_scope.call_before(@call_before) unless @call_before.blank?
+    call_scope = call_scope.call_after(@call_after) unless @call_after.blank?
 
     @order = Call.column_names.collect{|column_name| "calls.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "calls.patient_id"
     call_scope = call_scope.order(@order)
 
+    @call_count = call_scope.count
     @calls = call_scope.page(params[:page]).per(20) # (current_user.calls_per_page)
   end
 

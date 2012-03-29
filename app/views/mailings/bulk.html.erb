@@ -1,0 +1,36 @@
+<% @title = 'Mailings Import' %>
+<h1><%= @title %></h1>
+
+<% width = '1074px' %>
+
+<% form_name = "bulk_mailings_form" %>
+<%= form_tag import_mailings_path, method: :post, id: form_name do %>
+  <fieldset>
+    <legend>
+      Spreadsheet Mailing Import - Tab Delimited
+    </legend>
+    <div class="field">
+      <table class="blank padded" style="width:100%;table-layout:fixed">
+        <thead>
+          <tr>
+            <th>Cardiologist</th>
+            <th>Date of Mailing</th>
+            <th>MRN</th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Address1</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th>Home Phone</th>
+            <th>Day Phone</th>
+          </tr>
+        </thead>
+      </table>
+      <%= text_area_tag :tab_dump, '', rows: 7, style: "width:#{width}" %>
+    </div>
+    <div class="actions">
+      <%= link_to_function image_tag('gentleface/16/layers_2.png', alt: '') + "Import", "$('##{form_name}').submit();", class: "button" %>
+    </div>
+  </fieldset>
+<% end %>

@@ -5,6 +5,7 @@ class Patient < ActiveRecord::Base
   scope :current, conditions: { deleted: false }
   scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?)", args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
   scope :subject_code_not_blank, conditions: ["patients.subject_code != ''"]
+  scope :with_priority_message, lambda { |*args| { conditions: ["patients.priority_message LIKE ?", "%" + args.first + "%"] } }
 
   # Model Validation
   validates_presence_of :mrn, if: :no_subject_code?
@@ -57,4 +58,11 @@ class Patient < ActiveRecord::Base
     self.mrn.blank?
   end
 
+  def berlin_from_calls_and_mailings
+    (self.calls.pluck(:berlin) + self.mailings.pluck(:berlin)).compact.uniq
+  end
+
+  def ess_from_calls_and_mailings
+    (self.calls.pluck(:ess) + self.mailings.pluck(:ess)).compact.uniq
+  end
 end

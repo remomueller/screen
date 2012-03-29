@@ -1,27 +1,17 @@
-<h1>Listing clinics</h1>
+<% @title = 'Clinics' %>
+<h1><%= @title %></h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Status</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<%#= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Clinic", new_clinic_path, class: 'button positive' %>
 
-<% @clinics.each do |clinic| %>
-  <tr>
-    <td><%= clinic.name %></td>
-    <td><%= clinic.status %></td>
-    <td><%= clinic.deleted %></td>
-    <td><%= link_to 'Show', clinic %></td>
-    <td><%= link_to 'Edit', edit_clinic_path(clinic) %></td>
-    <td><%= link_to 'Destroy', clinic, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<%= form_tag clinics_path, method: :get, remote: true, id: "clinics_search", style: "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :order %>
+  Search <%= text_field_tag 'search', params[:search] %>
 <% end %>
-</table>
 
-<br />
+<div id="clinics"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Clinic', new_clinic_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#clinics_search").attr("action"), $("#clinics_search").serialize(), null, "script");
+  });
+<% end %>

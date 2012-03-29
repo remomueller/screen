@@ -5,6 +5,7 @@ class Clinic < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
+  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
   validates_presence_of :name
