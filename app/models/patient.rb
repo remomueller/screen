@@ -59,10 +59,10 @@ class Patient < ActiveRecord::Base
   end
 
   def berlin_from_calls_and_mailings
-    (self.calls.pluck(:berlin) + self.mailings.pluck(:berlin)).compact.uniq
+    (self.calls.pluck(:berlin) + self.mailings.pluck(:berlin)).compact.uniq.sort
   end
 
   def ess_from_calls_and_mailings
-    (self.calls.pluck(:ess) + self.mailings.pluck(:ess)).compact.uniq
+    (self.calls.pluck(:ess) + self.mailings.pluck(:ess)).compact.uniq.sort
   end
 end
