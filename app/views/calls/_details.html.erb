@@ -42,4 +42,20 @@
     <%= simple_format @call.comments %>
   </div>
 <% end %>
+
+<% unless @call.tt_group_id.blank? %>
+  <div id="show_group_<%= @call.tt_group_id %>">
+    <%= image_tag "ajax-loader.gif" %>
+  </div>
+
+  <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: "group_#{@call.tt_group_id}_call_form" do %>
+    <%= hidden_field_tag 'screen_token', '' %>
+  <% end %>
+
+  <%= javascript_tag do %>
+    $(function(){
+      $.post($("#group_<%= @call.tt_group_id %>_call_form").attr("action"), $("#group_<%= @call.tt_group_id %>_call_form").serialize(), null, "script");
+    });
+  <% end %>
+<% end %>
 </div>

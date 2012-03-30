@@ -32,13 +32,11 @@
   </p>
 
   <p>
-    <table class="blank padded" style="width:100%">
+    <table class="blank padded" style="width:100%;background-color:transparent">
       <thead>
         <tr>
-          <th>Sticky</th>
-          <th>Due Date</th>
-          <th>Assigned To</th>
-          <th>Tags</th>
+          <th style="text-align:left">Sticky</th>
+          <th style="text-align:left">Due Date</th>
         </tr>
       </thead>
       <% (@group['stickies'] || []).each do |sticky| %>
@@ -51,9 +49,7 @@
             <% end %>
             <%= simple_format sticky['description'] %>
           </td>
-          <td style="text-align:center"><%= simple_date Time.parse(sticky['due_date']) rescue '' %></td>
-          <td style="text-align:center">...</td>
-          <td style="text-align:center">...</td>
+          <td><%= simple_date Time.parse(sticky['due_date']) rescue '' %></td>
         </tr>
       <% end %>
     </table>
