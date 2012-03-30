@@ -16,6 +16,7 @@ class Prescreen < ActiveRecord::Base
   scope :subject_code_not_blank, conditions: ["prescreens.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :visit_before, lambda { |*args| { conditions: ["prescreens.visit_at < ?", (args.first+1.day).at_midnight]} }
   scope :visit_after, lambda { |*args| { conditions: ["prescreens.visit_at >= ?", args.first.at_midnight]} }
+  scope :with_no_calls, lambda { |*args| { conditions: ["prescreens.patient_id not in (select calls.patient_id from calls)"]} }
 
   # Model Validation
   validates_presence_of :clinic_id

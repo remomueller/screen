@@ -42,6 +42,7 @@ class PrescreensController < ApplicationController
 
     prescreen_scope = prescreen_scope.subject_code_not_blank unless current_user.screener?
     prescreen_scope = prescreen_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
+    prescreen_scope = prescreen_scope.with_no_calls if params[:not_called] == '1'
 
     @visit_after = begin Date.strptime(params[:visit_after], "%m/%d/%Y") rescue nil end
     @visit_before = begin Date.strptime(params[:visit_before], "%m/%d/%Y") rescue nil end

@@ -16,6 +16,7 @@
           <th>Visit Date After</th>
           <th>Visit Date Before</th>
           <th>Eligibility</th>
+          <th>Not Called</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +25,7 @@
           <td><%= text_field_tag 'visit_after', params[:visit_after], class: 'datepicker' %></td>
           <td><%= text_field_tag 'visit_before', params[:visit_before], class: 'datepicker' %></td>
           <td><%= select_tag 'eligibility', options_for_select(Prescreen::ELIGIBILITY, params[:eligibility]) %></td>
+          <td><%= check_box_tag 'not_called' %></td>
         </tr>
       </tbody>
     </table>

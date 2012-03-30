@@ -2,10 +2,12 @@
 
 * Enhancements
   * Call creation integration with Task Tracker Templates
+    * Selecting templates displays the stickies that will be generated
   * Mailings
     * Bulk Import from spreadsheet now available
   * Prescreens
     * Bulk Import moved to its own page, now availabe as a submenu item under Prescreens
+    * Can be filtered by patients who have not had a call
   * Date filters added for Prescreens, Mailings, Calls, Evaluations, and Visits
   * Doctors, Clinics, and Choices GUI Updated
   * Patient Demographics displays aggregated ESS and Berlin scores from Calls and Mailings

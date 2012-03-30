@@ -11,13 +11,41 @@
     <%= link_to_function image_tag('gentleface/16/key.png', alt: '', size: '11x11') + 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#templates_form').attr('action'), $('#templates_form').serialize(), null, 'script');", class: 'button' %>
   </div>
 <% else %>
-  <div class="field">
-    <%= label 'call', 'tt_template_id', 'Template' %><br />
-    <%= select 'call', 'tt_template_id', options_for_select([['---', nil]] + @templates.collect{|t| [t['full_name'], t['id']]}, params[:tt_template_id]) %>
-  </div>
-  <div class="field">
-    <%= label_tag :initial_due_date, 'Initial Template Due Date' %><br />
-    <%= text_field_tag :initial_due_date, params[:initial_due_date], class: 'datepicker' %>
-    <%= javascript_tag "$('.datepicker').datepicker({showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true});" %>
-  </div>
+  <table class="blank" style="width:100%"><col width="1%"/>
+    <tr>
+      <td style="vertical-align:top">
+        <div class="field">
+          <%= label 'call', 'tt_template_id', 'Template' %><br />
+          <%= select 'call', 'tt_template_id', options_for_select([['---', nil]] + @templates.collect{|t| [t['full_name'], t['id']]}, params[:tt_template_id]) %>
+        </div>
+        <div class="field">
+          <%= label_tag :initial_due_date, 'Initial Template Due Date' %><br />
+          <%= text_field_tag :initial_due_date, params[:initial_due_date], class: 'datepicker' %>
+          <%= javascript_tag "$('.datepicker').datepicker({showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true});" %>
+        </div>
+      </td>
+      <td style="vertical-align:top"><div id="template_description" style="padding-left:20px"></div></td>
+    </tr>
+  </table>
+
+  <%= javascript_tag do %>
+    var templates = {};
+    <% @templates.each do |template| %>
+      templates['<%= template['id'] %>'] = <%= template.to_json.html_safe %>;
+    <% end %>
+    $("#call_tt_template_id").change(function() {
+      var template = templates[''+$(this).val()];
+      if(template != null){
+        html_string = "<table class='blank padded' style='width:100%'><thead><tr><th style='text-align:left'>Sticky</th><th style='text-align:left'>Offset</th><th style='text-align:left'>Assign To</th><th style='text-align:left'>Tags</th></tr></thead>";
+
+        $.each(template['items'], function(i, item){
+          html_string += "<tr><td>" + item['description'] +"</td><td>" + item['interval'] + " " + item['units'] + "</td><td>" + item['owner_id'] + "</td><td>" + item['tag_ids'] + "</td></tr>";
+        });
+        html_string += "</table>";
+        $("#template_description").html(html_string);
+      }else{
+        $("#template_description").html("");
+      }
+    });
+  <% end %>
 <% end %>
