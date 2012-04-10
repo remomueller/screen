@@ -1,6 +1,7 @@
 == 0.6.0
 
 * Enhancements
+  * Call comments are now also added to a Task Tracker group description
   * Update to Rails 3.2.3
 
 == 0.5.0
