@@ -2,8 +2,8 @@
 
 one:
   patient: one
-  administration_type: MyString
-  evaluation_type: MyString
+  administration_type: 1
+  evaluation_type: 1
   source: MyString
   embletta_unit_number: MyString
   administration_date: 2012-03-08
@@ -15,7 +15,7 @@ one:
   scored_date: 2012-03-08
   ahi: 1.0
   eligibility: MyString
-  exclusion: MyString
+  exclusion: 1
   status: MyString
   comments: MyText
   deleted: false
@@ -23,8 +23,8 @@ one:
 
 two:
   patient: one
-  administration_type: MyString
-  evaluation_type: MyString
+  administration_type: 1
+  evaluation_type: 1
   source: MyString
   embletta_unit_number: MyString
   administration_date: 2012-03-08
@@ -36,7 +36,7 @@ two:
   scored_date: 2012-03-08
   ahi: 1.0
   eligibility: MyString
-  exclusion: MyString
+  exclusion: 1
   status: MyString
   comments: MyText
   deleted: false
@@ -44,8 +44,8 @@ two:
 
 without_subject_code:
   patient: without_subject_code
-  administration_type: MyString
-  evaluation_type: MyString
+  administration_type: 1
+  evaluation_type: 1
   source: MyString
   embletta_unit_number: MyString
   administration_date: 2012-03-08
@@ -57,7 +57,7 @@ without_subject_code:
   scored_date: 2012-03-08
   ahi: 1.0
   eligibility: MyString
-  exclusion: MyString
+  exclusion: 1
   status: MyString
   comments: MyText
   deleted: false

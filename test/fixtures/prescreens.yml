@@ -8,7 +8,7 @@ one:
   visit_duration: 1
   visit_units: minutes
   eligibility: MyString
-  exclusion: MyString
+  exclusion: 1
   user: valid
 
 two:
@@ -19,7 +19,7 @@ two:
   visit_duration: 1
   visit_units: minutes
   eligibility: MyString
-  exclusion: MyString
+  exclusion: 1
   user: valid
 
 three:
@@ -30,7 +30,7 @@ three:
   visit_duration: 10
   visit_units: minutes
   eligibility: MyString
-  exclusion: MyString
+  exclusion: 1
   user: valid
 
 without_subject_code:
@@ -41,5 +41,5 @@ without_subject_code:
   visit_duration: 10
   visit_units: minutes
   eligibility: MyString
-  exclusion: MyString
+  exclusion: 1
   user: valid

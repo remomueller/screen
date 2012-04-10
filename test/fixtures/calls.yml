@@ -2,7 +2,7 @@
 
 one:
   patient: one
-  response: MyString
+  response: 1
   call_time: 2012-02-27 15:16:01
   berlin: 1
   ess: 1
@@ -13,7 +13,7 @@ one:
 
 two:
   patient: one
-  response: MyString
+  response: 1
   call_time: 2012-02-27 15:16:01
   berlin: 1
   ess: 1
@@ -24,7 +24,7 @@ two:
 
 without_subject_code:
   patient: without_subject_code
-  response: MyString
+  response: 1
   call_time: 2012-02-27 15:16:01
   berlin: 1
   ess: 1
