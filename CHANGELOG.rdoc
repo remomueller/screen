@@ -4,6 +4,9 @@
   * Call comments are now also added to a Task Tracker group description
   * Update to Rails 3.2.3
 
+* Bug Fix
+  * Fixed minor graphical menu bug for subject handlers
+
 == 0.5.0
 
 * Enhancements

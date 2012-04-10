@@ -39,12 +39,20 @@ Contour.setup do |config|
       links: []
     },
     {
-      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
-      links: [{ name: 'Bulk Import', path: 'bulk_prescreens_path', condition: 'current_user.screener?'}]
+      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left', condition: 'current_user.screener?',
+      links: [{ name: 'Bulk Import', path: 'bulk_prescreens_path' }]
     },
     {
-      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
-      links: [{ name: 'Bulk Import', path: 'bulk_mailings_path', condition: 'current_user.screener?'}]
+      name: 'Prescreens', display: 'signed_in', path: 'prescreens_path', position: 'left', condition: 'not current_user.screener? and current_user.subject_handler?',
+      links: []
+    },
+    {
+      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left', condition: 'current_user.screener?',
+      links: [{ name: 'Bulk Import', path: 'bulk_mailings_path' }]
+    },
+    {
+      name: 'Mailings', display: 'signed_in', path: 'mailings_path', position: 'left', condition: 'not current_user.screener? and current_user.subject_handler?',
+      links: []
     },
     {
       name: 'Calls', display: 'signed_in', path: 'calls_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
