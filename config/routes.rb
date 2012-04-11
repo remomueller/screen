@@ -31,6 +31,7 @@ Screen::Application.routes.draw do
   resources :patients do
     member do
       post :inline_update
+      post :stickies
     end
   end
 

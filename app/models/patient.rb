@@ -9,9 +9,9 @@ class Patient < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :mrn, if: :no_subject_code?
-  validates_uniqueness_of :mrn, allow_blank: true
+  validates_uniqueness_of :mrn, allow_blank: true, scope: :deleted
   validates_presence_of :subject_code, if: :no_mrn?
-  validates_uniqueness_of :subject_code, allow_blank: true
+  validates_uniqueness_of :subject_code, allow_blank: true, scope: :deleted
 
   # Model Relationships
   has_many :calls, conditions: { deleted: false }

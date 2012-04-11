@@ -111,20 +111,18 @@
 
 <div style="clear:both"></div>
 
-<% if false %>
-<%= form_tag events_path(patient_id: @patient.id, hide_patient: 1), method: :get, remote: true, id: "events_search", style: "display:inline" do %>
-  <%= hidden_field_tag :order %>
-<% end %>
+<%= @events = @patient.events.order("events.event_time DESC"); render partial: 'events/events_mini' %>
 
-<div id="events"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+<div id="stickies">
+  <%= image_tag "ajax-loader.gif" %>
+</div>
+
+<%= form_tag stickies_patient_path(@patient), method: :post, remote: true, style: 'display:inline', id: "patient_#{@patient.id}_stickies_form" do %>
+  <%= hidden_field_tag 'screen_token', '' %>
+<% end %>
 
 <%= javascript_tag do %>
   $(function(){
-    $.get($("#events_search").attr("action"), $("#events_search").serialize(), null, "script");
+    $.post($("#patient_<%= @patient.id %>_stickies_form").attr("action"), $("#patient_<%= @patient.id %>_stickies_form").serialize(), null, "script");
   });
 <% end %>
-<% end %>
-
-<%= @events = @patient.events.order("events.event_time DESC"); render partial: 'events/events_mini' %>
-
-<%#= @order = 'events.event_time DESC'; @events = @patient.events.order(@order).page(0); render partial: 'events/events' %>

@@ -40,7 +40,7 @@ a:link.positive:link, a:visited.positive {
   border-radius: 3px;
 }
 
-div.left-bubble, div.right-bubble, div.center-bubble, div.month-bubble {
+div.left-bubble, div.right-bubble, div.center-bubble, div.center-bubble-incomplete, div.month-bubble {
   background-color: white;
   padding: 10px;
   border: 1px solid #bbb;
@@ -48,6 +48,11 @@ div.left-bubble, div.right-bubble, div.center-bubble, div.month-bubble {
   -webkit-border-radius: 3px; /* Webkit */
   border-radius: 3px;
   cursor: pointer;
+}
+
+div.center-bubble-incomplete {
+  border-style: dotted;
+  color: #AAA;
 }
 
 div.right-bubble {
@@ -77,7 +82,7 @@ div.left-bubble {
   margin-right: 51%;
 }
 
-div.center-bubble {
+div.center-bubble, div.center-bubble-incomplete {
   margin-right: 25%;
   margin-left: 25%;
 }

@@ -1,0 +1,67 @@
+<% if @stickies.size > 0 %>
+<div class="frame">
+
+  <hr />
+  <center style="color:#AAA">Task Tracker Stickies</center>
+  <br />
+  <div style="clear:both;"></div>
+  <% @stickies.group_by{|s| s['month_year']}.each do |month_year, events| %>
+    <div class="month-bubble" style="float:left;margin-bottom:5px"
+         onclick="$('.my_<%= month_year[:id] %>').toggle();"
+         onmouseover="$(this).addClass('highlight');"
+         onmouseout="$(this).removeClass('highlight');">
+      <%= month_year[:display] %>
+    </div>
+    <div class="center-bubble my_<%= month_year[:id] %>" style="margin-bottom:5px; display:none"
+         onclick="$('.my_<%= month_year[:id] %>').toggle();"
+         onmouseover="$(this).addClass('highlight');"
+         onmouseout="$(this).removeClass('highlight');">
+      <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed;">
+        <tr>
+          <td style="vertical-align:top;white-space:nowrap;overflow-x:hidden"><%#= events.collect{|e| e.image}.collect{|i| image_tag("gentleface/16/#{i}.png", alt: '', style: 'vertical-align:text-bottom').html_safe}.join(' ').html_safe %></td>
+          <td style="vertical-align:top;text-align:center"><%= link_to_function pluralize(events.size, "Hidden Event"), "return false;" %></td>
+          <td style="vertical-align:top;text-align:right"><%= month_year[:display] %></td>
+        </tr>
+      </table>
+    </div>
+    <% events.each do |sticky| %>
+      <div id="sticky_<%= sticky['id'] %>_full" class="center-bubble<%= '-incomplete' unless sticky['completed'] %> my_stickies my_<%= month_year[:id] %>"
+             onmouseover="$(this).addClass('highlight');$('.right-bubble, .right-connection').hide();
+              if($('#sticky_<%= sticky['id'] %>_comments_long').html().replace(/[\s]/g, '') != ''){$('#sticky_<%= sticky['id'] %>_comments_long').show();$('#sticky_<%= sticky['id'] %>_connect').show();}
+              "
+             onmouseout="$(this).removeClass('highlight');"
+             style="margin-bottom:5px;position:relative"
+             >
+        <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed">
+          <tr>
+            <td style="white-space:nowrap;vertical-align:top">
+              <%#= image_tag "gentleface/16/#{@object.direction == 'incoming' ? 'arrow_bottom_rigth' : 'arrow_top_right'}.png", alt: '', size: '10x10', style: 'vertical-align:text-middle;margin-left:-7px;margin-right:-7px;margin-bottom:8px;margin-top:-8px', title: @object.direction if @object.class.name == 'Call' %>
+              <% if sticky['tags'].collect{|t| t['name']}.include?('Phone Call') %>
+                <%= image_tag "gentleface/16/phone_1.png", alt: '', style: 'vertical-align:text-bottom' %>
+              <% elsif sticky['tags'].collect{|t| t['name']}.include?('Visit') %>
+                <%= image_tag "gentleface/16/users.png", alt: '', style: 'vertical-align:text-bottom' %>
+              <% end %>
+              <%= link_to sticky['id'], sticky['sticky_link'], target: '_blank' %>
+            </td>
+            <td style="text-align:center;vertical-align:top">
+              <%= simple_format sticky['description'] %>
+            </td>
+            <td style="text-align:right;vertical-align:top">
+              <%= sticky['all_day'] ? simple_date(sticky['due_date']) : simple_time(sticky['due_date']).gsub('on ', '').gsub(' at ', '<br />').html_safe %>
+              <%#= @event.use_date? ? simple_date(@event.event_time) : simple_time(@event.event_time).gsub('on ', '').gsub(' at ', '<br />').html_safe %>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:center" colspan="3">
+              <% sticky['tags'].each do |tag| %>
+                <%= @choice = Choice.new(name: tag['name'], color: tag['color']); render partial: 'choices/show' %>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+      </div>
+    <% end %>
+    <div style="clear:both;"></div>
+  <% end %>
+</div>
+<% end %>

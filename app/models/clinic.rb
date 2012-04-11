@@ -9,7 +9,7 @@ class Clinic < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, scope: :deleted
 
   # Model Relationships
   has_many :prescreens, conditions: { deleted: false }
