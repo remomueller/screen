@@ -44,6 +44,8 @@
       <span class="quiet">
         <% if ['call type'].include?(@choice.category) %>
           <%= Call::TOGGLE_FIELDS.join(', ') %>
+        <% elsif ['administration type'].include?(@choice.category) %>
+          <%= Evaluation::TOGGLE_FIELDS.join(', ') %>
         <% end %>
       </span>
     </div>

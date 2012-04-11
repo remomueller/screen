@@ -25,6 +25,12 @@
     <div class="field">
       <%= f.label :administration_type %><br />
       <%= f.select :administration_type, [['---', nil]] + Choice.where(category: 'administration type').collect{|c| [c.name, c.id]} %>
+      <%= javascript_tag do %>
+        window.choices = {};
+        <% Choice.where(category: 'administration type').each do |c| %>
+          window.choices['<%= c.id %>'] = <%= c.fields.collect{|f| "#evaluation_#{f}"}.to_json.html_safe %>;
+        <% end %>
+      <% end %>
     </div>
     <div class="field">
       <%= f.label :evaluation_type %><br />
@@ -94,4 +100,15 @@
     <%= cancel %>
     <br />
   </div>
+<% end %>
+
+<%= javascript_tag do %>
+  $(function(){
+    window.toggle_fields = <%= Evaluation::TOGGLE_FIELDS.collect{|f| "#evaluation_#{f}"}.to_json.html_safe %>;
+    window.show_fields = [];
+    updateFields($('#evaluation_administration_type'));
+    $('#evaluation_administration_type').change(function() {
+      updateFields($(this));
+    });
+  });
 <% end %>
