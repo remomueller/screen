@@ -12,6 +12,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "choices.category", "Category", 'choices_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "choices.name", "Name", 'choices_search') %></th>
       <th>Description</th>
+      <th>Included Fields</th>
       <th>Color</th>
     </tr>
 
@@ -20,6 +21,7 @@
       <td><%= choice.category %></td>
       <td><%= link_to choice.name, choice %></td>
       <td><%= choice.description %></td>
+      <td><%= choice.fields.join(', ') %></td>
       <td><span class="choice_bubble" style="background-color: <%= choice.color %>"><%= choice.color %></span></td>
     </tr>
   <% end %>
