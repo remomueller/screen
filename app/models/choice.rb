@@ -20,4 +20,8 @@ class Choice < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
+  def fields
+    included_fields.gsub(/[^\w,\s]/, '').split(/[,\s]/).select{|i| not i.blank?}
+  end
+
 end

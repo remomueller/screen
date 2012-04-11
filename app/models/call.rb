@@ -2,6 +2,7 @@ class Call < ActiveRecord::Base
 
   ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
   CALL_DIRECTION = [['---', nil], ['incoming', 'incoming'], ['outgoing','outgoing']]
+  TOGGLE_FIELDS = [:response, :berlin, :ess, :eligibility, :exclusion, :participation]
 
   # Callbacks
   after_save :save_event

@@ -2,6 +2,7 @@
 
 * Enhancements
   * Call comments are now also added to a Task Tracker group description
+  * Choices can now be set to only show specific fields for different call types
   * Update to Rails 3.2.3
 
 * Bug Fix
