@@ -40,6 +40,12 @@
     <div class="field">
       <%= f.label :included_fields %> <span class="quiet">Comma or Whitespace Separated</span><br />
       <%= f.text_area :included_fields, rows: 7, style: "width:#{width}" %>
+      Valid Choices:
+      <span class="quiet">
+        <% if ['call type'].include?(@choice.category) %>
+          <%= Call::TOGGLE_FIELDS.join(', ') %>
+        <% end %>
+      </span>
     </div>
   </fieldset>
 
