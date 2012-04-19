@@ -42,11 +42,11 @@ class Mailing < ActiveRecord::Base
   end
 
   def sent_time
-    self.sent_date.blank? ? '' : Time.zone.parse(self.sent_date.to_s + " 00:00:00")
+    self.sent_date.blank? ? '' : Time.parse(self.sent_date.to_s + " 00:00:00")
   end
 
   def response_time
-    self.response_date.blank? ? '' : Time.zone.parse(self.response_date.to_s + " 00:00:00")
+    self.response_date.blank? ? '' : Time.parse(self.response_date.to_s + " 00:00:00")
   end
 
   def destroy

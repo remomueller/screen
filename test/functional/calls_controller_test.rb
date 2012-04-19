@@ -103,6 +103,7 @@ class CallsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:call)
     assert_equal users(:screener), assigns(:call).user
+    assert_equal Time.local(2012, 2, 28, 17, 45, 0), assigns(:call).call_time
     assert_redirected_to patient_path(assigns(:call).patient)
   end
 
@@ -124,6 +125,7 @@ class CallsControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:call)
     assert_equal users(:screener), assigns(:call).user
+    assert_equal Time.local(2012, 2, 28, 17, 45, 0), assigns(:call).call_time
     assert_redirected_to patient_path(assigns(:call).patient)
   end
 
@@ -165,6 +167,8 @@ class CallsControllerTest < ActionController::TestCase
 
   test "should update call" do
     put :update, id: @call, call: { patient_id: @call.patient_id, call_type: choices(:call_type), direction: 'incoming' }, call_date: "02/28/2012", call_time: "5:50pm"
+    assert_not_nil assigns(:call)
+    assert_equal Time.local(2012, 2, 28, 17, 50, 0), assigns(:call).call_time
     assert_redirected_to call_path(assigns(:call))
   end
 

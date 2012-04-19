@@ -91,8 +91,8 @@ class Prescreen < ActiveRecord::Base
         doctor_name = row_array.first if row_array.size == 1
         if not doctor_name.blank? and row_array.size > 1
           time = row_array[0]
-          time_start = Time.zone.parse(appointment_date.strftime('%Y-%m-%d') + ' ' + time.split(' - ').first)
-          time_end = Time.zone.parse(appointment_date.strftime('%Y-%m-%d') + ' ' + time.split(' - ').last)
+          time_start = Time.parse(appointment_date.strftime('%Y-%m-%d') + ' ' + time.split(' - ').first)
+          time_end = Time.parse(appointment_date.strftime('%Y-%m-%d') + ' ' + time.split(' - ').last)
           minutes = ((time_end - time_start) / 1.minute).to_i
           clinic_name = row_array[2]
           name = row_array[3]

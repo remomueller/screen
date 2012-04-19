@@ -76,9 +76,9 @@ class PrescreensController < ApplicationController
   def create
     params[:visit_date] = parse_date(params[:visit_date])
     # params[:visit_date] = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue ""
-    params[:visit_time] = Time.zone.parse(params[:visit_time]) rescue Time.zone.parse("12am")
-    params[:visit_time] = Time.zone.parse("12am") if params[:visit_time].blank?
-    params[:prescreen][:visit_at] = Time.zone.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
+    params[:visit_time] = Time.parse(params[:visit_time]) rescue Time.parse("12am")
+    params[:visit_time] = Time.parse("12am") if params[:visit_time].blank?
+    params[:prescreen][:visit_at] = Time.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
 
     @prescreen = current_user.prescreens.new(params[:prescreen])
 
@@ -92,9 +92,9 @@ class PrescreensController < ApplicationController
   def update
     params[:visit_date] = parse_date(params[:visit_date])
     # params[:visit_date] = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue ""
-    params[:visit_time] = Time.zone.parse(params[:visit_time]) rescue Time.zone.parse("12am")
-    params[:visit_time] = Time.zone.parse("12am") if params[:visit_time].blank?
-    params[:prescreen][:visit_at] = Time.zone.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
+    params[:visit_time] = Time.parse(params[:visit_time]) rescue Time.parse("12am")
+    params[:visit_time] = Time.parse("12am") if params[:visit_time].blank?
+    params[:prescreen][:visit_at] = Time.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
     params[:prescreen][:risk_factor_ids] ||= []
 
     @prescreen = Prescreen.find_by_id(params[:id])

@@ -43,15 +43,15 @@ class Evaluation < ActiveRecord::Base
   end
 
   def administration_time
-    self.administration_date.blank? ? '' : Time.zone.parse(self.administration_date.to_s + " 00:00:00")
+    self.administration_date.blank? ? '' : Time.parse(self.administration_date.to_s + " 00:00:00")
   end
 
   def receipt_time
-    self.receipt_date.blank? ? '' : Time.zone.parse(self.receipt_date.to_s + " 00:00:00")
+    self.receipt_date.blank? ? '' : Time.parse(self.receipt_date.to_s + " 00:00:00")
   end
 
   def scored_time
-    self.scored_date.blank? ? '' : Time.zone.parse(self.scored_date.to_s + " 00:00:00")
+    self.scored_date.blank? ? '' : Time.parse(self.scored_date.to_s + " 00:00:00")
   end
 
 

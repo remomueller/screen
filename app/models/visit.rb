@@ -43,7 +43,7 @@ class Visit < ActiveRecord::Base
   end
 
   def visit_time
-    self.visit_date.blank? ? '' : Time.zone.parse(self.visit_date.to_s + " 00:00:00")
+    self.visit_date.blank? ? '' : Time.parse(self.visit_date.to_s + " 00:00:00")
   end
 
   def destroy
