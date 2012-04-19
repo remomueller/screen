@@ -117,6 +117,8 @@ class PrescreensControllerTest < ActionController::TestCase
   test "should update prescreen with two-digit year" do
     put :update, id: @prescreen, prescreen: @prescreen.attributes, visit_date: "04/19/12", visit_time: "9:26am"
     assert_not_nil assigns(:prescreen)
+    puts "Why does Travis-CI not use application Time zone..."
+    puts "#{Time.zone}"
     assert_equal Time.local(2012, 4, 19, 9, 26, 0), assigns(:prescreen).visit_at
     assert_redirected_to prescreen_path(assigns(:prescreen))
   end
