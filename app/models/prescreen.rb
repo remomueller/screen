@@ -22,6 +22,7 @@ class Prescreen < ActiveRecord::Base
   validates_presence_of :clinic_id
   validates_presence_of :doctor_id
   validates_presence_of :patient_id
+  validates_presence_of :visit_at, message: 'date and time can\'t be blank'
 
   # Model Relationships
   belongs_to :clinic, conditions: { deleted: false }

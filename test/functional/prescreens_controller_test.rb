@@ -77,6 +77,17 @@ class PrescreensControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should not create prescreen with blank visit at" do
+    assert_difference('Prescreen.count', 0) do
+      post :create, prescreen: { patient_id: @prescreen.patient_id, clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id, visit_duration: 0, visit_units: 'minutes', eligibility: '', exclusion: '' }, visit_date: "", visit_time: ""
+    end
+
+    assert_not_nil assigns(:prescreen)
+    assert assigns(:prescreen).errors.size > 0
+    assert_equal ["date and time can't be blank"], assigns(:prescreen).errors[:visit_at]
+    assert_template 'new'
+  end
+
   test "should show prescreen" do
     get :show, id: @prescreen
     assert_response :success
@@ -88,7 +99,7 @@ class PrescreensControllerTest < ActionController::TestCase
   end
 
   test "should update prescreen" do
-    put :update, id: @prescreen, prescreen: @prescreen.attributes
+    put :update, id: @prescreen, prescreen: @prescreen.attributes, visit_date: "04/19/2012", visit_time: "9:26am"
     assert_redirected_to prescreen_path(assigns(:prescreen))
   end
 
@@ -103,6 +114,14 @@ class PrescreensControllerTest < ActionController::TestCase
     assert_not_nil assigns(:prescreen)
     assert assigns(:prescreen).errors.size > 0
     assert_equal ["can't be blank"], assigns(:prescreen).errors[:patient_id]
+    assert_template 'edit'
+  end
+
+  test "should not update prescreen with blank visit at" do
+    put :update, id: @prescreen, prescreen:  { patient_id: @prescreen.patient_id, clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id, visit_duration: 0, visit_units: 'minutes', eligibility: '', exclusion: '' }, visit_date: "", visit_time: ""
+    assert_not_nil assigns(:prescreen)
+    assert assigns(:prescreen).errors.size > 0
+    assert_equal ["date and time can't be blank"], assigns(:prescreen).errors[:visit_at]
     assert_template 'edit'
   end
 

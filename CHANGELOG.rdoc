@@ -1,5 +1,8 @@
 == 0.6.1
 
+* Bug Fix
+  * Prescreens now require a visit date and time in order to display correctly on the participant timeline
+
 == 0.6.0
 
 * Enhancements
