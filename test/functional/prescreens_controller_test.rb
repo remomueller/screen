@@ -66,6 +66,17 @@ class PrescreensControllerTest < ActionController::TestCase
     assert_redirected_to patient_path(assigns(:prescreen).patient)
   end
 
+  test "should create prescreen with a two digit year" do
+    assert_difference('Prescreen.count') do
+      post :create, prescreen: { patient_id: @prescreen.patient_id, clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id }, visit_date: "04/19/12", visit_time: "9:48am"
+    end
+
+    assert_not_nil assigns(:prescreen)
+    assert_equal users(:screener), assigns(:prescreen).user
+    assert_equal Time.local(2012, 4, 19, 9, 48, 0), assigns(:prescreen).visit_at
+    assert_redirected_to patient_path(assigns(:prescreen).patient)
+  end
+
   test "should not create prescreen with invalid patient" do
     assert_difference('Prescreen.count', 0) do
       post :create, prescreen: { patient_id: '', clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id, visit_duration: 0, visit_units: 'minutes', eligibility: '', exclusion: '' }, visit_date: "03/01/2012", visit_time: "4:03pm"
@@ -100,6 +111,13 @@ class PrescreensControllerTest < ActionController::TestCase
 
   test "should update prescreen" do
     put :update, id: @prescreen, prescreen: @prescreen.attributes, visit_date: "04/19/2012", visit_time: "9:26am"
+    assert_redirected_to prescreen_path(assigns(:prescreen))
+  end
+
+  test "should update prescreen with two-digit year" do
+    put :update, id: @prescreen, prescreen: @prescreen.attributes, visit_date: "04/19/12", visit_time: "9:26am"
+    assert_not_nil assigns(:prescreen)
+    assert_equal Time.local(2012, 4, 19, 9, 26, 0), assigns(:prescreen).visit_at
     assert_redirected_to prescreen_path(assigns(:prescreen))
   end
 

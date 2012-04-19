@@ -13,6 +13,9 @@ class Mailing < ActiveRecord::Base
   scope :sent_before, lambda { |*args| { conditions: ["mailings.sent_date < ?", (args.first+1.day)]} }
   scope :sent_after, lambda { |*args| { conditions: ["mailings.sent_date >= ?", args.first]} }
 
+  # Don't include mailing where the participant is inelgibile in some other way (calls...)
+  scope :exclude_ineligible, lambda { |*args| { conditions: ["mailings.patient_id not in ( select DISTINCT(calls.patient_id) from calls where calls.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(evaluations.patient_id) from evaluations where evaluations.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(prescreens.patient_id) from prescreens where prescreens.eligibility = 'ineligible')"] } }
+
   # Model Validation
   validates_presence_of :patient_id
   validates_presence_of :doctor_id
@@ -81,7 +84,7 @@ class Mailing < ActiveRecord::Base
       unless row.blank?
         row_array = row.split(/\t/)
         doctor_name = row_array[0]
-        sent_date = if row_array[1].to_s.split('/').last.size == 4
+        sent_date = if row_array[1].to_s.split('/').last.to_s.size == 4
           Date.strptime(row_array[1].to_s, "%m/%d/%Y") rescue ""
         else
           Date.strptime(row_array[1].to_s, "%m/%d/%y") rescue ""

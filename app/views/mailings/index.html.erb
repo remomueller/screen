@@ -15,6 +15,7 @@
           <th>Sent Date After</th>
           <th>Sent Date Before</th>
           <th>Eligibility</th>
+          <th>Exclude Ineligible From Calls, Evaluations, or Prescreens</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,7 @@
           <td><%= text_field_tag 'sent_after', params[:sent_after], class: 'datepicker' %></td>
           <td><%= text_field_tag 'sent_before', params[:sent_before], class: 'datepicker' %></td>
           <td><%= select_tag 'eligibility', options_for_select(Mailing::ELIGIBILITY, params[:eligibility]) %></td>
+          <td><%= check_box_tag 'ineligible', "1", params[:ineligible] %></td>
         </tr>
       </tbody>
     </table>

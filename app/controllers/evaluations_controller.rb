@@ -41,12 +41,17 @@ class EvaluationsController < ApplicationController
   end
 
   def create
-    params[:evaluation][:administration_date] = Date.strptime(params[:evaluation][:administration_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:administration_date].blank?
-    params[:evaluation][:expected_receipt_date] = Date.strptime(params[:evaluation][:expected_receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:expected_receipt_date].blank?
-    params[:evaluation][:receipt_date] = Date.strptime(params[:evaluation][:receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:receipt_date].blank?
-    params[:evaluation][:storage_date] = Date.strptime(params[:evaluation][:storage_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:storage_date].blank?
-    params[:evaluation][:reimbursement_form_date] = Date.strptime(params[:evaluation][:reimbursement_form_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:reimbursement_form_date].blank?
-    params[:evaluation][:scored_date] = Date.strptime(params[:evaluation][:scored_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:scored_date].blank?
+    params[:evaluation] ||= {}
+    [:administration_date, :expected_receipt_date, :receipt_date, :storage_date, :reimbursement_form_date, :scored_date].each do |date|
+      params[:evaluation][date] = parse_date(params[:evaluation][date])
+    end
+
+    # params[:evaluation][:administration_date] = Date.strptime(params[:evaluation][:administration_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:administration_date].blank?
+    # params[:evaluation][:expected_receipt_date] = Date.strptime(params[:evaluation][:expected_receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:expected_receipt_date].blank?
+    # params[:evaluation][:receipt_date] = Date.strptime(params[:evaluation][:receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:receipt_date].blank?
+    # params[:evaluation][:storage_date] = Date.strptime(params[:evaluation][:storage_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:storage_date].blank?
+    # params[:evaluation][:reimbursement_form_date] = Date.strptime(params[:evaluation][:reimbursement_form_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:reimbursement_form_date].blank?
+    # params[:evaluation][:scored_date] = Date.strptime(params[:evaluation][:scored_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:scored_date].blank?
 
     @evaluation = current_user.evaluations.new(params[:evaluation])
 
@@ -58,12 +63,17 @@ class EvaluationsController < ApplicationController
   end
 
   def update
-    params[:evaluation][:administration_date] = Date.strptime(params[:evaluation][:administration_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:administration_date].blank?
-    params[:evaluation][:expected_receipt_date] = Date.strptime(params[:evaluation][:expected_receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:expected_receipt_date].blank?
-    params[:evaluation][:receipt_date] = Date.strptime(params[:evaluation][:receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:receipt_date].blank?
-    params[:evaluation][:storage_date] = Date.strptime(params[:evaluation][:storage_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:storage_date].blank?
-    params[:evaluation][:reimbursement_form_date] = Date.strptime(params[:evaluation][:reimbursement_form_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:reimbursement_form_date].blank?
-    params[:evaluation][:scored_date] = Date.strptime(params[:evaluation][:scored_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:scored_date].blank?
+    params[:evaluation] ||= {}
+    [:administration_date, :expected_receipt_date, :receipt_date, :storage_date, :reimbursement_form_date, :scored_date].each do |date|
+      params[:evaluation][date] = parse_date(params[:evaluation][date])
+    end
+
+    # params[:evaluation][:administration_date] = Date.strptime(params[:evaluation][:administration_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:administration_date].blank?
+    # params[:evaluation][:expected_receipt_date] = Date.strptime(params[:evaluation][:expected_receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:expected_receipt_date].blank?
+    # params[:evaluation][:receipt_date] = Date.strptime(params[:evaluation][:receipt_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:receipt_date].blank?
+    # params[:evaluation][:storage_date] = Date.strptime(params[:evaluation][:storage_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:storage_date].blank?
+    # params[:evaluation][:reimbursement_form_date] = Date.strptime(params[:evaluation][:reimbursement_form_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:reimbursement_form_date].blank?
+    # params[:evaluation][:scored_date] = Date.strptime(params[:evaluation][:scored_date], "%m/%d/%Y") if params[:evaluation] and not params[:evaluation][:scored_date].blank?
 
     @evaluation = Evaluation.find_by_id(params[:id])
 

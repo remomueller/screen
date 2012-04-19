@@ -18,6 +18,8 @@ class CallsController < ApplicationController
     call_scope = call_scope.call_before(@call_before) unless @call_before.blank?
     call_scope = call_scope.call_after(@call_after) unless @call_after.blank?
 
+    call_scope = call_scope.with_user(params[:user_id]) unless params[:user_id].blank?
+
     @order = Call.column_names.collect{|column_name| "calls.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "calls.patient_id"
     call_scope = call_scope.order(@order)
 
@@ -59,7 +61,8 @@ class CallsController < ApplicationController
   end
 
   def create
-    params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
+    params[:call_date] = parse_date(params[:call_date])
+    # params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
     params[:call_time] = Time.zone.parse(params[:call_time]) rescue Time.zone.parse("12am")
     params[:call_time] = Time.zone.parse("12am") if params[:call_time].blank?
     params[:call][:call_time] = Time.zone.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
@@ -82,7 +85,8 @@ class CallsController < ApplicationController
   end
 
   def update
-    params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
+    params[:call_date] = parse_date(params[:call_date])
+    # params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
     params[:call_time] = Time.zone.parse(params[:call_time]) rescue Time.zone.parse("12am")
     params[:call_time] = Time.zone.parse("12am") if params[:call_time].blank?
     params[:call][:call_time] = Time.zone.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""

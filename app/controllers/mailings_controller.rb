@@ -37,6 +37,8 @@ class MailingsController < ApplicationController
     mailing_scope = mailing_scope.sent_before(@sent_before) unless @sent_before.blank?
     mailing_scope = mailing_scope.sent_after(@sent_after) unless @sent_after.blank?
 
+    mailing_scope = mailing_scope.exclude_ineligible if params[:ineligible] == '1'
+
     @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.patient_id"
     mailing_scope = mailing_scope.order(@order)
 
@@ -84,8 +86,13 @@ class MailingsController < ApplicationController
   end
 
   def create
-    params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
-    params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
+    params[:mailing] ||= {}
+    [:sent_date, :response_date].each do |date|
+      params[:mailing][date] = parse_date(params[:mailing][date])
+    end
+
+    # params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
+    # params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
 
     @mailing = current_user.mailings.new(params[:mailing])
 
@@ -97,8 +104,14 @@ class MailingsController < ApplicationController
   end
 
   def update
-    params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
-    params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
+    params[:mailing] ||= {}
+    [:sent_date, :response_date].each do |date|
+      params[:mailing][date] = parse_date(params[:mailing][date])
+    end
+
+    # params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
+    # params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
+
     params[:mailing][:risk_factor_ids] ||= []
 
     @mailing = Mailing.find_by_id(params[:id])

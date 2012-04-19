@@ -11,6 +11,7 @@ class Call < ActiveRecord::Base
   scope :current, conditions: { deleted: false }
   scope :with_mrn, lambda { |*args| { conditions: ["calls.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["calls.eligibility IN (?)", args.first] } }
+  scope :with_user, lambda { |*args| { conditions: ["calls.user_id in (?)", args.first] } }
   scope :subject_code_not_blank, conditions: ["calls.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :call_before, lambda { |*args| { conditions: ["calls.call_time < ?", (args.first+1.day).at_midnight]} }
   scope :call_after, lambda { |*args| { conditions: ["calls.call_time >= ?", args.first.at_midnight]} }

@@ -1,5 +1,10 @@
 == 0.6.1
 
+* Enhancements
+  * Calls can now be filtered by the user making the call
+  * Mailings can be filtered to exclude any mailings that have participants ineligibile from a call, evaluation, or prescreen
+  * Dates can now be entered in either mm/dd/yy or mm/dd/yyyy format
+
 * Bug Fix
   * Prescreens now require a visit date and time in order to display correctly on the participant timeline
 

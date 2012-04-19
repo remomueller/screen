@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   scope :system_admins, conditions: { system_admin: true }
   scope :screeners, conditions: { screener: true }
   scope :subject_handlers, conditions: { subject_handler: true }
+  scope :with_call, lambda { |*args| { conditions: ["users.id in (select DISTINCT(calls.user_id) from calls)"] }  }
 
   # Model Validation
   validates_presence_of     :first_name

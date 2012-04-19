@@ -14,6 +14,7 @@
           <th>Call Date After</th>
           <th>Call Date Before</th>
           <th>Eligibility</th>
+          <th>User</th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +23,7 @@
           <td><%= text_field_tag 'call_after', params[:call_after], class: 'datepicker' %></td>
           <td><%= text_field_tag 'call_before', params[:call_before], class: 'datepicker' %></td>
           <td><%= select_tag 'eligibility', options_for_select(Call::ELIGIBILITY, params[:eligibility]) %></td>
+          <td><%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_call.collect{|u| [u.name, u.id]}, params[:user_id]) %></td>
         </tr>
       </tbody>
     </table>

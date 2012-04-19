@@ -57,13 +57,15 @@ class EvaluationsControllerTest < ActionController::TestCase
   end
 
   test "should update evaluation" do
-    put :update, id: @evaluation, evalution: { patient_id: @evaluation.patient_id, administration_date: '02/20/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
+    put :update, id: @evaluation, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/20/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
+    assert_not_nil assigns(:evaluation)
+    assert_equal Date.parse('2012-02-20'), assigns(:evaluation).administration_date
     assert_redirected_to evaluation_path(assigns(:evaluation))
   end
 
   test "should not update evaluation for patient without subject code as subject handler" do
     login(users(:subject_handler))
-    put :update, id: evaluations(:without_subject_code), evalution: { patient_id: evaluations(:without_subject_code).patient_id, administration_date: '02/20/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
+    put :update, id: evaluations(:without_subject_code), evaluation: { patient_id: evaluations(:without_subject_code).patient_id, administration_date: '02/20/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
     assert_redirected_to root_path
   end
 

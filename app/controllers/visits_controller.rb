@@ -41,7 +41,9 @@ class VisitsController < ApplicationController
   end
 
   def create
-    params[:visit][:visit_date] = Date.strptime(params[:visit][:visit_date], "%m/%d/%Y") if params[:visit] and not params[:visit][:visit_date].blank?
+    params[:visit] ||= {}
+    params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
+    # params[:visit][:visit_date] = Date.strptime(params[:visit][:visit_date], "%m/%d/%Y") if params[:visit] and not params[:visit][:visit_date].blank?
 
     @visit = current_user.visits.new(params[:visit])
 
@@ -53,7 +55,9 @@ class VisitsController < ApplicationController
   end
 
   def update
-    params[:visit][:visit_date] = Date.strptime(params[:visit][:visit_date], "%m/%d/%Y") if params[:visit] and not params[:visit][:visit_date].blank?
+    params[:visit] ||= {}
+    params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
+    # params[:visit][:visit_date] = Date.strptime(params[:visit][:visit_date], "%m/%d/%Y") if params[:visit] and not params[:visit][:visit_date].blank?
 
     @visit = Visit.find_by_id(params[:id])
 
