@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   scope :subject_code_not_blank, conditions: ["events.patient_id in (select patients.id from patients where patients.subject_code != '')"]
 
   # Model Validation
-  validates_presence_of :patient_id
+  validates_presence_of :patient_id, :event_time
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true
