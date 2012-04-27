@@ -91,7 +91,6 @@ class Mailing < ActiveRecord::Base
         end
 
         if not doctor_name.blank? and row_array.size > 1 and not sent_date.blank?
-          Rails.logger.debug "Gets here"
           mrn = row_array[2].to_s.strip
           last_name = row_array[3].to_s.strip
           first_name = row_array[4].to_s.strip
