@@ -2,14 +2,16 @@
 <h1><%= @title %></h1>
 
 <% if current_user.system_admin? and false %>
-  <%= link_to image_tag('gentleface/16/user.png', alt: '') + "Create New User", new_user_path, class: 'button positive' %>
+  <%= link_to image_tag('gentleface/16/user.png', alt: '') + "Create New User", new_user_path, class: 'btn btn-primary' %>
 <% end %>
 
-<%= form_tag users_path, method: :get, remote: true, id: "users_search" do %>
+<%= form_tag users_path, method: :get, remote: true, id: "users_search", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
-  Search <%= text_field_tag 'search', params[:search] %> <%#= information %>
-  <div id="users"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
+
+<div id="users"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <%= javascript_tag do %>
   $(function(){

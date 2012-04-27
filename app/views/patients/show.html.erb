@@ -2,10 +2,10 @@
 <h1><%= @title %></h1>
 
 <% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_patients.include?(@patient) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Patient", edit_patient_path(@patient), class: 'button' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Patient", @patient, confirm: "Are you sure you want to delete Patient #{@patient.name}?", method: :delete, class: 'button negative' %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Patient", edit_patient_path(@patient), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Patient", @patient, confirm: "Are you sure you want to delete Patient #{@patient.name}?", method: :delete, class: 'btn btn-danger' %>
 <% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Patients", patients_path, class: 'button' %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Patients", patients_path, class: 'btn' %>
 <div style="clear:both"></div>
 
 <% unless @patient.priority_message.blank? %>
@@ -102,12 +102,12 @@
   </tr>
 </table>
 
-<%= link_to image_tag('gentleface/16/3x3_grid.png', alt: '') + 'Create Prescreen', new_prescreen_path(patient_id: @patient.id), class: 'button positive' %>
-<%= link_to image_tag('gentleface/16/mail.png', alt: '') + 'Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'button positive' %>
-<%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + 'Create Call', new_call_path(patient_id: @patient.id), class: 'button positive' %>
-<%= link_to image_tag('gentleface/16/cert.png', alt: '') + 'Create Evaluation', new_evaluation_path(patient_id: @patient.id), class: 'button positive' %>
+<%= link_to image_tag('gentleface/16/3x3_grid.png', alt: '') + 'Create Prescreen', new_prescreen_path(patient_id: @patient.id), class: 'btn btn-primary' %>
+<%= link_to image_tag('gentleface/16/mail.png', alt: '') + 'Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'btn btn-primary' %>
+<%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + 'Create Call', new_call_path(patient_id: @patient.id), class: 'btn btn-primary' %>
+<%= link_to image_tag('gentleface/16/cert.png', alt: '') + 'Create Evaluation', new_evaluation_path(patient_id: @patient.id), class: 'btn btn-primary' %>
 
-<%= link_to image_tag('gentleface/16/users.png', alt: '') + 'Create Visit', new_visit_path(patient_id: @patient.id), class: 'button positive' %>
+<%= link_to image_tag('gentleface/16/users.png', alt: '') + 'Create Visit', new_visit_path(patient_id: @patient.id), class: 'btn btn-primary' %>
 
 <div style="clear:both"></div>
 

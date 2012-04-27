@@ -8,7 +8,7 @@
     <%= label_tag 'task_tracker_screen_token' %><br />
     <%= text_field_tag "task_tracker_screen_token", '', style: "width:#{width}" %>
     <div style="clear:both"></div>
-    <%= link_to_function image_tag('gentleface/16/key.png', alt: '', size: '11x11') + 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#templates_form').attr('action'), $('#templates_form').serialize(), null, 'script');", class: 'button' %>
+    <%= link_to_function image_tag('gentleface/16/key.png', alt: '', size: '11x11') + 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#templates_form').attr('action'), $('#templates_form').serialize(), null, 'script');", class: 'btn' %>
   </div>
 <% else %>
   <table class="blank" style="width:100%"><col width="1%"/>

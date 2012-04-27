@@ -2,10 +2,10 @@
 <h1><%= @title %></h1>
 
 <% if current_user.screener? %> <%# current_user.all_choices.include?(@choice) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Choice", edit_choice_path(@choice), class: 'button' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Choice", @choice, confirm: "Are you sure you want to delete Choice #{@choice.name}?", method: :delete, class: 'button negative' %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Choice", edit_choice_path(@choice), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Choice", @choice, confirm: "Are you sure you want to delete Choice #{@choice.name}?", method: :delete, class: 'btn btn-danger' %>
 <% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Choices", choices_path, class: 'button' %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Choices", choices_path, class: 'btn' %>
 <div style="clear:both"></div>
 
 <fieldset>

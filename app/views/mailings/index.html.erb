@@ -1,7 +1,9 @@
 <% @title = "Mailings" %>
-<h1><%= @title %></h1>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
-<%= form_tag mailings_path, method: :get, remote: true, id: "mailings_search", style: "margin-bottom:-5px" do %>
+<%= form_tag mailings_path, method: :get, remote: true, id: "mailings_search", style: "margin-bottom:-5px", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
 
   <fieldset>
@@ -29,7 +31,7 @@
       </tbody>
     </table>
     <%= button_tag image_tag('gentleface/16/cog.png') + 'Filter Search' %>
-    <%= link_to_function image_tag('gentleface/16/doc_lines_stright.png') + 'Export CSV', "window.location = $('#mailings_search').attr('action') + '.csv?' + $('#mailings_search').serialize();", class: 'button' %>
+    <%= link_to_function image_tag('gentleface/16/doc_lines_stright.png') + 'Export CSV', "window.location = $('#mailings_search').attr('action') + '.csv?' + $('#mailings_search').serialize();", class: 'btn' %>
   </fieldset>
 <% end %>
 

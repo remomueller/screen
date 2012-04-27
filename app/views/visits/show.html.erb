@@ -2,10 +2,10 @@
 <h1><%= @title %></h1>
 
 <% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_visits.include?(@visit) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Visit", edit_visit_path(@visit), class: 'button' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Visit", @visit, confirm: "Are you sure you want to delete Visit #{@visit.name}?", method: :delete, class: 'button negative' %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Visit", edit_visit_path(@visit), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Visit", @visit, confirm: "Are you sure you want to delete Visit #{@visit.name}?", method: :delete, class: 'btn btn-danger' %>
 <% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Visits", visits_path, class: 'button' %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Visits", visits_path, class: 'btn' %>
 <div style="clear:both"></div>
 
 <fieldset>
