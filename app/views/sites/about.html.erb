@@ -1,0 +1,13 @@
+<% @title = "About #{DEFAULT_APP_NAME}" %>
+
+<div class="row">
+  <div class="span6">
+    &nbsp;
+  </div>
+  <div class="span6">
+    <div class="hero-unit">
+      <h1><%= @title %></h1>
+      <p><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use', new_user_registration_path, class: 'btn btn-mini btn-primary' %> and <%= link_to 'open source', 'https://github.com/remomueller/screen', class: 'btn btn-mini btn-primary' %> clinical trial participant management tool.</p>
+    </div>
+  </div>
+</div>

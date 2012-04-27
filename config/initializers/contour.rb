@@ -17,22 +17,19 @@ Contour.setup do |config|
   # config.header_title_image = ''
 
   # Enter the items you wish to see in the menu
-  config.menu_items =
-  [
+  config.menu_items = [
     {
-      name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right', condition: 'true',
-      links: [{ name: 'Sign Up', path: 'new_user_registration_path' }]
+      name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right',
+      links: [{ name: 'Sign Up', path: 'new_user_registration_path' },
+              { divider: true },
+              { authentications: true }]
     },
     {
-      name: 'current_user.name', eval: true, display: 'signed_in', position: 'right', condition: 'true',
+      name: 'current_user.name', eval: true, display: 'signed_in', path: 'user_path(current_user)', position: 'right',
       links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true },
               { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
-              { html: "<br />" },
+              { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
-    },
-    {
-      name: 'About', display: 'not_signed_in', path: 'root_path', position: 'left',
-      links: []
     },
     {
       name: 'Patients', display: 'signed_in', path: 'patients_path', position: 'left', condition: 'current_user.screener? or current_user.subject_handler?',
@@ -73,8 +70,11 @@ Contour.setup do |config|
     {
       name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
       links: []
+    },
+    {
+      name: 'About', display: 'always', path: 'about_path', position: 'left',
+      links: []
     }
-
   ]
 
   # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
