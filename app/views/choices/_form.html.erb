@@ -1,6 +1,6 @@
 <% width = '1074px' %>
 
-<%= form_for(@choice) do |f| %>
+<%= form_for(@choice, html: { class: 'form-horizontal' }) do |f| %>
   <% if @choice.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@choice.errors.count, "error") %> prohibited this choice from being saved:</h2>
@@ -53,7 +53,7 @@
 
   <div class="actions">
     <% form_name = @choice.new_record? ? 'new_choice' : "edit_choice_#{@choice.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@choice.new_record? ? "Create Choice" : "Update Choice"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@choice.new_record? ? "Create Choice" : "Update Choice"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
     <br />
   </div>

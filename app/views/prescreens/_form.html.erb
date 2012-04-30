@@ -1,6 +1,8 @@
-<% width = '1074px' %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
-<%= form_for(@prescreen) do |f| %>
+<%= form_for(@prescreen, html: { class: 'form-horizontal' }) do |f| %>
   <% if @prescreen.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@prescreen.errors.count, "error") %> prohibited this prescreen from being saved:</h2>
@@ -13,67 +15,79 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-
-    <div class="field">
-      <%= f.label :patient_id %><br />
+  <div class="control-group">
+    <%= f.label :patient_id, class: 'control-label' %>
+    <div class="controls">
       <%= link_to @prescreen.patient.code, @prescreen.patient if @prescreen.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :clinic_id %><br />
+  <div class="control-group">
+    <%= f.label :clinic_id, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :clinic_id, Clinic::clinic_select %>
     </div>
-    <div class="field">
-      <%= f.label :doctor_id, 'Cardiologist' %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :doctor_id, 'Cardiologist', class: 'control-label' %>
+    <div class="controls">
       <%= f.select :doctor_id, Doctor::doctor_select %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= label_tag :visit_date %><br />
+  <div class="control-group">
+    <%= label_tag :visit_date, 'Visit date', class: 'control-label' %>
+    <div class="controls">
       <%= text_field_tag :visit_date, @prescreen.visit_date, class: 'datepicker' %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= label_tag :visit_time %><br />
+  <div class="control-group">
+    <%= label_tag :visit_time, 'Visit time', class: 'control-label' %>
+    <div class="controls">
       <%= text_field_tag :visit_time, @prescreen.visit_at_string %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :visit_duration %><br />
+  <div class="control-group">
+    <%= f.label :visit_duration, class: 'control-label' %>
+    <div class="controls">
       <%= f.number_field :visit_duration, { min: 0 } %> <%= f.select :visit_units, ['minutes', 'hours'].collect{|i| [i,i]} %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :eligibility %><br />
+  <div class="control-group">
+    <%= f.label :eligibility, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :eligibility, Prescreen::ELIGIBILITY %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :exclusion %><br />
+  <div class="control-group">
+    <%= f.label :exclusion, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :risk_factors %><br />
-      <table class="blank padded" style="width:100%;table-layout:fixed">
-        <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>
-          <tr>
-            <% row_risk_factors.each do |choice| %>
-              <td><% if choice %><%= check_box_tag "prescreen[risk_factor_ids][]", choice.id, @prescreen.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %><% end %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      </table>
+  <div class="control-group">
+    <%= f.label :risk_factors, class: 'control-label' %>
+    <div class="controls">
+      <% Choice.where(category: 'risk factors').in_groups_of(4).each do |row_risk_factors| %>
+        <div class="row">
+          <% row_risk_factors.each do |choice| %>
+            <div class="span2" style="white-space:nowrap"><% if choice %><%= check_box_tag "prescreen[risk_factor_ids][]", choice.id, @prescreen.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %><% end %></div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @prescreen.new_record? ? 'new_prescreen' : "edit_prescreen_#{@prescreen.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@prescreen.new_record? ? "Create Prescreen" : "Update Prescreen"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function (@prescreen.new_record? ? "Create Prescreen" : "Update Prescreen"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-    <br />
   </div>
 <% end %>

@@ -1,39 +1,34 @@
-<div style="float:right;text-align:right">
-  Per Page
-  <span class="per_page">20</span><br />
-  <%= "<b>Displaying #{@patients.count} of #{@patient_count}</b>".html_safe if @patient_count %>
-</div>
-
-<div style="clear:both"></div>
+<%= render partial: 'layouts/per_page', locals: { object_count: @patient_count, type: 'users' } %>
 
 <% items = [['mrn', 'MRN'], ['subject_code', 'Subject Code'], ['first_name', 'First Name'], ['last_name', 'Last Name']] %>
 
-<div class="frame">
-  <table style="width:100%;table-layout:fixed"><col width="38px" />
+<table class="table table-striped table-bordered" style="width:100%;table-layout:fixed"><col width="38px" />
+  <thead>
     <tr>
       <th><%= image_tag 'gentleface/16/flag.png', style: 'vertical-align:text-bottom', alt: '', title: 'Priority Followup' %></th>
-      <th>Latest Event</th>
+
       <% items.each do |item, name| %>
         <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.#{item}", name, 'patients_search') %></th>
       <% end %>
-      <th></th>
+      <th>Latest Event</th>
+      <th>Events</th>
     </tr>
+  </thead>
 
   <% @patients.each do |patient| %>
     <tr onmouseover="$('.patient_<%= patient.id %>_short').hide();$('.patient_<%= patient.id %>').show();" onmouseout="$('.patient_<%= patient.id %>').hide();$('.patient_<%= patient.id %>_short').show();">
       <td style="text-align:center"><%= image_tag 'gentleface/16/flag.png', style: 'vertical-align:text-bottom', alt: '', title: patient.priority_message if patient.priority > 0 %></td>
+      <% items.each do |item, name| %>
+        <td><span class="patient_<%= patient.id %>_short"><%= patient.send(item).to_s[0..1] %></span><span class="patient_<%= patient.id %>" style="display:none"><%= link_to_if ['mrn', 'subject_code'].include?(item), patient.send(item), patient %></span></td>
+      <% end %>
       <td style="white-space:nowrap;overflow:hidden">
         <% event = patient.events.order('event_time DESC').first %>
         <%= image_tag "gentleface/16/#{event.image}.png", alt: '', style: 'vertical-align:text-bottom' if event %>
         <%= link_to event.full_name, event.object if event %>
       </td>
-      <% items.each do |item, name| %>
-        <td><span class="patient_<%= patient.id %>_short"><%= patient.send(item).to_s[0..1] %></span><span class="patient_<%= patient.id %>" style="display:none"><%= link_to_if ['mrn', 'subject_code'].include?(item), patient.send(item), patient %></span></td>
-      <% end %>
       <td><%= @patient = patient; render partial: 'patients/statistics' %></td>
     </tr>
   <% end %>
-  </table>
-</div>
+</table>
 
 <center><%= paginate @patients %></center>

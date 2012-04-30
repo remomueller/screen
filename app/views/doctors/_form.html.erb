@@ -1,6 +1,6 @@
 <% width = '1074px' %>
 
-<%= form_for(@doctor) do |f| %>
+<%= form_for(@doctor, html: { class: 'form-horizontal' }) do |f| %>
   <% if @doctor.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@doctor.errors.count, "error") %> prohibited this doctor from being saved:</h2>
@@ -32,7 +32,7 @@
 
   <div class="actions">
     <% form_name = @doctor.new_record? ? 'new_doctor' : "edit_doctor_#{@doctor.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@doctor.new_record? ? "Create Doctor" : "Update Doctor"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@doctor.new_record? ? "Create Doctor" : "Update Doctor"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
     <br />
   </div>

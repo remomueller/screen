@@ -69,7 +69,8 @@ div.right-bubble {
 
 div.right-connection {
   position: absolute;
-  left: 536px;
+  /*left: 583px;*/
+  right: -12px;
   top: -1px;
   width: 13px;
   background-color: inherit;

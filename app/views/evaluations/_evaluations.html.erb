@@ -1,13 +1,7 @@
-<div style="float:right;text-align:right">
-  Per Page
-  <span class="per_page">20</span><br />
-  <%= "<b>Displaying #{@evaluations.count} of #{@evaluation_count}</b>".html_safe if @evaluation_count %>
-</div>
+<%= render partial: 'layouts/per_page', locals: { object_count: @evaluation_count, type: 'evaluations' } %>
 
-<div style="clear:both"></div>
-
-<div class="frame">
-  <table style="width:100%">
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.patient_id", 'Patient', 'evaluations_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.administration_type", 'Administration type', 'evaluations_search') %></th>
@@ -18,6 +12,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.ahi", 'AHI', 'evaluations_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "evaluations.eligibility", 'Eligibility', 'evaluations_search') %></th>
     </tr>
+  </thead>
 
   <% @evaluations.each do |evaluation| %>
     <tr>
@@ -32,7 +27,6 @@
     </tr>
   <% end %>
 
-  </table>
-</div>
+</table>
 
 <center><%= paginate @evaluations %></center>

@@ -1,4 +1,8 @@
-<%= form_for(@patient) do |f| %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for(@patient, html: { class: 'form-horizontal' }) do |f| %>
   <% if @patient.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
@@ -11,71 +15,95 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-    <div class="field">
-      <%= f.label :mrn, 'MRN' %><br />
+  <div class="control-group">
+    <%= f.label :mrn, 'MRN', class: 'control-label' %>
+    <div class="controls">
       <% if current_user.screener? %><%= f.text_field :mrn %><% else %><%= @patient.mrn %><% end %>
     </div>
-    <div class="field">
-      <%= f.label :subject_code %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :subject_code, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :subject_code %>
     </div>
-    <div class="field">
-      <%= f.label :name_code %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :name_code, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :name_code %>
     </div>
-    <div class="field">
-      <%= f.label :first_name %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :first_name, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :first_name %>
     </div>
-    <div class="field">
-      <%= f.label :last_name %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :last_name, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :last_name %>
     </div>
-    <div class="field">
-      <%= f.label :phone_home, 'Home Phone' %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :phone_home, 'Home Phone', class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :phone_home %>
     </div>
-    <div class="field">
-      <%= f.label :phone_day, 'Day Phone' %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :phone_day, 'Day Phone', class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :phone_day %>
     </div>
-    <div class="field">
-      <%= f.label :phone_alt, 'Alt Phone' %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :phone_alt, 'Alt Phone', class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :phone_alt %>
     </div>
-    <div class="field">
-      <%= f.label :sex %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :sex, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :sex %>
     </div>
-    <div class="field">
-      <%= f.label :age %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :age, class: 'control-label' %>
+    <div class="controls">
       <%= f.number_field :age, { min: 0 } %>
     </div>
-    <div class="field">
-      <%= f.label :address1 %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :address1, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :address1 %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :city %><br />
+  <div class="control-group">
+    <%= f.label :city, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :city %>
     </div>
-    <div class="field">
-      <%= f.label :state %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :state, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :state %>
     </div>
-    <div class="field">
-      <%= f.label :zip %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :zip, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :zip %>
     </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @patient.new_record? ? 'new_patient' : "edit_patient_#{@patient.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@patient.new_record? ? "Create Patient" : "Update Patient"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function (@patient.new_record? ? "Create Patient" : "Update Patient"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-    <br />
   </div>
 <% end %>

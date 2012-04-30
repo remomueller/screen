@@ -1,90 +1,82 @@
-<div style="float:right;text-align:right">
-  Per Page
-  <span class="per_page">40</span><br />
-  <%= "<b>Displaying #{@prescreens.count} of #{@prescreen_count}</b>".html_safe if @prescreen_count %>
-</div>
+<%= render partial: 'layouts/per_page', locals: { object_count: @prescreen_count, type: 'prescreens', per_page: 40 } %>
 
-<div style="clear:both"></div>
+<table class="table table-striped table-bordered" style="width:100%;table-layout:fixed">
+  <tr>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.patient_id', 'Patient', 'prescreens_search') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.doctor_id', 'Cardiologist', 'prescreens_search') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.visit_at', 'Visit', 'prescreens_search') %></th>
+    <% Prescreen::EDITABLES.each do |item| %>
+      <th><%== sort_field_helper(@order, "prescreens.#{item}", item.titleize, 'prescreens_search') %></th>
+    <% end %>
+    <th>Risk Factors</th>
+    <% Patient::EDITABLES.each do |item| %>
+      <th><%= item.titleize %></th>
+    <% end %>
+  </tr>
 
-<div class="frame">
-  <table style="width:100%;table-layout:fixed">
+<% @prescreens.each do |prescreen| %>
+  <%# cache [ "v1", prescreen ] do %>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.patient_id', 'Patient', 'prescreens_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.doctor_id', 'Cardiologist', 'prescreens_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.visit_at', 'Visit', 'prescreens_search') %></th>
+      <td><%= link_to prescreen.patient.code, prescreen.patient if prescreen.patient %></td>
+      <td><%= prescreen.doctor.name.split(',').first %></td>
+      <td><%= link_to simple_date_and_weekday(prescreen.visit_at), prescreen %><br /><%= prescreen.visit_at_range_short %></td>
       <% Prescreen::EDITABLES.each do |item| %>
-        <th><%== sort_field_helper(@order, "prescreens.#{item}", item.titleize, 'prescreens_search') %></th>
+        <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
+          <% if item == 'exclusion' %>
+            <%= prescreen.send(item+'_name') %>
+          <% else %>
+            <%= prescreen.send(item) %>
+          <% end %>
+        </td>
       <% end %>
-      <th>Risk Factors</th>
+      <td id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit">
+        <div id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit_show">
+          <%= @prescreen = prescreen; render partial: 'prescreens/risk_factors' %>
+        </div>
+        <div id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit_form" style="display:none">
+          <%= @prescreen = prescreen; render partial: 'prescreens/risk_factors_form' %>
+        </div>
+      </td>
       <% Patient::EDITABLES.each do |item| %>
-        <th><%= item.titleize %></th>
+        <td id="patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit">
+          <%= prescreen.patient.send(item) %>
+        </td>
+      <% end %>
+      <%= javascript_tag do %>
+        $(document).ready(function(){
+          <% Prescreen::EDITABLES.each do |item| %>
+            $("#prescreen_<%= prescreen.id %>_<%= item %>_inline_edit").editInPlace({
+              url: '<%= inline_update_prescreen_path(prescreen) %>',
+              params: 'item=<%= item %>',
+              success: function(response){ eval(response) },
+              field_type: '<%= ['eligibility', 'exclusion'].include?(item) ? 'select' : 'text' %>',
+              <% if item == 'eligibility' %>
+                select_options: ',potentially eligible,ineligible'
+              <% elsif item == 'exclusion' %>
+                select_options: [<%= (["['','0']"] + Choice.where(category: 'exclusion').collect{|c| "['#{c.name.gsub(/\\/, "\\\\\\").gsub("'", "\\\\'")}','#{c.id}']"}).join(',').html_safe %>]
+              <% end %>
+            });
+          <% end %>
+
+          $("#prescreen_<%= prescreen.id %>_risk_factors_inline_edit").on('click', function(event) {
+            if(event.target.id != ''){
+              $("#"+this.id+"_show").hide();
+              $("#"+this.id+"_form").show();
+            }
+          });
+
+          <% Patient::EDITABLES.each do |item| %>
+            $("#patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit").editInPlace({
+              url: '<%= inline_update_patient_path(prescreen.patient) %>',
+              params: 'item=<%= item %>',
+              success: function(response){ eval(response) }
+            });
+          <% end %>
+        });
       <% end %>
     </tr>
-
-  <% @prescreens.each do |prescreen| %>
-    <%# cache [ "v1", prescreen ] do %>
-      <tr>
-        <td><%= link_to prescreen.patient.code, prescreen.patient if prescreen.patient %></td>
-        <td><%= prescreen.doctor.name.split(',').first %></td>
-        <td><%= link_to simple_date_and_weekday(prescreen.visit_at), prescreen %><br /><%= prescreen.visit_at_range_short %></td>
-        <% Prescreen::EDITABLES.each do |item| %>
-          <td id="prescreen_<%= prescreen.id %>_<%= item %>_inline_edit">
-            <% if item == 'exclusion' %>
-              <%= prescreen.send(item+'_name') %>
-            <% else %>
-              <%= prescreen.send(item) %>
-            <% end %>
-          </td>
-        <% end %>
-        <td id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit">
-          <div id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit_show">
-            <%= @prescreen = prescreen; render partial: 'prescreens/risk_factors' %>
-          </div>
-          <div id="prescreen_<%= prescreen.id %>_risk_factors_inline_edit_form" style="display:none">
-            <%= @prescreen = prescreen; render partial: 'prescreens/risk_factors_form' %>
-          </div>
-        </td>
-        <% Patient::EDITABLES.each do |item| %>
-          <td id="patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit">
-            <%= prescreen.patient.send(item) %>
-          </td>
-        <% end %>
-        <%= javascript_tag do %>
-          $(document).ready(function(){
-            <% Prescreen::EDITABLES.each do |item| %>
-              $("#prescreen_<%= prescreen.id %>_<%= item %>_inline_edit").editInPlace({
-                url: '<%= inline_update_prescreen_path(prescreen) %>',
-                params: 'item=<%= item %>',
-                success: function(response){ eval(response) },
-                field_type: '<%= ['eligibility', 'exclusion'].include?(item) ? 'select' : 'text' %>',
-                <% if item == 'eligibility' %>
-                  select_options: ',potentially eligible,ineligible'
-                <% elsif item == 'exclusion' %>
-                  select_options: [<%= (["['','0']"] + Choice.where(category: 'exclusion').collect{|c| "['#{c.name.gsub(/\\/, "\\\\\\").gsub("'", "\\\\'")}','#{c.id}']"}).join(',').html_safe %>]
-                <% end %>
-              });
-            <% end %>
-
-            $("#prescreen_<%= prescreen.id %>_risk_factors_inline_edit").on('click', function(event) {
-              if(event.target.id != ''){
-                $("#"+this.id+"_show").hide();
-                $("#"+this.id+"_form").show();
-              }
-            });
-
-            <% Patient::EDITABLES.each do |item| %>
-              $("#patient_<%= prescreen.patient_id %>_<%= item %>_inline_edit").editInPlace({
-                url: '<%= inline_update_patient_path(prescreen.patient) %>',
-                params: 'item=<%= item %>',
-                success: function(response){ eval(response) }
-              });
-            <% end %>
-          });
-        <% end %>
-      </tr>
-    <%# end %>
-  <% end %>
-  </table>
-</div>
+  <%# end %>
+<% end %>
+</table>
 
 <center><%= paginate @prescreens %></center>

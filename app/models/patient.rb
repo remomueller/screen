@@ -1,6 +1,8 @@
 class Patient < ActiveRecord::Base
   EDITABLES = ['phone_home', 'city', 'state']
 
+  PRIORITY_MESSAGES = [["Latest Call is ...", "Latest Call is %"], ["Latest Call is ... and no Embletta Administered", "Latest Call is % and no Embletta Administered"], ["Baseline Visit and no 2-month Call after 68 days", "Baseline Visit and no 2-month Call after 68 days"]]
+
   # Named Scopes
   scope :current, conditions: { deleted: false }
   scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?)", args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }

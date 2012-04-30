@@ -3,35 +3,46 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag visits_path, method: :get, remote: true, id: "visits_search", style: "margin-bottom:-5px", class: 'form-search' do %>
+<%= form_tag visits_path, method: :get, remote: true, id: "visits_search", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
-  <fieldset>
-    <legend>
-      Search Filters
-    </legend>
-    <table class="blank padded" style="table-layout:fixed;width:100%;text-align:left;margin:10px 0px">
-      <thead>
-        <tr>
-          <th>Search</th>
-          <th>Visit Date After</th>
-          <th>Visit Date Before</th>
-          <th>Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= text_field_tag 'mrn', params[:mrn] %></td>
-          <td><%= text_field_tag 'visit_after', params[:visit_after], class: 'datepicker' %></td>
-          <td><%= text_field_tag 'visit_before', params[:visit_before], class: 'datepicker' %></td>
-          <td><%= select_tag :outcome, options_for_select([['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]}, params[:outcome]) %></td>
-        </tr>
-      </tbody>
-    </table>
-    <%= button_tag image_tag('gentleface/16/cog.png') + 'Filter Search' %>
-  </fieldset>
+
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :mrn, 'Search', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :mrn, params[:mrn] %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :visit_after, 'Visit Date After', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'visit_after', params[:visit_after], class: 'datepicker' %>
+      </div>
+    </div>
+
+    <div class="span4 control-group">
+      <%= label :visit_before, 'Visit Date Before', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'visit_before', params[:visit_before], class: 'datepicker' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span 4 control-group">
+      <%= label :outcome, 'Outcome', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :outcome, options_for_select([['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]}, params[:outcome]) %>
+      </div>
+    </div>
+  </div>
+
+  <div class='form-actions'>
+    <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+  </div>
 <% end %>
 
-<div id="visits"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+<div id="visits"><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <%= javascript_tag do %>
   $(function(){

@@ -1,94 +1,64 @@
 <% @title = "Evaluation: #{@evaluation.name}" %>
-<h1><%= @title %></h1>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if current_user.screener? or current_user.subject_handler? %>
+      <%= link_to "Edit Evaluation", edit_evaluation_path(@evaluation), class: 'btn btn-mini' %>
+      <%= link_to "Delete Evaluation", @evaluation, confirm: "Are you sure you want to delete Evaluation #{@evaluation.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <% end %>
+    <%= link_to "View Evaluations", evaluations_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_evaluations.include?(@evaluation) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Evaluation", edit_evaluation_path(@evaluation), class: 'btn' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Evaluation", @evaluation, confirm: "Are you sure you want to delete Evaluation #{@evaluation.name}?", method: :delete, class: 'btn btn-danger' %>
-<% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Evaluations", evaluations_path, class: 'btn' %>
-<div style="clear:both"></div>
+<dl class="dl-horizontal">
+  <dt>Patient</dt>
+  <dd><%= link_to @evaluation.patient.code, @evaluation.patient if @evaluation.patient %></dd>
 
-<fieldset>
-  <legend><%= image_tag "gentleface/16/cert.png", alt: '', style: 'vertical-align:text-bottom' %> Evaluation</legend>
-
-  <p>
-    <b>Patient:</b>
-    <%= link_to @evaluation.patient.code, @evaluation.patient if @evaluation.patient %>
-  </p>
-
-  <p>
-    <b>Administration type:</b>
+  <dt>Administration type</dt>
+  <dd>
     <%= @evaluation.evaluation_type_name %>
     <%= @evaluation.administration_type_name %>
-  </p>
+  </dd>
 
-  <p>
-    <b>Source:</b>
-    <%= @evaluation.source %>
-  </p>
+  <dt>Source</dt>
+  <dd><%= @evaluation.source %></dd>
 
-  <p>
-    <b>Embletta unit number:</b>
-    <%= @evaluation.embletta_unit_number %>
-  </p>
+  <dt>Embletta unit number</dt>
+  <dd><%= @evaluation.embletta_unit_number %></dd>
 
-  <p>
-    <b>Administration date:</b>
-    <%= simple_date @evaluation.administration_date %>
-  </p>
+  <dt>Administration date</dt>
+  <dd><%= simple_date @evaluation.administration_date %></dd>
 
-  <p>
-    <b>Expected receipt date:</b>
-    <%= simple_date @evaluation.expected_receipt_date %>
-  </p>
+  <dt>Expected receipt date</dt>
+  <dd><%= simple_date @evaluation.expected_receipt_date %></dd>
 
-  <p>
-    <b>Receipt date:</b>
-    <%= simple_date @evaluation.receipt_date %>
-  </p>
+  <dt>Receipt date</dt>
+  <dd><%= simple_date @evaluation.receipt_date %></dd>
 
-  <p>
-    <b>Storage date:</b>
-    <%= simple_date @evaluation.storage_date %>
-  </p>
+  <dt>Storage date</dt>
+  <dd><%= simple_date @evaluation.storage_date %></dd>
 
-  <p>
-    <b>Subject notified:</b>
-    <%= check_box_tag 'evaluation', 'subject_notified', @evaluation.subject_notified?, disabled: true %>
-  </p>
+  <dt>Subject notified</dt>
+  <dd><%= check_box_tag 'evaluation', 'subject_notified', @evaluation.subject_notified?, disabled: true %></dd>
 
-  <p>
-    <b>Reimbursement form date:</b>
-    <%= simple_date @evaluation.reimbursement_form_date %>
-  </p>
+  <dt>Reimbursement form date</dt>
+  <dd><%= simple_date @evaluation.reimbursement_form_date %></dd>
 
-  <p>
-    <b>Scored date:</b>
-    <%= simple_date @evaluation.scored_date %>
-  </p>
+  <dt>Scored date</dt>
+  <dd><%= simple_date @evaluation.scored_date %></dd>
 
-  <p>
-    <b>AHI:</b>
-    <%= @evaluation.ahi %>
-  </p>
+  <dt>AHI</dt>
+  <dd><%= @evaluation.ahi %></dd>
 
-  <p>
-    <b>Eligibility:</b>
-    <%= @evaluation.eligibility %>
-  </p>
+  <dt>Eligibility</dt>
+  <dd><%= @evaluation.eligibility %></dd>
 
-  <p>
-    <b>Exclusion:</b>
-    <%= @evaluation.exclusion_name %>
-  </p>
+  <dt>Exclusion</dt>
+  <dd><%= @evaluation.exclusion_name %></dd>
 
-  <p>
-    <b>Status:</b>
-    <%= @evaluation.status %>
-  </p>
+  <dt>Status</dt>
+  <dd><%= @evaluation.status %></dd>
 
-  <p>
-    <b>Comments:</b>
-    <%= @evaluation.comments %>
-  </p>
-</fieldset>
+  <dt>Comments</dt>
+  <dd><%= @evaluation.comments %></dd>
+</dl>

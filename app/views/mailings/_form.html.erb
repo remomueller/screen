@@ -1,29 +1,29 @@
-<% width = '1074px' %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
 <% if @mailing.patient %>
-  <div class="frame">
-    <table style="width:100%;table-layout:fixed">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Address1</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Zip</th>
-        </tr>
-      </thead>
+  <table class="table table-condensed" style="width:100%;table-layout:fixed">
+    <thead>
       <tr>
-        <td><%= @mailing.patient.name %></td>
-        <td><%= @mailing.patient.address1 %></td>
-        <td><%= @mailing.patient.city %></td>
-        <td><%= @mailing.patient.state %></td>
-        <td><%= @mailing.patient.zip %></td>
+        <th>Name</th>
+        <th>Address1</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
       </tr>
-    </table>
-  </div>
+    </thead>
+    <tr>
+      <td><%= @mailing.patient.name %></td>
+      <td><%= @mailing.patient.address1 %></td>
+      <td><%= @mailing.patient.city %></td>
+      <td><%= @mailing.patient.state %></td>
+      <td><%= @mailing.patient.zip %></td>
+    </tr>
+  </table>
 <% end %>
 
-<%= form_for(@mailing) do |f| %>
+<%= form_for(@mailing, html: { class: 'form-horizontal' }) do |f| %>
   <% if @mailing.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@mailing.errors.count, "error") %> prohibited this mailing from being saved:</h2>
@@ -36,72 +36,93 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-
-    <div class="field">
-      <%= f.label :patient_id %><br />
+  <div class="control-group">
+    <%= f.label :patient_id, class: 'control-label' %>
+    <div class="controls">
       <%= link_to @mailing.patient.code, @mailing.patient if @mailing.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :doctor_id, 'Cardiologist' %><br />
+  <div class="control-group">
+    <%= f.label :doctor_id, 'Cardiologist', class: 'control-label' %>
+    <div class="controls">
       <%= f.select :doctor_id, Doctor::doctor_select %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :sent_date %><br />
+  <div class="control-group">
+    <%= f.label :sent_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :sent_date, class: 'datepicker', value: @mailing.sent_date ? @mailing.sent_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :response_date %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :response_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :response_date, class: 'datepicker', value: @mailing.response_date ? @mailing.response_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :berlin %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :berlin, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :berlin %>
     </div>
-    <div class="field">
-      <%= f.label :ess, 'ESS' %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :ess, 'ESS', class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :ess %>
     </div>
-    <div class="field">
-      <%= f.label :eligibility %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :eligibility, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :eligibility, Mailing::ELIGIBILITY %>
     </div>
-    <div class="field">
-      <%= f.label :exclusion %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :exclusion, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
-    <div class="field">
-      <%= f.label :participation %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :participation, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]} %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :risk_factors %><br />
-      <table class="blank padded" style="width:100%;table-layout:fixed">
-        <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>
-          <tr>
-            <% row_risk_factors.each do |choice| %>
-              <td><% if choice %><%= check_box_tag "mailing[risk_factor_ids][]", choice.id, @mailing.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %><% end %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      </table>
+  <div class="control-group">
+    <%= f.label :risk_factors, class: 'control-label' %>
+    <div class="controls">
+      <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>
+        <div class="row">
+          <% row_risk_factors.each do |choice| %>
+            <div class="span2" style="white-space:nowrap"><% if choice %><%= check_box_tag "mailing[risk_factor_ids][]", choice.id, @mailing.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %><% end %></div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :comments %><br />
-      <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>
+  <div class="control-group">
+    <%= f.label :comments, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
     </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @mailing.new_record? ? 'new_mailing' : "edit_mailing_#{@mailing.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@mailing.new_record? ? "Create Mailing" : "Update Mailing"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function (@mailing.new_record? ? "Create Mailing" : "Update Mailing"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-    <br />
   </div>
 <% end %>

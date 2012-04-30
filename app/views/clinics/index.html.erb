@@ -5,13 +5,13 @@
 
 <%#= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Clinic", new_clinic_path, class: 'btn btn-primary' %>
 
-<%= form_tag clinics_path, method: :get, remote: true, id: "clinics_search", style: "margin-bottom:-5px", class: 'form-search' do %>
+<%= form_tag clinics_path, method: :get, remote: true, id: "clinics_search", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
-<div id="clinics"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+<div id="clinics"><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <%= javascript_tag do %>
   $(function(){

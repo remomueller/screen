@@ -1,73 +1,73 @@
 <% @title = 'Prescreens Import' %>
-<h1><%= @title %></h1>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <small>Spreadsheet - Tab Delimited</small>
+  </h1>
+</div>
 
 <% width = '1074px' %>
 
 <% form_name = "bulk_prescreen_form" %>
-<%= form_tag import_prescreens_path, method: :post, id: form_name do %>
-  <fieldset>
-    <legend>
-      Spreadsheet Prescreen Import - Tab Delimited
-    </legend>
-    <div class="field">
-      <label>Visit Date:</label>
+<%= form_tag import_prescreens_path, method: :post, id: form_name, class: 'form-horizontal' do %>
+  <div class="control-group">
+    <%= label :visit_date, 'Visit date', class: 'control-label' %>
+    <div class="controls">
       <%= text_field_tag :visit_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
     </div>
-    <div class="field">
-      <table class="blank padded" style="width:100%;table-layout:fixed">
-        <thead>
-          <tr>
-            <th style="text-align:left">Cardiologist</th>
-          </tr>
-          <tr>
-            <th style="text-align:left">Appointment Time</th>
-            <th style="text-align:left">---</th>
-            <th style="text-align:left">Clinic</th>
-            <th style="text-align:left">Patient Name</th>
-            <th style="text-align:left">Sex Age</th>
-            <th style="text-align:left">MRN</th>
-          </tr>
-        </thead>
-      </table>
+  </div>
+  <div class="control-group">
+    <table class="blank padded" style="width:100%;table-layout:fixed">
+      <thead>
+        <tr>
+          <th style="text-align:left">Cardiologist</th>
+        </tr>
+        <tr>
+          <th style="text-align:left">Appointment Time</th>
+          <th style="text-align:left">---</th>
+          <th style="text-align:left">Clinic</th>
+          <th style="text-align:left">Patient Name</th>
+          <th style="text-align:left">Sex Age</th>
+          <th style="text-align:left">MRN</th>
+        </tr>
+      </thead>
+    </table>
 
-      <%= text_area_tag :tab_dump, '', rows: 7, style: "width:#{width}" %>
-    </div>
-    <div class="actions">
-      <%= link_to_function image_tag('gentleface/16/layers_2.png', alt: '') + "Import", "$('##{form_name}').submit();", class: "button" %>
-    </div>
-  </fieldset>
+    <%= text_area_tag :tab_dump, '', rows: 7, style: "width:99%" %>
+  </div>
+  <div class="form-actions">
+    <%= link_to_function "Import", "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+  </div>
 <% end %>
+
 <% doctors_unknown = Doctor.current.where("status = '' or status IS NULL") %>
 <% clinics_unknown = Clinic.current.where("status = '' or status IS NULL") %>
-<table class="blank padded" style="width:100%;table-layout:fixed">
-  <tr>
-    <td style="vertical-align:top">
-      <% if doctors_unknown.size > 0 %>
-        <fieldset>
-          <legend>New Doctors</legend>
-          <% doctors_unknown.each do |doctor| %>
-            <div class="field">
-              <%= link_to image_tag('gentleface/16/save.png', alt: '') + 'Whitelist', doctor_path(doctor, doctor: { status: 'whitelist' }, from: 'prescreens'), method: :put, class: 'btn btn-primary' %>
-              <%= link_to image_tag('gentleface/16/trash.png', alt: '') + 'Blacklist', doctor_path(doctor, doctor: { status: 'blacklist' }, from: 'prescreens'), method: :put, confirm: "Blacklisting this doctor will PERMANENTLY remove all associated prescreens. Are you sure you want to blacklist #{doctor.name}?", class: 'btn btn-danger' %> <%= link_to doctor.name, doctor %>
-            </div>
-            <div style="clear:both"></div>
-          <% end %>
-        </fieldset>
-      <% end %>
-    </td>
-    <td style="vertical-align:top">
-      <% if clinics_unknown.size > 0 %>
-        <fieldset>
-          <legend>New Clinics</legend><ul>
-          <% clinics_unknown.each do |clinic| %>
-            <div class="field">
-              <%= link_to image_tag('gentleface/16/save.png', alt: '') + 'Whitelist', clinic_path(clinic, clinic: { status: 'whitelist' }, from: 'prescreens'), method: :put, class: 'btn btn-primary' %>
-              <%= link_to image_tag('gentleface/16/trash.png', alt: '') + 'Blacklist', clinic_path(clinic, clinic: { status: 'blacklist' }, from: 'prescreens'), method: :put, confirm: "Blacklisting this clinic will PERMANENTLY remove all associated prescreens. Are you sure you want to blacklist #{clinic.name}?", class: 'btn btn-danger' %> <%= link_to clinic.name, clinic %>
-            </div>
-            <div style="clear:both"></div>
-          <% end %>
-        </fieldset>
-      <% end %>
-    </td>
-  </tr>
-</table>
+
+<div class="row">
+  <div class="span6">
+    <% if doctors_unknown.size > 0 %>
+      <fieldset>
+        <legend>New Doctors</legend>
+        <% doctors_unknown.each do |doctor| %>
+          <div class="control-group">
+            <%= link_to 'Whitelist', doctor_path(doctor, doctor: { status: 'whitelist' }, from: 'prescreens'), method: :put, class: 'btn btn-mini' %>
+            <%= link_to 'Blacklist', doctor_path(doctor, doctor: { status: 'blacklist' }, from: 'prescreens'), method: :put, confirm: "Blacklisting this doctor will PERMANENTLY remove all associated prescreens. Are you sure you want to blacklist #{doctor.name}?", class: 'btn btn-mini btn-danger' %> <%= link_to doctor.name, doctor %>
+          </div>
+        <% end %>
+      </fieldset>
+    <% end %>
+  </div>
+  <div class="span6">
+    <% if clinics_unknown.size > 0 %>
+      <fieldset>
+        <legend>New Clinics</legend>
+        <% clinics_unknown.each do |clinic| %>
+          <div class="control-group">
+            <%= link_to 'Whitelist', clinic_path(clinic, clinic: { status: 'whitelist' }, from: 'prescreens'), method: :put, class: 'btn btn-mini' %>
+            <%= link_to 'Blacklist', clinic_path(clinic, clinic: { status: 'blacklist' }, from: 'prescreens'), method: :put, confirm: "Blacklisting this clinic will PERMANENTLY remove all associated prescreens. Are you sure you want to blacklist #{clinic.name}?", class: 'btn btn-mini btn-danger' %> <%= link_to clinic.name, clinic %>
+          </div>
+        <% end %>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

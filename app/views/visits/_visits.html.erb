@@ -1,19 +1,14 @@
-<div style="float:right;text-align:right">
-  Per Page
-  <span class="per_page">20</span><br />
-  <%= "<b>Displaying #{@visits.count} of #{@visit_count}</b>".html_safe if @visit_count %>
-</div>
+<%= render partial: 'layouts/per_page', locals: { object_count: @visit_count, type: 'visits' } %>
 
-<div style="clear:both"></div>
-
-<div class="frame">
-  <table style="width:100%">
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.patient_id", 'Patient', 'visits_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_type", 'Visit type', 'visits_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_date", 'Visit date', 'visits_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.outcome", 'Outcome', 'visits_search') %></th>
     </tr>
+  </thead>
 
   <% @visits.each do |visit| %>
     <tr>
@@ -23,7 +18,6 @@
       <td><%= visit.outcome_name %></td>
     </tr>
   <% end %>
-  </table>
-</div>
+</table>
 
 <center><%= paginate @visits %></center>

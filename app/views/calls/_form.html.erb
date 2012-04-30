@@ -1,8 +1,10 @@
-<% width = '1074px' %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
 <% if @call.patient %>
   <div class="frame">
-    <table style="width:100%;table-layout:fixed">
+    <table class="table table-condensed" style="width:100%;table-layout:fixed">
       <thead>
         <tr>
           <th>Name</th>
@@ -32,7 +34,7 @@
   </div>
 <% end %>
 
-<%= form_for(@call) do |f| %>
+<%= form_for(@call, html: { class: 'form-horizontal' }) do |f| %>
   <% if @call.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@call.errors.count, "error") %> prohibited this call from being saved:</h2>
@@ -45,17 +47,18 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
 
-    <div class="field">
-      <%= f.label :patient_id %><br />
+  <div class="control-group">
+    <%= f.label :patient_id, class: 'control-label' %>
+    <div class="controls">
       <%= link_to @call.patient.code, @call.patient if @call.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :call_type %><br />
+  <div class="control-group">
+    <%= f.label :call_type, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :call_type, [['---', nil]] + Choice.where(category: 'call type').collect{|c| [c.name, c.id]} %>
       <%= javascript_tag do %>
         window.choices = {};
@@ -64,61 +67,85 @@
         <% end %>
       <% end %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :direction %><br />
+  <div class="control-group">
+    <%= f.label :direction, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :direction, Call::CALL_DIRECTION %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :response %><br />
+  <div class="control-group">
+    <%= f.label :response, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :response, [['---', nil]] + Choice.where(category: 'call response').collect{|c| [c.name, c.id]} %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= label_tag :call_date %><br />
+  <div class="control-group">
+    <%= label_tag :call_date, 'Call date', class: 'control-label' %>
+    <div class="controls">
       <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %> <%= link_to_function 'Current Time', "#", id: 'set_current_time' %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= label_tag :call_time %><br />
+  <div class="control-group">
+    <%= label_tag :call_time, 'Call time', class: 'control-label' %>
+    <div class="controls">
       <%= text_field_tag :call_time, @call.call_at_string %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :berlin %><br />
+  <div class="control-group">
+    <%= f.label :berlin, class: 'control-label' %>
+    <div class="controls">
       <%= f.number_field :berlin %>
     </div>
-    <div class="field">
-      <%= f.label :ess, 'ESS' %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :ess, 'ESS', class: 'control-label' %>
+    <div class="controls">
       <%= f.number_field :ess %>
     </div>
-    <div class="field">
-      <%= f.label :eligibility %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :eligibility, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :eligibility, Call::ELIGIBILITY %>
     </div>
-    <div class="field">
-      <%= f.label :exclusion %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :exclusion, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
-    <div class="field">
-      <%= f.label :participation %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :participation, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]} %>
     </div>
-    <div class="field">
-      <%= f.label :comments %><br />
-      <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>
+  </div>
+  <div class="control-group">
+    <%= f.label :comments, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
     </div>
-    <div id="task_tracker_templates">
-      <%= image_tag "ajax-loader.gif" %>
-    </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div id="task_tracker_templates">
+    <%= image_tag "ajax-loader.gif" %>
+  </div>
+
+  <div class="form-actions">
     <% form_name = @call.new_record? ? 'new_call' : "edit_call_#{@call.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@call.new_record? ? "Create Call" : "Update Call"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function (@call.new_record? ? "Create Call" : "Update Call"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-    <br />
   </div>
 <% end %>
 

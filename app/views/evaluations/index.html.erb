@@ -3,35 +3,46 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag evaluations_path, method: :get, remote: true, id: "evaluations_search", style: "margin-bottom:-5px", class: 'form-search' do %>
+<%= form_tag evaluations_path, method: :get, remote: true, id: "evaluations_search", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
-  <fieldset>
-    <legend>
-      Search Filters
-    </legend>
-    <table class="blank padded" style="table-layout:fixed;width:100%;text-align:left;margin:10px 0px">
-      <thead>
-        <tr>
-          <th>Search</th>
-          <th>Administration Date After</th>
-          <th>Administration Date Before</th>
-          <th>Eligibility</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= text_field_tag 'mrn', params[:mrn] %></td>
-          <td><%= text_field_tag 'administration_after', params[:administration_after], class: 'datepicker' %></td>
-          <td><%= text_field_tag 'administration_before', params[:administration_before], class: 'datepicker' %></td>
-          <td><%= select_tag 'eligibility', options_for_select(Mailing::ELIGIBILITY, params[:eligibility]) %></td>
-        </tr>
-      </tbody>
-    </table>
-    <%= button_tag image_tag('gentleface/16/cog.png') + 'Filter Search' %>
-  </fieldset>
+
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :mrn, 'Search', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :mrn, params[:mrn] %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :administration_after, 'Administration Date After', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :administration_after, params[:administration_after], class: 'datepicker' %>
+      </div>
+    </div>
+
+    <div class="span4 control-group">
+      <%= label :administration_before, 'Administration Date Before', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :administration_before, params[:administration_before], class: 'datepicker' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :eligibility, 'Eligibility', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :eligibility, options_for_select(Evaluation::ELIGIBILITY, params[:eligibility]) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+  </div>
 <% end %>
 
-<div id="evaluations"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+<div id="evaluations"><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <%= javascript_tag do %>
   $(function(){

@@ -1,6 +1,8 @@
-<% width = '1074px' %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
-<%= form_for(@visit) do |f| %>
+<%= form_for(@visit, html: { class: 'form-horizontal' }) do |f| %>
   <% if @visit.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@visit.errors.count, "error") %> prohibited this visit from being saved:</h2>
@@ -13,40 +15,45 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-
-    <div class="field">
-      <%= f.label :patient_id %><br />
+  <div class="control-group">
+    <%= f.label :patient_id, class: 'control-label' %>
+    <div class="controls">
       <%= link_to @visit.patient.code, @visit.patient if @visit.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :visit_type %><br />
+  <div class="control-group">
+    <%= f.label :visit_type, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :visit_type, [['---', nil]] + Choice.where(category: 'visit type').collect{|c| [c.name, c.id]} %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :visit_date %><br />
+  <div class="control-group">
+    <%= f.label :visit_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :visit_date, class: 'datepicker', value: @visit.visit_date ? @visit.visit_date.strftime('%m/%d/%Y') : '' %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :outcome %><br />
+  <div class="control-group">
+    <%= f.label :outcome, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :outcome, [['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]} %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :comments %><br />
-      <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>
+  <div class="control-group">
+    <%= f.label :comments, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
     </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @visit.new_record? ? 'new_visit' : "edit_visit_#{@visit.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@visit.new_record? ? "Create Visit" : "Update Visit"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function (@visit.new_record? ? "Create Visit" : "Update Visit"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-    <br />
   </div>
 <% end %>

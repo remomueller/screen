@@ -1,6 +1,8 @@
-<% width = '1074px' %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
-<%= form_for(@evaluation) do |f| %>
+<%= form_for(@evaluation, html: { class: 'form-horizontal' }) do |f| %>
   <% if @evaluation.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@evaluation.errors.count, "error") %> prohibited this evaluation from being saved:</h2>
@@ -13,17 +15,17 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-
-    <div class="field">
-      <%= f.label :patient_id %><br />
+  <div class="control-group">
+    <%= f.label :patient_id, class: 'control-label' %>
+    <div class="controls">
       <%= link_to @evaluation.patient.code, @evaluation.patient if @evaluation.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
+  </div>
 
-    <div class="field">
-      <%= f.label :administration_type %><br />
+  <div class="control-group">
+    <%= f.label :administration_type, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :administration_type, [['---', nil]] + Choice.where(category: 'administration type').collect{|c| [c.name, c.id]} %>
       <%= javascript_tag do %>
         window.choices = {};
@@ -32,73 +34,117 @@
         <% end %>
       <% end %>
     </div>
-    <div class="field">
-      <%= f.label :evaluation_type %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :evaluation_type, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :evaluation_type, [['---', nil]] + Choice.where(category: 'evaluation type').collect{|c| [c.name, c.id]} %>
     </div>
-    <div class="field">
-      <%= f.label :administration_date %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :administration_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :administration_date, class: 'datepicker', value: @evaluation.administration_date ? @evaluation.administration_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :source %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :source, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :source %>
     </div>
-    <div class="field">
-      <%= f.label :embletta_unit_number %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :embletta_unit_number, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :embletta_unit_number %>
     </div>
-    <div class="field">
-      <%= f.label :expected_receipt_date %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :expected_receipt_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :expected_receipt_date, class: 'datepicker', value: @evaluation.expected_receipt_date ? @evaluation.expected_receipt_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :receipt_date %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :receipt_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :receipt_date, class: 'datepicker', value: @evaluation.receipt_date ? @evaluation.receipt_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :storage_date %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :storage_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :storage_date, class: 'datepicker', value: @evaluation.storage_date ? @evaluation.storage_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :subject_notified %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :subject_notified, class: 'control-label' %>
+    <div class="controls">
       <%= f.check_box :subject_notified %>
     </div>
-    <div class="field">
-      <%= f.label :reimbursement_form_date %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :reimbursement_form_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :reimbursement_form_date, class: 'datepicker', value: @evaluation.reimbursement_form_date ? @evaluation.reimbursement_form_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :scored_date %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :scored_date, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :scored_date, class: 'datepicker', value: @evaluation.scored_date ? @evaluation.scored_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <div class="field">
-      <%= f.label :ahi, 'AHI' %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :ahi, 'AHI', class: 'control-label' %>
+    <div class="controls">
       <%= f.number_field :ahi, { min: 0 } %>
     </div>
-    <div class="field">
-      <%= f.label :eligibility %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :eligibility, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :eligibility, Evaluation::ELIGIBILITY %>
     </div>
-    <div class="field">
-      <%= f.label :exclusion %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :exclusion, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
-    <div class="field">
-      <%= f.label :status %><br />
+  </div>
+
+  <div class="control-group">
+    <%= f.label :status, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :status, Evaluation::STATUS %>
     </div>
-    <div class="field">
-      <%= f.label :comments %><br />
-      <%= f.text_area :comments, rows: 7, style: "width:#{width}" %>
-    </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div class="control-group">
+    <%= f.label :comments, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
     <% form_name = @evaluation.new_record? ? 'new_evaluation' : "edit_evaluation_#{@evaluation.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@evaluation.new_record? ? "Create Evaluation" : "Update Evaluation"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function (@evaluation.new_record? ? "Create Evaluation" : "Update Evaluation"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-    <br />
   </div>
 <% end %>
 

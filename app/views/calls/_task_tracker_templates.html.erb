@@ -1,32 +1,32 @@
-<% width = '1074px' %>
 <% if TASK_TRACKER_URL.blank? %>
   <%# Render blank (different from nothing) %>
 <% elsif current_user.task_tracker_screen_token.blank? or @templates.blank? %>
-  <div class="field">
-    Please enter your Task Tracker Screen Token which you can find here:<br />
-    <%= link_to TASK_TRACKER_URL + "/settings#screen_token", TASK_TRACKER_URL + "/settings#screen_token", target: '_blank' %><br />
-    <%= label_tag 'task_tracker_screen_token' %><br />
-    <%= text_field_tag "task_tracker_screen_token", '', style: "width:#{width}" %>
-    <div style="clear:both"></div>
-    <%= link_to_function image_tag('gentleface/16/key.png', alt: '', size: '11x11') + 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#templates_form').attr('action'), $('#templates_form').serialize(), null, 'script');", class: 'btn' %>
+  <div class="control-group">
+    <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag "task_tracker_screen_token", '', style: "width:99%" %>
+      <%= link_to_function 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#templates_form').attr('action'), $('#templates_form').serialize(), null, 'script');", class: 'btn btn-mini btn-primary' %>
+      <small>Please enter your Task Tracker Screen Token: <%= link_to TASK_TRACKER_URL + "/settings#screen_token", TASK_TRACKER_URL + "/settings#screen_token", target: '_blank' %></small>
+    </div>
   </div>
 <% else %>
-  <table class="blank" style="width:100%"><col width="1%"/>
-    <tr>
-      <td style="vertical-align:top">
-        <div class="field">
-          <%= label 'call', 'tt_template_id', 'Template' %><br />
-          <%= select 'call', 'tt_template_id', options_for_select([['---', nil]] + @templates.collect{|t| [t['full_name'], t['id']]}, params[:tt_template_id]) %>
+        <div class="control-group">
+          <%= label 'call', 'tt_template_id', 'Template', class: 'control-label' %>
+          <div class="controls">
+            <%= select 'call', 'tt_template_id', options_for_select([['---', nil]] + @templates.collect{|t| [t['full_name'], t['id']]}, params[:tt_template_id]) %>
+          </div>
         </div>
-        <div class="field">
-          <%= label_tag :initial_due_date, 'Initial Template Due Date' %><br />
-          <%= text_field_tag :initial_due_date, params[:initial_due_date], class: 'datepicker' %>
-          <%= javascript_tag "$('.datepicker').datepicker({showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true});" %>
+        <div class="control-group">
+          <%= label_tag :initial_due_date, 'Initial Template Due Date', class: 'control-label' %>
+          <div class="controls">
+            <%= text_field_tag :initial_due_date, params[:initial_due_date], class: 'datepicker' %>
+            <%= javascript_tag "$('.datepicker').datepicker({ showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true });" %>
+          </div>
         </div>
-      </td>
-      <td style="vertical-align:top"><div id="template_description" style="padding-left:20px"></div></td>
-    </tr>
-  </table>
+        <div class="control-group">
+          <%= label_tag :template_description, 'Template Description', class: 'control-label' %>
+          <div class="controls" id="template_description"></div>
+        </div>
 
   <%= javascript_tag do %>
     var templates = {};
@@ -36,7 +36,7 @@
     $("#call_tt_template_id").change(function() {
       var template = templates[''+$(this).val()];
       if(template != null){
-        html_string = "<table class='blank padded' style='width:100%'><thead><tr><th style='text-align:left'>Sticky</th><th style='text-align:left'>Offset</th><th style='text-align:left'>Assign To</th><th style='text-align:left'>Tags</th></tr></thead>";
+        html_string = "<table class='table table-striped table-condensed table-bordered' style='width:100%'><thead><tr><th style='text-align:left'>Sticky</th><th style='text-align:left'>Offset</th><th style='text-align:left'>Assign To</th><th style='text-align:left'>Tags</th></tr></thead>";
 
         $.each(template['items'], function(i, item){
           html_string += "<tr><td>" + item['description'] +"</td><td>" + item['interval'] + " " + item['units'] + "</td><td>" + item['owner_id'] + "</td><td>" + item['tag_ids'] + "</td></tr>";

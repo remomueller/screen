@@ -1,65 +1,46 @@
 <% @title = "Call: #{@call.name}" %>
-<h1><%= @title %></h1>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if current_user.screener? or current_user.subject_handler? %>
+      <%= link_to "Edit Call", edit_call_path(@call), class: 'btn btn-mini' %>
+      <%= link_to "Delete Call", @call, confirm: "Are you sure you want to delete Call #{@call.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <% end %>
+    <%= link_to "View Calls", calls_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_calls.include?(@call) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Call", edit_call_path(@call), class: 'btn' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Call", @call, confirm: "Are you sure you want to delete Call #{@call.name}?", method: :delete, class: 'btn btn-danger' %>
-<% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Calls", calls_path, class: 'btn' %>
-<div style="clear:both"></div>
+<dl class="dl-horizontal">
+  <dt>Patient</dt>
+  <dd><%= link_to @call.patient.code, @call.patient if @call.patient %></dd>
 
-<fieldset>
-  <legend><%= image_tag "gentleface/16/phone_1.png", alt: '', style: 'vertical-align:text-bottom' %> Call</legend>
-  <p>
-    <b>Patient:</b>
-    <%= link_to @call.patient.code, @call.patient if @call.patient %>
-  </p>
+  <dt>Response</dt>
+  <dd><%= @call.response_name %></dd>
 
-  <p>
-    <b>Response:</b>
-    <%= @call.response_name %>
-  </p>
+  <dt>Call type</dt>
+  <dd><%= @call.call_type_name %> <%= @call.direction %></dd>
 
-  <p>
-    <b>Call type:</b>
-    <%= @call.call_type_name %> <%= @call.direction %>
-  </p>
+  <dt>Call time</dt>
+  <dd><%= simple_time @call.call_time %></dd>
 
-  <p>
-    <b>Call time:</b>
-    <%= simple_time @call.call_time %>
-  </p>
+  <dt>Berlin</dt>
+  <dd><%= @call.berlin %></dd>
 
-  <p>
-    <b>Berlin:</b>
-    <%= @call.berlin %>
-  </p>
+  <dt>ESS</dt>
+  <dd><%= @call.ess %></dd>
 
-  <p>
-    <b>ESS:</b>
-    <%= @call.ess %>
-  </p>
+  <dt>Eligibility</dt>
+  <dd><%= @call.eligibility %></dd>
 
-  <p>
-    <b>Eligibility:</b>
-    <%= @call.eligibility %>
-  </p>
+  <dt>Exclusion</dt>
+  <dd><%= @call.exclusion_name %></dd>
 
-  <p>
-    <b>Exclusion:</b>
-    <%= @call.exclusion_name %>
-  </p>
+  <dt>Participation</dt>
+  <dd><%= @call.participation_name %></dd>
 
-  <p>
-    <b>Participation:</b>
-    <%= @call.participation_name %>
-  </p>
-
-  <p>
-    <b>Comments:</b>
-    <%= @call.comments %>
-  </p>
-</fieldset>
+  <dt>Comments</dt>
+  <dd><%= @call.comments %></dd>
+</dl>
 
 <% unless @call.tt_group_id.blank? %>
   <div id="show_group_<%= @call.tt_group_id %>">

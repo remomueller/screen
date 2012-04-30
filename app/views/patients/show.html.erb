@@ -1,12 +1,14 @@
 <% @title = "Patient: #{@patient.code}" %>
-<h1><%= @title %></h1>
-
-<% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_patients.include?(@patient) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Patient", edit_patient_path(@patient), class: 'btn' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Patient", @patient, confirm: "Are you sure you want to delete Patient #{@patient.name}?", method: :delete, class: 'btn btn-danger' %>
-<% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Patients", patients_path, class: 'btn' %>
-<div style="clear:both"></div>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_patients.include?(@patient) %>
+      <%= link_to "Edit Patient", edit_patient_path(@patient), class: 'btn btn-mini' %>
+      <%= link_to "Delete Patient", @patient, confirm: "Are you sure you want to delete Patient #{@patient.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <% end %>
+    <%= link_to "View Patients", patients_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
 <% unless @patient.priority_message.blank? %>
     <fieldset>
@@ -19,97 +21,74 @@
     </fieldset>
 <% end %>
 
-<table class="blank padded" style="width:100%;table-layout:fixed">
-  <tr>
-    <td style="vertical-align:top">
-      <fieldset>
-        <legend><%= image_tag 'gentleface/16/user.png', alt: '', style: 'vertical-align:text-bottom' %> Patient</legend>
+<div class="row">
+  <div class="span3">
+    <div class="page-header"><h2><%= image_tag 'gentleface/16/user.png', alt: '' %> Patient</h2></div>
 
-        <p>
-          <b>MRN:</b>
-          <%= @patient.mrn %>
-        </p>
+    <dl class="dl-horizontal">
+      <dt>MRN</dt>
+      <dd><%= @patient.mrn %></dd>
 
-        <p>
-          <b>Subject Code:</b>
-          <%= @patient.subject_code %>
-        </p>
+      <dt>Subject Code</dt>
+      <dd><%= @patient.subject_code %></dd>
 
-        <p>
-          <b>Name Code:</b>
-          <%= @patient.name_code %>
-        </p>
+      <dt>Name Code</dt>
+      <dd><%= @patient.name_code %></dd>
 
-        <p>
-          <b>Name:</b>
-          <%= @patient.name %>
-        </p>
+      <dt>Name</dt>
+      <dd><%= @patient.name %></dd>
+    </dl>
+  </div>
+  <div class="span3">
+    <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> Contact</h2></div>
 
-      </fieldset>
-    </td>
-    <td style="vertical-align:top">
-      <fieldset>
-        <legend><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> Contact</legend>
-        <p>
-          <b>Home Phone:</b>
-          <%= pretty_phone @patient.phone_home %>
-        </p>
+    <dl class="dl-horizontal">
+      <dt>Home Phone</dt>
+      <dd><%= pretty_phone @patient.phone_home %></dd>
 
-        <p>
-          <b>Day Phone:</b>
-          <%= pretty_phone @patient.phone_day %>
-        </p>
+      <dt>Day Phone</dt>
+      <dd><%= pretty_phone @patient.phone_day %></dd>
 
-        <p>
-          <b>Alt Phone:</b>
-          <%= pretty_phone @patient.phone_alt %>
-        </p>
-      </fieldset>
-    </td>
-    <td style="vertical-align:top">
-      <fieldset>
-        <legend><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %> Address</legend>
-        <p>
-          <b>Address:</b>
-          <%= @patient.address %>
-        </p>
-      </fieldset>
-    </td>
-    <td style="vertical-align:top">
-      <fieldset>
-        <legend><%= image_tag 'gentleface/16/user.png', alt: '', style: 'vertical-align:text-bottom' %> Demographics</legend>
-        <p>
-          <b>Sex:</b>
-          <%= @patient.sex %>
-        </p>
+      <dt>Alt Phone</dt>
+      <dd><%= pretty_phone @patient.phone_alt %></dd>
+    </dl>
+  </div>
+  <div class="span3">
+    <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %> Address</h2></div>
 
-        <p>
-          <b>Age:</b>
-          <%= @patient.age %>
-        </p>
+    <dl class="dl-horizontal">
+      <dt>Address</dt>
+      <dd><%= @patient.address %></dd>
+    </dl>
+  </div>
+  <div class="span3">
+    <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/user.png', alt: '', style: 'vertical-align:text-bottom' %> Demographics</h2></div>
 
-        <p>
-          <b>Berlin:</b>
-          <%= @patient.berlin_from_calls_and_mailings.join(", ") %>
-        </p>
+    <dl class="dl-horizontal">
+      <dt>Sex</dt>
+      <dd><%= @patient.sex %></dd>
 
-        <p>
-          <b>ESS:</b>
-          <%= @patient.ess_from_calls_and_mailings.join(", ") %>
-        </p>
-      </fieldset>
-    </td>
-  </tr>
-</table>
+      <dt>Age</dt>
+      <dd><%= @patient.age %></dd>
 
-<%= link_to image_tag('gentleface/16/3x3_grid.png', alt: '') + 'Create Prescreen', new_prescreen_path(patient_id: @patient.id), class: 'btn btn-primary' %>
-<%= link_to image_tag('gentleface/16/mail.png', alt: '') + 'Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'btn btn-primary' %>
-<%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + 'Create Call', new_call_path(patient_id: @patient.id), class: 'btn btn-primary' %>
-<%= link_to image_tag('gentleface/16/cert.png', alt: '') + 'Create Evaluation', new_evaluation_path(patient_id: @patient.id), class: 'btn btn-primary' %>
+      <dt>Berlin</dt>
+      <dd><%= @patient.berlin_from_calls_and_mailings.join(", ") %></dd>
 
-<%= link_to image_tag('gentleface/16/users.png', alt: '') + 'Create Visit', new_visit_path(patient_id: @patient.id), class: 'btn btn-primary' %>
+      <dt>ESS</dt>
+      <dd><%= @patient.ess_from_calls_and_mailings.join(", ") %></dd>
+    </dl>
+  </div>
+</div>
 
-<div style="clear:both"></div>
+
+<div class="form-actions">
+  <%= link_to image_tag('gentleface/16/3x3_grid.png', alt: '') + ' Create Prescreen', new_prescreen_path(patient_id: @patient.id), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/mail.png', alt: '') + ' Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + ' Create Call', new_call_path(patient_id: @patient.id), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/cert.png', alt: '') + ' Create Evaluation', new_evaluation_path(patient_id: @patient.id), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/users.png', alt: '') + ' Create Visit', new_visit_path(patient_id: @patient.id), class: 'btn' %>
+</div>
+
 
 <%= @events = @patient.events.order("events.event_time DESC"); render partial: 'events/events_mini' %>
 
