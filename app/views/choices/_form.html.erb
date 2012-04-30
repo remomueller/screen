@@ -1,4 +1,6 @@
-<% width = '1074px' %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
 <%= form_for(@choice, html: { class: 'form-horizontal' }) do |f| %>
   <% if @choice.errors.any? %>
@@ -13,23 +15,27 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-
-    <div class="field">
-      <%= f.label :category %><br />
+  <div class="control-group">
+    <%= f.label :category, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :category, Choice::CATEGORIES %>
     </div>
-    <div class="field">
-      <%= f.label :name %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :name, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :name %>
     </div>
-    <div class="field">
-      <%= f.label :description %><br />
-      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
+  </div>
+  <div class="control-group">
+    <%= f.label :description, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: "width:99%" %>
     </div>
-    <div class="field">
-      <%= f.label :color %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :color, class: 'control-label' %>
+    <div class="controls">
       <%= f.hidden_field :color, id: "choice_hexcolor" %>
       <div class="custom_widget">
         <div id="choice_colorselector" class="colorselector">
@@ -37,25 +43,29 @@
         </div>
       </div>
     </div>
-    <div class="field">
-      <%= f.label :included_fields %> <span class="quiet">Comma or Whitespace Separated</span><br />
-      <%= f.text_area :included_fields, rows: 7, style: "width:#{width}" %>
+  </div>
+  <div class="control-group">
+    <%= f.label :included_fields, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :included_fields, rows: 7, style: "width:99%" %>
+      <div class="muted">Comma or Whitespace Separated</div>
+      <small>
       Valid Choices:
-      <span class="quiet">
-        <% if ['call type'].include?(@choice.category) %>
-          <%= Call::TOGGLE_FIELDS.join(', ') %>
-        <% elsif ['administration type'].include?(@choice.category) %>
-          <%= Evaluation::TOGGLE_FIELDS.join(', ') %>
-        <% end %>
-      </span>
+        <span class="muted">
+          <% if ['call type'].include?(@choice.category) %>
+            <%= Call::TOGGLE_FIELDS.join(', ') %>
+          <% elsif ['administration type'].include?(@choice.category) %>
+            <%= Evaluation::TOGGLE_FIELDS.join(', ') %>
+          <% end %>
+        </span>
+      </small>
     </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @choice.new_record? ? 'new_choice' : "edit_choice_#{@choice.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@choice.new_record? ? "Create Choice" : "Update Choice"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= link_to_function (@choice.new_record? ? "Create Choice" : "Update Choice"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-    <br />
   </div>
 <% end %>
 

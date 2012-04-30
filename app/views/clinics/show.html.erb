@@ -1,18 +1,16 @@
 <% @title = "Clinic: #{@clinic.name}" %>
-<h1><%= @title %></h1>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if current_user.screener? %>
+      <%= link_to "Edit Clinic", edit_clinic_path(@clinic), class: 'btn btn-mini' %>
+      <%= link_to "Delete Clinic", @clinic, confirm: "Are you sure you want to delete Clinic #{@clinic.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <% end %>
+    <%= link_to "View Clinics", clinics_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<% if current_user.screener? %> <%# current_user.all_clinics.include?(@clinic) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Clinic", edit_clinic_path(@clinic), class: 'btn' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Clinic", @clinic, confirm: "Are you sure you want to delete Clinic #{@clinic.name}?", method: :delete, class: 'btn btn-danger' %>
-<% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View Clinics", clinics_path, class: 'btn' %>
-<div style="clear:both"></div>
-
-<fieldset>
-  <legend><%= image_tag "gentleface/16/home.png", alt: '', style: 'vertical-align:text-bottom' %> Clinic</legend>
-
-  <p>
-    <b>Status:</b>
-    <%= @clinic.status %>
-  </p>
-</fieldset>
+<dl class="dl-horizontal">
+  <dt>Status</dt>
+  <dd><%= @clinic.status %></dd>
+</dl>

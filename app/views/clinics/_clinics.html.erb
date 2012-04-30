@@ -1,17 +1,12 @@
-<div style="float:right;text-align:right">
-  Per Page
-  <span class="per_page">40</span><br />
-  <%= "<b>Displaying #{@clinics.count} of #{@clinic_count}</b>".html_safe if @clinic_count %>
-</div>
+<%= render partial: 'layouts/per_page', locals: { object_count: @clinic_count, type: 'clinics', per_page: 40 } %>
 
-<div style="clear:both"></div>
-
-<div class="frame">
-  <table class="table table-striped table-bordered" style="width:100%;table-layout:fixed">
+<table class="table table-striped table-bordered" style="width:100%;table-layout:fixed">
+  <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "clinics.name", "Name", 'clinics_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "clinics.status", "Status", 'clinics_search') %></th>
     </tr>
+  </thead>
 
   <% @clinics.each do |clinic| %>
     <tr style="<%= 'background-color:#dedede' if clinic.status == 'blacklist' %>">
@@ -19,7 +14,6 @@
       <td><%= clinic.status %></td>
     </tr>
   <% end %>
-  </table>
-</div>
+</table>
 
 <center><%= paginate @clinics %></center>
