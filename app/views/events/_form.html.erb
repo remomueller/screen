@@ -1,3 +1,7 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
 <%= form_for(@event, html: { class: 'form-horizontal' }) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
@@ -11,19 +15,30 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :patient_id %><br />
-    <%= f.number_field :patient_id %>
+  <div class="control-group">
+    <%= f.label :patient_id, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :patient_id, options_for_select([['---', nil]] + Patient.current.collect{|p| [p.code, p.id]}, @event.patient_id) %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :class_name %><br />
-    <%= f.text_field :class_name %>
+
+  <div class="control-group">
+    <%= f.label :class_name, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :class_name %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :class_id %><br />
-    <%= f.number_field :class_id %>
+
+  <div class="control-group">
+    <%= f.label :class_id, class: 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :class_id %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-actions">
+    <% form_name = @event.new_record? ? 'new_event' : "edit_event_#{@event.id}" %>
+    <%= link_to_function (@event.new_record? ? "Create Event" : "Update Event"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= cancel %>
   </div>
 <% end %>
