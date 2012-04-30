@@ -1,39 +1,8 @@
-table {
-  margin-bottom: 0;
-}
-
 span.selected {
   background-color: #404040;
   color: white;
   padding: 3px 5px;
 
-  border: 1px solid #bbb;
-  -moz-border-radius: 3px; /* Mozilla */
-  -webkit-border-radius: 3px; /* Webkit */
-  border-radius: 3px;
-}
-
-/* TODO: This fix should be in Contour */
-a:link.negative, a:visited.negative {
-  color: #D12F19;
-}
-
-a:link.positive:link, a:visited.positive {
-  color: #529214;
-}
-
-.choice_bubble {
-  background-color: #ddd;
-  padding: 1px 2px;
-  margin: 0px 2px;
-  border: 1px solid #bbb;
-
-  -moz-border-radius: 5px; /* Mozilla */
-  -webkit-border-radius: 5px; /* Webkit */
-  border-radius: 5px;
-}
-
-.small_choice_bubble {
   border: 1px solid #bbb;
   -moz-border-radius: 3px; /* Mozilla */
   -webkit-border-radius: 3px; /* Webkit */
@@ -86,10 +55,6 @@ div.left-bubble {
 div.center-bubble, div.center-bubble-incomplete {
   margin-right: 25%;
   margin-left: 25%;
-}
-
-div.marginless p {
-  margin: 0px;
 }
 
 div.highlight {
