@@ -1,21 +1,16 @@
 <% @prescreen = @object %>
 
 <div id="event_<%= @event.id %>_comments_long" style="display:none" class="right-bubble">
+  <dl>
+    <dt>Clinic</dt>
+    <dd><%= @prescreen.clinic.name %></dd>
 
-  <p>
-    <b>Clinic:</b>
-    <%= @prescreen.clinic.name %>
-  </p>
+    <dt>Cardiologist</dt>
+    <dd><%= @prescreen.doctor.name %></dd>
 
-  <p>
-    <b>Cardiologist:</b>
-    <%= @prescreen.doctor.name %>
-  </p>
-
-<% unless @prescreen.exclusion_name.blank? %>
-  <p>
-    <b>Exclusion:</b>
-    <%= @prescreen.exclusion_name %>
-  </p>
-<% end %>
+    <% unless @prescreen.exclusion_name.blank? %>
+      <dt>Exclusion</dt>
+      <dd><%= @prescreen.exclusion_name %></dd>
+    <% end %>
+  </dl>
 </div>

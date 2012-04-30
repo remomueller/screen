@@ -108,7 +108,7 @@ class CallsController < ApplicationController
     @call = Call.find_by_id(params[:id])
     if @call and @call.patient.editable_by?(current_user)
       @call.destroy
-      redirect_to calls_path
+      redirect_to calls_path, notice: 'Call was successfully deleted.'
     else
       redirect_to root_path
     end

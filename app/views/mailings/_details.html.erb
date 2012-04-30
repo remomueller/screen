@@ -1,31 +1,25 @@
 <% @mailing = @object %>
 
 <div id="event_<%= @event.id %>_comments_long" style="display:none" class="right-bubble">
-  <% unless @mailing.berlin.blank? %>
-    <p>
-      <b>Berlin:</b>
-      <%= @mailing.berlin %>
-    </p>
-  <% end %>
+  <dl>
+    <% unless @mailing.berlin.blank? %>
+      <dt>Berlin</dt>
+      <dd><%= @mailing.berlin %></dd>
+    <% end %>
 
-  <% unless @mailing.ess.blank? %>
-    <p>
-      <b>ESS:</b>
-      <%= @mailing.ess %>
-    </p>
-  <% end %>
+    <% unless @mailing.ess.blank? %>
+      <dt>ESS</dt>
+      <dd><%= @mailing.ess %></dd>
+    <% end %>
 
-  <% unless @mailing.exclusion_name.blank? %>
-    <p>
-      <b>Exclusion:</b>
-      <%= @mailing.exclusion_name %>
-    </p>
-  <% end %>
+    <% unless @mailing.exclusion_name.blank? %>
+      <dt>Exclusion</dt>
+      <dd><%= @mailing.exclusion_name %></dd>
+    <% end %>
 
-  <% unless @mailing.participation_name.blank? %>
-    <p>
-      <b>Participation:</b>
-      <%= @mailing.participation_name %>
-    </p>
-  <% end %>
+    <% unless @mailing.participation_name.blank? %>
+      <dt>Participation</dt>
+      <dd><%= @mailing.participation_name %></dd>
+    <% end %>
+  </dl>
 </div>

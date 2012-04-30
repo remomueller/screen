@@ -1,27 +1,29 @@
 <%= render partial: 'layouts/per_page', locals: { object_count: @call_count, type: 'calls' } %>
 
 <table class="table table-striped table-bordered" style="width:100%">
-  <tr>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.patient_id', 'Patient', 'calls_search') %></th>
-    <th>Response</th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.call_time', 'Call time', 'calls_search') %></th>
-    <th>Berlin</th>
-    <th>ESS</th>
-    <th>Eligibility</th>
-    <th>Comments</th>
-  </tr>
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.patient_id', 'Patient', 'calls_search') %></th>
+      <th>Response</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.call_time', 'Call time', 'calls_search') %></th>
+      <th>Berlin</th>
+      <th>ESS</th>
+      <th>Eligibility</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
 
-<% @calls.each do |call| %>
-  <tr>
-    <td><%= link_to call.patient.code, call.patient if call.patient %></td>
-    <td><%= call.response_name %></td>
-    <td><%= link_to simple_time(call.call_time), call %></td>
-    <td><%= call.berlin %></td>
-    <td><%= call.ess %></td>
-    <td><%= call.eligibility %></td>
-    <td><%= call.comments %></td>
-  </tr>
-<% end %>
+  <% @calls.each do |call| %>
+    <tr>
+      <td><%= link_to call.patient.code, call.patient if call.patient %></td>
+      <td><%= call.response_name %></td>
+      <td><%= link_to simple_time(call.call_time), call %></td>
+      <td><%= call.berlin %></td>
+      <td><%= call.ess %></td>
+      <td><%= call.eligibility %></td>
+      <td><%= call.comments %></td>
+    </tr>
+  <% end %>
 </table>
 
 <center><%= paginate @calls %></center>

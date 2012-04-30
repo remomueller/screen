@@ -78,6 +78,6 @@ class ChoicesController < ApplicationController
     @choice = Choice.find(params[:id])
     @choice.destroy
 
-    redirect_to choices_path
+    redirect_to choices_path, notice: 'Choice was successfully deleted.'
   end
 end

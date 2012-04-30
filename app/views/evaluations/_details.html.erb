@@ -1,44 +1,33 @@
 <% @evaluation = @object %>
 
 <div id="event_<%= @event.id %>_comments_long" style="display:none" class="right-bubble">
+  <dl>
+    <% unless @evaluation.source.blank? %>
+      <dt>Source</dt>
+      <dd><%= @evaluation.source %></dd>
+    <% end %>
 
-<% unless @evaluation.source.blank? %>
-  <p>
-    <b>Source:</b>
-    <%= @evaluation.source %>
-  </p>
-<% end %>
+    <% unless @evaluation.embletta_unit_number.blank? %>
+      <dt>Embletta unit number</dt>
+      <dd><%= @evaluation.embletta_unit_number %></dd>
+    <% end %>
 
-<% unless @evaluation.embletta_unit_number.blank? %>
-  <p>
-    <b>Embletta unit number:</b>
-    <%= @evaluation.embletta_unit_number %>
-  </p>
-<% end %>
+    <dt>Subject notified</dt>
+    <dd><%= check_box_tag 'evaluation', 'subject_notified', @evaluation.subject_notified?, disabled: true %></dd>
 
-  <p>
-    <b>Subject notified:</b>
-    <%= check_box_tag 'evaluation', 'subject_notified', @evaluation.subject_notified?, disabled: true %>
-  </p>
+    <% unless @evaluation.exclusion_name.blank? %>
+      <dt>Exclusion</dt>
+      <dd><%= @evaluation.exclusion_name %></dd>
+    <% end %>
 
-<% unless @evaluation.exclusion_name.blank? %>
-  <p>
-    <b>Exclusion:</b>
-    <%= @evaluation.exclusion_name %>
-  </p>
-<% end %>
+    <% unless @evaluation.status.blank? %>
+      <dt>Status</dt>
+      <dd><%= @evaluation.status %></dd>
+    <% end %>
 
-<% unless @evaluation.status.blank? %>
-  <p>
-    <b>Status:</b>
-    <%= @evaluation.status %>
-  </p>
-<% end %>
-
-<% unless @evaluation.comments.blank? %>
-  <div class="marginless">
-    <b>Comments:</b>
-    <%= simple_format @evaluation.comments %>
-  </div>
-<% end %>
+    <% unless @evaluation.comments.blank? %>
+      <dt>Comments</dt>
+      <dd><%= simple_format @evaluation.comments %></dd>
+    <% end %>
+  </dl>
 </div>

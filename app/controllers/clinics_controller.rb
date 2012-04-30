@@ -77,6 +77,6 @@ class ClinicsController < ApplicationController
     @clinic = Clinic.find(params[:id])
     @clinic.destroy
 
-    redirect_to clinics_path
+    redirect_to clinics_path, notice: 'Clinic was successfully deleted.'
   end
 end

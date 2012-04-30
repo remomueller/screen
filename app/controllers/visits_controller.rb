@@ -76,7 +76,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find_by_id(params[:id])
     if @visit and @visit.patient.editable_by?(current_user)
       @visit.destroy
-      redirect_to visits_path
+      redirect_to visits_path, notice: 'Visit was successfully deleted.'
     else
       redirect_to root_path
     end

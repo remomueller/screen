@@ -99,7 +99,7 @@ class PatientsController < ApplicationController
     @patient = Patient.find_by_id(params[:id])
     if @patient and @patient.editable_by?(current_user)
       @patient.destroy
-      redirect_to patients_path
+      redirect_to patients_path, notice: 'Patient was successfully deleted.'
     else
       redirect_to root_path
     end

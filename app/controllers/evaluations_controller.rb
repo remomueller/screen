@@ -92,7 +92,7 @@ class EvaluationsController < ApplicationController
     @evaluation = Evaluation.find_by_id(params[:id])
     if @evaluation and @evaluation.patient.editable_by?(current_user)
       @evaluation.destroy
-      redirect_to evaluations_path
+      redirect_to evaluations_path, notice: 'Evaluation was successfully deleted.'
     else
       redirect_to root_path
     end

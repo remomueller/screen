@@ -1,61 +1,51 @@
 <% @call = @object %>
 
 <div id="event_<%= @event.id %>_comments_long" style="display:none;" class="right-bubble">
-<% unless @call.berlin.blank? %>
-  <p>
-    <b>Berlin:</b>
-    <%= @call.berlin %>
-  </p>
-<% end %>
+  <dl>
+    <% unless @call.berlin.blank? %>
+      <dt>Berlin</dt>
+      <dd><%= @call.berlin %></dd>
+    <% end %>
 
-<% unless @call.ess.blank? %>
-  <p>
-    <b>ESS:</b>
-    <%= @call.ess %>
-  </p>
-<% end %>
+    <% unless @call.ess.blank? %>
+      <dt>ESS</dt>
+      <dd><%= @call.ess %></dd>
+    <% end %>
 
-<% unless @call.eligibility.blank? %>
-  <p>
-    <b>Eligibility:</b>
-    <%= @call.eligibility %>
-  </p>
-<% end %>
+    <% unless @call.eligibility.blank? %>
+      <dt>Eligibility</dt>
+      <dd><%= @call.eligibility %></dd>
+    <% end %>
 
-<% unless @call.exclusion_name.blank? %>
-  <p>
-    <b>Exclusion:</b>
-    <%= @call.exclusion_name %>
-  </p>
-<% end %>
+    <% unless @call.exclusion_name.blank? %>
+      <dt>Exclusion</dt>
+      <dd><%= @call.exclusion_name %></dd>
+    <% end %>
 
-<% unless @call.participation_name.blank? %>
-  <p>
-    <b>Participation:</b>
-    <%= @call.participation_name %>
-  </p>
-<% end %>
+    <% unless @call.participation_name.blank? %>
+      <dt>Participation</dt>
+      <dd><%= @call.participation_name %></dd>
+    <% end %>
 
-<% unless @call.comments.blank? %>
-  <div class="marginless">
-    <b>Comments:</b>
-    <%= simple_format @call.comments %>
-  </div>
-<% end %>
+    <% unless @call.comments.blank? %>
+      <dt>Comments</dt>
+      <dd><%= simple_format @call.comments %></dd>
+    <% end %>
+  </dl>
 
-<% unless @call.tt_group_id.blank? %>
-  <div id="show_group_<%= @call.tt_group_id %>">
-    <%= image_tag "ajax-loader.gif" %>
-  </div>
+  <% unless @call.tt_group_id.blank? %>
+    <div id="show_group_<%= @call.tt_group_id %>">
+      <%= image_tag "ajax-loader.gif" %>
+    </div>
 
-  <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: "group_#{@call.tt_group_id}_call_form" do %>
-    <%= hidden_field_tag 'screen_token', '' %>
+    <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: "group_#{@call.tt_group_id}_call_form" do %>
+      <%= hidden_field_tag 'screen_token', '' %>
+    <% end %>
+
+    <%= javascript_tag do %>
+      $(function(){
+        $.post($("#group_<%= @call.tt_group_id %>_call_form").attr("action"), $("#group_<%= @call.tt_group_id %>_call_form").serialize(), null, "script");
+      });
+    <% end %>
   <% end %>
-
-  <%= javascript_tag do %>
-    $(function(){
-      $.post($("#group_<%= @call.tt_group_id %>_call_form").attr("action"), $("#group_<%= @call.tt_group_id %>_call_form").serialize(), null, "script");
-    });
-  <% end %>
-<% end %>
 </div>

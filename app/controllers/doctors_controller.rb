@@ -77,6 +77,6 @@ class DoctorsController < ApplicationController
     @doctor = Doctor.find(params[:id])
     @doctor.destroy
 
-    redirect_to doctors_path
+    redirect_to doctors_path, notice: 'Doctor was successfully deleted.'
   end
 end

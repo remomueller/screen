@@ -131,7 +131,7 @@ class MailingsController < ApplicationController
     @mailing = Mailing.find_by_id(params[:id])
     if @mailing and @mailing.patient.editable_by?(current_user)
       @mailing.destroy
-      redirect_to mailings_path
+      redirect_to mailings_path, notice: 'Mailing was successfully deleted.'
     else
       redirect_to root_path
     end

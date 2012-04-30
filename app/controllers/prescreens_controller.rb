@@ -114,7 +114,7 @@ class PrescreensController < ApplicationController
     @prescreen = Prescreen.find_by_id(params[:id])
     if @prescreen and @prescreen.patient.editable_by?(current_user)
       @prescreen.destroy
-      redirect_to prescreens_path
+      redirect_to prescreens_path, notice: 'Prescreen was successfully deleted.'
     else
       redirect_to root_path
     end
