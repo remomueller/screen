@@ -8,7 +8,7 @@ class Call < ActiveRecord::Base
   after_save :save_event
 
   # Named Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, conditions: ["calls.deleted = ? and calls.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
   scope :with_mrn, lambda { |*args| { conditions: ["calls.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["calls.eligibility IN (?)", args.first] } }
   scope :with_user, lambda { |*args| { conditions: ["calls.user_id in (?)", args.first] } }
