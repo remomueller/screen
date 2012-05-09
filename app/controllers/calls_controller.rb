@@ -19,6 +19,7 @@ class CallsController < ApplicationController
     call_scope = call_scope.call_after(@call_after) unless @call_after.blank?
 
     call_scope = call_scope.with_user(params[:user_id]) unless params[:user_id].blank?
+    call_scope = call_scope.with_response(params[:response_id]) unless params[:response_id].blank?
 
     @order = Call.column_names.collect{|column_name| "calls.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "calls.patient_id"
     call_scope = call_scope.order(@order)

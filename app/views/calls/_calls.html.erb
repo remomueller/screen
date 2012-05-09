@@ -4,11 +4,11 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.patient_id', 'Patient', 'calls_search') %></th>
-      <th>Response</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.response', 'Response', 'calls_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.call_time', 'Call time', 'calls_search') %></th>
       <th>Berlin</th>
       <th>ESS</th>
-      <th>Eligibility</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.eligibility', 'Eligibility', 'calls_search') %></th>
       <th>Comments</th>
     </tr>
   </thead>

@@ -2,6 +2,7 @@
 
 * Enhancements
   * Call Creator is now listed in the participant timeline and on the call show page
+  * Calls can now be filtered and sorted by response
 
 == 0.7.2
 
