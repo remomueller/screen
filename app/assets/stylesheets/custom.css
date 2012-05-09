@@ -60,3 +60,7 @@ div.center-bubble, div.center-bubble-incomplete {
 div.highlight {
   background-color: #fffce5;
 }
+
+.right-bubble dl {
+  margin-top: 0px;
+}

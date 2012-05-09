@@ -1,5 +1,8 @@
 == 0.7.3
 
+* Enhancements
+  * Call Creator is now listed in the participant timeline and on the call show page
+
 == 0.7.2
 
 * Bug Fix
