@@ -102,7 +102,9 @@ class Prescreen < ActiveRecord::Base
           sex_age = row_array[4]
           sex = sex_age.split(' ').first
           age = (sex_age.split(' ')[1..-1] || []).join(' ').to_i
-          mrn = row_array[5]
+          mrn = row_array[5].to_s.strip
+          mrn = "0"*([0,8 - mrn.size].max) + mrn.to_s unless mrn.blank?
+
           reason_for_visit = row_array[6]
           comment = row_array[7]
 

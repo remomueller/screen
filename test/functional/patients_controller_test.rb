@@ -87,7 +87,7 @@ class PatientsControllerTest < ActionController::TestCase
 
   test "should create patient with mrn" do
     assert_difference('Patient.count') do
-      post :create, patient: { mrn: '0123456789', first_name: 'FirstName', last_name: 'LastName', address1: 'Address 1', city: 'City', state: 'State', zip: 'zip', phone_home: '1112223333' }
+      post :create, patient: { mrn: '23456789', first_name: 'FirstName', last_name: 'LastName', address1: 'Address 1', city: 'City', state: 'State', zip: 'zip', phone_home: '1112223333' }
     end
 
     assert_not_nil assigns(:patient)
@@ -112,7 +112,7 @@ class PatientsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:patient)
     assert assigns(:patient).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:patient).errors[:mrn]
+    assert assigns(:patient).errors[:mrn].include?("can't be blank")
     assert_equal ["can't be blank"], assigns(:patient).errors[:subject_code]
     assert_template 'new'
   end
@@ -174,7 +174,7 @@ class PatientsControllerTest < ActionController::TestCase
   end
 
   test "should update patient with MRN and blank subject code" do
-    put :update, id: @patient, patient: { first_name: 'FirstNameUpdate', mrn: 'newmrn', subject_code: '' }
+    put :update, id: @patient, patient: { first_name: 'FirstNameUpdate', mrn: '00newmrn', subject_code: '' }
     assert_redirected_to patient_path(assigns(:patient))
   end
 
@@ -187,7 +187,7 @@ class PatientsControllerTest < ActionController::TestCase
     put :update, id: @patient, patient: { first_name: 'FirstNameUpdate', mrn: '', subject_code: '' }
     assert_not_nil assigns(:patient)
     assert assigns(:patient).errors.size > 0
-    assert_equal ["can't be blank"], assigns(:patient).errors[:mrn]
+    assert assigns(:patient).errors[:mrn].include?("can't be blank")
     assert_equal ["can't be blank"], assigns(:patient).errors[:subject_code]
     assert_template 'edit'
   end

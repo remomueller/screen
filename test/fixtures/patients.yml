@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  mrn: "0001"
+  mrn: "00000001"
   first_name: FirstName
   last_name: LastName
   phone_home: 1231231234
@@ -11,7 +11,7 @@ one:
   user: valid
 
 two:
-  mrn: "0002"
+  mrn: "00000002"
   first_name: MyString
   last_name: MyString
   phone_home: 13213211234
@@ -21,7 +21,7 @@ two:
   user: valid
 
 without_subject_code:
-  mrn: "0003"
+  mrn: "00000003"
   # subject_code:
   first_name: MyString
   last_name: MyString
@@ -32,7 +32,7 @@ without_subject_code:
   user: valid
 
 with_subject_code:
-  # mrn: "0004"
+  # mrn: "00000004"
   subject_code: S1234
   first_name: MyString
   last_name: MyString

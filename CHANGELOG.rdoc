@@ -1,5 +1,11 @@
 == 0.7.4
 
+* Enhancements
+  * Prescreen and Mailing Bulk Imports will now automatically preprend leading zeros to MRNs under the 8-digit length
+
+* Bug Fix
+  * MRNs are now required to have 8 digits, and be zero-padded
+
 == 0.7.3
 
 * Enhancements

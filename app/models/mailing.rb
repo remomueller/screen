@@ -92,6 +92,8 @@ class Mailing < ActiveRecord::Base
 
         if not doctor_name.blank? and row_array.size > 1 and not sent_date.blank?
           mrn = row_array[2].to_s.strip
+          mrn = "0"*([0,8 - mrn.size].max) + mrn.to_s unless mrn.blank?
+
           last_name = row_array[3].to_s.strip
           first_name = row_array[4].to_s.strip
           address1 = row_array[5].to_s.strip

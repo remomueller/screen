@@ -12,9 +12,20 @@ class MailingsControllerTest < ActionController::TestCase
   end
 
   test "should import mailings" do
-    assert_difference('Mailing.count', 2) do
+    assert_difference('Mailing.count', 3) do
       post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import.txt')
     end
+
+    assert_redirected_to mailings_path
+  end
+
+  test "should import mailings and zero-pad MRNs" do
+    assert_difference('Mailing.count', 3) do
+      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import.txt')
+    end
+
+    assert_equal 0, Patient.where(mrn: '121').count
+    assert_equal 1, Patient.where(mrn: '00000121').count
 
     assert_redirected_to mailings_path
   end

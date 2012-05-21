@@ -11,6 +11,7 @@ class Patient < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :mrn, if: :no_subject_code?
+  validates_length_of :mrn, is: 8, if: :no_subject_code?
   validates_uniqueness_of :mrn, allow_blank: true, scope: :deleted
   validates_presence_of :subject_code, if: :no_mrn?
   validates_uniqueness_of :subject_code, allow_blank: true, scope: :deleted
@@ -67,4 +68,23 @@ class Patient < ActiveRecord::Base
   def ess_from_calls_and_mailings
     (self.calls.pluck(:ess) + self.mailings.pluck(:ess)).compact.uniq.sort
   end
+
+  def self.merge_dup_patients!
+    duplicate_patient_mrns = Patient.current.pluck(:mrn).select{|mrn| not mrn.blank?}.group_by{|mrn| mrn}.select{|key,val| val.length > 1}.keys
+    duplicate_patient_mrns.each do |mrn|
+      same_patients = Patient.current.where(mrn: mrn).order(:id)
+      first_patient = same_patients.first
+      same_patients[1..-1].each do |p|
+        p.calls.update_all( patient_id: first_patient.id )
+        p.evaluations.update_all( patient_id: first_patient.id )
+        p.events.update_all( patient_id: first_patient.id )
+        p.mailings.update_all( patient_id: first_patient.id )
+        p.prescreens.update_all( patient_id: first_patient.id )
+        p.visits.update_all( patient_id: first_patient.id )
+        p.destroy
+      end
+    end
+    Patient.current.pluck(:mrn).select{|mrn| not mrn.blank?}.group_by{|mrn| mrn}.select{|key,val| val.length > 1}.keys.size
+  end
+
 end

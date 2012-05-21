@@ -30,9 +30,20 @@ class PrescreensControllerTest < ActionController::TestCase
   end
 
   test "should import prescreens" do
-    assert_difference('Prescreen.count', 19) do
+    assert_difference('Prescreen.count', 20) do
       post :import, visit_date: "03/01/2012", tab_dump: File.read('test/support/prescreens/fake_bulk_import.txt')
     end
+
+    assert_redirected_to prescreens_path
+  end
+
+  test "should import prescreens and zero-pad MRNs" do
+    assert_difference('Prescreen.count', 20) do
+      post :import, visit_date: "03/01/2012", tab_dump: File.read('test/support/prescreens/fake_bulk_import.txt')
+    end
+
+    assert_equal 0, Patient.where(mrn: '16').count
+    assert_equal 1, Patient.where(mrn: '00000016').count
 
     assert_redirected_to prescreens_path
   end
