@@ -8,8 +8,7 @@
 
 <% width = '1074px' %>
 
-<% form_name = "bulk_prescreen_form" %>
-<%= form_tag import_prescreens_path, method: :post, id: form_name, class: 'form-horizontal' do %>
+<%= form_tag import_prescreens_path, method: :post, class: 'form-horizontal' do %>
   <div class="control-group">
     <%= label :visit_date, 'Visit date', class: 'control-label' %>
     <div class="controls">
@@ -36,7 +35,7 @@
     <%= text_area_tag :tab_dump, '', rows: 7, style: "width:99%" %>
   </div>
   <div class="form-actions">
-    <%= link_to_function "Import", "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= submit 'Import', class: 'btn btn-primary' %>
   </div>
 <% end %>
 

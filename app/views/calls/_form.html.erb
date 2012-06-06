@@ -3,35 +3,33 @@
 </div>
 
 <% if @call.patient %>
-  <div class="frame">
-    <table class="table table-condensed" style="width:100%;table-layout:fixed">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Home Phone</th>
-          <th>Day Phone</th>
-          <th>Alt Phone</th>
-          <th>Doctor</th>
-        </tr>
-      </thead>
+  <table class="table table-condensed table-striped table-bordered" style="width:100%;table-layout:fixed">
+    <thead>
       <tr>
-        <td><%= @call.patient.name %></td>
-        <td><%= pretty_phone @call.patient.phone_home %></td>
-        <td><%= pretty_phone @call.patient.phone_day %></td>
-        <td><%= pretty_phone @call.patient.phone_alt %></td>
-        <td>
-          <% Doctor.where(id: @call.patient.prescreens.pluck(:doctor_id)).group_by(&:doctor_type).sort.each do |doctor_type, doctors| %>
-            <b><%= doctor_type.titleize %></b>
-            <ul>
-              <% doctors.each do |doctor| %>
-                <li><%= doctor.name %></li>
-              <% end %>
-            </ul>
-          <% end %>
-        </td>
+        <th>Name</th>
+        <th>Home Phone</th>
+        <th>Day Phone</th>
+        <th>Alt Phone</th>
+        <th>Doctor</th>
       </tr>
-    </table>
-  </div>
+    </thead>
+    <tr>
+      <td><%= @call.patient.name %></td>
+      <td><%= pretty_phone @call.patient.phone_home %></td>
+      <td><%= pretty_phone @call.patient.phone_day %></td>
+      <td><%= pretty_phone @call.patient.phone_alt %></td>
+      <td>
+        <% Doctor.where(id: @call.patient.prescreens.pluck(:doctor_id)).group_by(&:doctor_type).sort.each do |doctor_type, doctors| %>
+          <b><%= doctor_type.titleize %></b>
+          <ul>
+            <% doctors.each do |doctor| %>
+              <li><%= doctor.name %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </td>
+    </tr>
+  </table>
 <% end %>
 
 <%= form_for(@call, html: { class: 'form-horizontal' }) do |f| %>
@@ -86,7 +84,7 @@
   <div class="control-group">
     <%= label_tag :call_date, 'Call date', class: 'control-label' %>
     <div class="controls">
-      <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %> <%= link_to_function 'Current Time', "#", id: 'set_current_time' %>
+      <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %> <%= link_to 'Current Time', "#", data: { object: 'set-current-time' } %>
     </div>
   </div>
 
@@ -134,7 +132,7 @@
   <div class="control-group">
     <%= f.label :comments, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
+      <%= f.text_area :comments, rows: 7, style: "width:95%" %>
     </div>
   </div>
 
@@ -143,8 +141,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @call.new_record? ? 'new_call' : "edit_call_#{@call.id}" %>
-    <%= link_to_function (@call.new_record? ? "Create Call" : "Update Call"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

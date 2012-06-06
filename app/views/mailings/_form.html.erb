@@ -121,8 +121,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @mailing.new_record? ? 'new_mailing' : "edit_mailing_#{@mailing.id}" %>
-    <%= link_to_function (@mailing.new_record? ? "Create Mailing" : "Update Mailing"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

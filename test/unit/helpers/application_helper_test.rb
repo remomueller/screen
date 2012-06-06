@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
+
   test "should show date" do
     date = Date.today + 5.days
     assert_equal date.strftime("%b %d"), simple_date(date)
@@ -40,14 +41,6 @@ class ApplicationHelperTest < ActionView::TestCase
   test "should show full time from last year" do
     time = Time.now - 1.year
     assert_equal time.strftime("on %b %d, %Y at %I:%M %p"), simple_time(time)
-  end
-
-  test "should show sort field helper" do
-    assert sort_field_helper("first_name DESC", "last_name", "First Name").kind_of?(String)
-  end
-
-  test "should show sort field helper with same order" do
-    assert sort_field_helper("first_name", "first_name", "First Name").kind_of?(String)
   end
 
   test "should show recent activity" do

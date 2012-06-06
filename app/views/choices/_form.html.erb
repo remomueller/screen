@@ -63,8 +63,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @choice.new_record? ? 'new_choice' : "edit_choice_#{@choice.id}" %>
-    <%= link_to_function (@choice.new_record? ? "Create Choice" : "Update Choice"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

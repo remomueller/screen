@@ -46,7 +46,7 @@
 
   <div class="form-actions">
     <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
-    <%= link_to_function 'Export CSV', "window.location = $('#mailings_search').attr('action') + '.csv?' + $('#mailings_search').serialize();", class: 'btn' %>
+    <%= link_to 'Export CSV', '#', class: 'btn', data: { target: '#mailings_search', object: 'export', format: 'csv' } %>
   </div>
 <% end %>
 

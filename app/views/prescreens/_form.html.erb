@@ -86,8 +86,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @prescreen.new_record? ? 'new_prescreen' : "edit_prescreen_#{@prescreen.id}" %>
-    <%= link_to_function (@prescreen.new_record? ? "Create Prescreen" : "Update Prescreen"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

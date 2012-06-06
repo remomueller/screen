@@ -102,8 +102,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @patient.new_record? ? 'new_patient' : "edit_patient_#{@patient.id}" %>
-    <%= link_to_function (@patient.new_record? ? "Create Patient" : "Update Patient"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

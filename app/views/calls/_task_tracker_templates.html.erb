@@ -5,7 +5,7 @@
     <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'control-label' %>
     <div class="controls">
       <%= text_field_tag "task_tracker_screen_token", '', style: "width:99%" %>
-      <%= link_to_function 'Update My Screen Token', "$('#screen_token').val($('#task_tracker_screen_token').val()); $.post($('#templates_form').attr('action'), $('#templates_form').serialize(), null, 'script');", class: 'btn btn-mini btn-primary' %>
+      <%= link_to 'Update My Screen Token', '#', class: 'btn btn-mini btn-primary', data: { object: 'screen-token-update', target: '#templates_form' } %>
       <small>Please enter your Task Tracker Screen Token: <%= link_to TASK_TRACKER_URL + "/settings#screen_token", TASK_TRACKER_URL + "/settings#screen_token", target: '_blank' %></small>
     </div>
   </div>

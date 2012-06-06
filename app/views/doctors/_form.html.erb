@@ -36,8 +36,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @doctor.new_record? ? 'new_doctor' : "edit_doctor_#{@doctor.id}" %>
-    <%= link_to_function (@doctor.new_record? ? "Create Doctor" : "Update Doctor"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

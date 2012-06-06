@@ -13,7 +13,7 @@
       <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed;">
         <tr>
           <td style="vertical-align:top;white-space:nowrap;overflow-x:hidden"><%= events.collect{|e| e.image}.collect{|i| image_tag("gentleface/16/#{i}.png", alt: '', style: 'vertical-align:text-bottom').html_safe}.join(' ').html_safe %></td>
-          <td style="vertical-align:top;text-align:center"><%= link_to_function pluralize(events.size, "Hidden Event"), "return false;" %></td>
+          <td style="vertical-align:top;text-align:center"><%= link_to pluralize(events.size, "Hidden Event"), '#', data: { object: 'ignore' } %></td>
           <td style="vertical-align:top;text-align:right"><%= month_year[:display] %></td>
         </tr>
       </table>

@@ -15,27 +15,24 @@
 
 jQuery ->
 
-  $("#set_current_time").on("click", () ->
-    currentTime = new Date()
-    day = currentTime.getDate()
-    month = currentTime.getMonth() + 1
-    year = currentTime.getFullYear()
-    hours = currentTime.getHours()
-    minutes = currentTime.getMinutes()
-
-    minutes = "0" + minutes if minutes < 10
-    month = "0" + month if month < 10
-    day = "0" + day if day < 10
-
-    $("#call_time").val(hours+":"+minutes)
-    $("#call_date").val(month + "/" + day + "/" + year)
-    false
-  )
-
   $("#mrn")
     .autocomplete(
       source: root_url + "patients?autocomplete=true"
       html: true
       close: (event, ui) ->
         $(this).closest('form').submit()
+    )
+
+  $(document)
+    .on('click', '[data-object~="screen-token-update"]', () ->
+      $('#screen_token').val($('#task_tracker_screen_token').val())
+      $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize(), null, 'script')
+      false
+    )
+    .on('click', '[data-object~="ignore"]', () ->
+      false
+    )
+    .on('click', '[data-object~="export"]', () ->
+      window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
+      false
     )
