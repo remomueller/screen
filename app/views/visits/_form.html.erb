@@ -52,8 +52,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @visit.new_record? ? 'new_visit' : "edit_visit_#{@visit.id}" %>
-    <%= link_to_function (@visit.new_record? ? "Create Visit" : "Update Visit"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

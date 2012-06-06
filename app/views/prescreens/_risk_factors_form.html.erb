@@ -2,5 +2,6 @@
   <% Choice.where(category: 'risk factors').each do |choice| %>
     <div style="whitespace:nowrap"><%= check_box_tag "prescreen[risk_factor_ids][]", choice.id, @prescreen.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %></div>
   <% end %>
-  <%= submit_tag 'Save' %><%= link_to_function 'Cancel', "$('#prescreen_#{@prescreen.id}_risk_factors_inline_edit_form_form')[0].reset();$('#prescreen_#{@prescreen.id}_risk_factors_inline_edit_form').hide();$('#prescreen_#{@prescreen.id}_risk_factors_inline_edit_show').show();" %>
+  <%= submit_tag 'Save', class: 'btn btn-mini btn-primary' %>
+  <%= link_to 'Cancel', '#', class: 'btn btn-mini', data: { object: 'form-reset-and-hide', target: "#prescreen_#{@prescreen.id}_risk_factors_inline_edit" } %>
 <% end %>

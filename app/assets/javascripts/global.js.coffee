@@ -36,3 +36,8 @@ jQuery ->
       window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
       false
     )
+    .on('click', '[data-object~="form-reset-and-hide"]', () ->
+      $($(this).data('target') + '_form_form')[0].reset();
+      $($(this).data('target') + '_form').hide();
+      $($(this).data('target') + '_show').show();
+    )

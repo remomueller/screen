@@ -1,61 +1,59 @@
-<div class="frame">
-  <% @events.group_by(&:month_year).each do |month_year, events| %>
-    <div class="month-bubble" style="float:left;margin-bottom:5px"
-         onclick="$('.my_<%= month_year[:id] %>').toggle();"
-         onmouseover="$(this).addClass('highlight');"
-         onmouseout="$(this).removeClass('highlight');">
-      <%= month_year[:display] %>
-    </div>
-    <div class="center-bubble my_<%= month_year[:id] %>" style="margin-bottom:5px; display:none"
-         onclick="$('.my_<%= month_year[:id] %>').toggle();"
-         onmouseover="$(this).addClass('highlight');"
-         onmouseout="$(this).removeClass('highlight');">
-      <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed;">
+<% @events.group_by(&:month_year).each do |month_year, events| %>
+  <div class="month-bubble" style="float:left;margin-bottom:5px"
+       onclick="$('.my_<%= month_year[:id] %>').toggle();"
+       onmouseover="$(this).addClass('highlight');"
+       onmouseout="$(this).removeClass('highlight');">
+    <%= month_year[:display] %>
+  </div>
+  <div class="center-bubble my_<%= month_year[:id] %>" style="margin-bottom:5px; display:none"
+       onclick="$('.my_<%= month_year[:id] %>').toggle();"
+       onmouseover="$(this).addClass('highlight');"
+       onmouseout="$(this).removeClass('highlight');">
+    <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed;">
+      <tr>
+        <td style="vertical-align:top;white-space:nowrap;overflow-x:hidden"><%= events.collect{|e| e.image}.collect{|i| image_tag("gentleface/16/#{i}.png", alt: '', style: 'vertical-align:text-bottom').html_safe}.join(' ').html_safe %></td>
+        <td style="vertical-align:top;text-align:center"><%= link_to pluralize(events.size, "Hidden Event"), '#', data: { object: 'ignore' } %></td>
+        <td style="vertical-align:top;text-align:right"><%= month_year[:display] %></td>
+      </tr>
+    </table>
+  </div>
+  <% events.each do |event| %>
+    <% @event = event %>
+    <% @object = @event.object %>
+    <div id="event_<%= @event.id %>_full" class="center-bubble my_<%= month_year[:id] %>"
+         onmouseover="$(this).addClass('highlight');$('.right-bubble, .right-connection').hide();
+          if($('#event_<%= @event.id %>_comments_long').html().replace(/[\s]/g, '') != ''){$('#event_<%= @event.id %>_comments_long').show();$('#event_<%= @event.id %>_connect').show();}
+          "
+         onmouseout="$(this).removeClass('highlight');"
+         style="margin-bottom:5px;position:relative"
+         >
+      <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
+      <div id="event_<%= @event.id %>_connect" style="display:none" class="right-connection"></div>
+      <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed">
         <tr>
-          <td style="vertical-align:top;white-space:nowrap;overflow-x:hidden"><%= events.collect{|e| e.image}.collect{|i| image_tag("gentleface/16/#{i}.png", alt: '', style: 'vertical-align:text-bottom').html_safe}.join(' ').html_safe %></td>
-          <td style="vertical-align:top;text-align:center"><%= link_to pluralize(events.size, "Hidden Event"), '#', data: { object: 'ignore' } %></td>
-          <td style="vertical-align:top;text-align:right"><%= month_year[:display] %></td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <%= image_tag "gentleface/16/#{@object.direction == 'incoming' ? 'arrow_bottom_rigth' : 'arrow_top_right'}.png", alt: '', size: '10x10', style: 'vertical-align:text-middle;margin-left:-7px;margin-right:-7px;margin-bottom:8px;margin-top:-8px', title: @object.direction if @object.class.name == 'Call' %>
+            <%= image_tag "gentleface/16/#{@event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
+            <%= link_to @event.full_name, @object %>
+          </td>
+          <td style="text-align:center;vertical-align:top">
+            <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details_short" %>
+          </td>
+          <td style="text-align:right;vertical-align:top">
+            <%= @event.use_date? ? simple_date(@event.event_time) : simple_time(@event.event_time).gsub('on ', '').gsub(' at ', '<br />').html_safe %>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center" colspan="3">
+            <% if @object.respond_to?('risk_factors') %>
+              <% @object.risk_factors.each do |choice| %>
+                <%= @choice = choice; render partial: 'choices/show' %>
+              <% end %>
+            <% end %>
+          </td>
         </tr>
       </table>
     </div>
-    <% events.each do |event| %>
-      <% @event = event %>
-      <% @object = @event.object %>
-      <div id="event_<%= @event.id %>_full" class="center-bubble my_<%= month_year[:id] %>"
-           onmouseover="$(this).addClass('highlight');$('.right-bubble, .right-connection').hide();
-            if($('#event_<%= @event.id %>_comments_long').html().replace(/[\s]/g, '') != ''){$('#event_<%= @event.id %>_comments_long').show();$('#event_<%= @event.id %>_connect').show();}
-            "
-           onmouseout="$(this).removeClass('highlight');"
-           style="margin-bottom:5px;position:relative"
-           >
-        <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details" %>
-        <div id="event_<%= @event.id %>_connect" style="display:none" class="right-connection"></div>
-        <table class="blank" style="width:100%;background-color:transparent;table-layout:fixed">
-          <tr>
-            <td style="white-space:nowrap;vertical-align:top">
-              <%= image_tag "gentleface/16/#{@object.direction == 'incoming' ? 'arrow_bottom_rigth' : 'arrow_top_right'}.png", alt: '', size: '10x10', style: 'vertical-align:text-middle;margin-left:-7px;margin-right:-7px;margin-bottom:8px;margin-top:-8px', title: @object.direction if @object.class.name == 'Call' %>
-              <%= image_tag "gentleface/16/#{@event.image}.png", alt: '', style: 'vertical-align:text-bottom' %>
-              <%= link_to @event.full_name, @object %>
-            </td>
-            <td style="text-align:center;vertical-align:top">
-              <%= render partial: "#{@event.object.class.name.downcase.pluralize}/details_short" %>
-            </td>
-            <td style="text-align:right;vertical-align:top">
-              <%= @event.use_date? ? simple_date(@event.event_time) : simple_time(@event.event_time).gsub('on ', '').gsub(' at ', '<br />').html_safe %>
-            </td>
-          </tr>
-          <tr>
-            <td style="text-align:center" colspan="3">
-              <% if @object.respond_to?('risk_factors') %>
-                <% @object.risk_factors.each do |choice| %>
-                  <%= @choice = choice; render partial: 'choices/show' %>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-        </table>
-      </div>
-    <% end %>
-    <div style="clear:both;"></div>
   <% end %>
-</div>
+  <div style="clear:both;"></div>
+<% end %>
