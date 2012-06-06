@@ -1,5 +1,9 @@
 == 0.7.6
 
+* Enhancements
+  * Update to Rails 3.2.5 and Contour 1.0.1
+  * Use Ruby 1.9.3-p194
+
 == 0.7.5
 
 * Bug Fix
