@@ -30,7 +30,7 @@ class PrescreensController < ApplicationController
         notices << "#{count} #{key}#{'s' unless count == 1} added" if (count > 0 and key.to_s != 'prescreen') or key.to_s == 'prescreen'
       end
     end
-    redirect_to prescreens_path, notice: notices.join(', '), alert: alerts.join(', ')
+    redirect_to prescreens_path, notice: (notices.size > 0 ? notices.join(', ') : nil), alert: (alerts.size > 0 ? alerts.join(', ') : nil)
   end
 
   def index
