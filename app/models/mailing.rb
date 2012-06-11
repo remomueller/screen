@@ -105,7 +105,7 @@ class Mailing < ActiveRecord::Base
 
           doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist', { user_id: current_user.id })
 
-          unless mrn.blank?
+          if mrn.size == 8
             patient = Patient.find_or_create_by_mrn(mrn, { user_id: current_user.id })
 
             patient_params = { first_name: first_name, last_name: last_name, address1: address1, city: city, state: state, zip: zip, phone_home: phone_home, phone_day: phone_day }

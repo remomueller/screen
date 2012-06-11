@@ -22,6 +22,7 @@
 	08:10 - 08:30		BLACKBOX MANAGEMENT GROUP	Jozefa, Jaan 	M 37	00000012	NEW	How does the mechanic inventor steam?
 	08:30 - 09:00		BLACKBOX MANAGEMENT GROUP	Atsuko, Daniel 	M 23	00000013	NEW	The lager underlines the exam.
 	09:50 - 10:00		BLACKBOX MANAGEMENT GROUP	Moony, Charles 	M 27	16	NEW	The other sentence was better.
+	10:00 - 10:15		BLACKBOX MANAGEMENT GROUP	MRNTOO, LongIgnore 	M 27	A23456789	NEW	Ignore if the the patient validation would fail because of an MRN that's too long.
 	DontScreenMe,M.D.
 	09:00 - 09:30		BLACKBOX MANAGEMENT GROUP	Tyson, Grey 	M 49	00000014	NEW	When can the balanced mimic harm the amazed timer?
 	09:30 - 10:50		BLACKBOX MANAGEMENT GROUP	Danthon, David V 	M 56	00000010	NEW	A faith alleges the assistant.

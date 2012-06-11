@@ -111,7 +111,7 @@ class Prescreen < ActiveRecord::Base
           clinic = Clinic.find_or_create_by_name(clinic_name, { user_id: current_user.id })
           doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist', { user_id: current_user.id })
 
-          if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted? and not mrn.blank?
+          if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted? and mrn.size == 8
             patient = Patient.find_or_create_by_mrn(mrn, { user_id: current_user.id })
             patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
             prescreen = patient.prescreens.find_or_create_by_visit_at_and_clinic_id_and_doctor_id(time_start, clinic.id, doctor.id, { user_id: current_user.id })
