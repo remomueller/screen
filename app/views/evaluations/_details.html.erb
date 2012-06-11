@@ -2,6 +2,9 @@
 
 <div id="event_<%= @event.id %>_comments_long" style="display:none" class="right-bubble">
   <dl>
+    <dt>Creator</dt>
+    <dd><%= @evaluation.user.name %></dd>
+
     <% unless @evaluation.source.blank? %>
       <dt>Source</dt>
       <dd><%= @evaluation.source %></dd>

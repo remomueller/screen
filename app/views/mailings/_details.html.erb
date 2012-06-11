@@ -2,6 +2,9 @@
 
 <div id="event_<%= @event.id %>_comments_long" style="display:none" class="right-bubble">
   <dl>
+    <dt>Creator</dt>
+    <dd><%= @mailing.user.name %></dd>
+
     <% unless @mailing.berlin.blank? %>
       <dt>Berlin</dt>
       <dd><%= @mailing.berlin %></dd>
