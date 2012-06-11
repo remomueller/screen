@@ -3,6 +3,7 @@
 * Enhancements
   * Visits can be filtered by visit type
   * Searching by phone number now returns results for patients, prescreens, mailings, calls, evaluations, and visits
+  * Mailing comments are now displayed in the participant timeline, consistent with other event types
   * PHI Access role added to grant de-identified access to retrieve aggregate counts
 
 * Bug Fix

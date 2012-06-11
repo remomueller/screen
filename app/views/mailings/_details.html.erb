@@ -21,5 +21,10 @@
       <dt>Participation</dt>
       <dd><%= @mailing.participation_name %></dd>
     <% end %>
+
+    <% unless @mailing.comments.blank? %>
+      <dt>Comments</dt>
+      <dd><%= @mailing.comments %></dd>
+    <% end %>
   </dl>
 </div>
