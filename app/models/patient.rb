@@ -5,7 +5,12 @@ class Patient < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?)", args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
+  scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
+                                                    LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
+                                                    LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?)",
+                                                    args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%',
+                                                    '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%',
+                                                    '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
   scope :subject_code_not_blank, conditions: ["patients.subject_code != ''"]
   scope :with_priority_message, lambda { |*args| { conditions: ["patients.priority_message LIKE ?", "%" + args.first + "%"] } }
 

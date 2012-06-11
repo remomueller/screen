@@ -8,7 +8,9 @@ class Evaluation < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: ["evaluations.deleted = ? and evaluations.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["evaluations.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
+  scope :with_mrn, lambda { |*args| { conditions: ["evaluations.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
+                                                                                                                      LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
+                                                                                                                      LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["evaluations.eligibility IN (?)", args.first] } }
   scope :subject_code_not_blank, conditions: ["evaluations.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :administration_before, lambda { |*args| { conditions: ["evaluations.administration_date < ?", (args.first+1.day)]} }

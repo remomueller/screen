@@ -5,7 +5,9 @@ class Visit < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: ["visits.deleted = ? and visits.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["visits.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
+  scope :with_mrn, lambda { |*args| { conditions: ["visits.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
+                                                                                                                 LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
+                                                                                                                 LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
   scope :subject_code_not_blank, conditions: ["visits.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :visit_before, lambda { |*args| { conditions: ["visits.visit_date < ?", (args.first+1.day)]} }
   scope :visit_after, lambda { |*args| { conditions: ["visits.visit_date >= ?", args.first]} }

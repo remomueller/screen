@@ -11,7 +11,9 @@ class Prescreen < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: ["prescreens.deleted = ? and prescreens.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
+  scope :with_mrn, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
+                                                                                                                     LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
+                                                                                                                     LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["prescreens.eligibility IN (?)", args.first] } }
   scope :subject_code_not_blank, conditions: ["prescreens.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :visit_before, lambda { |*args| { conditions: ["prescreens.visit_at < ?", (args.first+1.day).at_midnight]} }
