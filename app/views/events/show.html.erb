@@ -12,7 +12,7 @@
 
 <dl class="dl-horizontal">
   <dt>Patient</dt>
-  <dd><%= link_to @event.patient.code, @event.patient if @event.patient %></dd>
+  <dd><%= link_to @event.patient.phi_code(current_user), @event.patient if @event.patient %></dd>
 
   <dt>Name</dt>
   <dd><%= @event.name %></dd>

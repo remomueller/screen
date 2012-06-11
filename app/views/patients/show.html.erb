@@ -1,10 +1,10 @@
-<% @title = "Patient: #{@patient.code}" %>
+<% @title = "Patient: #{@patient.phi_code(current_user)}" %>
 <div class="page-header">
   <h1>
     <%= @title %>
     <% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_patients.include?(@patient) %>
       <%= link_to "Edit Patient", edit_patient_path(@patient), class: 'btn btn-mini' %>
-      <%= link_to "Delete Patient", @patient, confirm: "Are you sure you want to delete Patient #{@patient.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      <%= link_to "Delete Patient", @patient, confirm: "Are you sure you want to delete Patient #{@patient.phi_name(current_user)}?", method: :delete, class: 'btn btn-mini btn-danger' %>
     <% end %>
     <%= link_to "View Patients", patients_path, class: 'btn btn-mini' %>
   </h1>
@@ -27,7 +27,7 @@
 
     <dl class="dl-horizontal">
       <dt>MRN</dt>
-      <dd><%= @patient.mrn %></dd>
+      <dd><%= @patient.phi_mrn(current_user) %></dd>
 
       <dt>Subject Code</dt>
       <dd><%= @patient.subject_code %></dd>
@@ -36,7 +36,7 @@
       <dd><%= @patient.name_code %></dd>
 
       <dt>Name</dt>
-      <dd><%= @patient.name %></dd>
+      <dd><%= @patient.phi_name(current_user) %></dd>
     </dl>
   </div>
   <div class="span3">
@@ -44,13 +44,13 @@
 
     <dl class="dl-horizontal">
       <dt>Home Phone</dt>
-      <dd><%= pretty_phone @patient.phone_home %></dd>
+      <dd><%= pretty_phone @patient.phi_phone_home(current_user) %></dd>
 
       <dt>Day Phone</dt>
-      <dd><%= pretty_phone @patient.phone_day %></dd>
+      <dd><%= pretty_phone @patient.phi_phone_day(current_user) %></dd>
 
       <dt>Alt Phone</dt>
-      <dd><%= pretty_phone @patient.phone_alt %></dd>
+      <dd><%= pretty_phone @patient.phi_phone_alt(current_user) %></dd>
     </dl>
   </div>
   <div class="span3">
@@ -58,7 +58,7 @@
 
     <dl class="dl-horizontal">
       <dt>Address</dt>
-      <dd><%= @patient.address %></dd>
+      <dd><%= @patient.phi_address(current_user) %></dd>
     </dl>
   </div>
   <div class="span3">
@@ -66,10 +66,10 @@
 
     <dl class="dl-horizontal">
       <dt>Sex</dt>
-      <dd><%= @patient.sex %></dd>
+      <dd><%= @patient.phi_sex(current_user) %></dd>
 
       <dt>Age</dt>
-      <dd><%= @patient.age %></dd>
+      <dd><%= @patient.phi_age(current_user) %></dd>
 
       <dt>Berlin</dt>
       <dd><%= @patient.berlin_from_calls_and_mailings.join(", ") %></dd>

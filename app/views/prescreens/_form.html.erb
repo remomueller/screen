@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :patient_id, class: 'control-label' %>
     <div class="controls">
-      <%= link_to @prescreen.patient.code, @prescreen.patient if @prescreen.patient %>
+      <%= link_to @prescreen.patient.phi_code(current_user), @prescreen.patient if @prescreen.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
   </div>

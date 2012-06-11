@@ -1,5 +1,8 @@
 == 0.7.7
 
+* Enhancements
+  * PHI Access role added to grant de-identified access to retrieve aggregate counts
+
 == 0.7.6
 
 * Enhancements

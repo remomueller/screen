@@ -16,45 +16,53 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :first_name, class: 'control-label' %>
+    <%= f.label :first_name, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :first_name %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :last_name, class: 'control-label' %>
+    <%= f.label :last_name, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :last_name %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :status, class: 'control-label' %>
+    <%= f.label :status, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.select :status, User::STATUS %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :email, class: 'control-label' %>
+    <%= f.label :email, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :email %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :system_admin, class: 'control-label' %>
+    <%= f.label :system_admin, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.check_box :system_admin %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :screener, class: 'control-label' %>
+    <%= f.label :screener, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.check_box :screener %>
     </div>
   </div>
+
   <div class="control-group">
-    <%= f.label :subject_handler, class: 'control-label' %>
+    <%= f.label :subject_handler, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.check_box :subject_handler %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :access_phi, 'PHI', class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :access_phi %>
     </div>
   </div>
 

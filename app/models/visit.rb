@@ -31,7 +31,7 @@ class Visit < ActiveRecord::Base
   end
 
   def name
-    self.patient ? self.patient.code : self.id
+    "##{self.id}"
   end
 
   def outcome_name

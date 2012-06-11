@@ -16,7 +16,7 @@
 
   <% @evaluations.each do |evaluation| %>
     <tr>
-      <td><%= link_to evaluation.patient.code, evaluation.patient if evaluation.patient %></td>
+      <td><%= link_to evaluation.patient.phi_code(current_user), evaluation.patient if evaluation.patient %></td>
       <td><%= link_to evaluation.administration_type_name + " " + evaluation.evaluation_type_name, evaluation %></td>
       <td><%= evaluation.embletta_unit_number %></td>
       <td><%= simple_date evaluation.administration_date %></td>

@@ -14,10 +14,10 @@
       </tr>
     </thead>
     <tr>
-      <td><%= @call.patient.name %></td>
-      <td><%= pretty_phone @call.patient.phone_home %></td>
-      <td><%= pretty_phone @call.patient.phone_day %></td>
-      <td><%= pretty_phone @call.patient.phone_alt %></td>
+      <td><%= @call.patient.phi_name(current_user) %></td>
+      <td><%= pretty_phone @call.patient.phi_phone_home(current_user) %></td>
+      <td><%= pretty_phone @call.patient.phi_phone_day(current_user) %></td>
+      <td><%= pretty_phone @call.patient.phi_phone_alt(current_user) %></td>
       <td>
         <% Doctor.where(id: @call.patient.prescreens.pluck(:doctor_id)).group_by(&:doctor_type).sort.each do |doctor_type, doctors| %>
           <b><%= doctor_type.titleize %></b>
@@ -49,7 +49,7 @@
   <div class="control-group">
     <%= f.label :patient_id, class: 'control-label' %>
     <div class="controls">
-      <%= link_to @call.patient.code, @call.patient if @call.patient %>
+      <%= link_to @call.patient.phi_code(current_user), @call.patient if @call.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
   </div>

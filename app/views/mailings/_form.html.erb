@@ -14,11 +14,11 @@
       </tr>
     </thead>
     <tr>
-      <td><%= @mailing.patient.name %></td>
-      <td><%= @mailing.patient.address1 %></td>
-      <td><%= @mailing.patient.city %></td>
-      <td><%= @mailing.patient.state %></td>
-      <td><%= @mailing.patient.zip %></td>
+      <td><%= @mailing.patient.phi_name(current_user) %></td>
+      <td><%= @mailing.patient.phi_address1(current_user) %></td>
+      <td><%= @mailing.patient.phi_city(current_user) %></td>
+      <td><%= @mailing.patient.phi_state(current_user) %></td>
+      <td><%= @mailing.patient.phi_zip(current_user) %></td>
     </tr>
   </table>
 <% end %>
@@ -39,7 +39,7 @@
   <div class="control-group">
     <%= f.label :patient_id, class: 'control-label' %>
     <div class="controls">
-      <%= link_to @mailing.patient.code, @mailing.patient if @mailing.patient %>
+      <%= link_to @mailing.patient.phi_code(current_user), @mailing.patient if @mailing.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
   </div>

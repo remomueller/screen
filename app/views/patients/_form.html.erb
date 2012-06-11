@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :mrn, 'MRN', class: 'control-label' %>
     <div class="controls">
-      <% if current_user.screener? %><%= f.text_field :mrn %><% else %><%= @patient.mrn %><% end %>
+      <% if current_user.screener? and current_user.access_phi? %><%= f.text_field :mrn %><% else %><%= @patient.phi_mrn(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
@@ -36,68 +36,68 @@
   <div class="control-group">
     <%= f.label :first_name, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :first_name %>
+      <% if current_user.access_phi? %><%= f.text_field :first_name %><% else %><%= @patient.phi_first_name(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :last_name, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :last_name %>
+      <% if current_user.access_phi? %><%= f.text_field :last_name %><% else %><%= @patient.phi_last_name(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :phone_home, 'Home Phone', class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :phone_home %>
+      <% if current_user.access_phi? %><%= f.text_field :phone_home %><% else %><%= @patient.phi_phone_home(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :phone_day, 'Day Phone', class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :phone_day %>
+      <% if current_user.access_phi? %><%= f.text_field :phone_day %><% else %><%= @patient.phi_phone_day(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :phone_alt, 'Alt Phone', class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :phone_alt %>
+      <% if current_user.access_phi? %><%= f.text_field :phone_alt %><% else %><%= @patient.phi_phone_alt(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :sex, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :sex %>
+      <% if current_user.access_phi? %><%= f.text_field :sex %><% else %><%= @patient.phi_sex(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :age, class: 'control-label' %>
     <div class="controls">
-      <%= f.number_field :age, { min: 0 } %>
+      <% if current_user.access_phi? %><%= f.number_field :age, { min: 0 } %><% else %><%= @patient.phi_age(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :address1, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :address1 %>
+      <% if current_user.access_phi? %><%= f.text_field :address1 %><% else %><%= @patient.phi_address1(current_user) %><% end %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :city, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :city %>
+      <% if current_user.access_phi? %><%= f.text_field :city %><% else %><%= @patient.phi_city(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :state, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :state %>
+      <% if current_user.access_phi? %><%= f.text_field :state %><% else %><%= @patient.phi_state(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :zip, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :zip %>
+      <% if current_user.access_phi? %><%= f.text_field :zip %><% else %><%= @patient.phi_zip(current_user) %><% end %>
     </div>
   </div>
 

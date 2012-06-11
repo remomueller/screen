@@ -47,6 +47,7 @@ class UsersController < ApplicationController
       @user.update_attribute :system_admin, params[:user][:system_admin]
       @user.update_attribute :screener, params[:user][:screener]
       @user.update_attribute :subject_handler, params[:user][:subject_handler]
+      @user.update_attribute :access_phi, params[:user][:access_phi]
       @user.update_attribute :status, params[:user][:status]
       redirect_to(@user, notice: 'User was successfully updated.')
     elsif @user

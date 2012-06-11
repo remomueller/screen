@@ -12,7 +12,7 @@
 
   <% @visits.each do |visit| %>
     <tr>
-      <td><%= link_to visit.patient.code, visit.patient if visit.patient %></td>
+      <td><%= link_to visit.patient.phi_code(current_user), visit.patient if visit.patient %></td>
       <td><%= link_to visit.visit_type_name, visit %></td>
       <td><%= simple_date visit.visit_date %></td>
       <td><%= visit.outcome_name %></td>

@@ -33,6 +33,7 @@ class ActionController::IntegrationTest
     user.update_attribute :system_admin, user_template.system_admin?
     user.update_attribute :screener, user_template.screener?
     user.update_attribute :subject_handler, user_template.subject_handler?
+    user.update_attribute :access_phi, user_template.access_phi?
     post_via_redirect 'users/login', user: { email: email, password: password }
     user
   end

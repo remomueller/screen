@@ -15,7 +15,7 @@
 
 <% @mailings.each do |mailing| %>
   <tr>
-    <td><%= link_to mailing.patient.code, mailing.patient if mailing.patient %></td>
+    <td><%= link_to mailing.patient.phi_code(current_user), mailing.patient if mailing.patient %></td>
     <td><%= link_to simple_date(mailing.sent_date), mailing %></td>
     <td><%= simple_date(mailing.response_date) %></td>
     <td><%= mailing.berlin %></td>

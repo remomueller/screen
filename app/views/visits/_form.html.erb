@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :patient_id, class: 'control-label' %>
     <div class="controls">
-      <%= link_to @visit.patient.code, @visit.patient if @visit.patient %>
+      <%= link_to @visit.patient.phi_code(current_user), @visit.patient if @visit.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
   </div>

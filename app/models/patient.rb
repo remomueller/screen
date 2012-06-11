@@ -27,14 +27,76 @@ class Patient < ActiveRecord::Base
 
   # Class Methods
 
-  # Study Code if available, if not, MRN
+  # The following require access_phi to view
+  # mrn, first_name, last_name, sex, age, phone_home, phone_day, phone_alt, address1, city, state, zip
+
+  def scrubbed
+    '---'
+  end
+
+  def phi_mrn(current_user)
+    current_user.access_phi? ? self.mrn : self.scrubbed
+  end
+
+  def phi_name(current_user)
+    current_user.access_phi? ? self.name : self.scrubbed
+  end
+
+  def phi_first_name(current_user)
+    current_user.access_phi? ? self.first_name : self.scrubbed
+  end
+
+  def phi_last_name(current_user)
+    current_user.access_phi? ? self.last_name : self.scrubbed
+  end
+
+  def phi_sex(current_user)
+    current_user.access_phi? ? self.sex : self.scrubbed
+  end
+
+  def phi_age(current_user)
+    current_user.access_phi? ? self.age : self.scrubbed
+  end
+
+  def phi_phone_home(current_user)
+    current_user.access_phi? ? self.phone_home : self.scrubbed
+  end
+
+  def phi_phone_day(current_user)
+    current_user.access_phi? ? self.phone_day : self.scrubbed
+  end
+
+  def phi_phone_alt(current_user)
+    current_user.access_phi? ? self.phone_alt : self.scrubbed
+  end
+
+  def phi_address(current_user)
+    current_user.access_phi? ? self.address : self.scrubbed
+  end
+
+  def phi_address1(current_user)
+    current_user.access_phi? ? self.address1 : self.scrubbed
+  end
+
+  def phi_city(current_user)
+    current_user.access_phi? ? self.city : self.scrubbed
+  end
+
+  def phi_state(current_user)
+    current_user.access_phi? ? self.state : self.scrubbed
+  end
+
+  def phi_zip(current_user)
+    current_user.access_phi? ? self.zip : self.scrubbed
+  end
 
   def editable_by?(current_user)
     current_user.screener? or (not self.subject_code.blank? and current_user.subject_handler?)
   end
 
-  def code
-    self.subject_code.blank? ? self.mrn : self.subject_code
+  # Study Code if available, if not, MRN
+  def phi_code(current_user)
+    self.subject_code.blank? ? (current_user.access_phi? ? self.mrn : self.scrubbed) : self.subject_code
   end
 
   def name

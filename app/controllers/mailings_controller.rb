@@ -49,15 +49,15 @@ class MailingsController < ApplicationController
           csv << [
             mailing.doctor.name,
             mailing.sent_date.strftime("%m/%d/%Y"),
-            mailing.patient.mrn,
-            mailing.patient.last_name,
-            mailing.patient.first_name,
-            mailing.patient.address1,
-            mailing.patient.city,
-            mailing.patient.state,
-            mailing.patient.zip,
-            pretty_phone(mailing.patient.phone_home),
-            pretty_phone(mailing.patient.phone_day)
+            mailing.patient.phi_mrn(current_user),
+            mailing.patient.phi_last_name(current_user),
+            mailing.patient.phi_first_name(current_user),
+            mailing.patient.phi_address1(current_user),
+            mailing.patient.phi_city(current_user),
+            mailing.patient.phi_state(current_user),
+            mailing.patient.phi_zip(current_user),
+            pretty_phone(mailing.patient.phi_phone_home(current_user)),
+            pretty_phone(mailing.patient.phi_phone_day(current_user))
           ]
         end
       end

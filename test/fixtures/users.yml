@@ -47,6 +47,7 @@ screener:
   deleted: false
   system_admin: false
   screener: true
+  access_phi: true
   email: screener@example.com
   task_tracker_screen_token: 919570BACDF971204
 

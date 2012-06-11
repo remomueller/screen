@@ -46,7 +46,7 @@ class Call < ActiveRecord::Base
   end
 
   def name
-    self.patient ? self.patient.code : self.id
+    "##{self.id}"
   end
 
   def participation_name
