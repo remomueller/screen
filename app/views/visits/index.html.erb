@@ -29,10 +29,17 @@
   </div>
 
   <div class="row">
-    <div class="span 4 control-group">
+    <div class="span4 control-group">
       <%= label :outcome, 'Outcome', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :outcome, options_for_select([['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]}, params[:outcome]) %>
+      </div>
+    </div>
+
+    <div class="span4 control-group">
+      <%= label :visit_type, 'Visit Type', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :visit_type, options_for_select([['---', nil]] + Choice.where(category: 'visit type').collect{|c| [c.name, c.id]}, params[:visit_type]) %>
       </div>
     </div>
   </div>
@@ -42,7 +49,7 @@
   </div>
 <% end %>
 
-<div id="visits"><center><%= image_tag "ajax-loader.gif" %></center></div>
+<div id="visits"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
 
 <%= javascript_tag do %>
   $(function(){
