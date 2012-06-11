@@ -18,9 +18,7 @@ class Evaluation < ActiveRecord::Base
 
 
   # Model Validation
-  validates_presence_of :patient_id
-  validates_presence_of :administration_date
-  validates_presence_of :administration_type, :evaluation_type
+  validates_presence_of :patient_id, :administration_date, :administration_type, :evaluation_type, :user_id
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true

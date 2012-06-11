@@ -8,7 +8,7 @@ class Clinic < ActiveRecord::Base
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
-  validates_presence_of :name
+  validates_presence_of :name, :user_id
   validates_uniqueness_of :name, scope: :deleted
 
   # Model Relationships

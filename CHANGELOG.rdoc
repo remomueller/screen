@@ -5,6 +5,9 @@
   * Searching by phone number now returns results for patients, prescreens, mailings, calls, evaluations, and visits
   * PHI Access role added to grant de-identified access to retrieve aggregate counts
 
+* Bug Fix
+  * User is now a required field for clinics, doctors, choices, patients, prescreens, mailings, calls, evaluations, and visits
+
 == 0.7.6
 
 * Enhancements

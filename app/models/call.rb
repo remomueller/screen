@@ -20,10 +20,7 @@ class Call < ActiveRecord::Base
   scope :call_after, lambda { |*args| { conditions: ["calls.call_time >= ?", args.first.at_midnight]} }
 
   # Model Validation
-  validates_presence_of :patient_id
-  validates_presence_of :call_time
-  validates_presence_of :call_type
-  validates_presence_of :direction
+  validates_presence_of :patient_id, :call_time, :call_type, :direction, :user_id
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true

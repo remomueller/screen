@@ -1,6 +1,6 @@
 	Time	Status	Clinic	Patient Name	Sex/Age	MRN	Visit Type	Reason for Visit	PG
 	Teagan,Florianus,M.D.
-	00:00 - 00:30		SEASPONGE MEDICINE CLINIC	Gaiane, Israhel I 	M 52	00000001	NEW	A door bolts a detectable believer behind a compromise.
+	00:00 - 00:30		SEASPONGE MEDICINE CLINIC	Gaiane, Israhel I 	M 52	001	NEW	A door bolts a detectable believer behind a compromise.
 	00:30 - 00:50		SEASPONGE MEDICINE CLINIC	Sasithorn, Silvia E 	F 90	00000002	NEW	The diplomatic laughter postulates an anagram.
 	00:50 - 01:20		SEASPONGE MEDICINE CLINIC	Matic, Lucine R 	F 61	00000003	NEW	How can the doubled pool stir throughout the ideology?
 	01:20 - 01:50		SEASPONGE MEDICINE CLINIC	Cayetano, Hughard WW 	M 11	00000004	NEW	The legible backbone bobs the badge past each accidental misery.

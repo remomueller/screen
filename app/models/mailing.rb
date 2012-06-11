@@ -19,9 +19,7 @@ class Mailing < ActiveRecord::Base
   scope :exclude_ineligible, lambda { |*args| { conditions: ["mailings.patient_id not in ( select DISTINCT(calls.patient_id) from calls where calls.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(evaluations.patient_id) from evaluations where evaluations.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(prescreens.patient_id) from prescreens where prescreens.eligibility = 'ineligible')"] } }
 
   # Model Validation
-  validates_presence_of :patient_id
-  validates_presence_of :doctor_id
-  validates_presence_of :sent_date
+  validates_presence_of :patient_id, :doctor_id, :sent_date, :user_id
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true
@@ -105,19 +103,16 @@ class Mailing < ActiveRecord::Base
           phone_home = row_array[9].to_s.strip
           phone_day = row_array[10].to_s.strip
 
-          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist')
-          doctor.update_attribute :user_id, current_user.id unless doctor.user
+          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist', { user_id: current_user.id })
 
           unless mrn.blank?
-            patient = Patient.find_or_create_by_mrn(mrn)
-            patient.update_attribute :user_id, current_user.id unless patient.user
+            patient = Patient.find_or_create_by_mrn(mrn, { user_id: current_user.id })
 
             patient_params = { first_name: first_name, last_name: last_name, address1: address1, city: city, state: state, zip: zip, phone_home: phone_home, phone_day: phone_day }
             patient_params.reject!{|key, val| val.blank?}
             patient.update_attributes(patient_params)
 
-            mailing = patient.mailings.find_or_create_by_sent_date_and_doctor_id(sent_date, doctor.id)
-            mailing.update_attribute :user_id, current_user.id unless mailing.user
+            mailing = patient.mailings.find_or_create_by_sent_date_and_doctor_id(sent_date, doctor.id, { user_id: current_user.id })
           else
             ignored_mailings += 1
           end

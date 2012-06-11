@@ -21,9 +21,7 @@ class Prescreen < ActiveRecord::Base
   scope :with_no_calls, lambda { |*args| { conditions: ["prescreens.patient_id not in (select DISTINCT(calls.patient_id) from calls)"]} }
 
   # Model Validation
-  validates_presence_of :clinic_id
-  validates_presence_of :doctor_id
-  validates_presence_of :patient_id
+  validates_presence_of :clinic_id, :doctor_id, :patient_id, :user_id
   validates_presence_of :visit_at, message: 'date and time can\'t be blank'
 
   # Model Relationships
@@ -110,17 +108,13 @@ class Prescreen < ActiveRecord::Base
           reason_for_visit = row_array[6]
           comment = row_array[7]
 
-          clinic = Clinic.find_or_create_by_name(clinic_name)
-          clinic.update_attribute :user_id, current_user.id unless clinic.user
-          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist')
-          doctor.update_attribute :user_id, current_user.id unless doctor.user
+          clinic = Clinic.find_or_create_by_name(clinic_name, { user_id: current_user.id })
+          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist', { user_id: current_user.id })
 
           if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted? and not mrn.blank?
-            patient = Patient.find_or_create_by_mrn(mrn)
-            patient.update_attribute :user_id, current_user.id unless patient.user
+            patient = Patient.find_or_create_by_mrn(mrn, { user_id: current_user.id })
             patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
-            prescreen = patient.prescreens.find_or_create_by_visit_at_and_clinic_id_and_doctor_id(time_start, clinic.id, doctor.id)
-            prescreen.update_attribute :user_id, current_user.id unless prescreen.user
+            prescreen = patient.prescreens.find_or_create_by_visit_at_and_clinic_id_and_doctor_id(time_start, clinic.id, doctor.id, { user_id: current_user.id })
             prescreen.update_attributes(visit_duration: minutes, visit_units: 'minutes')
           else
             ignored_prescreens += 1

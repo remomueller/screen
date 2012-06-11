@@ -20,6 +20,7 @@ class Patient < ActiveRecord::Base
   validates_uniqueness_of :mrn, allow_blank: true, scope: :deleted
   validates_presence_of :subject_code, if: :no_mrn?
   validates_uniqueness_of :subject_code, allow_blank: true, scope: :deleted
+  validates_presence_of :user_id
 
   # Model Relationships
   has_many :calls, conditions: { deleted: false }

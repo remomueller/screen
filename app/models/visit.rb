@@ -13,10 +13,7 @@ class Visit < ActiveRecord::Base
   scope :visit_after, lambda { |*args| { conditions: ["visits.visit_date >= ?", args.first]} }
 
   # Model Validation
-  validates_presence_of :patient_id
-  validates_presence_of :visit_type
-  validates_presence_of :visit_date
-  validates_presence_of :outcome
+  validates_presence_of :patient_id, :visit_type, :visit_date, :outcome, :user_id
 
   # Model Relationships
   belongs_to :patient, conditions: { deleted: false }, touch: true
