@@ -4,7 +4,7 @@
     <%= @title %>
     <% if current_user.screener? or current_user.subject_handler? %>
       <%= link_to "Edit Prescreen", edit_prescreen_path(@prescreen), class: 'btn btn-mini' %>
-      <%= link_to "Delete Prescreen", @prescreen, confirm: "Are you sure you want to delete Prescreen #{@prescreen.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      <%= link_to "Delete Prescreen", @prescreen, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Prescreen #{@prescreen.name}?" } %>
     <% end %>
     <%= link_to "View Prescreens", prescreens_path, class: 'btn btn-mini' %>
   </h1>
