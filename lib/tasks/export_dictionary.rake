@@ -19,7 +19,7 @@ task :export_dictionary => :environment do
 
     Choice.current.group_by(&:category).each do |category, choices|
       category_gsub = category.gsub(/[^\w]/, '_')
-      csv << [uri, namespace, "#{category_gsub}_choice_id", category.titleize, 'categorical', '', category_gsub, category_gsub, '', '', '', '', '', 0, category.titleize, 1, "Choices"]
+      csv << [uri, namespace, "choice_category_#{category_gsub}", category.titleize, 'categorical', '', category_gsub, category_gsub, '', '', '', '', '', 0, category.titleize, 1, "Choices"]
       choices.each do |choice|
         csv << [uri, namespace, "choice_#{choice.id}", choice.name, 'boolean', '', choice.name, choice.id, "#choice_category_#{category_gsub}", '', '', '', '', 0, choice.name, 0]
       end
