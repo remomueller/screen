@@ -1,5 +1,8 @@
 == 0.7.9
 
+* Enhancements
+  * Data dictionary export updated to include mailings
+
 == 0.7.8
 
 * Enhancements
