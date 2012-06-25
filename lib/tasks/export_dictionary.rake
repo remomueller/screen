@@ -11,21 +11,37 @@ task :export_dictionary => :environment do
     csv << [uri, namespace, 'patient_deleted', 'Patient Deleted', 'boolean', '', 'deleted', 'deleted', '', '', '', '', '', 0, "Patient Deleted", 1, "Patients"]
     csv << [uri, namespace, 'patient_priority', 'Patient Priority', 'continuous', '', 'patient_priority', 'priority', '', '', '', '', '', 0, "Patient Priority", 1, "Patients"]
 
+    # Prescreens
     csv << [uri, namespace, 'prescreen_id', 'Prescreen', 'identifier', '', 'prescreen_id', 'id', '', '', '', '', '', 0, "Prescreen", 1, "Prescreens"]
     csv << [uri, namespace, 'prescreen_deleted', 'Prescreen Deleted', 'boolean', '', 'deleted', 'deleted', '', '', '', '', '', 0, "Prescreen Deleted", 1, "Prescreens"]
     csv << [uri, namespace, 'prescreen_visit_date', 'Visit Date', 'datetime', '', 'visit_date', 'visit_at', '', '', '', '', '', 0, "Visit Date", 1, "Prescreens"]
 
 
-    csv << [uri, namespace, 'choice_id', 'Choice', 'categorical', '', 'choice_id', 'choice_id', '', '', '', '', '', 0, "Choice", 1, "Choices"]
-
     Choice.current.group_by(&:category).each do |category, choices|
-      category_gsub = category.gsub(/[^\da-zA-Z]/, '_')
-      csv << [uri, namespace, "choice_category_#{category_gsub}", category.titleize, 'categorical', '', category_gsub, category_gsub, '#choice_id', '', '', '', '', 0, category.titleize, 1, "Choices"]
+      category_gsub = category.gsub(/[^\w]/, '_')
+      csv << [uri, namespace, "#{category_gsub}_choice_id", category.titleize, 'categorical', '', category_gsub, category_gsub, '', '', '', '', '', 0, category.titleize, 1, "Choices"]
       choices.each do |choice|
         csv << [uri, namespace, "choice_#{choice.id}", choice.name, 'boolean', '', choice.name, choice.id, "#choice_category_#{category_gsub}", '', '', '', '', 0, choice.name, 0]
       end
     end
 
+    # Mailings
+    csv << [uri, namespace, 'mailing_id', 'Mailing', 'identifier', '', 'mailing_id', 'id', '', '', '', '', '', 0, "Mailing", 1, "Mailings"]
+    csv << [uri, namespace, 'mailing_deleted', 'Mailing Deleted', 'boolean', '', 'deleted', 'deleted', '', '', '', '', '', 0, "Mailing Deleted", 1, "Mailings"]
+    csv << [uri, namespace, 'mailing_sent_date', 'Sent Date', 'datetime', '', 'sent_date', 'sent_date', '', '', '', '', '', 0, "Mailing Sent Date", 1, "Mailings"]
+    csv << [uri, namespace, 'mailing_response_date', 'Sent Date', 'datetime', '', 'response_date', 'response_date', '', '', '', '', '', 0, "Mailing Response Date", 1, "Mailings"]
+    csv << [uri, namespace, 'mailing_ess', 'Mailing ESS', 'continuous', '', 'ess', 'ess', '', '', '', '', '', 0, "Mailing ESS", 1, "Mailings"]
+    csv << [uri, namespace, 'mailing_berlin', 'Mailing Berlin', 'continuous', '', 'berlin', 'berlin', '', '', '', '', '', 0, "Mailing Berlin", 1, "Mailings"]
+
+    [['mailing', Mailing::ELIGIBILITY]].each do |variable, children|
+      csv << [uri, namespace, "#{variable}_eligibility", "#{variable.titleize} Eligibility", 'categorical', '', 'eligibility', 'eligibility', '', '', '', '', '', 0, "#{variable.titleize} Eligibility", 1, variable.titleize.pluralize]
+      children.each do |name, value|
+        unless value.blank?
+          value_shortname = "#{variable}_eligibility_#{value.gsub(/[^\w]/, '_')}"
+          csv << [uri, namespace, value_shortname, "#{variable.titleize} Eligibility - #{name}", 'boolean', '', value, value, "##{variable}_eligibility", '', '', '', '', 0, name, 0]
+        end
+      end
+    end
 
 
     # csv << [uri, namespace, 'sticky_status', 'Sticky Completed', 'boolean', '', 'completed', 'completed', '', '', '', '', '', 0, "Sticky Completed", 1, "Patients"]
