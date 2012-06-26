@@ -31,11 +31,15 @@ class MailingsController < ApplicationController
     mailing_scope = mailing_scope.subject_code_not_blank unless current_user.screener?
     mailing_scope = mailing_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
 
-    @sent_after = begin Date.strptime(params[:sent_after], "%m/%d/%Y") rescue nil end
-    @sent_before = begin Date.strptime(params[:sent_before], "%m/%d/%Y") rescue nil end
-
+    @sent_after = parse_date(params[:sent_after])
+    @sent_before = parse_date(params[:sent_before])
     mailing_scope = mailing_scope.sent_before(@sent_before) unless @sent_before.blank?
     mailing_scope = mailing_scope.sent_after(@sent_after) unless @sent_after.blank?
+
+    @response_after = parse_date(params[:response_after])
+    @response_before = parse_date(params[:response_before])
+    mailing_scope = mailing_scope.response_before(@response_before) unless @response_before.blank?
+    mailing_scope = mailing_scope.response_after(@response_after) unless @response_after.blank?
 
     mailing_scope = mailing_scope.exclude_ineligible if params[:ineligible] == '1'
 

@@ -37,6 +37,22 @@
     </div>
 
     <div class="span4 control-group">
+      <%= label :response_after, 'Response Date After', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :response_after, params[:response_after], class: 'datepicker' %>
+      </div>
+    </div>
+
+    <div class="span4 control-group">
+      <%= label :response_before, 'Response Date Before', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag :response_before, params[:response_before], class: 'datepicker' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span4 control-group">
       <%= label :ineligible, 'Exclude Ineligible From Calls, Evaluations, or Prescreens', class: 'control-label' %>
       <div class="controls">
         <%= check_box_tag :ineligible, '1', params[:ineligible] %>

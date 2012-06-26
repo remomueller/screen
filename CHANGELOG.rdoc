@@ -6,6 +6,7 @@
     * Mailings: Patient ID, Subject Code, Sent Date, Response Date, Berlin, ESS, Eligibility, Participation, Exclusion, Comments
     * Evaluations: Patient ID, Subject Code, Administration Type, Evaluation Type, Source, Administration Date, Receipt Date, Scored Date, AHI, Eligibility, Exclusion, Status, Comments
     * Visits: Patient ID, Subject Code, Visit Type, Visit Date, Outcome, Comments
+  * Mailings can now be filtered by response date
   * Data dictionary export updated to include mailings
 
 == 0.7.8

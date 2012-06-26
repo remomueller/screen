@@ -14,6 +14,9 @@ class Mailing < ActiveRecord::Base
   scope :subject_code_not_blank, conditions: ["mailings.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :sent_before, lambda { |*args| { conditions: ["mailings.sent_date < ?", (args.first+1.day)]} }
   scope :sent_after, lambda { |*args| { conditions: ["mailings.sent_date >= ?", args.first]} }
+  scope :response_before, lambda { |*args| { conditions: ["mailings.response_date < ?", (args.first+1.day)]} }
+  scope :response_after, lambda { |*args| { conditions: ["mailings.response_date >= ?", args.first]} }
+
 
   # Don't include mailing where the participant is inelgibile in some other way (calls...)
   scope :exclude_ineligible, lambda { |*args| { conditions: ["mailings.patient_id not in ( select DISTINCT(calls.patient_id) from calls where calls.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(evaluations.patient_id) from evaluations where evaluations.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(prescreens.patient_id) from prescreens where prescreens.eligibility = 'ineligible')"] } }
