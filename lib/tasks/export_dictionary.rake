@@ -72,6 +72,8 @@ task :export_dictionary => :environment do
       ['call', 'direction', Call::CALL_DIRECTION],
       ['call', 'call_type', Choice.where(category: 'call type').collect{|c| [c.name, c.id.to_s]}],
       ['call', 'response', Choice.where(category: 'call response').collect{|c| [c.name, c.id.to_s]}],
+      ['call', 'participation', Choice.where(category: 'participation').collect{|c| [c.name, c.id.to_s]}],
+      ['call', 'exclusion', Choice.where(category: 'exclusion').collect{|c| [c.name, c.id.to_s]}],
       ['evaluation', 'eligibility', Evaluation::ELIGIBILITY],
       ['evaluation', 'status', Evaluation::STATUS],
       ['evaluation', 'source', Evaluation.pluck(:source).collect{|s| [s,s]}],
