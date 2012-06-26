@@ -15,6 +15,10 @@ class Evaluation < ActiveRecord::Base
   scope :subject_code_not_blank, conditions: ["evaluations.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :administration_before, lambda { |*args| { conditions: ["evaluations.administration_date < ?", (args.first+1.day)]} }
   scope :administration_after, lambda { |*args| { conditions: ["evaluations.administration_date >= ?", args.first]} }
+  scope :receipt_before, lambda { |*args| { conditions: ["evaluations.receipt_date < ?", (args.first+1.day)]} }
+  scope :receipt_after, lambda { |*args| { conditions: ["evaluations.receipt_date >= ?", args.first]} }
+  scope :scored_before, lambda { |*args| { conditions: ["evaluations.scored_date < ?", (args.first+1.day)]} }
+  scope :scored_after, lambda { |*args| { conditions: ["evaluations.scored_date >= ?", args.first]} }
 
 
   # Model Validation
