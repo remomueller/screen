@@ -33,12 +33,19 @@ task :export_dictionary => :environment do
     csv << [uri, namespace, 'mailing_ess', 'Mailing ESS', 'continuous', '', 'ess', 'ess', '', '', '', '', '', 0, "Mailing ESS", 1, "Mailings"]
     csv << [uri, namespace, 'mailing_berlin', 'Mailing Berlin', 'continuous', '', 'berlin', 'berlin', '', '', '', '', '', 0, "Mailing Berlin", 1, "Mailings"]
 
-    [['mailing', Mailing::ELIGIBILITY]].each do |variable, children|
-      csv << [uri, namespace, "#{variable}_eligibility", "#{variable.titleize} Eligibility", 'categorical', '', 'eligibility', 'eligibility', '', '', '', '', '', 0, "#{variable.titleize} Eligibility", 1, variable.titleize.pluralize]
+    [
+      ['prescreen', 'eligibility', Prescreen::ELIGIBILITY],
+      ['mailing', 'eligibility', Mailing::ELIGIBILITY],
+      ['call', 'eligibility', Call::ELIGIBILITY],
+      ['call', 'direction', Call::CALL_DIRECTION],
+      ['evaluation', 'eligibility', Evaluation::ELIGIBILITY],
+      ['evaluation', 'status', Evaluation::STATUS]
+    ].each do |variable, attribute, children|
+      csv << [uri, namespace, "#{variable}_#{attribute}", "#{variable.titleize} #{attribute.titleize}", 'categorical', '', attribute, attribute, '', '', '', '', '', 0, "#{variable.titleize} #{attribute.titleize}", 1, variable.titleize.pluralize]
       children.each do |name, value|
         unless value.blank?
-          value_shortname = "#{variable}_eligibility_#{value.gsub(/[^\w]/, '_')}"
-          csv << [uri, namespace, value_shortname, "#{variable.titleize} Eligibility - #{name}", 'boolean', '', value, value, "##{variable}_eligibility", '', '', '', '', 0, name, 0]
+          value_shortname = "#{variable}_#{attribute}_#{value.gsub(/[^\w]/, '_')}"
+          csv << [uri, namespace, value_shortname, "#{variable.titleize} #{attribute.titleize} - #{name}", 'boolean', '', value, value, "##{variable}_#{attribute}", '', '', '', '', 0, name, 0]
         end
       end
     end

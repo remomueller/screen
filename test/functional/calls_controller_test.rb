@@ -77,6 +77,12 @@ class CallsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get csv" do
+    get :index, format: 'csv'
+    assert_not_nil assigns(:csv_string)
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success
