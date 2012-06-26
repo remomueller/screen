@@ -4,6 +4,7 @@
   * CSV Exports added for:
     * Calls: Patient ID, Subject Code, Call Time, Call Type, Response, Participation, Exclusion, Berlin, ESS, Eligibility, Direction, Comments
     * Mailings: Patient ID, Subject Code, Sent Date, Response Date, Berlin, ESS, Eligibility, Participation, Exclusion, Comments
+    * Evaluations: Patient ID, Subject Code, Administration Type, Evaluation Type, Source, Administration Date, Receipt Date, Scored Date, AHI, Eligibility, Exclusion, Status, Comments
   * Data dictionary export updated to include mailings
 
 == 0.7.8

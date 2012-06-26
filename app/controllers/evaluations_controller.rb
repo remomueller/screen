@@ -21,6 +21,11 @@ class EvaluationsController < ApplicationController
     @order = Evaluation.column_names.collect{|column_name| "evaluations.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "evaluations.patient_id"
     evaluation_scope = evaluation_scope.order(@order)
 
+    if params[:format] == 'csv'
+      generate_csv(evaluation_scope)
+      return
+    end
+
     @evaluation_count = evaluation_scope.count
     @evaluations = evaluation_scope.page(params[:page]).per(20) # (current_user.evaluations_per_page)
   end
@@ -96,5 +101,33 @@ class EvaluationsController < ApplicationController
     else
       redirect_to root_path
     end
+  end
+
+  private
+
+  def generate_csv(evaluation_scope)
+    @csv_string = CSV.generate do |csv|
+      csv << ["Patient ID", "Subject Code", "Administration Type", "Evaluation Type", "Source", "Administration Date", "Receipt Date", "Scored Date", "AHI", "Eligibility", "Exclusion", "Exclusion Code", "Status", "Comments"]
+      evaluation_scope.each do |evaluation|
+        csv << [
+          evaluation.patient.id,
+          evaluation.patient.subject_code,
+          evaluation.administration_type_name,
+          evaluation.evaluation_type_name,
+          evaluation.source,
+          evaluation.administration_date.strftime("%Y-%m-%d"),
+          evaluation.receipt_date ? evaluation.receipt_date.strftime("%Y-%m-%d") : '',
+          evaluation.scored_date ? evaluation.scored_date.strftime("%Y-%m-%d") : '',
+          evaluation.ahi,
+          evaluation.eligibility,
+          evaluation.exclusion_name,
+          evaluation.exclusion,
+          evaluation.status,
+          evaluation.comments
+        ]
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"Evaluations #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 end
