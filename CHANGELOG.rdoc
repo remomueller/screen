@@ -8,7 +8,7 @@
     * Visits: Patient ID, Subject Code, Visit Type, Visit Date, Outcome, Comments
   * Mailings can be filtered by response date
   * Evaluations can be filtered by receipt date, scored date, administration type, and evaluation type
-  * Data dictionary export updated to include mailings
+  * Data dictionary export updated to include majority of models
 
 == 0.7.8
 

@@ -7,39 +7,79 @@ task :export_dictionary => :environment do
     uri = SITE_URL
     namespace = "screen"
 
-    csv << [uri, namespace, 'patient_id', 'Patient', 'identifier', '', 'patient_id', 'id', '', '', '', '', '', 0, "Patient", 1, "Patients"]
-    csv << [uri, namespace, 'patient_deleted', 'Patient Deleted', 'boolean', '', 'deleted', 'deleted', '', '', '', '', '', 0, "Patient Deleted", 1, "Patients"]
+    # csv << [uri, namespace, 'patient_id', 'Patient', 'identifier', '', 'patient_id', 'id', '', '', '', '', '', 0, "Patient", 1, "Patients"]
     csv << [uri, namespace, 'patient_priority', 'Patient Priority', 'continuous', '', 'patient_priority', 'priority', '', '', '', '', '', 0, "Patient Priority", 1, "Patients"]
 
-    # Prescreens
-    csv << [uri, namespace, 'prescreen_id', 'Prescreen', 'identifier', '', 'prescreen_id', 'id', '', '', '', '', '', 0, "Prescreen", 1, "Prescreens"]
-    csv << [uri, namespace, 'prescreen_deleted', 'Prescreen Deleted', 'boolean', '', 'deleted', 'deleted', '', '', '', '', '', 0, "Prescreen Deleted", 1, "Prescreens"]
-    csv << [uri, namespace, 'prescreen_visit_date', 'Visit Date', 'datetime', '', 'visit_date', 'visit_at', '', '', '', '', '', 0, "Visit Date", 1, "Prescreens"]
+    models = ['patient', 'prescreen', 'mailing', 'call', 'evaluation', 'visit']
 
-
-    Choice.current.group_by(&:category).each do |category, choices|
-      category_gsub = category.gsub(/[^\w]/, '_')
-      csv << [uri, namespace, "choice_category_#{category_gsub}", category.titleize, 'categorical', '', category_gsub, category_gsub, '', '', '', '', '', 0, category.titleize, 1, "Choices"]
-      choices.each do |choice|
-        csv << [uri, namespace, "choice_#{choice.id}", choice.name, 'boolean', '', choice.name, choice.id, "#choice_category_#{category_gsub}", '', '', '', '', 0, choice.name, 0]
-      end
+    # Identifiers
+    models.each do |model|
+      csv << [uri, namespace, "#{model}_id", model.titleize, 'identifier', '', "#{model}_id", 'id', '', '', '', '', '', 0, model.titleize, 1, model.titleize.pluralize]
     end
 
-    # Mailings
-    csv << [uri, namespace, 'mailing_id', 'Mailing', 'identifier', '', 'mailing_id', 'id', '', '', '', '', '', 0, "Mailing", 1, "Mailings"]
-    csv << [uri, namespace, 'mailing_deleted', 'Mailing Deleted', 'boolean', '', 'deleted', 'deleted', '', '', '', '', '', 0, "Mailing Deleted", 1, "Mailings"]
-    csv << [uri, namespace, 'mailing_sent_date', 'Sent Date', 'datetime', '', 'sent_date', 'sent_date', '', '', '', '', '', 0, "Mailing Sent Date", 1, "Mailings"]
-    csv << [uri, namespace, 'mailing_response_date', 'Sent Date', 'datetime', '', 'response_date', 'response_date', '', '', '', '', '', 0, "Mailing Response Date", 1, "Mailings"]
-    csv << [uri, namespace, 'mailing_ess', 'Mailing ESS', 'continuous', '', 'ess', 'ess', '', '', '', '', '', 0, "Mailing ESS", 1, "Mailings"]
-    csv << [uri, namespace, 'mailing_berlin', 'Mailing Berlin', 'continuous', '', 'berlin', 'berlin', '', '', '', '', '', 0, "Mailing Berlin", 1, "Mailings"]
+    # Deleted Flag booleans
+    models.each do |model|
+      boolean = 'deleted'
+      csv << [uri, namespace, "#{model}_#{boolean}", "#{model} #{boolean}".titleize, 'boolean', '', "#{model}_#{boolean}", boolean, '', '', '', '', '', 0, "#{model} #{boolean}".titleize, 1, model.titleize.pluralize]
+    end
+
+    # Dates and Date Times
+    models_and_dates = [
+      ['prescreen', 'visit_at'],
+      ['mailing', 'sent_date'],
+      ['mailing', 'response_date'],
+      ['call', 'call_time'],
+      ['evaluation', 'administration_date'],
+      ['evaluation', 'receipt_date'],
+      ['evaluation', 'scored_date'],
+      ['visit', 'visit_date']
+    ]
+
+    models_and_dates.each do |model, attribute|
+      csv << [uri, namespace, "#{model}_#{attribute}", attribute.titleize, 'datetime', '', attribute, attribute, '', '', '', '', '', 0, "#{model} #{attribute}".titleize, 1, model.titleize.pluralize]
+    end
+
+    models_and_continuous = [
+      ['mailing', 'ess'],
+      ['mailing', 'berlin'],
+      ['call', 'ess'],
+      ['call', 'berlin'],
+      ['evaluation', 'ahi']
+    ]
+
+    models_and_continuous.each do |model, attribute|
+      csv << [uri, namespace, "#{model}_#{attribute}", attribute.titleize, 'continuous', '', attribute, attribute, '', '', '', '', '', 0, "#{model} #{attribute}".titleize, 1, model.titleize.pluralize]
+    end
+
+    # Choice.current.group_by(&:category).each do |category, choices|
+    #   category_gsub = category.gsub(/[^\w]/, '_')
+    #   csv << [uri, namespace, "choice_category_#{category_gsub}", category.titleize, 'categorical', '', category_gsub, category_gsub, '', '', '', '', '', 0, category.titleize, 1, "Choices"]
+    #   choices.each do |choice|
+    #     csv << [uri, namespace, "choice_#{choice.id}", choice.name, 'boolean', '', choice.name, choice.id, "#choice_category_#{category_gsub}", '', '', '', '', 0, choice.name, 0]
+    #   end
+    # end
 
     [
       ['prescreen', 'eligibility', Prescreen::ELIGIBILITY],
+      ['prescreen', 'doctor_id', Doctor.all.collect{|d| [d.name, d.id.to_s]}],
+      ['prescreen', 'clinic_id', Clinic.all.collect{|c| [c.name, c.id.to_s]}],
+      ['prescreen', 'exclusion', Choice.where(category: 'exclusion').collect{|c| [c.name, c.id.to_s]}],
       ['mailing', 'eligibility', Mailing::ELIGIBILITY],
+      ['mailing', 'doctor_id', Doctor.all.collect{|d| [d.name, d.id.to_s]}],
+      ['mailing', 'participation', Choice.where(category: 'participation').collect{|c| [c.name, c.id.to_s]}],
+      ['mailing', 'exclusion', Choice.where(category: 'exclusion').collect{|c| [c.name, c.id.to_s]}],
       ['call', 'eligibility', Call::ELIGIBILITY],
       ['call', 'direction', Call::CALL_DIRECTION],
+      ['call', 'call_type', Choice.where(category: 'call type').collect{|c| [c.name, c.id.to_s]}],
+      ['call', 'response', Choice.where(category: 'call response').collect{|c| [c.name, c.id.to_s]}],
       ['evaluation', 'eligibility', Evaluation::ELIGIBILITY],
-      ['evaluation', 'status', Evaluation::STATUS]
+      ['evaluation', 'status', Evaluation::STATUS],
+      ['evaluation', 'source', Evaluation.pluck(:source).collect{|s| [s,s]}],
+      ['evaluation', 'administration_type', Choice.where(category: 'administration type').collect{|c| [c.name, c.id.to_s]}],
+      ['evaluation', 'evaluation_type', Choice.where(category: 'evaluation type').collect{|c| [c.name, c.id.to_s]}],
+      ['evaluation', 'exclusion', Choice.where(category: 'exclusion').collect{|c| [c.name, c.id.to_s]}],
+      ['visit', 'outcome', Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id.to_s]}],
+      ['visit', 'visit_type', Choice.where(category: 'visit type').collect{|c| [c.name, c.id.to_s]}]
     ].each do |variable, attribute, children|
       csv << [uri, namespace, "#{variable}_#{attribute}", "#{variable.titleize} #{attribute.titleize}", 'categorical', '', attribute, attribute, '', '', '', '', '', 0, "#{variable.titleize} #{attribute.titleize}", 1, variable.titleize.pluralize]
       children.each do |name, value|
@@ -49,26 +89,6 @@ task :export_dictionary => :environment do
         end
       end
     end
-
-
-    # csv << [uri, namespace, 'sticky_status', 'Sticky Completed', 'boolean', '', 'completed', 'completed', '', '', '', '', '', 0, "Sticky Completed", 1, "Patients"]
-    # csv << [uri, namespace, 'project_id', 'Project', 'categorical', '', 'project_id', 'project_id', '', '', '', '', '', 0, "Project", 1, "Patients"]
-    # csv << [uri, namespace, 'tag_id', 'Tag', 'categorical', '', 'tag_id', 'tag_id', '', '', '', '', '', 0, "Tag", 1, "Patients"]
-    # csv << [uri, namespace, 'due_date', 'Sticky Due Date', 'datetime', '', 'due_date', 'due_date', '', '', '', '', '', 0, "Sticky Due Date", 1, "Patients"]
-    # csv << [uri, namespace, 'owner_id', 'Assigned To', 'categorical', '', 'owner_id', 'owner_id', '', '', '', '', '', 0, "Assigned To", 1, "Patients"]
-    # csv << [uri, namespace, 'sticky_deleted', 'Sticky Deleted', 'boolean', '', 'deleted', 'deleted', '', '', '', '', '', 0, "Sticky Deleted", 1, "Patients"]
-
-    # Tag.all.group_by(&:name).each do |tag_name, tags|
-    #   csv << [uri, namespace, "tag_#{tags.first.id}", tag_name, 'boolean', '', tag_name, tags.collect{|t| t.id}.join('; '), '#tag_id', '', '', '', '', 0, tag_name, 0]
-    # end
-
-    # User.current.each do |user|
-    #   csv << [uri, namespace, "user_#{user.id}", user.name, 'boolean', '', user.name, user.id, '#owner_id', '', '', '', '', 0, user.name, 0]
-    # end
-
-    # Project.current.each do |project|
-    #   csv << [uri, namespace, "project_#{project.id}", project.name, 'boolean', '', project.name, project.id, '#project_id', '', '', '', '', 0, project.name, 0]
-    # end
 
   end
 
