@@ -22,6 +22,11 @@ class VisitsController < ApplicationController
     @order = Visit.column_names.collect{|column_name| "visits.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "visits.patient_id"
     visit_scope = visit_scope.order(@order)
 
+    if params[:format] == 'csv'
+      generate_csv(visit_scope)
+      return
+    end
+
     @visit_count = visit_scope.count
     @visits = visit_scope.page(params[:page]).per(20) # (current_user.visits_per_page)
   end
@@ -81,5 +86,25 @@ class VisitsController < ApplicationController
     else
       redirect_to root_path
     end
+  end
+
+  private
+
+  def generate_csv(visit_scope)
+    @csv_string = CSV.generate do |csv|
+      csv << ["Patient ID", "Subject Code", "Visit Type", "Visit Date", "Outcome", "Comments"]
+      visit_scope.each do |visit|
+        csv << [
+          visit.patient.id,
+          visit.patient.subject_code,
+          visit.visit_type_name,
+          visit.visit_date.strftime("%Y-%m-%d"),
+          visit.outcome_name,
+          visit.comments
+        ]
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"Visits #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 end
