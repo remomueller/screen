@@ -42,27 +42,11 @@ class MailingsController < ApplicationController
     @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.patient_id"
     mailing_scope = mailing_scope.order(@order)
 
-    if params[:format] == 'csv'
-      @csv_string = CSV.generate do |csv|
-        csv << ["Cardiologist", "Date of Mailing", "MRN", "Last Name", "First Proper", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
-        mailing_scope.each do |mailing|
-          csv << [
-            mailing.doctor.name,
-            mailing.sent_date.strftime("%m/%d/%Y"),
-            mailing.patient.phi_mrn(current_user),
-            mailing.patient.phi_last_name(current_user),
-            mailing.patient.phi_first_name(current_user),
-            mailing.patient.phi_address1(current_user),
-            mailing.patient.phi_city(current_user),
-            mailing.patient.phi_state(current_user),
-            mailing.patient.phi_zip(current_user),
-            pretty_phone(mailing.patient.phi_phone_home(current_user)),
-            pretty_phone(mailing.patient.phi_phone_day(current_user))
-          ]
-        end
-      end
-      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                            disposition: "attachment; filename=\"Mailings #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+    if params[:format] == 'originalcsv'
+      generate_original_csv(mailing_scope)
+      return
+    elsif params[:format] == 'csv'
+      generate_csv(mailing_scope)
       return
     end
 
@@ -136,4 +120,54 @@ class MailingsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  private
+
+  def generate_original_csv(mailing_scope)
+    @csv_string = CSV.generate do |csv|
+      csv << ["Cardiologist", "Date of Mailing", "MRN", "Last Name", "First Proper", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
+      mailing_scope.each do |mailing|
+        csv << [
+          mailing.doctor.name,
+          mailing.sent_date.strftime("%m/%d/%Y"),
+          mailing.patient.phi_mrn(current_user),
+          mailing.patient.phi_last_name(current_user),
+          mailing.patient.phi_first_name(current_user),
+          mailing.patient.phi_address1(current_user),
+          mailing.patient.phi_city(current_user),
+          mailing.patient.phi_state(current_user),
+          mailing.patient.phi_zip(current_user),
+          pretty_phone(mailing.patient.phi_phone_home(current_user)),
+          pretty_phone(mailing.patient.phi_phone_day(current_user))
+        ]
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"Mailings #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
+  def generate_csv(mailing_scope)
+    @csv_string = CSV.generate do |csv|
+      csv << ["Patient ID", "Subject Code", "Sent Date", "Response Date", "Berlin", "ESS", "Eligibility", "Participation", "Participation Code", "Exclusion", "Exclusion Code", "Comments"]
+      mailing_scope.each do |mailing|
+        csv << [
+          mailing.patient.id,
+          mailing.patient.subject_code,
+          mailing.sent_date.strftime("%Y-%m-%d"),
+          mailing.response_date ? mailing.response_date.strftime("%Y-%m-%d") : '',
+          mailing.berlin,
+          mailing.ess,
+          mailing.eligibility,
+          mailing.participation_name,
+          mailing.participation,
+          mailing.exclusion_name,
+          mailing.exclusion,
+          mailing.comments
+        ]
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"Mailings #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
 end

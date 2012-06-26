@@ -36,6 +36,12 @@ class MailingsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get original csv" do
+    get :index, format: 'originalcsv'
+    assert_not_nil assigns(:csv_string)
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

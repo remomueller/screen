@@ -123,32 +123,30 @@ class CallsController < ApplicationController
   private
 
   def generate_csv(call_scope)
-    if params[:format] == 'csv'
-      @csv_string = CSV.generate do |csv|
-        csv << ["Patient ID", "Subject Code", "Call Time", "Call Type", "Response", "Response Code", "Participation", "Participation Code", "Exclusion", "Exclusion Code", "Berlin", "ESS", "Eligibility", "Direction", "Comments"]
-        call_scope.each do |call|
-          csv << [
-            call.patient.id,
-            call.patient.subject_code,
-            call.call_time.strftime("%Y-%m-%d %T %z"),
-            call.call_type_name,
-            call.response_name,
-            call.response,
-            call.participation_name,
-            call.participation,
-            call.exclusion_name,
-            call.exclusion,
-            call.berlin,
-            call.ess,
-            call.eligibility,
-            call.direction,
-            call.comments
-          ]
-        end
+    @csv_string = CSV.generate do |csv|
+      csv << ["Patient ID", "Subject Code", "Call Time", "Call Type", "Response", "Response Code", "Participation", "Participation Code", "Exclusion", "Exclusion Code", "Berlin", "ESS", "Eligibility", "Direction", "Comments"]
+      call_scope.each do |call|
+        csv << [
+          call.patient.id,
+          call.patient.subject_code,
+          call.call_time.strftime("%Y-%m-%d %T %z"),
+          call.call_type_name,
+          call.response_name,
+          call.response,
+          call.participation_name,
+          call.participation,
+          call.exclusion_name,
+          call.exclusion,
+          call.berlin,
+          call.ess,
+          call.eligibility,
+          call.direction,
+          call.comments
+        ]
       end
-      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                            disposition: "attachment; filename=\"Calls #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
     end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"Calls #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 
 end
