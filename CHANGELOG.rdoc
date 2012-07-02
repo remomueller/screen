@@ -1,5 +1,8 @@
 == 0.7.10
 
+* Bug Fix
+  * Removed quiet_assets code as it was causing issues with Rails 3.2.6
+
 == 0.7.9
 
 * Enhancements
