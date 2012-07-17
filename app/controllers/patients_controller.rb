@@ -72,7 +72,7 @@ class PatientsController < ApplicationController
   end
 
   def create
-    @patient = current_user.patients.new(params[:patient])
+    @patient = current_user.patients.new(post_params)
 
     if @patient.save
       redirect_to @patient, notice: 'Patient was successfully created.'
@@ -85,7 +85,7 @@ class PatientsController < ApplicationController
     @patient = Patient.find_by_id(params[:id])
 
     if @patient and @patient.editable_by?(current_user)
-      if @patient.update_attributes(params[:patient])
+      if @patient.update_attributes(post_params)
         redirect_to @patient, notice: 'Patient was successfully updated.'
       else
         render action: "edit"
@@ -104,4 +104,27 @@ class PatientsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  private
+
+  def post_params
+    params[:patient] ||= {}
+
+    if current_user.access_phi?
+      params[:patient].slice(
+        :subject_code, :name_code, :priority, :priority_message,
+        # PHI
+        :mrn, :first_name, :last_name,
+        :phone_home, :phone_day, :phone_alt,
+        :sex, :age,
+        :address1, :city, :state, :zip
+      )
+    else
+      params[:patient].slice(
+        :subject_code, :name_code, :priority, :priority_message
+      )
+    end
+  end
+
+
 end
