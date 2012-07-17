@@ -66,7 +66,7 @@ class PrescreensControllerTest < ActionController::TestCase
     get :index, format: 'js', mrn: ' S1234, S5678 '
     assert_not_nil assigns(:order)
     assert_not_nil assigns(:prescreens)
-    assert_equal ['S1234', 'S5678'], assigns(:prescreens).collect{|prescreen| prescreen.patient.subject_code}.uniq
+    assert_equal ['S1234', 'S5678'], assigns(:prescreens).collect{|prescreen| prescreen.patient.subject_code}.uniq.sort
     assert_template 'index'
     assert_response :success
   end

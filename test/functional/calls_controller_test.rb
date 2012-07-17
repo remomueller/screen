@@ -101,7 +101,7 @@ class CallsControllerTest < ActionController::TestCase
     get :index, format: 'js', mrn: ' S1234, S5678 '
     assert_not_nil assigns(:order)
     assert_not_nil assigns(:calls)
-    assert_equal ['S1234', 'S5678'], assigns(:calls).collect{|call| call.patient.subject_code}.uniq
+    assert_equal ['S1234', 'S5678'], assigns(:calls).collect{|call| call.patient.subject_code}.uniq.sort
     assert_template 'index'
     assert_response :success
   end
