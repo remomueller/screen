@@ -24,8 +24,13 @@ class MailingsController < ApplicationController
   def index
     # current_user.update_attribute :mailings_per_page, params[:mailings_per_page].to_i if params[:mailings_per_page].to_i >= 10 and params[:mailings_per_page].to_i <= 200
     mailing_scope = Mailing.current # current_user.all_viewable_mailings
-    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-      mailing_scope = mailing_scope.with_mrn(term) unless term.blank?
+
+    if params[:mrn].to_s.split(',').size > 1
+      mailing_scope = mailing_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        mailing_scope = mailing_scope.with_mrn(term) unless term.blank?
+      end
     end
 
     mailing_scope = mailing_scope.subject_code_not_blank unless current_user.screener?

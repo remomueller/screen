@@ -43,3 +43,25 @@ long_phone_patient:
   eligibility: MyString
   comments: MyText
   user: valid
+
+subject_code_1234:
+  patient: with_subject_code
+  doctor: one
+  sent_date: 2012-03-29
+  response_date: 2012-02-24
+  berlin: MyString
+  ess: MyString
+  eligibility: MyString
+  comments: MyText
+  user: valid
+
+subject_code_5678:
+  patient: subject_5678
+  doctor: one
+  sent_date: 2012-03-29
+  response_date: 2012-02-24
+  berlin: MyString
+  ess: MyString
+  eligibility: MyString
+  comments: MyText
+  user: valid
