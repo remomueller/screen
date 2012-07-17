@@ -1,4 +1,5 @@
 class Call < ActiveRecord::Base
+  attr_accessible :patient_id, :call_type, :direction, :response, :call_time, :berlin, :ess, :eligibility, :exclusion, :participation, :comments, :tt_template_id, :tt_group_id
 
   ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
   CALL_DIRECTION = [['---', nil], ['incoming', 'incoming'], ['outgoing','outgoing']]

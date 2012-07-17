@@ -67,12 +67,12 @@ class CallsController < ApplicationController
   end
 
   def create
-    params[:call_date] = parse_date(params[:call_date])
-    params[:call_time] = Time.parse(params[:call_time]) rescue Time.parse("12am")
-    params[:call_time] = Time.parse("12am") if params[:call_time].blank?
-    params[:call][:call_time] = Time.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
+    # params[:call_date] = parse_date(params[:call_date])
+    # params[:call_time] = Time.parse(params[:call_time]) rescue Time.parse("12am")
+    # params[:call_time] = Time.parse("12am") if params[:call_time].blank?
+    # params[:call][:call_time] = Time.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
 
-    @call = current_user.calls.new(params[:call])
+    @call = current_user.calls.new(post_params)
 
     if @call.save
 
@@ -90,15 +90,15 @@ class CallsController < ApplicationController
   end
 
   def update
-    params[:call_date] = parse_date(params[:call_date])
-    params[:call_time] = Time.parse(params[:call_time]) rescue Time.parse("12am")
-    params[:call_time] = Time.parse("12am") if params[:call_time].blank?
-    params[:call][:call_time] = Time.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
+    # params[:call_date] = parse_date(params[:call_date])
+    # params[:call_time] = Time.parse(params[:call_time]) rescue Time.parse("12am")
+    # params[:call_time] = Time.parse("12am") if params[:call_time].blank?
+    # params[:call][:call_time] = Time.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
 
     @call = Call.find_by_id(params[:id])
 
     if @call and @call.patient.editable_by?(current_user)
-      if @call.update_attributes(params[:call])
+      if @call.update_attributes(post_params)
         redirect_to @call, notice: 'Call was successfully updated.'
       else
         render action: "edit"
@@ -145,6 +145,19 @@ class CallsController < ApplicationController
     end
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                           disposition: "attachment; filename=\"Calls #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
+  def post_params
+    params[:call] ||= {}
+
+    params[:call_date] = parse_date(params[:call_date])
+    params[:call_time] = Time.parse(params[:call_time]) rescue Time.parse("12am")
+    params[:call_time] = Time.parse("12am") if params[:call_time].blank?
+    params[:call][:call_time] = Time.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
+
+    params[:call].slice(
+      :patient_id, :call_type, :direction, :response, :call_time, :berlin, :ess, :eligibility, :exclusion, :participation, :comments, :tt_template_id, :tt_group_id
+    )
   end
 
 end
