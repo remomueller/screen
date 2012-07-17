@@ -41,3 +41,14 @@ with_subject_code:
   age: 1
   address1: MyString
   user: valid
+
+subject_5678:
+  # mrn: "00000005"
+  subject_code: S5678
+  first_name: MyString
+  last_name: MyString
+  phone_home: MyString
+  sex: MyString
+  age: 1
+  address1: MyString
+  user: valid

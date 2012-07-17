@@ -12,8 +12,13 @@ class PatientsController < ApplicationController
     params[:mrn] ||= params[:term]
     # current_user.update_attribute :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
     patient_scope = Patient.current # current_user.all_viewable_patients
-    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-      patient_scope = patient_scope.with_mrn(term) unless term.blank?
+
+    if params[:mrn].to_s.split(',').size > 1
+      patient_scope = patient_scope.where(subject_code: params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        patient_scope = patient_scope.with_mrn(term) unless term.blank?
+      end
     end
 
     patient_scope = patient_scope.where("priority > 0") if params[:priority_only] == '1'

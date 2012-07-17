@@ -80,6 +80,15 @@ class PatientsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get index with js for multiple subject codes" do
+    get :index, format: 'js', mrn: ' S1234, S5678 '
+    assert_not_nil assigns(:order)
+    assert_not_nil assigns(:patients)
+    assert_equal ['S1234', 'S5678'], assigns(:patients).pluck(:subject_code)
+    assert_template 'index'
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success
