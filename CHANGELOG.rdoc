@@ -4,6 +4,9 @@
   * Mailing Changes:
     * Imports using Subject Codes instead of MRNs available
     * Imports now require the doctor type to be specified
+  * Email Changes:
+    * Default application name is now added to the from: field for emails
+    * Email subjects no longer include the application name
 
 == 0.7.10
 
