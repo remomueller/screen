@@ -45,7 +45,7 @@ class ChoicesController < ApplicationController
   # POST /choices
   # POST /choices.json
   def create
-    @choice = current_user.choices.new(params[:choice])
+    @choice = current_user.choices.new(post_params)
 
     respond_to do |format|
       if @choice.save
@@ -64,7 +64,7 @@ class ChoicesController < ApplicationController
     @choice = Choice.find(params[:id])
 
     respond_to do |format|
-      if @choice.update_attributes(params[:choice])
+      if @choice.update_attributes(post_params)
         format.html { redirect_to @choice, notice: 'Choice was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,4 +80,15 @@ class ChoicesController < ApplicationController
 
     redirect_to choices_path, notice: 'Choice was successfully deleted.'
   end
+
+  private
+
+  def post_params
+    params[:choice] ||= {}
+
+    params[:choice].slice(
+      :category, :name, :description, :color, :included_fields
+    )
+  end
+
 end

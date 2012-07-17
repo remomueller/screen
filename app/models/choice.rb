@@ -1,4 +1,5 @@
 class Choice < ActiveRecord::Base
+  attr_accessible :category, :name, :description, :color, :included_fields
 
   CATEGORIES = ['exclusion', 'participation', 'risk factors', 'evaluation type', 'administration type', 'visit type', 'visit outcome', 'call type', 'call response'].collect{|i| [i,i]}
 
