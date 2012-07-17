@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.patient_id', 'Patient', 'prescreens_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.doctor_id', 'Cardiologist', 'prescreens_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.doctor_id', 'Doctor', 'prescreens_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'prescreens.visit_at', 'Visit', 'prescreens_search') %></th>
       <% Prescreen::EDITABLES.each do |item| %>
         <th><%== sort_field_helper(@order, "prescreens.#{item}", item.titleize, 'prescreens_search') %></th>

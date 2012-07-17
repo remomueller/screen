@@ -1,0 +1,5 @@
+Doctor	Date of Mailing	Subject Code	Last Name	First Name	Address1	City	State	Zip Code	Home Phone	Day Phone
+Teagan,Florianus,M.D.	03/29/2012	S100	Pollux	Caspar	123 Any Street	Cityville	New York	012345	1231231234	3213213210
+Teagan,Florianus,M.D.	03/30/12	S102	Pollux	Caspar	123 Any Street	Cityville	New York	012345	1231231234	3213213210
+SorryDocNoSubjectCode,M.D.	03/31/12		Ame	Ihavan	123 All Street	Cityville	New York	012345	1211211234	1-213-451-2345
+Teagan,Florianus,M.D.	03/30/12	S103	Smith	Joseph	123 Some Street	Cityville	New York	012345	1231231234	3213213210

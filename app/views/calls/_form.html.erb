@@ -19,7 +19,7 @@
       <td><%= pretty_phone @call.patient.phi_phone_day(current_user) %></td>
       <td><%= pretty_phone @call.patient.phi_phone_alt(current_user) %></td>
       <td>
-        <% Doctor.where(id: @call.patient.prescreens.pluck(:doctor_id)).group_by(&:doctor_type).sort.each do |doctor_type, doctors| %>
+        <% Doctor.where(id: @call.patient.prescreens.pluck(:doctor_id) + @call.patient.mailings.pluck(:doctor_id)).group_by(&:doctor_type).sort.each do |doctor_type, doctors| %>
           <b><%= doctor_type.titleize %></b>
           <ul>
             <% doctors.each do |doctor| %>

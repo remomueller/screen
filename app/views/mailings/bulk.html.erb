@@ -6,26 +6,70 @@
   </h1>
 </div>
 
-<%= form_tag import_mailings_path, method: :post, class: 'form-horizontal' do %>
-  <table style="width:100%;table-layout:fixed">
-    <thead>
-      <tr>
-        <th>Cardiologist</th>
-        <th>Date of Mailing</th>
-        <th>MRN</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Address1</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip Code</th>
-        <th>Home Phone</th>
-        <th>Day Phone</th>
-      </tr>
-    </thead>
-  </table>
-  <%= text_area_tag :tab_dump, '', rows: 7, style: "width:99%" %>
+<div class="page-header"><h2>MRN Import</h2></div>
+<%= form_tag import_mailings_path(import_type: 'mrn'), method: :post, class: 'form-horizontal' do %>
+  <div class="control-group">
+    <table style="width:100%;table-layout:fixed">
+      <thead>
+        <tr>
+          <th>Doctor</th>
+          <th>Date of Mailing</th>
+          <th>MRN</th>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Address1</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip Code</th>
+          <th>Home Phone</th>
+          <th>Day Phone</th>
+        </tr>
+      </thead>
+    </table>
+    <%= text_area_tag :mrn_tab_dump, '', rows: 7, style: "width:99%", name: 'tab_dump' %>
+  </div>
+  <div class="control-group">
+    <%= label_tag :mrn_doctor_type, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag :mrn_doctor_type, options_for_select(Doctor::DOCTOR_TYPE, 'cardiologist'), name: 'doctor_type' %>
+    </div>
+  </div>
   <div class="form-actions">
-    <%= submit_tag "Import", class: 'btn btn-primary' %>
+    <%= submit_tag "Import using MRNs", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<hr class="soften">
+
+<div class="page-header"><h2>Subject Code Import</h2></div>
+<%= form_tag import_mailings_path(import_type: 'subject_code'), method: :post, class: 'form-horizontal' do %>
+  <div class="control-group">
+    <table style="width:100%;table-layout:fixed">
+      <thead>
+        <tr>
+          <th>Doctor</th>
+          <th>Date of Mailing</th>
+          <th>Subject Code</th>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Address1</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip Code</th>
+          <th>Home Phone</th>
+          <th>Day Phone</th>
+        </tr>
+      </thead>
+    </table>
+    <%= text_area_tag :subject_code_tab_dump, '', rows: 7, style: "width:99%", name: 'tab_dump' %>
+  </div>
+  <div class="control-group">
+    <%= label_tag :subject_code_doctor_type, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag :subject_code_doctor_type, options_for_select(Doctor::DOCTOR_TYPE, 'cardiologist'), name: 'doctor_type' %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= submit_tag "Import using Subject Codes", class: 'btn btn-primary' %>
   </div>
 <% end %>

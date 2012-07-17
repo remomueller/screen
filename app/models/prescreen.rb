@@ -75,7 +75,7 @@ class Prescreen < ActiveRecord::Base
   # Ignore Potential Header Row...
   # Time  Status  Clinic  Patient Name  Sex/Age MRN Visit Type  Reason for Visit  PG
   # Includes "Appointment Date"
-  # Includes Cardiologist
+  # Includes Doctor Type
   def self.process_bulk(params, current_user)
     prescreens = Prescreen.current.count
     ignored_prescreens = 0
@@ -89,6 +89,8 @@ class Prescreen < ActiveRecord::Base
       unless row.blank?
         row_array = row.split(/\t/)
         doctor_name = row_array.first if row_array.size == 1
+        doctor_type = (params[:doctor_type].blank? ? 'cardiologist' : params[:doctor_type])
+
         if not doctor_name.blank? and row_array.size > 1
           time = row_array[0]
           time_start = Time.parse(appointment_date.strftime('%Y-%m-%d') + ' ' + time.split(' - ').first)
@@ -109,7 +111,7 @@ class Prescreen < ActiveRecord::Base
           comment = row_array[7]
 
           clinic = Clinic.find_or_create_by_name(clinic_name, { user_id: current_user.id })
-          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist', { user_id: current_user.id })
+          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, doctor_type, { user_id: current_user.id })
 
           if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted? and mrn.size == 8
             patient = Patient.find_or_create_by_mrn(mrn, { user_id: current_user.id })

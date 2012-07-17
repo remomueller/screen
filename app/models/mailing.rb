@@ -73,25 +73,32 @@ class Mailing < ActiveRecord::Base
     events.each{ |e| e.destroy }
   end
 
-    # Tab delimited
+  # Tab delimited
   # Ignores Header Row (since it can't parse the date)
-  # Cardiologist  Date of Mailing MRN Last Name First Name  Address1  City  State Zip Code  Home Phone  Day Phone
+  # Doctor  Date of Mailing MRN Last Name First Name  Address1  City  State Zip Code  Home Phone  Day Phone
   def self.process_bulk(params, current_user)
     mailings = Mailing.current.count
     ignored_mailings = 0
     doctors = Doctor.current.count
     doctor_name = ''
+    use_mrns = (params[:import_type] != 'subject_code')
     # gsub(/\u00a0/, ' ') This replaces non-breaking whitespace
     params[:tab_dump].gsub(/\u00a0/, ' ').split(/\r|\n/).each_with_index do |row, row_index|
       row = row.strip
       unless row.blank?
         row_array = row.split(/\t/)
         doctor_name = row_array[0]
+        doctor_type = (params[:doctor_type].blank? ? 'cardiologist' : params[:doctor_type])
+
         sent_date = parse_date(row_array[1])
 
         if not doctor_name.blank? and row_array.size > 1 and not sent_date.blank?
-          mrn = row_array[2].to_s.strip
-          mrn = "0"*([0,8 - mrn.size].max) + mrn.to_s unless mrn.blank?
+          identifier = row_array[2].to_s.strip
+
+          if use_mrns
+            identifier = "0"*([0,8 - identifier.size].max) + identifier.to_s unless identifier.blank?
+          end
+
 
           last_name = row_array[3].to_s.strip
           first_name = row_array[4].to_s.strip
@@ -102,10 +109,14 @@ class Mailing < ActiveRecord::Base
           phone_home = row_array[9].to_s.strip
           phone_day = row_array[10].to_s.strip
 
-          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, 'cardiologist', { user_id: current_user.id })
+          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, doctor_type, { user_id: current_user.id })
 
-          if mrn.size == 8
-            patient = Patient.find_or_create_by_mrn(mrn, { user_id: current_user.id })
+          if (use_mrns and identifier.size == 8) or (not use_mrns and not identifier.blank?)
+            patient = if use_mrns
+              Patient.find_or_create_by_mrn(identifier, { user_id: current_user.id })
+            else
+              Patient.find_or_create_by_subject_code(identifier, { user_id: current_user.id })
+            end
 
             patient_params = { first_name: first_name, last_name: last_name, address1: address1, city: city, state: state, zip: zip, phone_home: phone_home, phone_day: phone_day }
             patient_params.reject!{|key, val| val.blank?}

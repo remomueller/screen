@@ -123,7 +123,7 @@ class MailingsController < ApplicationController
 
   def generate_original_csv(mailing_scope)
     @csv_string = CSV.generate do |csv|
-      csv << ["Cardiologist", "Date of Mailing", "MRN", "Last Name", "First Proper", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
+      csv << ["Doctor", "Date of Mailing", "MRN", "Last Name", "First Proper", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
       mailing_scope.each do |mailing|
         csv << [
           mailing.doctor.name,

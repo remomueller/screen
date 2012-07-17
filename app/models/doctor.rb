@@ -1,5 +1,7 @@
 class Doctor < ActiveRecord::Base
 
+  DOCTOR_TYPE = ["cardiologist", "endocrinologist", "somnologist"].collect{|i| [i,i]}
+
   # Callbacks
   after_save :check_blacklisted
 
@@ -8,8 +10,8 @@ class Doctor < ActiveRecord::Base
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
-  validates_presence_of :name, :user_id
-  validates_uniqueness_of :name, scope: :deleted
+  validates_presence_of :name, :doctor_type, :user_id
+  validates_uniqueness_of :name, scope: [:doctor_type, :deleted]
 
   # Model Relationships
   has_many :prescreens, conditions: { deleted: false }

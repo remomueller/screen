@@ -27,7 +27,7 @@ class DoctorsControllerTest < ActionController::TestCase
 
   test "should create doctor" do
     assert_difference('Doctor.count') do
-      post :create, doctor: { name: 'DoctorThree' }
+      post :create, doctor: { name: 'DoctorThree', doctor_type: 'somnologist' }
     end
 
     assert_not_nil assigns(:doctor)
@@ -57,7 +57,7 @@ class DoctorsControllerTest < ActionController::TestCase
   end
 
   test "should update doctor" do
-    put :update, id: @doctor, doctor: { name: 'DoctorOneUpdate' }
+    put :update, id: @doctor, doctor: { name: 'DoctorOneUpdate', doctor_type: 'endocrinologist' }
     assert_redirected_to doctor_path(assigns(:doctor))
   end
 

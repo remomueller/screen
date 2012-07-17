@@ -1,5 +1,10 @@
 == 0.8.0
 
+* Enhancements
+  * Mailing Changes:
+    * Imports using Subject Codes instead of MRNs available
+    * Imports now require the doctor type to be specified
+
 == 0.7.10
 
 * Bug Fix

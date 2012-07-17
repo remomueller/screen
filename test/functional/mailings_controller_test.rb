@@ -13,19 +13,45 @@ class MailingsControllerTest < ActionController::TestCase
 
   test "should import mailings" do
     assert_difference('Mailing.count', 3) do
-      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import.txt')
+      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import_mrns.txt'), import_type: 'mrn'
     end
+
+    assert_equal 1, Patient.where(mrn: 'AA567890', subject_code: '').count
+    assert_equal 1, Patient.where(mrn: '0BB67890', subject_code: '').count
+    assert_equal 1, Patient.where(mrn: '00000121', subject_code: '').count
+
+    assert_redirected_to mailings_path
+  end
+
+  test "should import mailings with specific doctor type" do
+    assert_difference('Mailing.count', 3) do
+      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import_mrns.txt'), import_type: 'mrn', doctor_type: 'endocrinologist'
+    end
+
+    assert_equal 2, Doctor.where(doctor_type: 'endocrinologist').count
 
     assert_redirected_to mailings_path
   end
 
   test "should import mailings and zero-pad MRNs" do
     assert_difference('Mailing.count', 3) do
-      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import.txt')
+      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import_mrns.txt'), import_type: 'mrn'
     end
 
-    assert_equal 0, Patient.where(mrn: '121').count
-    assert_equal 1, Patient.where(mrn: '00000121').count
+    assert_equal 0, Patient.where(mrn: '121',      subject_code: '').count
+    assert_equal 1, Patient.where(mrn: '00000121', subject_code: '').count
+
+    assert_redirected_to mailings_path
+  end
+
+  test "should import mailings using subject codes" do
+    assert_difference('Mailing.count', 3) do
+      post :import, tab_dump: File.read('test/support/mailings/fake_bulk_import_subject_codes.txt'), import_type: 'subject_code'
+    end
+
+    assert_equal 1, Patient.where(subject_code: 'S100', mrn: '').count
+    assert_equal 1, Patient.where(subject_code: 'S102', mrn: '').count
+    assert_equal 1, Patient.where(subject_code: 'S103', mrn: '').count
 
     assert_redirected_to mailings_path
   end
