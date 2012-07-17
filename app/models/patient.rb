@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-  attr_accessible :mrn, :subject_code, :name_code, :first_name, :last_name, :phone_home, :phone_day, :phone_alt, :sex, :age, :address1, :city, :state, :zip, :priority, :priority_message
+  attr_accessible :mrn, :subject_code, :name_code, :first_name, :last_name, :phone_home, :phone_day, :phone_alt, :sex, :age, :address1, :city, :state, :zip, :priority, :priority_message, :user_id
 
   EDITABLES = ['phone_home', 'city', 'state']
   PRIORITY_MESSAGES = [["Latest Call is ...", "Latest Call is %"], ["Latest Call is ... and no Embletta Administered", "Latest Call is % and no Embletta Administered"], ["Baseline Visit and no 2-month Call after 68 days", "Baseline Visit and no 2-month Call after 68 days"]]
