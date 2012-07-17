@@ -45,7 +45,7 @@ class DoctorsController < ApplicationController
   # POST /doctors
   # POST /doctors.json
   def create
-    @doctor = current_user.doctors.new(params[:doctor])
+    @doctor = current_user.doctors.new(post_params)
 
     respond_to do |format|
       if @doctor.save
@@ -61,7 +61,7 @@ class DoctorsController < ApplicationController
   def update
     @doctor = Doctor.find(params[:id])
 
-    if @doctor.update_attributes(params[:doctor])
+    if @doctor.update_attributes(post_params)
       notice = 'Doctor was successfully updated.'
       if params[:from] == 'prescreens'
         redirect_to prescreens_path, notice: notice
@@ -79,4 +79,15 @@ class DoctorsController < ApplicationController
 
     redirect_to doctors_path, notice: 'Doctor was successfully deleted.'
   end
+
+  private
+
+  def post_params
+    params[:doctor] ||= {}
+
+    params[:doctor].slice(
+      :name, :doctor_type, :status
+    )
+  end
+
 end

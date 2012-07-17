@@ -1,4 +1,5 @@
 class Doctor < ActiveRecord::Base
+  attr_accessible :name, :doctor_type, :status
 
   DOCTOR_TYPE = ["cardiologist", "endocrinologist", "somnologist"].collect{|i| [i,i]}
 
