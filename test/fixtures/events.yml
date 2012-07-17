@@ -29,3 +29,15 @@ five:
   class_name: Visit
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
   event_time: 2012-03-27 19:32:01
+
+six:
+  patient: with_subject_code
+  class_name: Mailing
+  class_id: <%= ActiveRecord::Fixtures.identify(:subject_code_1234) %>
+  event_time: 2012-03-29 19:32:01
+
+seven:
+  patient: subject_5678
+  class_name: Mailing
+  class_id: <%= ActiveRecord::Fixtures.identify(:subject_code_5678) %>
+  event_time: 2012-03-29 19:32:01

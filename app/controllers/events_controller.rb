@@ -5,8 +5,13 @@ class EventsController < ApplicationController
   def index
     # current_user.update_attribute :events_per_page, params[:events_per_page].to_i if params[:events_per_page].to_i >= 10 and params[:events_per_page].to_i <= 200
     event_scope = Event.current # current_user.all_viewable_events
-    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-      event_scope = event_scope.with_mrn(term) unless term.blank?
+
+    if params[:mrn].to_s.split(',').size > 1
+      event_scope = event_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        event_scope = event_scope.with_mrn(term) unless term.blank?
+      end
     end
 
     event_scope = event_scope.with_patient(params[:patient_id]) unless params[:patient_id].blank?
