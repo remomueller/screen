@@ -1,4 +1,5 @@
 class Clinic < ActiveRecord::Base
+  attr_accessible :name, :status
 
   # Callbacks
   after_save :check_blacklisted

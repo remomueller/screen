@@ -45,7 +45,7 @@ class ClinicsController < ApplicationController
   # POST /clinics
   # POST /clinics.json
   def create
-    @clinic = current_user.clinics.new(params[:clinic])
+    @clinic = current_user.clinics.new(post_params)
 
     respond_to do |format|
       if @clinic.save
@@ -61,7 +61,7 @@ class ClinicsController < ApplicationController
   def update
     @clinic = Clinic.find(params[:id])
 
-    if @clinic.update_attributes(params[:clinic])
+    if @clinic.update_attributes(post_params)
       notice = 'Clinic was successfully updated.'
       if params[:from] == 'prescreens'
         redirect_to prescreens_path, notice: notice
@@ -79,4 +79,15 @@ class ClinicsController < ApplicationController
 
     redirect_to clinics_path, notice: 'Clinic was successfully deleted.'
   end
+
+  private
+
+  def post_params
+    params[:clinic] ||= {}
+
+    params[:clinic].slice(
+      :name, :status
+    )
+  end
+
 end
