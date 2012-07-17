@@ -8,7 +8,7 @@ class ChoicesController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| choice_scope = choice_scope.search(search_term) }
 
-    @order = Choice.column_names.collect{|column_name| "choices.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "choices.category"
+    @order = scrub_order(Choice, params[:order], 'choices.category')
     choice_scope = choice_scope.order(@order)
 
     @choice_count = choice_scope.count

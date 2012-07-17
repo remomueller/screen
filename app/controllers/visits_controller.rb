@@ -19,7 +19,7 @@ class VisitsController < ApplicationController
     visit_scope = visit_scope.where( outcome: params[:outcome] ) unless params[:outcome].blank?
     visit_scope = visit_scope.where( visit_type: params[:visit_type] ) unless params[:visit_type].blank?
 
-    @order = Visit.column_names.collect{|column_name| "visits.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "visits.patient_id"
+    @order = scrub_order(Visit, params[:order], 'visits.patient_id')
     visit_scope = visit_scope.order(@order)
 
     if params[:format] == 'csv'

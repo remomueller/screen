@@ -8,7 +8,7 @@ class DoctorsController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| doctor_scope = doctor_scope.search(search_term) }
 
-    @order = Doctor.column_names.collect{|column_name| "doctors.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "doctors.name"
+    @order = scrub_order(Doctor, params[:order], 'doctors.name')
     doctor_scope = doctor_scope.order(@order)
 
     @doctor_count = doctor_scope.count

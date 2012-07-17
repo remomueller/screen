@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     event_scope = event_scope.with_patient(params[:patient_id]) unless params[:patient_id].blank?
     event_scope = event_scope.subject_code_not_blank unless current_user.screener?
 
-    @order = Event.column_names.collect{|column_name| "events.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "events.event_time DESC"
+    @order = scrub_order(Event, params[:order], 'events.event_time DESC')
     event_scope = event_scope.order(@order)
 
     @events = event_scope.page(params[:page]).per(20) # (current_user.events_per_page)

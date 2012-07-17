@@ -30,7 +30,7 @@ class EvaluationsController < ApplicationController
     evaluation_scope = evaluation_scope.where( administration_type: params[:administration_type] ) unless params[:administration_type].blank?
     evaluation_scope = evaluation_scope.where( evaluation_type: params[:evaluation_type] ) unless params[:evaluation_type].blank?
 
-    @order = Evaluation.column_names.collect{|column_name| "evaluations.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "evaluations.patient_id"
+    @order = scrub_order(Evaluation, params[:order], 'evaluations.patient_id')
     evaluation_scope = evaluation_scope.order(@order)
 
     if params[:format] == 'csv'

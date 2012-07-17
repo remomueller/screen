@@ -43,7 +43,7 @@ class MailingsController < ApplicationController
 
     mailing_scope = mailing_scope.exclude_ineligible if params[:ineligible] == '1'
 
-    @order = Mailing.column_names.collect{|column_name| "mailings.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "mailings.patient_id"
+    @order = scrub_order(Mailing, params[:order], 'mailings.patient_id')
     mailing_scope = mailing_scope.order(@order)
 
     if params[:format] == 'originalcsv'

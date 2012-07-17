@@ -50,8 +50,7 @@ class PrescreensController < ApplicationController
     prescreen_scope = prescreen_scope.visit_before(@visit_before) unless @visit_before.blank?
     prescreen_scope = prescreen_scope.visit_after(@visit_after) unless @visit_after.blank?
 
-
-    @order = Prescreen.column_names.collect{|column_name| "prescreens.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "prescreens.doctor_id, prescreens.visit_at DESC"
+    @order = scrub_order(Prescreen, params[:order], 'prescreens.doctor_id, prescreens.visit_at DESC')
     prescreen_scope = prescreen_scope.order(@order)
 
     @prescreen_count = prescreen_scope.count
