@@ -26,3 +26,21 @@ without_subject_code:
   comments: MyText
   deleted: false
   user: valid
+
+subject_code_1234:
+  patient: with_subject_code
+  visit_type: 1
+  visit_date: 2012-03-08
+  outcome: 1
+  comments: MyText
+  deleted: false
+  user: valid
+
+subject_code_5678:
+  patient: subject_5678
+  visit_type: 1
+  visit_date: 2012-03-08
+  outcome: 1
+  comments: MyText
+  deleted: false
+  user: valid

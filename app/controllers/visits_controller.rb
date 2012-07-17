@@ -5,8 +5,13 @@ class VisitsController < ApplicationController
   def index
     # current_user.update_attribute :visits_per_page, params[:visits_per_page].to_i if params[:visits_per_page].to_i >= 10 and params[:visits_per_page].to_i <= 200
     visit_scope = Visit.current # current_user.all_viewable_visits
-    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-      visit_scope = visit_scope.with_mrn(term) unless term.blank?
+
+    if params[:mrn].to_s.split(',').size > 1
+      visit_scope = visit_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        visit_scope = visit_scope.with_mrn(term) unless term.blank?
+      end
     end
 
     visit_scope = visit_scope.subject_code_not_blank unless current_user.screener?
