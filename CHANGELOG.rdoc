@@ -8,6 +8,7 @@
     * Default application name is now added to the from: field for emails
     * Email subjects no longer include the application name
   * Patients can now be filtered using comma-separated subject codes
+  * About page reformatted to include links to github and contact information
 
 * Refactoring
   * Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
