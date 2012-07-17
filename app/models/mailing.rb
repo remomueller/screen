@@ -1,4 +1,5 @@
 class Mailing < ActiveRecord::Base
+  attr_accessible :patient_id, :doctor_id, :sent_date, :response_date, :berlin, :ess, :eligibility, :exclusion, :participation, :risk_factor_ids, :comments
 
   ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
 

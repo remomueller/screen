@@ -74,12 +74,7 @@ class MailingsController < ApplicationController
   end
 
   def create
-    params[:mailing] ||= {}
-    [:sent_date, :response_date].each do |date|
-      params[:mailing][date] = parse_date(params[:mailing][date])
-    end
-
-    @mailing = current_user.mailings.new(params[:mailing])
+    @mailing = current_user.mailings.new(post_params)
 
     if @mailing.save
       redirect_to @mailing.patient, notice: 'Mailing was successfully created.'
@@ -89,17 +84,10 @@ class MailingsController < ApplicationController
   end
 
   def update
-    params[:mailing] ||= {}
-    [:sent_date, :response_date].each do |date|
-      params[:mailing][date] = parse_date(params[:mailing][date])
-    end
-
-    params[:mailing][:risk_factor_ids] ||= []
-
     @mailing = Mailing.find_by_id(params[:id])
 
     if @mailing and @mailing.patient.editable_by?(current_user)
-      if @mailing.update_attributes(params[:mailing])
+      if @mailing.update_attributes(post_params)
         redirect_to @mailing, notice: 'Mailing was successfully updated.'
       else
         render action: "edit"
@@ -166,6 +154,20 @@ class MailingsController < ApplicationController
     end
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                           disposition: "attachment; filename=\"Mailings #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
+  def post_params
+    params[:mailing] ||= {}
+
+    [:sent_date, :response_date].each do |date|
+      params[:mailing][date] = parse_date(params[:mailing][date])
+    end
+
+    params[:mailing][:risk_factor_ids] ||= []
+
+    params[:mailing].slice(
+      :patient_id, :doctor_id, :sent_date, :response_date, :berlin, :ess, :eligibility, :exclusion, :participation, :risk_factor_ids, :comments
+    )
   end
 
 end
