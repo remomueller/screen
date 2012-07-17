@@ -14,9 +14,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def parse_date(date_string)
-    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue ""
+  # The primary version. If updated, also update the function in app/models/mailing.rb and app/models/prescreen.rb
+  def parse_date(date_string, default_date = '')
+    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
   end
+
 
   protected
 

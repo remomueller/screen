@@ -11,8 +11,8 @@ class VisitsController < ApplicationController
 
     visit_scope = visit_scope.subject_code_not_blank unless current_user.screener?
 
-    @visit_after = begin Date.strptime(params[:visit_after], "%m/%d/%Y") rescue nil end
-    @visit_before = begin Date.strptime(params[:visit_before], "%m/%d/%Y") rescue nil end
+    @visit_after = parse_date(params[:visit_after])
+    @visit_before = parse_date(params[:visit_before])
 
     visit_scope = visit_scope.visit_before(@visit_before) unless @visit_before.blank?
     visit_scope = visit_scope.visit_after(@visit_after) unless @visit_after.blank?
@@ -49,7 +49,6 @@ class VisitsController < ApplicationController
   def create
     params[:visit] ||= {}
     params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
-    # params[:visit][:visit_date] = Date.strptime(params[:visit][:visit_date], "%m/%d/%Y") if params[:visit] and not params[:visit][:visit_date].blank?
 
     @visit = current_user.visits.new(params[:visit])
 
@@ -63,7 +62,6 @@ class VisitsController < ApplicationController
   def update
     params[:visit] ||= {}
     params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
-    # params[:visit][:visit_date] = Date.strptime(params[:visit][:visit_date], "%m/%d/%Y") if params[:visit] and not params[:visit][:visit_date].blank?
 
     @visit = Visit.find_by_id(params[:id])
 

@@ -82,7 +82,7 @@ class Prescreen < ActiveRecord::Base
     doctors = Doctor.current.count
     clinics = Clinic.current.count
     doctor_name = ''
-    appointment_date = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue Date.today
+    appointment_date = parse_date(params[:visit_date], Date.today)
     # gsub(/\u00a0/, ' ') This replaces non-breaking whitespace
     params[:tab_dump].gsub(/\u00a0/, ' ').split(/\r|\n/).each_with_index do |row, row_index|
       row = row.strip
@@ -133,5 +133,12 @@ class Prescreen < ActiveRecord::Base
     events = events - [event]
 
     events.each{ |e| e.destroy }
+  end
+
+  private
+
+  # The primary version of this is in app/controllers/application_controller.rb
+  def self.parse_date(date_string, default_date = '')
+    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
   end
 end

@@ -79,9 +79,6 @@ class MailingsController < ApplicationController
       params[:mailing][date] = parse_date(params[:mailing][date])
     end
 
-    # params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
-    # params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
-
     @mailing = current_user.mailings.new(params[:mailing])
 
     if @mailing.save
@@ -96,9 +93,6 @@ class MailingsController < ApplicationController
     [:sent_date, :response_date].each do |date|
       params[:mailing][date] = parse_date(params[:mailing][date])
     end
-
-    # params[:mailing][:sent_date] = Date.strptime(params[:mailing][:sent_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:sent_date].blank?
-    # params[:mailing][:response_date] = Date.strptime(params[:mailing][:response_date], "%m/%d/%Y") if params[:mailing] and not params[:mailing][:response_date].blank?
 
     params[:mailing][:risk_factor_ids] ||= []
 

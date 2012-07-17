@@ -44,8 +44,8 @@ class PrescreensController < ApplicationController
     prescreen_scope = prescreen_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
     prescreen_scope = prescreen_scope.with_no_calls if params[:not_called] == '1'
 
-    @visit_after = begin Date.strptime(params[:visit_after], "%m/%d/%Y") rescue nil end
-    @visit_before = begin Date.strptime(params[:visit_before], "%m/%d/%Y") rescue nil end
+    @visit_after = parse_date(params[:visit_after])
+    @visit_before = parse_date(params[:visit_before])
 
     prescreen_scope = prescreen_scope.visit_before(@visit_before) unless @visit_before.blank?
     prescreen_scope = prescreen_scope.visit_after(@visit_after) unless @visit_after.blank?
@@ -75,7 +75,6 @@ class PrescreensController < ApplicationController
 
   def create
     params[:visit_date] = parse_date(params[:visit_date])
-    # params[:visit_date] = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue ""
     params[:visit_time] = Time.parse(params[:visit_time]) rescue Time.parse("12am")
     params[:visit_time] = Time.parse("12am") if params[:visit_time].blank?
     params[:prescreen][:visit_at] = Time.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
@@ -91,7 +90,6 @@ class PrescreensController < ApplicationController
 
   def update
     params[:visit_date] = parse_date(params[:visit_date])
-    # params[:visit_date] = Date.strptime(params[:visit_date], "%m/%d/%Y") rescue ""
     params[:visit_time] = Time.parse(params[:visit_time]) rescue Time.parse("12am")
     params[:visit_time] = Time.parse("12am") if params[:visit_time].blank?
     params[:prescreen][:visit_at] = Time.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""

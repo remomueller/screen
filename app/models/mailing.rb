@@ -87,11 +87,7 @@ class Mailing < ActiveRecord::Base
       unless row.blank?
         row_array = row.split(/\t/)
         doctor_name = row_array[0]
-        sent_date = if row_array[1].to_s.split('/').last.to_s.size == 4
-          Date.strptime(row_array[1].to_s, "%m/%d/%Y") rescue ""
-        else
-          Date.strptime(row_array[1].to_s, "%m/%d/%y") rescue ""
-        end
+        sent_date = parse_date(row_array[1])
 
         if not doctor_name.blank? and row_array.size > 1 and not sent_date.blank?
           mrn = row_array[2].to_s.strip
@@ -124,6 +120,13 @@ class Mailing < ActiveRecord::Base
     end
 
     { mailing: Mailing.current.count - mailings, doctor: Doctor.current.count - doctors, 'ignored mailing' => ignored_mailings }
+  end
+
+  private
+
+  # The primary version of this is in app/controllers/application_controller.rb
+  def self.parse_date(date_string, default_date = '')
+    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
   end
 
 end

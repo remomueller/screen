@@ -12,8 +12,8 @@ class CallsController < ApplicationController
     call_scope = call_scope.subject_code_not_blank unless current_user.screener?
     call_scope = call_scope.with_eligibility(params[:eligibility]) unless params[:eligibility].blank?
 
-    @call_after = begin Date.strptime(params[:call_after], "%m/%d/%Y") rescue nil end
-    @call_before = begin Date.strptime(params[:call_before], "%m/%d/%Y") rescue nil end
+    @call_after = parse_date(params[:call_after])
+    @call_before = parse_date(params[:call_before])
 
     call_scope = call_scope.call_before(@call_before) unless @call_before.blank?
     call_scope = call_scope.call_after(@call_after) unless @call_after.blank?
@@ -68,7 +68,6 @@ class CallsController < ApplicationController
 
   def create
     params[:call_date] = parse_date(params[:call_date])
-    # params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
     params[:call_time] = Time.parse(params[:call_time]) rescue Time.parse("12am")
     params[:call_time] = Time.parse("12am") if params[:call_time].blank?
     params[:call][:call_time] = Time.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
@@ -92,7 +91,6 @@ class CallsController < ApplicationController
 
   def update
     params[:call_date] = parse_date(params[:call_date])
-    # params[:call_date] = Date.strptime(params[:call_date], "%m/%d/%Y") rescue ""
     params[:call_time] = Time.parse(params[:call_time]) rescue Time.parse("12am")
     params[:call_time] = Time.parse("12am") if params[:call_time].blank?
     params[:call][:call_time] = Time.parse(params[:call_date].strftime('%F') + " " + params[:call_time].strftime('%T')) rescue ""
