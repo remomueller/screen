@@ -58,12 +58,7 @@ class EvaluationsController < ApplicationController
   end
 
   def create
-    params[:evaluation] ||= {}
-    [:administration_date, :expected_receipt_date, :receipt_date, :storage_date, :reimbursement_form_date, :scored_date].each do |date|
-      params[:evaluation][date] = parse_date(params[:evaluation][date])
-    end
-
-    @evaluation = current_user.evaluations.new(params[:evaluation])
+    @evaluation = current_user.evaluations.new(post_params)
 
     if @evaluation.save
       redirect_to @evaluation.patient, notice: 'Evaluation was successfully created.'
@@ -73,15 +68,10 @@ class EvaluationsController < ApplicationController
   end
 
   def update
-    params[:evaluation] ||= {}
-    [:administration_date, :expected_receipt_date, :receipt_date, :storage_date, :reimbursement_form_date, :scored_date].each do |date|
-      params[:evaluation][date] = parse_date(params[:evaluation][date])
-    end
-
     @evaluation = Evaluation.find_by_id(params[:id])
 
     if @evaluation and @evaluation.patient.editable_by?(current_user)
-      if @evaluation.update_attributes(params[:evaluation])
+      if @evaluation.update_attributes(post_params)
         redirect_to @evaluation, notice: 'Evaluation was successfully updated.'
       else
         render action: "edit"
@@ -128,4 +118,17 @@ class EvaluationsController < ApplicationController
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                           disposition: "attachment; filename=\"Evaluations #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
+
+  def post_params
+    params[:evaluation] ||= {}
+
+    [:administration_date, :expected_receipt_date, :receipt_date, :storage_date, :reimbursement_form_date, :scored_date].each do |date|
+      params[:evaluation][date] = parse_date(params[:evaluation][date])
+    end
+
+    params[:evaluation].slice(
+      :patient_id, :administration_type, :evaluation_type, :administration_date, :source, :embletta_unit_number, :expected_receipt_date, :receipt_date, :storage_date, :subject_notified, :reimbursement_form_date, :scored_date, :ahi, :eligibility, :exclusion, :status, :comments
+    )
+  end
+
 end
