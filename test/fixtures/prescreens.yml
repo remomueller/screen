@@ -43,3 +43,25 @@ without_subject_code:
   eligibility: MyString
   exclusion: 1
   user: valid
+
+subject_code_1234:
+  patient: with_subject_code
+  clinic: one
+  doctor: one
+  visit_at: 2012-03-02 09:01:00
+  visit_duration: 10
+  visit_units: minutes
+  eligibility: MyString
+  exclusion: 1
+  user: valid
+
+subject_code_5678:
+  patient: subject_5678
+  clinic: one
+  doctor: one
+  visit_at: 2012-03-02 09:01:00
+  visit_duration: 10
+  visit_units: minutes
+  eligibility: MyString
+  exclusion: 1
+  user: valid

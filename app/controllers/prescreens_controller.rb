@@ -36,8 +36,13 @@ class PrescreensController < ApplicationController
   def index
     # current_user.update_attribute :prescreens_per_page, params[:prescreens_per_page].to_i if params[:prescreens_per_page].to_i >= 10 and params[:prescreens_per_page].to_i <= 200
     prescreen_scope = Prescreen.current # current_user.all_viewable_prescreens
-    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-      prescreen_scope = prescreen_scope.with_mrn(term) unless term.blank?
+
+    if params[:mrn].to_s.split(',').size > 1
+      prescreen_scope = prescreen_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        prescreen_scope = prescreen_scope.with_mrn(term) unless term.blank?
+      end
     end
 
     prescreen_scope = prescreen_scope.subject_code_not_blank unless current_user.screener?
