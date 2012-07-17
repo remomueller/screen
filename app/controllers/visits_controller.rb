@@ -47,10 +47,7 @@ class VisitsController < ApplicationController
   end
 
   def create
-    params[:visit] ||= {}
-    params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
-
-    @visit = current_user.visits.new(params[:visit])
+    @visit = current_user.visits.new(post_params)
 
     if @visit.save
       redirect_to @visit.patient, notice: 'Visit was successfully created.'
@@ -60,13 +57,10 @@ class VisitsController < ApplicationController
   end
 
   def update
-    params[:visit] ||= {}
-    params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
-
     @visit = Visit.find_by_id(params[:id])
 
     if @visit and @visit.patient.editable_by?(current_user)
-      if @visit.update_attributes(params[:visit])
+      if @visit.update_attributes(post_params)
         redirect_to @visit, notice: 'Visit was successfully updated.'
       else
         render action: "edit"
@@ -105,4 +99,16 @@ class VisitsController < ApplicationController
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                           disposition: "attachment; filename=\"Visits #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
+
+  def post_params
+    params[:visit] ||= {}
+
+    params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
+
+    params[:visit].slice(
+      :patient_id, :visit_type, :visit_date, :outcome, :comments
+    )
+  end
+
+
 end

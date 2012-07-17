@@ -1,4 +1,5 @@
 class Visit < ActiveRecord::Base
+  attr_accessible :patient_id, :visit_type, :visit_date, :outcome, :comments
 
   # Callbacks
   after_save :save_event
