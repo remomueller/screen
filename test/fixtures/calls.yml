@@ -32,3 +32,25 @@ without_subject_code:
   comments: MyText
   deleted: false
   user: valid
+
+subject_code_1234:
+  patient: with_subject_code
+  response: 1
+  call_time: 2012-02-27 15:16:01
+  berlin: 1
+  ess: 1
+  eligibility: MyString
+  comments: MyText
+  deleted: false
+  user: valid
+
+subject_code_5678:
+  patient: subject_5678
+  response: 1
+  call_time: 2012-02-27 15:16:01
+  berlin: 1
+  ess: 1
+  eligibility: MyString
+  comments: MyText
+  deleted: false
+  user: valid

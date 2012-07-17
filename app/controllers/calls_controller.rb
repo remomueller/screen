@@ -5,8 +5,13 @@ class CallsController < ApplicationController
   def index
     # current_user.update_attribute :calls_per_page, params[:calls_per_page].to_i if params[:calls_per_page].to_i >= 10 and params[:calls_per_page].to_i <= 200
     call_scope = Call.current # current_user.all_viewable_calls
-    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-      call_scope = call_scope.with_mrn(term) unless term.blank?
+
+    if params[:mrn].to_s.split(',').size > 1
+      call_scope = call_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        call_scope = call_scope.with_mrn(term) unless term.blank?
+      end
     end
 
     call_scope = call_scope.subject_code_not_blank unless current_user.screener?
