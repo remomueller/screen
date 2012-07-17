@@ -62,3 +62,45 @@ without_subject_code:
   comments: MyText
   deleted: false
   user: valid
+
+subject_code_1234:
+  patient: with_subject_code
+  administration_type: 1
+  evaluation_type: 1
+  source: MyString
+  embletta_unit_number: MyString
+  administration_date: 2012-03-08
+  expected_receipt_date: 2012-03-08
+  receipt_date: 2012-03-08
+  storage_date: 2012-03-08
+  subject_notified: false
+  reimbursement_form_date: 2012-03-08
+  scored_date: 2012-03-08
+  ahi: 1.0
+  eligibility: MyString
+  exclusion: 1
+  status: MyString
+  comments: MyText
+  deleted: false
+  user: valid
+
+subject_code_5678:
+  patient: subject_5678
+  administration_type: 1
+  evaluation_type: 1
+  source: MyString
+  embletta_unit_number: MyString
+  administration_date: 2012-03-08
+  expected_receipt_date: 2012-03-08
+  receipt_date: 2012-03-08
+  storage_date: 2012-03-08
+  subject_notified: false
+  reimbursement_form_date: 2012-03-08
+  scored_date: 2012-03-08
+  ahi: 1.0
+  eligibility: MyString
+  exclusion: 1
+  status: MyString
+  comments: MyText
+  deleted: false
+  user: valid

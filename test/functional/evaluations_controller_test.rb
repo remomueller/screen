@@ -26,6 +26,15 @@ class EvaluationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get index with js for multiple subject codes" do
+    get :index, format: 'js', mrn: ' S1234, S5678 '
+    assert_not_nil assigns(:order)
+    assert_not_nil assigns(:evaluations)
+    assert_equal ['S1234', 'S5678'], assigns(:evaluations).collect{|evaluation| evaluation.patient.subject_code}.uniq
+    assert_template 'index'
+    assert_response :success
+  end
+
   test "should get new" do
     get :new, patient_id: patients(:one)
     assert_response :success

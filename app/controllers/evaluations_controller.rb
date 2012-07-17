@@ -5,8 +5,13 @@ class EvaluationsController < ApplicationController
   def index
     # current_user.update_attribute :evaluations_per_page, params[:evaluations_per_page].to_i if params[:evaluations_per_page].to_i >= 10 and params[:evaluations_per_page].to_i <= 200
     evaluation_scope = Evaluation.current # current_user.all_viewable_evaluations
-    params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-      evaluation_scope = evaluation_scope.with_mrn(term) unless term.blank?
+
+    if params[:mrn].to_s.split(',').size > 1
+      evaluation_scope = evaluation_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        evaluation_scope = evaluation_scope.with_mrn(term) unless term.blank?
+      end
     end
 
     evaluation_scope = evaluation_scope.subject_code_not_blank unless current_user.screener?
