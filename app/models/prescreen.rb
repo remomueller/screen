@@ -1,4 +1,5 @@
 class Prescreen < ActiveRecord::Base
+  attr_accessible :patient_id, :clinic_id, :doctor_id, :visit_at, :visit_duration, :visit_units, :eligibility, :exclusion, :risk_factor_ids, :comments
 
   VALID_AGE = defined?(RULE_AGE) ? RULE_AGE : ()
   EDITABLES = ['eligibility', 'exclusion']

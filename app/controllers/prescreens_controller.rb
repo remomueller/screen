@@ -74,12 +74,7 @@ class PrescreensController < ApplicationController
   end
 
   def create
-    params[:visit_date] = parse_date(params[:visit_date])
-    params[:visit_time] = Time.parse(params[:visit_time]) rescue Time.parse("12am")
-    params[:visit_time] = Time.parse("12am") if params[:visit_time].blank?
-    params[:prescreen][:visit_at] = Time.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
-
-    @prescreen = current_user.prescreens.new(params[:prescreen])
+    @prescreen = current_user.prescreens.new(post_params)
 
     if @prescreen.save
       redirect_to @prescreen.patient, notice: 'Prescreen was successfully created.'
@@ -89,16 +84,10 @@ class PrescreensController < ApplicationController
   end
 
   def update
-    params[:visit_date] = parse_date(params[:visit_date])
-    params[:visit_time] = Time.parse(params[:visit_time]) rescue Time.parse("12am")
-    params[:visit_time] = Time.parse("12am") if params[:visit_time].blank?
-    params[:prescreen][:visit_at] = Time.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
-    params[:prescreen][:risk_factor_ids] ||= []
-
     @prescreen = Prescreen.find_by_id(params[:id])
 
     if @prescreen and @prescreen.patient.editable_by?(current_user)
-      if @prescreen.update_attributes(params[:prescreen])
+      if @prescreen.update_attributes(post_params)
         redirect_to @prescreen, notice: 'Prescreen was successfully updated.'
       else
         render action: "edit"
@@ -117,4 +106,21 @@ class PrescreensController < ApplicationController
       redirect_to root_path
     end
   end
+
+  private
+
+  def post_params
+    params[:prescreen] ||= {}
+
+    params[:visit_date] = parse_date(params[:visit_date])
+    params[:visit_time] = Time.parse(params[:visit_time]) rescue Time.parse("12am")
+    params[:visit_time] = Time.parse("12am") if params[:visit_time].blank?
+    params[:prescreen][:visit_at] = Time.parse(params[:visit_date].strftime('%F') + " " + params[:visit_time].strftime('%T')) rescue ""
+    params[:prescreen][:risk_factor_ids] ||= []
+
+    params[:prescreen].slice(
+      :patient_id, :clinic_id, :doctor_id, :visit_at, :visit_duration, :visit_units, :eligibility, :exclusion, :risk_factor_ids, :comments
+    )
+  end
+
 end
