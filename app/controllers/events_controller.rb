@@ -32,7 +32,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(params[:event])
+    @event = Event.new(post_params)
 
     if @event.save
       redirect_to @event, notice: 'Event was successfully created.'
@@ -44,7 +44,7 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
 
-    if @event.update_attributes(params[:event])
+    if @event.update_attributes(post_params)
       redirect_to @event, notice: 'Event was successfully updated.'
     else
       render action: "edit"
@@ -57,4 +57,15 @@ class EventsController < ApplicationController
 
     redirect_to events_path, notice: 'Event was successfully deleted.'
   end
+
+  private
+
+  def post_params
+    params[:event] ||= {}
+
+    params[:event].slice(
+      :patient_id, :class_name, :class_id, :event_time, :name
+    )
+  end
+
 end

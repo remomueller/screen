@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  attr_accessible :patient_id, :class_name, :class_id, :event_time, :name
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
