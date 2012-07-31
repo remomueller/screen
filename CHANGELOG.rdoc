@@ -2,6 +2,7 @@
 
 * Enhancements
   * Using unassigned => 1 for JSON request for stickies from Task Tracker
+  * Simplified labels for doctor type on bulk mailing import page
   * Updated to Rails 3.2.7
     * Removed deprecated use of update_attribute for Rails 4.0 compatibility
 
