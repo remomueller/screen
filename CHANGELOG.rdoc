@@ -1,6 +1,7 @@
 == 0.8.1
 
 * Enhancements
+  * Using unassigned => 1 for JSON request for stickies from Task Tracker
   * Updated to Rails 3.2.7
     * Removed deprecated use of update_attribute for Rails 4.0 compatibility
 
@@ -24,7 +25,7 @@
   * Consistent sorting and display of model counts used across all objects, (calls, clinics, doctors, mailings, users, etc)
 
 * Bug Fix
-  * Sticky requests from Task Tracker now correctly include stickies for Phone Calls and Visits that are unnassigned
+  * Sticky requests from Task Tracker now correctly include stickies for Phone Calls and Visits that are unassigned
 
 == 0.7.10
 
