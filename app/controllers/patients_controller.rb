@@ -5,12 +5,12 @@ class PatientsController < ApplicationController
   def inline_update
     @patient = Patient.find_by_id(params[:id])
     item = Patient::EDITABLES.include?(params[:item]) ? params[:item].to_sym : ''
-    @patient.update_attribute(item, params[:update_value]) if @patient and not item.blank?
+    @patient.update_attributes item => params[:update_value] if @patient and not item.blank?
   end
 
   def index
     params[:mrn] ||= params[:term]
-    # current_user.update_attribute :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
+    # current_user.update_column :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
     patient_scope = Patient.current # current_user.all_viewable_patients
 
     if params[:mrn].to_s.split(',').size > 1
@@ -43,7 +43,7 @@ class PatientsController < ApplicationController
   def stickies
     @patient = Patient.find_by_id(params[:id])
     if @patient and not @patient.subject_code.blank?
-      current_user.update_attribute :task_tracker_screen_token, params[:screen_token] unless params[:screen_token].blank?
+      current_user.update_attributes task_tracker_screen_token: params[:screen_token] unless params[:screen_token].blank?
       result_hash = send_message("stickies.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'unnassigned' => '1', 'editable_only' => '0', 'status[]' => ['completed', 'planned'], 'tag_filter' => 'any', 'tag_names[]' => ['Phone Call', 'Visit'], 'search' => @patient.subject_code, 'order' => 'stickies.due_date DESC' }, "get")
       stickies = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
       @stickies = []

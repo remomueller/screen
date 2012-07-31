@@ -43,7 +43,7 @@ class Event < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
     # Does not make sense to delete the object if only one of its events is deleted.
     # object = self.class_name.constantize.find_by_id(self.class_id)
     # object.destroy if object and not object.deleted?

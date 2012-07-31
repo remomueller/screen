@@ -3,7 +3,7 @@ class EvaluationsController < ApplicationController
   before_filter :check_screener_or_subject_handler
 
   def index
-    # current_user.update_attribute :evaluations_per_page, params[:evaluations_per_page].to_i if params[:evaluations_per_page].to_i >= 10 and params[:evaluations_per_page].to_i <= 200
+    # current_user.update_column :evaluations_per_page, params[:evaluations_per_page].to_i if params[:evaluations_per_page].to_i >= 10 and params[:evaluations_per_page].to_i <= 200
     evaluation_scope = Evaluation.current # current_user.all_viewable_evaluations
 
     if params[:mrn].to_s.split(',').size > 1

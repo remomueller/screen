@@ -55,11 +55,11 @@ class Mailing < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
     event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, sent_time, 'Mailing Sent')
-    event.update_attribute :deleted, true if event
+    event.update_column :deleted, true if event
     event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, response_time, 'Mailing Response Received')
-    event.update_attribute :deleted, true if event
+    event.update_column :deleted, true if event
   end
 
   def save_event

@@ -6,7 +6,7 @@ class PatientTest < ActiveSupport::TestCase
   end
 
   test "should merge patients with identical MRNs" do
-    patients(:two).update_attribute :mrn, "00000001"
+    patients(:two).update_column :mrn, "00000001"
     assert_difference('Patient.current.count', -1) do
       assert_difference('Call.current.count', 0) do
         assert_difference('Evaluation.current.count', 0) do

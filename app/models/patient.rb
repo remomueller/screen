@@ -119,7 +119,7 @@ class Patient < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
   end
 
   def no_subject_code?

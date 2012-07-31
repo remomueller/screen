@@ -106,6 +106,18 @@ class MailingsControllerTest < ActionController::TestCase
     assert_redirected_to patient_path(assigns(:mailing).patient)
   end
 
+  test "should create mailing with response date" do
+    assert_difference('Event.count', 2) do
+      assert_difference('Mailing.count') do
+        post :create, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012', response_date: '07/31/2012', doctor_id: @mailing.doctor_id }
+      end
+    end
+
+    assert_not_nil assigns(:mailing)
+    assert_equal users(:screener), assigns(:mailing).user
+    assert_redirected_to patient_path(assigns(:mailing).patient)
+  end
+
   test "should not create mailing with invalid doctor" do
     assert_difference('Mailing.count', 0) do
       post :create, mailing: { patient_id: @mailing.patient_id, sent_date: '02/16/2012', doctor_id: '' }

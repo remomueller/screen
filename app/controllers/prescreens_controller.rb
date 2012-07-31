@@ -11,7 +11,7 @@ class PrescreensController < ApplicationController
       @prescreen.update_attributes(params[:prescreen])
     else
       item = Prescreen::EDITABLES.include?(params[:item]) ? params[:item].to_sym : ''
-      @prescreen.update_attribute(item, params[:update_value]) if @prescreen and not item.blank?
+      @prescreen.update_attributes item => params[:update_value] if @prescreen and not item.blank?
     end
   end
 
@@ -34,7 +34,7 @@ class PrescreensController < ApplicationController
   end
 
   def index
-    # current_user.update_attribute :prescreens_per_page, params[:prescreens_per_page].to_i if params[:prescreens_per_page].to_i >= 10 and params[:prescreens_per_page].to_i <= 200
+    # current_user.update_column :prescreens_per_page, params[:prescreens_per_page].to_i if params[:prescreens_per_page].to_i >= 10 and params[:prescreens_per_page].to_i <= 200
     prescreen_scope = Prescreen.current # current_user.all_viewable_prescreens
 
     if params[:mrn].to_s.split(',').size > 1

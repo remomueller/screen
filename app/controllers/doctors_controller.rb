@@ -3,7 +3,7 @@ class DoctorsController < ApplicationController
   before_filter :check_screener
 
   def index
-    # current_user.update_attribute :doctors_per_page, params[:doctors_per_page].to_i if params[:doctors_per_page].to_i >= 10 and params[:doctors_per_page].to_i <= 200
+    # current_user.update_column :doctors_per_page, params[:doctors_per_page].to_i if params[:doctors_per_page].to_i >= 10 and params[:doctors_per_page].to_i <= 200
     doctor_scope = Doctor.current # current_user.all_viewable_doctors
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| doctor_scope = doctor_scope.search(search_term) }

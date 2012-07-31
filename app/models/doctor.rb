@@ -20,7 +20,7 @@ class Doctor < ActiveRecord::Base
 
   # Class Methods
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
   end
 
   def blacklisted?

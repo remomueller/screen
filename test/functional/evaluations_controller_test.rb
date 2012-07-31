@@ -50,6 +50,18 @@ class EvaluationsControllerTest < ActionController::TestCase
     assert_redirected_to patient_path(assigns(:evaluation).patient)
   end
 
+  test "should create evaluation with receipt date and scored date" do
+    assert_difference('Event.count', 3) do
+      assert_difference('Evaluation.count') do
+        post :create, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/16/2012', receipt_date: '07/31/2012', scored_date: '08/01/2012', administration_type: choices(:four), evaluation_type: choices(:five) }
+      end
+    end
+
+    assert_not_nil assigns(:evaluation)
+    assert_equal users(:screener), assigns(:evaluation).user
+    assert_redirected_to patient_path(assigns(:evaluation).patient)
+  end
+
   test "should not create evaluation with blank administration type" do
     assert_difference('Evaluation.count', 0) do
       post :create, evaluation: { patient_id: @evaluation.patient_id, administration_date: '02/16/2012', administration_type: '' }

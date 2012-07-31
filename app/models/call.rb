@@ -59,9 +59,9 @@ class Call < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
     event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.call_time, 'Phone Call')
-    event.update_attribute :deleted, true if event
+    event.update_column :deleted, true if event
   end
 
   def save_event

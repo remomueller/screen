@@ -63,13 +63,13 @@ class Evaluation < ActiveRecord::Base
 
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
     event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, administration_time, 'Administered')
-    event.update_attribute :deleted, true if event
+    event.update_column :deleted, true if event
     event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, receipt_time, 'Received')
-    event.update_attribute :deleted, true if event
+    event.update_column :deleted, true if event
     event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, scored_time, 'Scored')
-    event.update_attribute :deleted, true if event
+    event.update_column :deleted, true if event
   end
 
   def save_event

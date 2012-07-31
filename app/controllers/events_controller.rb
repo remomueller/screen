@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_filter :check_screener_or_subject_handler
 
   def index
-    # current_user.update_attribute :events_per_page, params[:events_per_page].to_i if params[:events_per_page].to_i >= 10 and params[:events_per_page].to_i <= 200
+    # current_user.update_column :events_per_page, params[:events_per_page].to_i if params[:events_per_page].to_i >= 10 and params[:events_per_page].to_i <= 200
     event_scope = Event.current # current_user.all_viewable_events
 
     if params[:mrn].to_s.split(',').size > 1

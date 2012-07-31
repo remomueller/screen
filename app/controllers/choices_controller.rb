@@ -3,7 +3,7 @@ class ChoicesController < ApplicationController
   before_filter :check_system_admin
 
   def index
-    # current_user.update_attribute :choices_per_page, params[:choices_per_page].to_i if params[:choices_per_page].to_i >= 10 and params[:choices_per_page].to_i <= 200
+    # current_user.update_column :choices_per_page, params[:choices_per_page].to_i if params[:choices_per_page].to_i >= 10 and params[:choices_per_page].to_i <= 200
     choice_scope = Choice.current # current_user.all_viewable_choices
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| choice_scope = choice_scope.search(search_term) }

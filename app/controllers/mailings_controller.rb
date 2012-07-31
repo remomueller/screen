@@ -22,7 +22,7 @@ class MailingsController < ApplicationController
   end
 
   def index
-    # current_user.update_attribute :mailings_per_page, params[:mailings_per_page].to_i if params[:mailings_per_page].to_i >= 10 and params[:mailings_per_page].to_i <= 200
+    # current_user.update_column :mailings_per_page, params[:mailings_per_page].to_i if params[:mailings_per_page].to_i >= 10 and params[:mailings_per_page].to_i <= 200
     mailing_scope = Mailing.current # current_user.all_viewable_mailings
 
     if params[:mrn].to_s.split(',').size > 1

@@ -3,7 +3,7 @@ class VisitsController < ApplicationController
   before_filter :check_screener_or_subject_handler
 
   def index
-    # current_user.update_attribute :visits_per_page, params[:visits_per_page].to_i if params[:visits_per_page].to_i >= 10 and params[:visits_per_page].to_i <= 200
+    # current_user.update_column :visits_per_page, params[:visits_per_page].to_i if params[:visits_per_page].to_i >= 10 and params[:visits_per_page].to_i <= 200
     visit_scope = Visit.current # current_user.all_viewable_visits
 
     if params[:mrn].to_s.split(',').size > 1
