@@ -146,20 +146,13 @@
   </div>
 <% end %>
 
-<%= form_tag task_tracker_templates_calls_path, method: :post, remote: true, style: 'display:inline', id: 'templates_form' do %>
+<%= form_tag task_tracker_templates_calls_path, method: :post, remote: true, style: 'display:inline', id: 'templates_form', data: { object: 'form-load' } do %>
   <%= hidden_field_tag 'screen_token', '' %>
   <%= hidden_field_tag 'tt_template_id', @call.tt_template_id %>
   <%= hidden_field_tag 'initial_due_date', params[:initial_due_date] %>
 <% end %>
 
 <%= javascript_tag do %>
-  $(function(){
-    window.toggle_fields = <%= Call::TOGGLE_FIELDS.collect{|f| "#call_#{f}"}.to_json.html_safe %>;
-    window.show_fields = [];
-    updateFields($('#call_call_type'));
-    $('#call_call_type').change(function() {
-      updateFields($(this));
-    });
-    $.post($("#templates_form").attr("action"), $("#templates_form").serialize(), null, "script");
-  });
+  window.toggle_fields = <%= Call::TOGGLE_FIELDS.collect{|f| "#call_#{f}"}.to_json.html_safe %>;
+  window.show_fields = [];
 <% end %>

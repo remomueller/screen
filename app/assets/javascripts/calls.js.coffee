@@ -20,3 +20,15 @@ jQuery ->
       $("#call_date").val(month + "/" + day + "/" + year)
       false
     )
+
+  updateFields($('#call_call_type'))
+
+  $('#call_call_type').change( () ->
+    updateFields($(this))
+  )
+
+  updateFields($('#evaluation_administration_type'))
+
+  $('#evaluation_administration_type').change( () ->
+    updateFields($(this))
+  );

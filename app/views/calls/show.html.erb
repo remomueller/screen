@@ -50,13 +50,7 @@
     <%= image_tag "contour/ajax-loader.gif" %>
   </div>
 
-  <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: "group_#{@call.tt_group_id}_call_form" do %>
+  <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: "group_#{@call.tt_group_id}_call_form", data: { object: 'form-load' } do %>
     <%= hidden_field_tag 'screen_token', '' %>
-  <% end %>
-
-  <%= javascript_tag do %>
-    $(function(){
-      $.post($("#group_<%= @call.tt_group_id %>_call_form").attr("action"), $("#group_<%= @call.tt_group_id %>_call_form").serialize(), null, "script");
-    });
   <% end %>
 <% end %>

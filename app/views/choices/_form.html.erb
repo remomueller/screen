@@ -38,8 +38,8 @@
     <div class="controls">
       <%= f.hidden_field :color, id: "choice_hexcolor" %>
       <div class="custom_widget">
-        <div id="choice_colorselector" class="colorselector">
-          <div style="background-color: <%= @choice.color %>"></div>
+        <div class="colorselector" data-object="color-selector" data-target="#choice_hexcolor" data-color="<%= @choice.color.blank? ? '#ffffff' : @choice.color %>" style="background-image: none">
+          <div id="choice_hexcolor_display" style="background-color: <%= @choice.color.blank? ? '#ffffff' : @choice.color %>;top:0px;left:0px"></div>
         </div>
       </div>
     </div>
@@ -66,19 +66,4 @@
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
-<% end %>
-
-<%= javascript_tag do %>
-  $('#choice_colorselector')
-    .ColorPicker({
-      color: '<%= @choice.color %>',
-      onShow: function (colpkr) {
-        $(colpkr).fadeIn(500);
-        return false;
-      },
-      onChange: function (hsb, hex, rgb) {
-        $('#choice_hexcolor').val('#' + hex);
-        $('#choice_colorselector div').css('backgroundColor', '#' + hex);
-      }
-    });
 <% end %>
