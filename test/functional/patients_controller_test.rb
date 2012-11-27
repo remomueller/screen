@@ -69,7 +69,6 @@ class PatientsControllerTest < ActionController::TestCase
   test "should get autocomplete" do
     get :index, autocomplete: 'true', term: '', format: 'js'
     assert_not_nil assigns(:patients)
-    assert_template 'autocomplete'
   end
 
   test "should get index with js" do

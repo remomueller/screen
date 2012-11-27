@@ -96,12 +96,6 @@
   <%= image_tag "contour/ajax-loader.gif" unless @patient.subject_code.blank? %>
 </div>
 
-<%= form_tag stickies_patient_path(@patient), method: :post, remote: true, style: 'display:inline', id: "patient_#{@patient.id}_stickies_form" do %>
+<%= form_tag stickies_patient_path(@patient), method: :post, remote: true, style: 'display:inline', id: "patient_#{@patient.id}_stickies_form", data: { object: 'form-load' } do %>
   <%= hidden_field_tag 'screen_token', '' %>
-<% end %>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.post($("#patient_<%= @patient.id %>_stickies_form").attr("action"), $("#patient_<%= @patient.id %>_stickies_form").serialize(), null, "script");
-  });
 <% end %>
