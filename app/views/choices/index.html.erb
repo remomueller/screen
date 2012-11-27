@@ -6,16 +6,10 @@
   </h1>
 </div>
 
-<%= form_tag choices_path, method: :get, remote: true, id: "choices_search", class: 'form-search' do %>
+<%= form_tag choices_path, method: :get, remote: true, id: "choices_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
 <div id="choices"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#choices_search").attr("action"), $("#choices_search").serialize(), null, "script");
-  });
-<% end %>

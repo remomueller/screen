@@ -3,7 +3,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag mailings_path, method: :get, remote: true, id: "mailings_search", class: 'form-search' do %>
+<%= form_tag mailings_path, method: :get, remote: true, id: "mailings_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
 
   <div class="row">
@@ -68,9 +68,3 @@
 <% end %>
 
 <div id="mailings"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#mailings_search").attr("action"), $("#mailings_search").serialize(), null, "script");
-  });
-<% end %>

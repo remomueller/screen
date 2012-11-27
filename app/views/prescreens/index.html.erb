@@ -3,7 +3,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag prescreens_path, method: :get, remote: true, id: "prescreens_search", class: 'form-search' do %>
+<%= form_tag prescreens_path, method: :get, remote: true, id: "prescreens_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="span4 control-group">
@@ -49,9 +49,3 @@
 <% end %>
 
 <div id="prescreens"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#prescreens_search").attr("action"), $("#prescreens_search").serialize(), null, "script");
-  });
-<% end %>

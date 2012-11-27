@@ -15,13 +15,33 @@
 
 jQuery ->
 
-  $("#mrn")
-    .autocomplete(
-      source: root_url + "patients?autocomplete=true"
-      html: true
-      close: (event, ui) ->
-        $(this).closest('form').submit()
-    )
+  $("#mrn").select2(
+    placeholder: "Enter Code(s) or one MRN"
+    allowClear: true,
+    width: 'resolve'
+    minimumInputLength: 1
+    tags: []
+    tokenSeparators: [",", " "]
+    initSelection: (element, callback) ->
+      callback([])
+    ajax:
+      url: root_url + "patients"
+      dataType: 'json'
+      data: (term, page) -> { term: term, autocomplete: 'true' }
+      results: (data, page) -> # parse the results into the format expected by Select2.
+          return results: data
+  ).on("change", (e) ->
+    $(this).closest('form').submit()
+  )
+
+
+  # $("#mrn")
+  #   .autocomplete(
+  #     source: root_url + "patients?autocomplete=true"
+  #     html: true
+  #     close: (event, ui) ->
+  #       $(this).closest('form').submit()
+  #   )
 
   $(document)
     .on('click', '[data-object~="screen-token-update"]', () ->

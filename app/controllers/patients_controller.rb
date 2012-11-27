@@ -34,7 +34,8 @@ class PatientsController < ApplicationController
 
     if params[:autocomplete] == 'true'
       @patients = patient_scope.page(params[:page]).per(10)
-      render 'autocomplete'
+      render json: @patients.collect{|p| { id: p.phi_code(current_user).to_s, text: p.phi_code(current_user) + " - " + p.phi_name(current_user) }}
+      # render 'autocomplete'
     else
       @patients = patient_scope.page(params[:page]).per(20) # (current_user.patients_per_page)
     end
