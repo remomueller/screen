@@ -3,6 +3,9 @@
 * Security Fix
   * Updated Rails to 3.2.10
 
+* Enhancements
+  * Use new Task Tracker 0.24.0 API when creating new groups
+
 * Bug Fix
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive
 
