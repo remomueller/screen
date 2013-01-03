@@ -1,5 +1,8 @@
 == 0.8.4
 
+* Security Fix
+  * Updated Rails to 3.2.10
+
 == 0.8.3
 
 * Enhancements
