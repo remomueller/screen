@@ -50,7 +50,7 @@ class UsersController < ApplicationController
       @user.update_column :subject_handler, params[:user][:subject_handler]
       @user.update_column :access_phi, params[:user][:access_phi]
       @user.update_column :status, params[:user][:status]
-      UserMailer.status_activated(@user).deliver if Rails.env.production? and original_status != @user.status and @user.status = 'active'
+      UserMailer.status_activated(@user).deliver if Rails.env.production? and original_status != @user.status and @user.status == 'active'
       redirect_to(@user, notice: 'User was successfully updated.')
     elsif @user
       render action: "edit"

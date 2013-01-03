@@ -58,22 +58,34 @@ class UsersControllerTest < ActionController::TestCase
   # end
 
   test "should show user" do
-    get :show, id: @user.to_param
+    get :show, id: @user
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @user.to_param
+    get :edit, id: @user
     assert_response :success
   end
 
   test "should update user" do
-    put :update, id: @user.to_param, user: @user.attributes
+    put :update, id: @user, user: @user.attributes
+    assert_redirected_to user_path(assigns(:user))
+  end
+
+  test "should update user and set user active" do
+    put :update, id: users(:pending), user: { status: 'active', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false }
+    assert_equal 'active', assigns(:user).status
+    assert_redirected_to user_path(assigns(:user))
+  end
+
+  test "should update user and set user inactive" do
+    put :update, id: users(:pending), user: { status: 'inactive', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false }
+    assert_equal 'inactive', assigns(:user).status
     assert_redirected_to user_path(assigns(:user))
   end
 
   test "should not update user with blank name" do
-    put :update, id: @user.to_param, user: {first_name: '', last_name: ''}
+    put :update, id: @user, user: { first_name: '', last_name: '' }
     assert_not_nil assigns(:user)
     assert_template 'edit'
   end
@@ -86,7 +98,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should destroy user" do
     assert_difference('User.current.count', -1) do
-      delete :destroy, id: @user.to_param
+      delete :destroy, id: @user
     end
 
     assert_redirected_to users_path
