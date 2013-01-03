@@ -6,19 +6,19 @@
 * Bug Fix
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive
 
-== 0.8.3
+== 0.8.3 (November 27, 2012)
 
 * Enhancements
   * Gem updates including Rails 3.2.9 and Ruby 1.9.3-p327
   * Patient search now uses Select2 JavaScript plugin
   * Updated to Contour 1.1.1 and replaced inline JavaScript with Unobtrusive JavaScript
 
-== 0.8.2
+== 0.8.2 (August 13, 2012)
 
 * Enhancements
   * Updated to Rails 3.2.8
 
-== 0.8.1
+== 0.8.1 (July 31, 2012)
 
 * Enhancements
   * Using unassigned => 1 for JSON request for stickies from Task Tracker
@@ -29,7 +29,7 @@
 * Testing
   * Use ActionDispatch for Integration tests instead of ActionController
 
-== 0.8.0
+== 0.8.0 (July 17, 2012)
 
 * Enhancements
   * Mailing Changes:
@@ -48,12 +48,12 @@
 * Bug Fix
   * Sticky requests from Task Tracker now correctly include stickies for Phone Calls and Visits that are unassigned
 
-== 0.7.10
+== 0.7.10 (July 2, 2012)
 
 * Bug Fix
   * Removed quiet_assets code as it was causing issues with Rails 3.2.6
 
-== 0.7.9
+== 0.7.9 (June 26, 2012)
 
 * Enhancements
   * CSV Exports added for:
@@ -65,13 +65,13 @@
   * Evaluations can be filtered by receipt date, scored date, administration type, and evaluation type
   * Data dictionary export updated to include majority of models
 
-== 0.7.8
+== 0.7.8 (June 21, 2012)
 
 * Enhancements
   * Update to Rails 3.2.6 and Contour 1.0.2
   * Links with confirm: now use data: { confirm: } to account for deprecations in Rails 4.0
 
-== 0.7.7
+== 0.7.7 (June 11, 2012)
 
 * Enhancements
   * Visits can be filtered by visit type
@@ -83,18 +83,18 @@
 * Bug Fix
   * User is now a required field for clinics, doctors, choices, patients, prescreens, mailings, calls, evaluations, and visits
 
-== 0.7.6
+== 0.7.6 (June 6, 2012)
 
 * Enhancements
   * Update to Rails 3.2.5 and Contour 1.0.1
   * Use Ruby 1.9.3-p194
 
-== 0.7.5
+== 0.7.5 (May 24, 2012)
 
 * Bug Fix
   * Timeouts no longer cause an error when trying to login again
 
-== 0.7.4
+== 0.7.4 (May 21, 2012)
 
 * Enhancements
   * Prescreen and Mailing Bulk Imports will now automatically preprend leading zeros to MRNs under the 8-digit length
@@ -102,23 +102,23 @@
 * Bug Fix
   * MRNs are now required to have 8 digits, and be zero-padded
 
-== 0.7.3
+== 0.7.3 (May 9, 2012)
 
 * Enhancements
   * Call Creator is now listed in the participant timeline and on the call show page
   * Calls can now be filtered and sorted by response
 
-== 0.7.2
+== 0.7.2 (May 8, 2012)
 
 * Bug Fix
   * Prescreens, Mailings, Calls, Evaluations, and Visits no longer display if the associated patient has been deleted
 
-== 0.7.1
+== 0.7.1 (May 4, 2012)
 
 * Bug Fix
   * Fix Registration page to use new Contour login attributes
 
-== 0.7.0
+== 0.7.0 (April 30, 2012)
 
 * Enhancements
   * Using Contour 1.0.0 with Twitter-Bootstrap CSS and JS
@@ -126,7 +126,7 @@
 * Bug Fix
   * Spinning icon no longer shows indefinitely on participants without subject code
 
-== 0.6.1
+== 0.6.1 (April 19, 2012)
 
 * Enhancements
   * Calls can now be filtered by the user making the call
@@ -136,7 +136,7 @@
 * Bug Fix
   * Prescreens now require a visit date and time in order to display correctly on the participant timeline
 
-== 0.6.0
+== 0.6.0 (April 13, 2012)
 
 * Enhancements
   * Call comments are now also added to a Task Tracker group description
@@ -148,7 +148,7 @@
 * Bug Fix
   * Fixed minor graphical menu bug for subject handlers
 
-== 0.5.0
+== 0.5.0 (March 30, 2012)
 
 * Enhancements
   * Call creation integration with Task Tracker Templates
@@ -164,13 +164,13 @@
   * Patients index filterable by priority message
   * Update to Rails 3.2.3.rc2
 
-== 0.4.0
+== 0.4.0 (March 23, 2012)
 
 * Enhancements
   * Searching on index pages now uses autocomplete
   * Patient events now displayed as a timeline
 
-== 0.3.0
+== 0.3.0 (March 20, 2012)
 
 * Enhancements
   * Subject Handler Role Added:
@@ -182,12 +182,12 @@
   * Patient events now display only the date for certain events (Mailings, Evaluations, and Visits)
   * Priority Followup added to allow filtering by patients who require immediate followup based on event criteria
 
-== 0.2.1
+== 0.2.1 (March 9, 2012)
 
 * Bug Fix
   * Changed AHI to a decimal instead of an integer
 
-== 0.2.0
+== 0.2.0 (March 9, 2012)
 
 * Enhancements
   * Evaluations have been added to track:
@@ -212,7 +212,7 @@
       * Incoming, Outgoing
     * Call Response now based on preset choices
 
-== 0.1.0
+== 0.1.0 (March 2, 2012)
 
 * Enhancements
   * Prescreen management
@@ -231,6 +231,6 @@
     * Patient list is masked and only accessible by the screener
     * Patient-Event joins use internal ID, references to patient model use de-identified and scrambled id
 
-== 0.0.0
+== 0.0.0 (February 22, 2012)
 
 * Skeleton files to initialize Rails application with testing framework and continuous integration
