@@ -1,5 +1,8 @@
 == 0.8.5
 
+* Enhancements
+  * Updated to Contour 1.1.2, using Contour as pagination theme
+
 * Bug Fix
   * Evaluations with AHI now accept two digits after the decimal
 
