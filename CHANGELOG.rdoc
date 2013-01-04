@@ -1,5 +1,8 @@
 == 0.8.5
 
+* Bug Fix
+  * Evaluations with AHI now accept two digits after the decimal
+
 == 0.8.4 (January 3, 2013)
 
 * Security Fix

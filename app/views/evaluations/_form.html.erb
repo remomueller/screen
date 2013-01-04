@@ -109,7 +109,7 @@
   <div class="control-group">
     <%= f.label :ahi, 'AHI', class: 'control-label' %>
     <div class="controls">
-      <%= f.number_field :ahi, { min: 0 } %>
+      <%= f.number_field :ahi, { min: 0, step: 0.01 } %>
     </div>
   </div>
 
