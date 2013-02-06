@@ -1,4 +1,4 @@
-= Screen {<img src="https://secure.travis-ci.org/remomueller/screen.png"/>}[http://travis-ci.org/remomueller/screen] {<img src="https://gemnasium.com/remomueller/screen.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/screen]
+= Screen {<img src="https://secure.travis-ci.org/remomueller/screen.png"/>}[http://travis-ci.org/remomueller/screen] {<img src="https://gemnasium.com/remomueller/screen.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/screen] {<img src="https://codeclimate.com/github/remomueller/screen.png" />}[https://codeclimate.com/github/remomueller/screen]
 
 Manage prescreens and call log. Using Rails 3.2+ and Ruby 1.9.3+.
 
