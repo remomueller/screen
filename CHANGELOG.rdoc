@@ -1,5 +1,8 @@
 == 0.8.7
 
+* Enhancements
+  * Number of total Baseline Visits reduced to 150, down from 180
+
 == 0.8.6 (January 8, 2013)
 
 * Security Fix
