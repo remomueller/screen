@@ -2,6 +2,7 @@
 
 * Enhancements
   * Number of total Baseline Visits reduced to 150, down from 180
+  * Mailing index now automatically filters to "potentially eligible" patients
 
 * Bug Fix
   * Switching Administration Type should no longer cause an IE7 JavaScript error
