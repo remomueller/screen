@@ -12,6 +12,12 @@ class VisitsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get contact csv" do
+    get :index, format: 'contact_csv'
+    assert_not_nil assigns(:csv_string)
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

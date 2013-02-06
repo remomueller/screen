@@ -30,6 +30,9 @@ class VisitsController < ApplicationController
     if params[:format] == 'csv'
       generate_csv(visit_scope)
       return
+    elsif params[:format] == 'contact_csv'
+      generate_contact_csv(visit_scope)
+      return
     end
 
     @visit_count = visit_scope.count
@@ -104,6 +107,29 @@ class VisitsController < ApplicationController
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                           disposition: "attachment; filename=\"Visits #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
+
+  def generate_contact_csv(visit_scope)
+    @csv_string = CSV.generate do |csv|
+      csv << ["Visit Date", "Subject Code", "Last Name", "First Name", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
+      visit_scope.each do |visit|
+        csv << [
+          visit.visit_date.strftime("%Y-%m-%d"),
+          visit.patient.subject_code,
+          visit.patient.phi_last_name(current_user),
+          visit.patient.phi_first_name(current_user),
+          visit.patient.phi_address1(current_user),
+          visit.patient.phi_city(current_user),
+          visit.patient.phi_state(current_user),
+          visit.patient.phi_zip(current_user),
+          pretty_phone(visit.patient.phi_phone_home(current_user)),
+          pretty_phone(visit.patient.phi_phone_day(current_user))
+        ]
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"Visits Contact List #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+  end
+
 
   def post_params
     params[:visit] ||= {}
