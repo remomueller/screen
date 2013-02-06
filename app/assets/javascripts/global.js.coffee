@@ -1,16 +1,16 @@
 @updateFields = (element) ->
-  if window.choices? and window.toggle_fields?
-    if window.choices[$(element).val()]?
-      window.show_fields = window.choices[$(element).val()]
-      diff = window.toggle_fields.filter( (x) -> return window.show_fields.indexOf(x) < 0 )
-      for field in window.toggle_fields
+  if window.$choices? and window.$toggle_fields?
+    if window.$choices[$(element).val()]?
+      window.$show_fields = window.$choices[$(element).val()]
+      diff = window.$toggle_fields.filter( (x) -> return window.$show_fields.indexOf(x) < 0 )
+      for field in window.$toggle_fields
         $(field).removeAttr('disabled')
         $(field).parent().show()
       for field in diff
         $(field).attr('disabled', 'disabled')
         $(field).parent().hide()
     else
-      for field in window.toggle_fields
+      for field in window.$toggle_fields
         $(field).attr('disabled', 'disabled')
         $(field).parent().hide()
 

@@ -3,6 +3,9 @@
 * Enhancements
   * Number of total Baseline Visits reduced to 150, down from 180
 
+* Bug Fix
+  * Switching Administration Type should no longer cause an IE7 JavaScript error
+
 == 0.8.6 (January 8, 2013)
 
 * Security Fix

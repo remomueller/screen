@@ -59,9 +59,9 @@
     <div class="controls">
       <%= f.select :call_type, [['---', nil]] + Choice.where(category: 'call type').collect{|c| [c.name, c.id]} %>
       <%= javascript_tag do %>
-        window.choices = {};
+        window.$choices = {};
         <% Choice.where(category: 'call type').each do |c| %>
-          window.choices['<%= c.id %>'] = <%= c.fields.collect{|f| "#call_#{f}"}.to_json.html_safe %>;
+          window.$choices['<%= c.id %>'] = <%= c.fields.collect{|f| "#call_#{f}"}.to_json.html_safe %>;
         <% end %>
       <% end %>
     </div>
@@ -153,6 +153,6 @@
 <% end %>
 
 <%= javascript_tag do %>
-  window.toggle_fields = <%= Call::TOGGLE_FIELDS.collect{|f| "#call_#{f}"}.to_json.html_safe %>;
-  window.show_fields = [];
+  window.$toggle_fields = <%= Call::TOGGLE_FIELDS.collect{|f| "#call_#{f}"}.to_json.html_safe %>;
+  window.$show_fields = [];
 <% end %>
