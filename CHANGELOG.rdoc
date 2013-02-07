@@ -1,4 +1,4 @@
-== 0.8.7
+== 0.8.7 (February 7, 2013)
 
 * Enhancements
   * Number of total Baseline Visits reduced to 150, down from 180
