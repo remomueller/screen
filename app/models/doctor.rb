@@ -6,9 +6,10 @@ class Doctor < ActiveRecord::Base
   # Callbacks
   after_save :check_blacklisted
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
   validates_presence_of :name, :doctor_type, :user_id
@@ -17,11 +18,6 @@ class Doctor < ActiveRecord::Base
   # Model Relationships
   has_many :prescreens, conditions: { deleted: false }
   belongs_to :user
-
-  # Class Methods
-  def destroy
-    update_column :deleted, true
-  end
 
   def blacklisted?
     status == 'blacklist'

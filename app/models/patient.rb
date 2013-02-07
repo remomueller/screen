@@ -50,8 +50,16 @@ class Patient < ActiveRecord::Base
   # mrn, first_name, last_name, sex, age, phone_home, phone_day, phone_alt, address1, city, state, zip
 
   def destroy_event(class_name, class_id, event_time, event_name)
-    event = self.events.find_by_class_name_and_class_id_and_event_time_and_name(class_name, class_id, event_time, event_name)
+    event = find_event(class_name, class_id, event_time, event_name)
     event.destroy if event
+  end
+
+  def find_event(class_name, class_id, event_time, event_name)
+    self.events.find_by_class_name_and_class_id_and_event_time_and_name(class_name, class_id, event_time, event_name)
+  end
+
+  def find_or_create_event(class_name, class_id, event_time, event_name)
+    self.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(class_name, class_id, event_time, event_name)
   end
 
   def scrubbed

@@ -51,10 +51,7 @@ class Visit < ActiveRecord::Base
 
   def save_event
     events = self.patient.events.find_all_by_class_name_and_class_id(self.class.name, self.id)
-    unless self.visit_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, visit_time, 'Visit')
-      events = events - [event]
-    end
+    events.delete(self.patient.find_or_create_event(self.class.name, self.id, visit_time, 'Visit')) unless self.visit_date.blank?
     events.each{ |e| e.destroy }
   end
 

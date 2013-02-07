@@ -20,15 +20,11 @@ class Event < ActiveRecord::Base
   end
 
   def full_name
-    if object.class.name == 'Evaluation'
-      "#{object.evaluation_type_name} #{object.administration_type_name} #{self.name}"
-    elsif object.class.name == 'Visit'
-      "#{object.visit_type_name} #{self.name}"
-    elsif object.class.name == 'Call'
-      "#{object.call_type_name} #{self.name}"
-    else
-      self.name
-    end
+    result = self.name.to_s
+    result = "#{object.evaluation_type_name} #{object.administration_type_name} " + result if self.class_name == 'Evaluation'
+    result = "#{object.visit_type_name} " + result if self.class_name == 'Visit'
+    result = "#{object.call_type_name} " + result if self.class_name == 'Call'
+    result
   end
 
   def use_date?

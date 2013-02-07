@@ -59,14 +59,10 @@ class Mailing < ActiveRecord::Base
 
   def save_event
     events = self.patient.events.find_all_by_class_name_and_class_id(self.class.name, self.id)
-    unless self.sent_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, sent_time, 'Mailing Sent')
-      events = events - [event]
-    end
-    unless self.response_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, response_time, 'Mailing Response Received')
-      events = events - [event]
-    end
+
+    events.delete(self.patient.find_or_create_event(self.class.name, self.id, sent_time, 'Mailing Sent')) unless self.sent_date.blank?
+    events.delete(self.patient.find_or_create_event(self.class.name, self.id, response_time, 'Mailing Response Received')) unless self.response_date.blank?
+
     events.each{ |e| e.destroy }
   end
 

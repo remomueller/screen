@@ -3,9 +3,11 @@ class Choice < ActiveRecord::Base
 
   CATEGORIES = ['exclusion', 'participation', 'risk factors', 'evaluation type', 'administration type', 'visit type', 'visit outcome', 'call type', 'call response'].collect{|i| [i,i]}
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(category) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(category) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
 
   # Model Validation
   validates_presence_of :name, :category, :user_id
@@ -17,10 +19,6 @@ class Choice < ActiveRecord::Base
   belongs_to :user
 
   # Class Methods
-  def destroy
-    update_column :deleted, true
-  end
-
   def fields
     included_fields.gsub(/[^\w,\s]/, '').split(/[,\s]/).select{|i| not i.blank?}
   end

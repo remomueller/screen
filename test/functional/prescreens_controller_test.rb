@@ -86,6 +86,18 @@ class PrescreensControllerTest < ActionController::TestCase
     assert_redirected_to patient_path(assigns(:prescreen).patient)
   end
 
+  test "should create prescreen and event" do
+    assert_difference('Event.count') do
+      assert_difference('Prescreen.count') do
+        post :create, prescreen: { patient_id: @prescreen.patient_id, clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id, visit_duration: 0, visit_units: 'minutes', eligibility: '', exclusion: '' }, visit_date: "03/09/2012", visit_time: "10:58am"
+      end
+    end
+
+    assert_not_nil assigns(:prescreen)
+    assert_equal users(:screener), assigns(:prescreen).user
+    assert_redirected_to patient_path(assigns(:prescreen).patient)
+  end
+
   test "should create prescreen with a two digit year" do
     assert_difference('Prescreen.count') do
       post :create, prescreen: { patient_id: @prescreen.patient_id, clinic_id: @prescreen.clinic_id, doctor_id: @prescreen.doctor_id }, visit_date: "04/19/12", visit_time: "9:48am"

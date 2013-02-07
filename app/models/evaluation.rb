@@ -67,18 +67,11 @@ class Evaluation < ActiveRecord::Base
 
   def save_event
     events = self.patient.events.find_all_by_class_name_and_class_id(self.class.name, self.id)
-    unless self.administration_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, administration_time, 'Administered')
-      events = events - [event]
-    end
-    unless self.receipt_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, receipt_time, 'Received')
-      events = events - [event]
-    end
-    unless self.scored_date.blank?
-      event = self.patient.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, scored_time, 'Scored')
-      events = events - [event]
-    end
+
+    events.delete(self.patient.find_or_create_event(self.class.name, self.id, administration_time, 'Administered')) unless self.administration_date.blank?
+    events.delete(self.patient.find_or_create_event(self.class.name, self.id, receipt_time, 'Received')) unless self.receipt_date.blank?
+    events.delete(self.patient.find_or_create_event(self.class.name, self.id, scored_time, 'Scored')) unless self.scored_date.blank?
+
     events.each{ |e| e.destroy }
   end
 

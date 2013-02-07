@@ -4,9 +4,10 @@ class Clinic < ActiveRecord::Base
   # Callbacks
   after_save :check_blacklisted
 
+  # Concerns
+  include Deletable, Searchable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
   validates_presence_of :name, :user_id
@@ -15,11 +16,6 @@ class Clinic < ActiveRecord::Base
   # Model Relationships
   has_many :prescreens, conditions: { deleted: false }
   belongs_to :user
-
-  # Class Methods
-  def destroy
-    update_column :deleted, true
-  end
 
   def blacklisted?
     status == 'blacklist'

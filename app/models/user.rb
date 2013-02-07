@@ -11,15 +11,14 @@ class User < ActiveRecord::Base
   # Callbacks
   after_create :notify_system_admins
 
+  # Concerns
+  include Deletable
+
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
   # Named Scopes
-  scope :current, conditions: { deleted: false }
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
-  scope :system_admins, conditions: { system_admin: true }
-  scope :screeners, conditions: { screener: true }
-  scope :subject_handlers, conditions: { subject_handler: true }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
   scope :with_call, lambda { |*args| { conditions: ["users.id in (select DISTINCT(calls.user_id) from calls)"] }  }
 
   # Model Validation
@@ -46,7 +45,7 @@ class User < ActiveRecord::Base
   end
 
   def destroy
-    update_column :deleted, true
+    super
     update_column :status, 'inactive'
     update_column :updated_at, Time.now
   end
@@ -69,6 +68,7 @@ class User < ActiveRecord::Base
       self.first_name = omniauth['info']['first_name'] if first_name.blank?
       self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
+    self.password = Devise.friendly_token[0,20] if self.password.blank? # Necessary for PostgreSQL
     authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
   end
 
@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
   private
 
   def notify_system_admins
-    User.current.system_admins.each do |system_admin|
+    User.current.where(system_admin: true).each do |system_admin|
       UserMailer.notify_system_admin(system_admin, self).deliver if Rails.env.production?
     end
   end
