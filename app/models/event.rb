@@ -1,14 +1,11 @@
 class Event < ActiveRecord::Base
   attr_accessible :patient_id, :class_name, :class_id, :event_time, :name
 
+  # Concerns
+  include Patientable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :with_mrn, lambda { |*args| { conditions: ["events.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
-                                                                                                                 LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
-                                                                                                                 LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
-  scope :with_subject_code, lambda { |*args| { conditions: ["events.patient_id in (select patients.id from patients where LOWER(patients.subject_code) IN (?))", args.first] } }
   scope :with_patient, lambda { |*args| { conditions: ["events.patient_id LIKE ?", args.first] } }
-  scope :subject_code_not_blank, conditions: ["events.patient_id in (select patients.id from patients where patients.subject_code != '')"]
 
   # Model Validation
   validates_presence_of :patient_id, :event_time
@@ -44,9 +41,6 @@ class Event < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
-    # Does not make sense to delete the object if only one of its events is deleted.
-    # object = self.class_name.constantize.find_by_id(self.class_id)
-    # object.destroy if object and not object.deleted?
   end
 
   def image

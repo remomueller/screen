@@ -4,13 +4,10 @@ class Visit < ActiveRecord::Base
   # Callbacks
   after_save :save_event
 
+  # Concerns
+  include Patientable
+
   # Named Scopes
-  scope :current, conditions: ["visits.deleted = ? and visits.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["visits.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
-                                                                                                                 LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
-                                                                                                                 LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
-  scope :with_subject_code, lambda { |*args| { conditions: ["visits.patient_id in (select patients.id from patients where LOWER(patients.subject_code) IN (?))", args.first] } }
-  scope :subject_code_not_blank, conditions: ["visits.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :visit_before, lambda { |*args| { conditions: ["visits.visit_date < ?", (args.first+1.day)]} }
   scope :visit_after, lambda { |*args| { conditions: ["visits.visit_date >= ?", args.first]} }
 
@@ -49,8 +46,7 @@ class Visit < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, visit_time, 'Visit')
-    event.update_column :deleted, true if event
+    self.patient.destroy_event(self.class.name, self.id, visit_time, 'Visit')
   end
 
   def save_event

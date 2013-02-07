@@ -4,14 +4,26 @@ class Patient < ActiveRecord::Base
   EDITABLES = ['phone_home', 'city', 'state']
   PRIORITY_MESSAGES = [["Latest Call is ...", "Latest Call is %"], ["Latest Call is ... and no Embletta Administered", "Latest Call is % and no Embletta Administered"], ["Baseline Visit and no 2-month Call after 68 days", "Baseline Visit and no 2-month Call after 68 days"]]
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :with_mrn, lambda { |*args| { conditions: ["LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
-                                                    LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
-                                                    LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?)",
-                                                    args.first.downcase.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%',
-                                                    '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%',
-                                                    '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
+  scope :with_mrn, lambda { |arg| { conditions: ["LOWER(patients.mrn) LIKE ? or
+                                                  LOWER(patients.subject_code) LIKE ? or
+                                                  LOWER(patients.first_name) LIKE ? or
+                                                  LOWER(patients.last_name) LIKE ? or
+                                                  LOWER(patients.phone_home) LIKE ? or
+                                                  LOWER(patients.phone_day) LIKE ? or
+                                                  LOWER(patients.phone_alt) LIKE ? or
+                                                  LOWER(patients.email) LIKE ?",
+                                                  arg.to_s.downcase + '%',
+                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                                  arg.to_s.downcase.gsub(/^| |$/, '%')] } }
   scope :subject_code_not_blank, conditions: ["patients.subject_code != ''"]
   scope :with_priority_message, lambda { |*args| { conditions: ["patients.priority_message LIKE ?", "%" + args.first + "%"] } }
 
@@ -36,6 +48,11 @@ class Patient < ActiveRecord::Base
 
   # The following require access_phi to view
   # mrn, first_name, last_name, sex, age, phone_home, phone_day, phone_alt, address1, city, state, zip
+
+  def destroy_event(class_name, class_id, event_time, event_name)
+    event = self.events.find_by_class_name_and_class_id_and_event_time_and_name(class_name, class_id, event_time, event_name)
+    event.destroy if event
+  end
 
   def scrubbed
     '---'
@@ -120,10 +137,6 @@ class Patient < ActiveRecord::Base
 
   def address
     [self.address1, self.city, self.state, self.zip].select{|i| not i.blank?}.join(', ')
-  end
-
-  def destroy
-    update_column :deleted, true
   end
 
   def no_subject_code?

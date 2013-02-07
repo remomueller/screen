@@ -8,16 +8,13 @@ class Call < ActiveRecord::Base
   # Callbacks
   after_save :save_event
 
+  # Concerns
+  include Patientable
+
   # Named Scopes
-  scope :current, conditions: ["calls.deleted = ? and calls.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["calls.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
-                                                                                                                LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
-                                                                                                                LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
-  scope :with_subject_code, lambda { |*args| { conditions: ["calls.patient_id in (select patients.id from patients where LOWER(patients.subject_code) IN (?))", args.first] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["calls.eligibility IN (?)", args.first] } }
   scope :with_user, lambda { |*args| { conditions: ["calls.user_id in (?)", args.first] } }
   scope :with_response, lambda { |*args| { conditions: ["calls.response in (?)", args.first] } }
-  scope :subject_code_not_blank, conditions: ["calls.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :call_before, lambda { |*args| { conditions: ["calls.call_time < ?", (args.first+1.day).at_midnight]} }
   scope :call_after, lambda { |*args| { conditions: ["calls.call_time >= ?", args.first.at_midnight]} }
 
@@ -60,8 +57,7 @@ class Call < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.call_time, 'Phone Call')
-    event.update_column :deleted, true if event
+    self.patient.destroy_event(self.class.name, self.id, self.call_time, 'Phone Call')
   end
 
   def save_event

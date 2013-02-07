@@ -10,14 +10,11 @@ class Prescreen < ActiveRecord::Base
   # Callbacks
   after_save :save_event
 
+  # Concerns
+  include Patientable, Parseable
+
   # Named Scopes
-  scope :current, conditions: ["prescreens.deleted = ? and prescreens.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
-                                                                                                                     LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
-                                                                                                                     LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
-  scope :with_subject_code, lambda { |*args| { conditions: ["prescreens.patient_id in (select patients.id from patients where LOWER(patients.subject_code) IN (?))", args.first] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["prescreens.eligibility IN (?)", args.first] } }
-  scope :subject_code_not_blank, conditions: ["prescreens.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :visit_before, lambda { |*args| { conditions: ["prescreens.visit_at < ?", (args.first+1.day).at_midnight]} }
   scope :visit_after, lambda { |*args| { conditions: ["prescreens.visit_at >= ?", args.first.at_midnight]} }
   scope :with_no_calls, lambda { |*args| { conditions: ["prescreens.patient_id not in (select DISTINCT(calls.patient_id) from calls)"]} }
@@ -69,8 +66,7 @@ class Prescreen < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, self.visit_at, 'Prescreen')
-    event.update_column :deleted, true if event
+    self.patient.destroy_event(self.class.name, self.id, self.visit_at, 'Prescreen')
   end
 
   # Tab delimited
@@ -139,10 +135,4 @@ class Prescreen < ActiveRecord::Base
     events.each{ |e| e.destroy }
   end
 
-  private
-
-  # The primary version of this is in app/controllers/application_controller.rb
-  def self.parse_date(date_string, default_date = '')
-    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
-  end
 end

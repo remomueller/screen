@@ -6,14 +6,11 @@ class Mailing < ActiveRecord::Base
   # Callbacks
   after_save :save_event
 
+  # Concerns
+  include Patientable, Parseable
+
   # Named Scopes
-  scope :current, conditions: ["mailings.deleted = ? and mailings.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["mailings.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
-                                                                                                                   LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
-                                                                                                                   LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
-  scope :with_subject_code, lambda { |*args| { conditions: ["mailings.patient_id in (select patients.id from patients where LOWER(patients.subject_code) IN (?))", args.first] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["mailings.eligibility IN (?)", args.first] } }
-  scope :subject_code_not_blank, conditions: ["mailings.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :sent_before, lambda { |*args| { conditions: ["mailings.sent_date < ?", (args.first+1.day)]} }
   scope :sent_after, lambda { |*args| { conditions: ["mailings.sent_date >= ?", args.first]} }
   scope :response_before, lambda { |*args| { conditions: ["mailings.response_date < ?", (args.first+1.day)]} }
@@ -56,10 +53,8 @@ class Mailing < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, sent_time, 'Mailing Sent')
-    event.update_column :deleted, true if event
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, response_time, 'Mailing Response Received')
-    event.update_column :deleted, true if event
+    self.patient.destroy_event(self.class.name, self.id, sent_time, 'Mailing Sent')
+    self.patient.destroy_event(self.class.name, self.id, response_time, 'Mailing Response Received')
   end
 
   def save_event
@@ -133,13 +128,6 @@ class Mailing < ActiveRecord::Base
     end
 
     { mailing: Mailing.current.count - mailings, doctor: Doctor.current.count - doctors, 'ignored mailing' => ignored_mailings }
-  end
-
-  private
-
-  # The primary version of this is in app/controllers/application_controller.rb
-  def self.parse_date(date_string, default_date = '')
-    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
   end
 
 end

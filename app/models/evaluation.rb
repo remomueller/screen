@@ -8,21 +8,17 @@ class Evaluation < ActiveRecord::Base
   # Callbacks
   after_save :save_event
 
+  # Concerns
+  include Patientable
+
   # Named Scopes
-  scope :current, conditions: ["evaluations.deleted = ? and evaluations.patient_id IN (select patients.id from patients where patients.deleted = ?)", false, false]
-  scope :with_mrn, lambda { |*args| { conditions: ["evaluations.patient_id in (select patients.id from patients where LOWER(patients.mrn) LIKE (?) or LOWER(patients.subject_code) LIKE (?) or
-                                                                                                                      LOWER(patients.first_name) LIKE (?) or LOWER(patients.last_name) LIKE (?) or
-                                                                                                                      LOWER(patients.phone_home) LIKE (?) or LOWER(patients.phone_day) LIKE (?) or LOWER(patients.phone_alt) LIKE (?))", args.first.to_s + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%'] } }
-  scope :with_subject_code, lambda { |*args| { conditions: ["evaluations.patient_id in (select patients.id from patients where LOWER(patients.subject_code) IN (?))", args.first] } }
   scope :with_eligibility, lambda { |*args| { conditions: ["evaluations.eligibility IN (?)", args.first] } }
-  scope :subject_code_not_blank, conditions: ["evaluations.patient_id in (select patients.id from patients where patients.subject_code != '')"]
   scope :administration_before, lambda { |*args| { conditions: ["evaluations.administration_date < ?", (args.first+1.day)]} }
   scope :administration_after, lambda { |*args| { conditions: ["evaluations.administration_date >= ?", args.first]} }
   scope :receipt_before, lambda { |*args| { conditions: ["evaluations.receipt_date < ?", (args.first+1.day)]} }
   scope :receipt_after, lambda { |*args| { conditions: ["evaluations.receipt_date >= ?", args.first]} }
   scope :scored_before, lambda { |*args| { conditions: ["evaluations.scored_date < ?", (args.first+1.day)]} }
   scope :scored_after, lambda { |*args| { conditions: ["evaluations.scored_date >= ?", args.first]} }
-
 
   # Model Validation
   validates_presence_of :patient_id, :administration_date, :administration_type, :evaluation_type, :user_id
@@ -64,12 +60,9 @@ class Evaluation < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, administration_time, 'Administered')
-    event.update_column :deleted, true if event
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, receipt_time, 'Received')
-    event.update_column :deleted, true if event
-    event = self.patient.events.find_by_class_name_and_class_id_and_event_time_and_name(self.class.name, self.id, scored_time, 'Scored')
-    event.update_column :deleted, true if event
+    self.patient.destroy_event(self.class.name, self.id, administration_time, 'Administered')
+    self.patient.destroy_event(self.class.name, self.id, receipt_time, 'Received')
+    self.patient.destroy_event(self.class.name, self.id, scored_time, 'Scored')
   end
 
   def save_event
