@@ -122,7 +122,8 @@ class PatientsController < ApplicationController
         :mrn, :first_name, :last_name,
         :phone_home, :phone_day, :phone_alt,
         :sex, :age,
-        :address1, :city, :state, :zip
+        :address1, :city, :state, :zip,
+        :email
       )
     else
       params[:patient].slice(

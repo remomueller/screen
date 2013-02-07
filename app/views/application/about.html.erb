@@ -57,5 +57,10 @@
 <hr class="soften">
 
 <footer class="footer">
-  <p class="muted about-footer"><%= DEFAULT_APP_NAME %> Version <%= link_to Screen::VERSION::STRING, "https://github.com/remomueller/screen/tree/#{Screen::VERSION::MAJOR}.#{Screen::VERSION::MINOR}.#{Screen::VERSION::TINY}" %></p>
+  <p class="muted about-footer">
+    <%= DEFAULT_APP_NAME %> Version <%= link_to Screen::VERSION::STRING, "https://github.com/remomueller/screen/tree/#{Screen::VERSION::MAJOR}.#{Screen::VERSION::MINOR}.#{Screen::VERSION::TINY}" %>
+  </p>
+  <p class="muted about-footer">
+    By using <%= DEFAULT_APP_NAME %> you are agreeing to the <%= link_to 'Acceptable Use Policy', about_use_path %>.
+  </p>
 </footer>

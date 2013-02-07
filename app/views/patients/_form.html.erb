@@ -64,6 +64,12 @@
     </div>
   </div>
   <div class="control-group">
+    <%= f.label :email, nil, class: 'control-label' %>
+    <div class="controls">
+      <% if current_user.access_phi? %><%= f.text_field :email %><% else %><%= @patient.phi_email(current_user) %><% end %>
+    </div>
+  </div>
+  <div class="control-group">
     <%= f.label :sex, class: 'control-label' %>
     <div class="controls">
       <% if current_user.access_phi? %><%= f.text_field :sex %><% else %><%= @patient.phi_sex(current_user) %><% end %>
