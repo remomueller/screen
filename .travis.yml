@@ -6,6 +6,3 @@ before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "mysql -e 'create database screen_test;'"
   - "bundle exec rake db:migrate"
-matrix:
-  allow_failures:
-    - rvm: 2.0.0
