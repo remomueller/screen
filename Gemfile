@@ -11,6 +11,7 @@ gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw
 # Gems used by project
 gem 'contour',              '~> 1.1.3'
 gem 'kaminari',             '~> 0.14.1'
+gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
