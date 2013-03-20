@@ -1,5 +1,8 @@
 ## 0.8.9
 
+### Enhancements
+- Use of Ruby 2.0.0-p0 is now recommended
+
 ## 0.8.8 (February 14, 2013)
 
 ### Security Fix
