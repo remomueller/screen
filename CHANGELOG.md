@@ -1,4 +1,4 @@
-## 0.8.9
+## 0.8.9 (March 20, 2013)
 
 ### Enhancements
 - Use of Ruby 2.0.0-p0 is now recommended
