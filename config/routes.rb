@@ -49,8 +49,8 @@ Screen::Application.routes.draw do
 
   resources :users
 
-  match "/about" => "application#about", as: :about
-  match "/about/use" => "application#use", as: :about_use
+  get "/about" => "application#about", as: :about
+  get "/about/use" => "application#use", as: :about_use
 
   root to: 'application#dashboard'
 

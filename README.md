@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/screen.png)](https://gemnasium.com/remomueller/screen)
 [![Code Climate](https://codeclimate.com/github/remomueller/screen.png)](https://codeclimate.com/github/remomueller/screen)
 
-Manage prescreens and call log. Using Rails 3.2+ and Ruby 2.0.0+.
+Manage prescreens and call log. Using Rails 4.0+ and Ruby 2.0.0+.
 
 ## Installation
 
