@@ -44,6 +44,14 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def empty_response_or_root_path(path = root_path)
+    respond_to do |format|
+      format.html { redirect_to path }
+      format.js { render nothing: true }
+      format.json { head :no_content }
+    end
+  end
+
   def send_message(service, form_data = {}, method = "get", limit = 1, service_url = '')
     return { result: '', error: 'No Task Tracker URL provided' } if TASK_TRACKER_URL.blank? or TT_EMAIL.blank? or TT_PASSWORD.blank?
     error = ''
