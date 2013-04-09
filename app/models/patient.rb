@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-  attr_accessible :mrn, :subject_code, :name_code, :first_name, :last_name, :phone_home, :phone_day, :phone_alt, :sex, :age, :address1, :city, :state, :zip, :priority, :priority_message, :user_id, :email
+  # attr_accessible :mrn, :subject_code, :name_code, :first_name, :last_name, :phone_home, :phone_day, :phone_alt, :sex, :age, :address1, :city, :state, :zip, :priority, :priority_message, :user_id, :email
 
   EDITABLES = ['phone_home', 'city', 'state']
   PRIORITY_MESSAGES = [["Latest Call is ...", "Latest Call is %"], ["Latest Call is ... and no Embletta Administered", "Latest Call is % and no Embletta Administered"], ["Baseline Visit and no 2-month Call after 68 days", "Baseline Visit and no 2-month Call after 68 days"]]
@@ -8,24 +8,24 @@ class Patient < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :with_mrn, lambda { |arg| { conditions: ["LOWER(patients.mrn) LIKE ? or
-                                                  LOWER(patients.subject_code) LIKE ? or
-                                                  LOWER(patients.first_name) LIKE ? or
-                                                  LOWER(patients.last_name) LIKE ? or
-                                                  LOWER(patients.phone_home) LIKE ? or
-                                                  LOWER(patients.phone_day) LIKE ? or
-                                                  LOWER(patients.phone_alt) LIKE ? or
-                                                  LOWER(patients.email) LIKE ?",
-                                                  arg.to_s.downcase + '%',
-                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
-                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
-                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
-                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
-                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
-                                                  arg.to_s.downcase.gsub(/^| |$/, '%'),
-                                                  arg.to_s.downcase.gsub(/^| |$/, '%')] } }
-  scope :subject_code_not_blank, conditions: ["patients.subject_code != ''"]
-  scope :with_priority_message, lambda { |*args| { conditions: ["patients.priority_message LIKE ?", "%" + args.first + "%"] } }
+  scope :with_mrn, lambda { |arg| where( "LOWER(patients.mrn) LIKE ? or
+                                          LOWER(patients.subject_code) LIKE ? or
+                                          LOWER(patients.first_name) LIKE ? or
+                                          LOWER(patients.last_name) LIKE ? or
+                                          LOWER(patients.phone_home) LIKE ? or
+                                          LOWER(patients.phone_day) LIKE ? or
+                                          LOWER(patients.phone_alt) LIKE ? or
+                                          LOWER(patients.email) LIKE ?",
+                                          arg.to_s.downcase + '%',
+                                          arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                          arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                          arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                          arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                          arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                          arg.to_s.downcase.gsub(/^| |$/, '%'),
+                                          arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :subject_code_not_blank, -> { where "patients.subject_code != ''" }
+  scope :with_priority_message, lambda { |arg| where( "patients.priority_message LIKE ?", "%" + arg + "%" ) }
 
   # Model Validation
   validates_presence_of :mrn, if: :no_subject_code?
@@ -36,12 +36,12 @@ class Patient < ActiveRecord::Base
   validates_presence_of :user_id
 
   # Model Relationships
-  has_many :calls, conditions: { deleted: false }
-  has_many :evaluations, conditions: { deleted: false }
-  has_many :events, conditions: { deleted: false }
-  has_many :mailings, conditions: { deleted: false }
-  has_many :prescreens, conditions: { deleted: false }
-  has_many :visits, conditions: { deleted: false }
+  has_many :calls, -> { where deleted: false }
+  has_many :evaluations, -> { where deleted: false }
+  has_many :events, -> { where deleted: false }
+  has_many :mailings, -> { where deleted: false }
+  has_many :prescreens, -> { where deleted: false }
+  has_many :visits, -> { where deleted: false }
   belongs_to :user
 
   # Class Methods

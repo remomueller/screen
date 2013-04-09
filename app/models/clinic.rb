@@ -1,5 +1,5 @@
 class Clinic < ActiveRecord::Base
-  attr_accessible :name, :status, :user_id
+  # attr_accessible :name, :status, :user_id
 
   # Callbacks
   after_save :check_blacklisted
@@ -14,7 +14,7 @@ class Clinic < ActiveRecord::Base
   validates_uniqueness_of :name, scope: :deleted
 
   # Model Relationships
-  has_many :prescreens, conditions: { deleted: false }
+  has_many :prescreens, -> { where deleted: false }
   belongs_to :user
 
   def blacklisted?

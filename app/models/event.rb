@@ -1,17 +1,17 @@
 class Event < ActiveRecord::Base
-  attr_accessible :patient_id, :class_name, :class_id, :event_time, :name
+  # attr_accessible :patient_id, :class_name, :class_id, :event_time, :name
 
   # Concerns
   include Patientable
 
   # Named Scopes
-  scope :with_patient, lambda { |*args| { conditions: ["events.patient_id LIKE ?", args.first] } }
+  scope :with_patient, lambda { |arg| where( "events.patient_id LIKE ?", arg ) }
 
   # Model Validation
   validates_presence_of :patient_id, :event_time
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }, touch: true
+  belongs_to :patient, -> { where deleted: false }, touch: true
 
   # Class Methods
 

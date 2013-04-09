@@ -1,5 +1,5 @@
 class Doctor < ActiveRecord::Base
-  attr_accessible :name, :doctor_type, :status, :user_id
+  # attr_accessible :name, :doctor_type, :status, :user_id
 
   DOCTOR_TYPE = ["cardiologist", "endocrinologist", "somnologist"].collect{|i| [i,i]}
 
@@ -13,10 +13,10 @@ class Doctor < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :name, :doctor_type, :user_id
-  validates_uniqueness_of :name, scope: [:doctor_type, :deleted]
+  validates_uniqueness_of :name, scope: [ :doctor_type, :deleted ]
 
   # Model Relationships
-  has_many :prescreens, conditions: { deleted: false }
+  has_many :prescreens, -> { where deleted: false }
   belongs_to :user
 
   def blacklisted?

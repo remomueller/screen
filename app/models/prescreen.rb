@@ -1,5 +1,5 @@
 class Prescreen < ActiveRecord::Base
-  attr_accessible :patient_id, :clinic_id, :doctor_id, :visit_at, :visit_duration, :visit_units, :eligibility, :exclusion, :risk_factor_ids, :comments, :user_id
+  # attr_accessible :patient_id, :clinic_id, :doctor_id, :visit_at, :visit_duration, :visit_units, :eligibility, :exclusion, :risk_factor_ids, :comments, :user_id
 
   VALID_AGE = defined?(RULE_AGE) ? RULE_AGE : ()
   EDITABLES = ['eligibility', 'exclusion']
@@ -14,19 +14,19 @@ class Prescreen < ActiveRecord::Base
   include Patientable, Parseable
 
   # Named Scopes
-  scope :with_eligibility, lambda { |*args| { conditions: ["prescreens.eligibility IN (?)", args.first] } }
-  scope :visit_before, lambda { |*args| { conditions: ["prescreens.visit_at < ?", (args.first+1.day).at_midnight]} }
-  scope :visit_after, lambda { |*args| { conditions: ["prescreens.visit_at >= ?", args.first.at_midnight]} }
-  scope :with_no_calls, lambda { |*args| { conditions: ["prescreens.patient_id not in (select DISTINCT(calls.patient_id) from calls)"]} }
+  scope :with_eligibility, lambda { |arg| where( "prescreens.eligibility IN (?)", arg ) }
+  scope :visit_before, lambda { |arg| where( "prescreens.visit_at < ?", (arg+1.day).at_midnight ) }
+  scope :visit_after, lambda { |arg| where( "prescreens.visit_at >= ?", arg.at_midnight ) }
+  scope :with_no_calls, -> { where( "prescreens.patient_id not in (select DISTINCT(calls.patient_id) from calls)" ) }
 
   # Model Validation
   validates_presence_of :clinic_id, :doctor_id, :patient_id, :user_id
   validates_presence_of :visit_at, message: 'date and time can\'t be blank'
 
   # Model Relationships
-  belongs_to :clinic, conditions: { deleted: false }
-  belongs_to :doctor, conditions: { deleted: false }
-  belongs_to :patient, conditions: { deleted: false }, touch: true
+  belongs_to :clinic, -> { where deleted: false }
+  belongs_to :doctor, -> { where deleted: false }
+  belongs_to :patient, -> { where deleted: false }, touch: true
   has_and_belongs_to_many :risk_factors, class_name: 'Choice'
   belongs_to :user
 

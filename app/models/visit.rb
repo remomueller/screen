@@ -1,5 +1,5 @@
 class Visit < ActiveRecord::Base
-  attr_accessible :patient_id, :visit_type, :visit_date, :outcome, :comments
+  # attr_accessible :patient_id, :visit_type, :visit_date, :outcome, :comments
 
   # Callbacks
   after_save :save_event
@@ -8,14 +8,14 @@ class Visit < ActiveRecord::Base
   include Patientable
 
   # Named Scopes
-  scope :visit_before, lambda { |*args| { conditions: ["visits.visit_date < ?", (args.first+1.day)]} }
-  scope :visit_after, lambda { |*args| { conditions: ["visits.visit_date >= ?", args.first]} }
+  scope :visit_before, lambda { |arg| where( "visits.visit_date < ?", arg+1.day ) }
+  scope :visit_after, lambda { |arg| where( "visits.visit_date >= ?", arg ) }
 
   # Model Validation
   validates_presence_of :patient_id, :visit_type, :visit_date, :outcome, :user_id
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }, touch: true
+  belongs_to :patient, -> { where deleted: false }, touch: true
   belongs_to :user
 
   # Class Methods

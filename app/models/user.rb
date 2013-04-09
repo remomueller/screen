@@ -4,22 +4,22 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name,
-                  :task_tracker_screen_token
+  # # Setup accessible (or protected) attributes for your model
+  # attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name,
+  #                 :task_tracker_screen_token
 
   # Callbacks
   after_create :notify_system_admins
 
   # Concerns
-  include Deletable
+  include Contourable, Deletable
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
   # Named Scopes
-  scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :with_call, lambda { |*args| { conditions: ["users.id in (select DISTINCT(calls.user_id) from calls)"] }  }
+  scope :status, lambda { |arg| where( status: arg ) }
+  scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :with_call, -> {  where( "users.id in (select DISTINCT(calls.user_id) from calls)" ) }
 
   # Model Validation
   validates_presence_of     :first_name
@@ -27,15 +27,15 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :authentications
-  has_many :calls, conditions: { deleted: false }
-  has_many :choices, conditions: { deleted: false }
-  has_many :clinics, conditions: { deleted: false }
-  has_many :doctors, conditions: { deleted: false }
-  has_many :evaluations, conditions: { deleted: false }
-  has_many :mailings, conditions: { deleted: false }
-  has_many :patients, conditions: { deleted: false }
-  has_many :prescreens, conditions: { deleted: false }
-  has_many :visits, conditions: { deleted: false }
+  has_many :calls, -> { where deleted: false }
+  has_many :choices, -> { where deleted: false }
+  has_many :clinics, -> { where deleted: false }
+  has_many :doctors, -> { where deleted: false }
+  has_many :evaluations, -> { where deleted: false }
+  has_many :mailings, -> { where deleted: false }
+  has_many :patients, -> { where deleted: false }
+  has_many :prescreens, -> { where deleted: false }
+  has_many :visits, -> { where deleted: false }
 
   # User Methods
 
@@ -62,18 +62,13 @@ class User < ActiveRecord::Base
     "#{last_name}, #{first_name}"
   end
 
+  # Override of Contourable
   def apply_omniauth(omniauth)
     unless omniauth['info'].blank?
-      self.email = omniauth['info']['email'] if email.blank?
       self.first_name = omniauth['info']['first_name'] if first_name.blank?
       self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
-    self.password = Devise.friendly_token[0,20] if self.password.blank? # Necessary for PostgreSQL
-    authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
-  end
-
-  def password_required?
-    (authentications.empty? || !password.blank?) && super
+    super
   end
 
   private

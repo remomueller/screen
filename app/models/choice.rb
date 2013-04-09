@@ -1,5 +1,5 @@
 class Choice < ActiveRecord::Base
-  attr_accessible :category, :name, :description, :color, :included_fields
+  # attr_accessible :category, :name, :description, :color, :included_fields
 
   CATEGORIES = ['exclusion', 'participation', 'risk factors', 'evaluation type', 'administration type', 'visit type', 'visit outcome', 'call type', 'call response'].collect{|i| [i,i]}
 
@@ -7,7 +7,7 @@ class Choice < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(category) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
+  scope :search, lambda { |arg| where( 'LOWER(name) LIKE ? or LOWER(category) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
 
   # Model Validation
   validates_presence_of :name, :category, :user_id

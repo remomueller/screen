@@ -1,5 +1,5 @@
 class Evaluation < ActiveRecord::Base
-  attr_accessible :patient_id, :administration_type, :evaluation_type, :administration_date, :source, :embletta_unit_number, :expected_receipt_date, :receipt_date, :storage_date, :subject_notified, :reimbursement_form_date, :scored_date, :ahi, :eligibility, :exclusion, :status, :comments
+  # attr_accessible :patient_id, :administration_type, :evaluation_type, :administration_date, :source, :embletta_unit_number, :expected_receipt_date, :receipt_date, :storage_date, :subject_notified, :reimbursement_form_date, :scored_date, :ahi, :eligibility, :exclusion, :status, :comments
 
   ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible'], ['fully eligible', 'fully eligible']]
   STATUS = [['---', nil], ['pass', 'pass'], ['fail', 'fail']]
@@ -12,19 +12,19 @@ class Evaluation < ActiveRecord::Base
   include Patientable
 
   # Named Scopes
-  scope :with_eligibility, lambda { |*args| { conditions: ["evaluations.eligibility IN (?)", args.first] } }
-  scope :administration_before, lambda { |*args| { conditions: ["evaluations.administration_date < ?", (args.first+1.day)]} }
-  scope :administration_after, lambda { |*args| { conditions: ["evaluations.administration_date >= ?", args.first]} }
-  scope :receipt_before, lambda { |*args| { conditions: ["evaluations.receipt_date < ?", (args.first+1.day)]} }
-  scope :receipt_after, lambda { |*args| { conditions: ["evaluations.receipt_date >= ?", args.first]} }
-  scope :scored_before, lambda { |*args| { conditions: ["evaluations.scored_date < ?", (args.first+1.day)]} }
-  scope :scored_after, lambda { |*args| { conditions: ["evaluations.scored_date >= ?", args.first]} }
+  scope :with_eligibility, lambda { |arg| where( "evaluations.eligibility IN (?)", arg ) }
+  scope :administration_before, lambda { |arg| where( "evaluations.administration_date < ?", arg+1.day ) }
+  scope :administration_after, lambda { |arg| where( "evaluations.administration_date >= ?", arg ) }
+  scope :receipt_before, lambda { |arg| where( "evaluations.receipt_date < ?", arg+1.day ) }
+  scope :receipt_after, lambda { |arg| where( "evaluations.receipt_date >= ?", arg ) }
+  scope :scored_before, lambda { |arg| where( "evaluations.scored_date < ?", arg+1.day ) }
+  scope :scored_after, lambda { |arg| where( "evaluations.scored_date >= ?", arg ) }
 
   # Model Validation
   validates_presence_of :patient_id, :administration_date, :administration_type, :evaluation_type, :user_id
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }, touch: true
+  belongs_to :patient, -> { where deleted: false }, touch: true
   belongs_to :user
 
   # Class Methods

@@ -1,5 +1,5 @@
 class Call < ActiveRecord::Base
-  attr_accessible :patient_id, :call_type, :direction, :response, :call_time, :berlin, :ess, :eligibility, :exclusion, :participation, :comments, :tt_template_id, :tt_group_id
+  # attr_accessible :patient_id, :call_type, :direction, :response, :call_time, :berlin, :ess, :eligibility, :exclusion, :participation, :comments, :tt_template_id, :tt_group_id
 
   ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
   CALL_DIRECTION = [['---', nil], ['incoming', 'incoming'], ['outgoing','outgoing']]
@@ -12,17 +12,17 @@ class Call < ActiveRecord::Base
   include Patientable
 
   # Named Scopes
-  scope :with_eligibility, lambda { |*args| { conditions: ["calls.eligibility IN (?)", args.first] } }
-  scope :with_user, lambda { |*args| { conditions: ["calls.user_id in (?)", args.first] } }
-  scope :with_response, lambda { |*args| { conditions: ["calls.response in (?)", args.first] } }
-  scope :call_before, lambda { |*args| { conditions: ["calls.call_time < ?", (args.first+1.day).at_midnight]} }
-  scope :call_after, lambda { |*args| { conditions: ["calls.call_time >= ?", args.first.at_midnight]} }
+  scope :with_eligibility, lambda { |arg| where( "calls.eligibility IN (?)", arg ) }
+  scope :with_user, lambda { |arg| where( "calls.user_id in (?)", arg ) }
+  scope :with_response, lambda { |arg| where( "calls.response in (?)", arg ) }
+  scope :call_before, lambda { |arg| where( "calls.call_time < ?", (arg+1.day).at_midnight ) }
+  scope :call_after, lambda { |arg| where( "calls.call_time >= ?", arg.at_midnight ) }
 
   # Model Validation
   validates_presence_of :patient_id, :call_time, :call_type, :direction, :user_id
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }, touch: true
+  belongs_to :patient, -> { where deleted: false }, touch: true
   belongs_to :user
 
   # Class Methods

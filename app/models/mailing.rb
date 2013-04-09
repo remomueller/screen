@@ -1,5 +1,5 @@
 class Mailing < ActiveRecord::Base
-  attr_accessible :patient_id, :doctor_id, :sent_date, :response_date, :berlin, :ess, :eligibility, :exclusion, :participation, :risk_factor_ids, :comments, :user_id
+  # attr_accessible :patient_id, :doctor_id, :sent_date, :response_date, :berlin, :ess, :eligibility, :exclusion, :participation, :risk_factor_ids, :comments, :user_id
 
   ELIGIBILITY = [['---', nil], ['potentially eligible','potentially eligible'], ['ineligible','ineligible']]
 
@@ -10,22 +10,21 @@ class Mailing < ActiveRecord::Base
   include Patientable, Parseable
 
   # Named Scopes
-  scope :with_eligibility, lambda { |*args| { conditions: ["mailings.eligibility IN (?)", args.first] } }
-  scope :sent_before, lambda { |*args| { conditions: ["mailings.sent_date < ?", (args.first+1.day)]} }
-  scope :sent_after, lambda { |*args| { conditions: ["mailings.sent_date >= ?", args.first]} }
-  scope :response_before, lambda { |*args| { conditions: ["mailings.response_date < ?", (args.first+1.day)]} }
-  scope :response_after, lambda { |*args| { conditions: ["mailings.response_date >= ?", args.first]} }
-
+  scope :with_eligibility, lambda { |arg| where( "mailings.eligibility IN (?)", arg ) }
+  scope :sent_before, lambda { |arg| where( "mailings.sent_date < ?", arg+1.day ) }
+  scope :sent_after, lambda { |arg| where( "mailings.sent_date >= ?", arg ) }
+  scope :response_before, lambda { |arg| where( "mailings.response_date < ?", arg+1.day ) }
+  scope :response_after, lambda { |arg| where( "mailings.response_date >= ?", arg ) }
 
   # Don't include mailing where the participant is inelgibile in some other way (calls...)
-  scope :exclude_ineligible, lambda { |*args| { conditions: ["mailings.patient_id not in ( select DISTINCT(calls.patient_id) from calls where calls.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(evaluations.patient_id) from evaluations where evaluations.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(prescreens.patient_id) from prescreens where prescreens.eligibility = 'ineligible')"] } }
+  scope :exclude_ineligible, -> { where( "mailings.patient_id not in ( select DISTINCT(calls.patient_id) from calls where calls.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(evaluations.patient_id) from evaluations where evaluations.eligibility = 'ineligible') and mailings.patient_id not in ( select DISTINCT(prescreens.patient_id) from prescreens where prescreens.eligibility = 'ineligible')" ) }
 
   # Model Validation
   validates_presence_of :patient_id, :doctor_id, :sent_date, :user_id
 
   # Model Relationships
-  belongs_to :patient, conditions: { deleted: false }, touch: true
-  belongs_to :doctor, conditions: { deleted: false }, touch: true
+  belongs_to :patient, -> { where deleted: false }, touch: true
+  belongs_to :doctor, -> { where deleted: false }, touch: true
   has_and_belongs_to_many :risk_factors, class_name: 'Choice'
   belongs_to :user
 
