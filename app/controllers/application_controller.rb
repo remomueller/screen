@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :authenticate_user!, only: [ :dashboard ]
+  before_action :authenticate_user!, only: [ :dashboard ]
 
   layout "contour/layouts/application"
 

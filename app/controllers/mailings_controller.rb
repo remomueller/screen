@@ -1,7 +1,7 @@
 class MailingsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_screener_or_subject_handler, except: [:bulk, :import]
-  before_filter :check_screener, only: [:bulk, :import]
+  before_action :authenticate_user!
+  before_action :check_screener_or_subject_handler, except: [:bulk, :import]
+  before_action :check_screener, only: [:bulk, :import]
 
   def bulk
 

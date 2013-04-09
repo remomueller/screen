@@ -1,6 +1,6 @@
 class PatientsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_screener_or_subject_handler
+  before_action :authenticate_user!
+  before_action :check_screener_or_subject_handler
 
   def inline_update
     @patient = Patient.find_by_id(params[:id])

@@ -1,6 +1,6 @@
 class CallsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_screener_or_subject_handler
+  before_action :authenticate_user!
+  before_action :check_screener_or_subject_handler
 
   def index
     # current_user.update_column :calls_per_page, params[:calls_per_page].to_i if params[:calls_per_page].to_i >= 10 and params[:calls_per_page].to_i <= 200

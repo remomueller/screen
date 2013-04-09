@@ -1,6 +1,6 @@
 class EvaluationsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_screener_or_subject_handler
+  before_action :authenticate_user!
+  before_action :check_screener_or_subject_handler
 
   def index
     # current_user.update_column :evaluations_per_page, params[:evaluations_per_page].to_i if params[:evaluations_per_page].to_i >= 10 and params[:evaluations_per_page].to_i <= 200

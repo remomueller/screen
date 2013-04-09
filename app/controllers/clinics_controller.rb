@@ -1,6 +1,6 @@
 class ClinicsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_screener
+  before_action :authenticate_user!
+  before_action :check_screener
 
   def index
     # current_user.update_column :clinics_per_page, params[:clinics_per_page].to_i if params[:clinics_per_page].to_i >= 10 and params[:clinics_per_page].to_i <= 200

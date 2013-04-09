@@ -1,6 +1,6 @@
 class ChoicesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_action :authenticate_user!
+  before_action :check_system_admin
 
   def index
     # current_user.update_column :choices_per_page, params[:choices_per_page].to_i if params[:choices_per_page].to_i >= 10 and params[:choices_per_page].to_i <= 200
