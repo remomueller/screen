@@ -59,7 +59,7 @@ class Patient < ActiveRecord::Base
   end
 
   def find_or_create_event(class_name, class_id, event_time, event_name)
-    self.events.find_or_create_by_class_name_and_class_id_and_event_time_and_name(class_name, class_id, event_time, event_name)
+    self.events.where(class_name: class_name, class_id: class_id, event_time: event_time, name: event_name).first_or_create
   end
 
   def scrubbed

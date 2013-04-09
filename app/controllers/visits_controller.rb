@@ -1,10 +1,11 @@
 class VisitsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_screener_or_subject_handler
+  before_action :set_visit, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_without_visit, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    # current_user.update_column :visits_per_page, params[:visits_per_page].to_i if params[:visits_per_page].to_i >= 10 and params[:visits_per_page].to_i <= 200
-    visit_scope = Visit.current # current_user.all_viewable_visits
+    visit_scope = Visit.current
 
     if params[:mrn].to_s.split(',').size > 1
       visit_scope = visit_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
@@ -35,56 +36,62 @@ class VisitsController < ApplicationController
       return
     end
 
-    @visit_count = visit_scope.count
-    @visits = visit_scope.page(params[:page]).per(20) # (current_user.visits_per_page)
+    @visits = visit_scope.page(params[:page]).per(20)
   end
 
+  # GET /visits/1
+  # GET /visits/1.json
   def show
-    @visit = Visit.find_by_id(params[:id])
-    redirect_to root_path unless @visit and @visit.patient.editable_by?(current_user)
   end
 
+  # GET /visits/new?patient_id=1
   def new
     @visit = Visit.new(patient_id: params[:patient_id])
     redirect_to root_path unless @visit and @visit.patient.editable_by?(current_user)
   end
 
+  # GET /visits/1/edit
   def edit
-    @visit = Visit.find_by_id(params[:id])
-    redirect_to root_path unless @visit and @visit.patient.editable_by?(current_user)
   end
 
+  # POST /visits
+  # POST /visits.json
   def create
-    @visit = current_user.visits.new(post_params)
+    @visit = current_user.visits.new(visit_params)
 
-    if @visit.save
-      redirect_to @visit.patient, notice: 'Visit was successfully created.'
-    else
-      render action: "new"
-    end
-  end
-
-  def update
-    @visit = Visit.find_by_id(params[:id])
-
-    if @visit and @visit.patient.editable_by?(current_user)
-      if @visit.update_attributes(post_params)
-        redirect_to @visit, notice: 'Visit was successfully updated.'
+    respond_to do |format|
+      if @visit.save
+        format.html { redirect_to @visit.patient, notice: 'Visit was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @visit }
       else
-        render action: "edit"
+        format.html { render action: 'new' }
+        format.json { render json: @visit.errors, status: :unprocessable_entity }
       end
-    else
-      redirect_to root_path
     end
   end
 
+  # PUT /visits/1
+  # PUT /visits/1.json
+  def update
+    respond_to do |format|
+      if @visit.update(visit_params)
+        format.html { redirect_to @visit, notice: 'Visit was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @visit.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /visits/1
+  # DELETE /visits/1.json
   def destroy
-    @visit = Visit.find_by_id(params[:id])
-    if @visit and @visit.patient.editable_by?(current_user)
-      @visit.destroy
-      redirect_to visits_path, notice: 'Visit was successfully deleted.'
-    else
-      redirect_to root_path
+    @visit.destroy
+
+    respond_to do |format|
+      format.html { redirect_to visits_path, notice: 'Visit was successfully deleted.' }
+      format.json { head :no_content }
     end
   end
 
@@ -130,16 +137,25 @@ class VisitsController < ApplicationController
                           disposition: "attachment; filename=\"Visits Contact List #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
   end
 
+  private
 
-  def post_params
-    params[:visit] ||= {}
+    def set_visit
+      visit = Visit.find_by_id(params[:id])
+      @visit = visit if visit and visit.patient.editable_by?(current_user)
+    end
 
-    params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
+    def redirect_without_visit
+      empty_response_or_root_path unless @visit
+    end
 
-    params[:visit].slice(
-      :patient_id, :visit_type, :visit_date, :outcome, :comments
-    )
-  end
+    def visit_params
+      params[:visit] ||= {}
 
+      params[:visit][:visit_date] = parse_date(params[:visit][:visit_date])
+
+      params.require(:visit).permit(
+        :patient_id, :visit_type, :visit_date, :outcome, :comments
+      )
+    end
 
 end

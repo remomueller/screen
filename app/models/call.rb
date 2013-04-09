@@ -61,7 +61,7 @@ class Call < ActiveRecord::Base
   end
 
   def save_event
-    events = self.patient.events.find_all_by_class_name_and_class_id(self.class.name, self.id)
+    events = self.patient.events.where( class_name: self.class.name, class_id: self.id ).to_a
     events.delete(self.patient.find_or_create_event(self.class.name, self.id, self.call_time, 'Phone Call')) unless self.call_time.blank?
     events.each{ |e| e.destroy }
   end
