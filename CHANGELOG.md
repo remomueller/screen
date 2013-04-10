@@ -1,4 +1,4 @@
-## 0.9.0
+## 0.9.0 (April 10, 2013)
 
 ### Enhancements
 - MRN organization added to patients
