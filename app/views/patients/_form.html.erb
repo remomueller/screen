@@ -22,6 +22,12 @@
     </div>
   </div>
   <div class="control-group">
+    <%= f.label :mrn_organization, 'MRN Organization', class: 'control-label' %>
+    <div class="controls">
+      <% if current_user.screener? and current_user.access_phi? %><%= f.text_field :mrn_organization, autocomplete: "off", data: { provide: "typeahead", source: Patient.current.uniq.pluck(:mrn_organization).select{|o| not o.blank?}.to_json } %><% else %><%= @patient.phi_mrn_organization(current_user) %><% end %>
+    </div>
+  </div>
+  <div class="control-group">
     <%= f.label :subject_code, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :subject_code %>

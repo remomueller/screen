@@ -23,11 +23,16 @@
 
 <div class="row">
   <div class="span3">
-    <div class="page-header"><h2><%= image_tag 'gentleface/16/user.png', alt: '' %> Patient</h2></div>
+    <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/user.png', alt: '' %> Patient</h2></div>
 
     <dl class="dl-horizontal">
       <dt>MRN</dt>
       <dd><%= @patient.phi_mrn(current_user) %></dd>
+
+      <% unless @patient.mrn_organization.blank? %>
+        <dt>MRN Organization</dt>
+        <dd><%= @patient.phi_mrn_organization(current_user) %></dd>
+      <% end %>
 
       <dt>Subject Code</dt>
       <dd><%= @patient.subject_code %></dd>

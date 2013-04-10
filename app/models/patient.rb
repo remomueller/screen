@@ -70,6 +70,10 @@ class Patient < ActiveRecord::Base
     current_user.access_phi? ? self.mrn : self.scrubbed
   end
 
+  def phi_mrn_organization(current_user)
+    current_user.access_phi? ? self.mrn_organization : self.scrubbed
+  end
+
   def phi_name(current_user)
     current_user.access_phi? ? self.name : self.scrubbed
   end

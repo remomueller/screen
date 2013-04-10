@@ -127,7 +127,8 @@ class PatientsController < ApplicationController
         params.require(:patient).permit(
           :subject_code, :name_code, :priority, :priority_message,
           # PHI
-          :mrn, :first_name, :last_name,
+          :mrn, :mrn_organization,
+          :first_name, :last_name,
           :phone_home, :phone_day, :phone_alt,
           :sex, :age,
           :address1, :city, :state, :zip,
