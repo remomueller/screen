@@ -7,7 +7,7 @@ class Doctor < ActiveRecord::Base
   after_save :check_blacklisted
 
   # Concerns
-  include Deletable
+  include Deletable, Searchable
 
   # Named Scopes
 
