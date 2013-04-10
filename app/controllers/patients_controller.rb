@@ -1,45 +1,8 @@
 class PatientsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_screener_or_subject_handler
-
-  def inline_update
-    @patient = Patient.find_by_id(params[:id])
-    item = Patient::EDITABLES.include?(params[:item]) ? params[:item].to_sym : ''
-    @patient.update_attributes item => params[:update_value] if @patient and not item.blank?
-  end
-
-  def index
-    params[:mrn] ||= params[:term]
-    # current_user.update_column :patients_per_page, params[:patients_per_page].to_i if params[:patients_per_page].to_i >= 10 and params[:patients_per_page].to_i <= 200
-    patient_scope = Patient.current # current_user.all_viewable_patients
-
-    if params[:mrn].to_s.split(',').size > 1
-      patient_scope = patient_scope.where(subject_code: params[:mrn].to_s.gsub(/\s/, '').split(','))
-    else
-      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
-        patient_scope = patient_scope.with_mrn(term) unless term.blank?
-      end
-    end
-
-    patient_scope = patient_scope.where("priority > 0") if params[:priority_only] == '1'
-    patient_scope = patient_scope.subject_code_not_blank unless current_user.screener?
-
-    patient_scope = patient_scope.with_priority_message(params[:priority_message]) unless params[:priority_message].blank?
-
-    @order = scrub_order(Patient, params[:order], 'patients.id')
-    @order = "priority DESC, " + @order if params[:priority_only] == '1'
-    patient_scope = patient_scope.order(@order)
-
-    @patient_count = patient_scope.count
-
-    if params[:autocomplete] == 'true'
-      @patients = patient_scope.page(params[:page]).per(10)
-      render json: @patients.collect{|p| { id: p.phi_code(current_user).to_s, text: p.phi_code(current_user) + " - " + p.phi_name(current_user) }}
-      # render 'autocomplete'
-    else
-      @patients = patient_scope.page(params[:page]).per(20) # (current_user.patients_per_page)
-    end
-  end
+  before_action :set_patient, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_without_patient, only: [ :show, :edit, :update, :destroy ]
 
   def stickies
     @patient = Patient.find_by_id(params[:id])
@@ -62,75 +25,119 @@ class PatientsController < ApplicationController
     end
   end
 
-  def show
-    @patient = Patient.find_by_id(params[:id])
-    redirect_to root_path unless @patient and @patient.editable_by?(current_user)
+  # GET /patients
+  # GET /patients.json
+  def index
+    params[:mrn] ||= params[:term]
+
+    @order = scrub_order(Patient, params[:order], 'patients.id')
+    @order = "priority DESC, " + @order if params[:priority_only] == '1'
+    patient_scope = Patient.current.order(@order)
+
+    if params[:mrn].to_s.split(',').size > 1
+      patient_scope = patient_scope.where(subject_code: params[:mrn].to_s.gsub(/\s/, '').split(','))
+    else
+      params[:mrn].to_s.gsub(/[^\da-zA-Z]/, ' ').split(' ').each do |term|
+        patient_scope = patient_scope.with_mrn(term) unless term.blank?
+      end
+    end
+
+    patient_scope = patient_scope.where("priority > 0") if params[:priority_only] == '1'
+    patient_scope = patient_scope.subject_code_not_blank unless current_user.screener?
+    patient_scope = patient_scope.with_priority_message(params[:priority_message]) unless params[:priority_message].blank?
+
+    if params[:autocomplete] == 'true'
+      @patients = patient_scope.page(params[:page]).per(10)
+      render json: @patients.collect{|p| { id: p.phi_code(current_user).to_s, text: p.phi_code(current_user) + " - " + p.phi_name(current_user) }}
+    else
+      @patients = patient_scope.page(params[:page]).per(20)
+    end
   end
 
+  # GET /patients/1
+  # GET /patients/1.json
+  def show
+  end
+
+  # GET /patients/new
   def new
     @patient = Patient.new
   end
 
+  # GET /patients/1/edit
   def edit
-    @patient = Patient.find_by_id(params[:id])
-    redirect_to root_path unless @patient and @patient.editable_by?(current_user)
   end
 
+  # POST /patients
+  # POST /patients.json
   def create
-    @patient = current_user.patients.new(post_params)
+    @patient = current_user.patients.new(patient_params)
 
-    if @patient.save
-      redirect_to @patient, notice: 'Patient was successfully created.'
-    else
-      render action: "new"
-    end
-  end
-
-  def update
-    @patient = Patient.find_by_id(params[:id])
-
-    if @patient and @patient.editable_by?(current_user)
-      if @patient.update_attributes(post_params)
-        redirect_to @patient, notice: 'Patient was successfully updated.'
+    respond_to do |format|
+      if @patient.save
+        format.html { redirect_to @patient, notice: 'Patient was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @patient }
       else
-        render action: "edit"
+        format.html { render action: 'new' }
+        format.json { render json: @patient.errors, status: :unprocessable_entity }
       end
-    else
-      redirect_to root_path
     end
   end
 
+  # PUT /patients/1
+  # PUT /patients/1.json
+  def update
+    respond_to do |format|
+      if @patient.update(patient_params)
+        format.html { redirect_to @patient, notice: 'Patient was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @patient.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /patients/1
+  # DELETE /patients/1.json
   def destroy
-    @patient = Patient.find_by_id(params[:id])
-    if @patient and @patient.editable_by?(current_user)
-      @patient.destroy
-      redirect_to patients_path, notice: 'Patient was successfully deleted.'
-    else
-      redirect_to root_path
+    @patient.destroy
+
+    respond_to do |format|
+      format.html { redirect_to patients_path, notice: 'Patient was successfully deleted.' }
+      format.json { head :no_content }
     end
   end
 
   private
 
-  def post_params
-    params[:patient] ||= {}
-
-    if current_user.access_phi?
-      params[:patient].slice(
-        :subject_code, :name_code, :priority, :priority_message,
-        # PHI
-        :mrn, :first_name, :last_name,
-        :phone_home, :phone_day, :phone_alt,
-        :sex, :age,
-        :address1, :city, :state, :zip,
-        :email
-      )
-    else
-      params[:patient].slice(
-        :subject_code, :name_code, :priority, :priority_message
-      )
+    def set_patient
+      patient = Patient.find_by_id(params[:id])
+      @patient = patient if patient and patient.editable_by?(current_user)
     end
-  end
 
+    def redirect_without_patient
+      empty_response_or_root_path unless @patient
+    end
+
+    def patient_params
+      params[:patient] ||= {}
+
+      if current_user.access_phi?
+        params.require(:patient).permit(
+          :subject_code, :name_code, :priority, :priority_message,
+          # PHI
+          :mrn, :first_name, :last_name,
+          :phone_home, :phone_day, :phone_alt,
+          :sex, :age,
+          :address1, :city, :state, :zip,
+          :email
+        )
+      else
+        params.require(:patient).permit(
+          :subject_code, :name_code, :priority, :priority_message
+        )
+      end
+    end
 
 end

@@ -1,3 +1,0 @@
-[
-<%= @patients.collect{|p| "{\"id\":\"#{p.id}\", \"label\":\"#{highlight(p.phi_code(current_user) + " - " + p.phi_name(current_user), params[:mrn].split(' '), highlighter: '<b>\1</b>')}\", \"value\":\"#{p.phi_code(current_user)}\"}" }.join(',').html_safe %>
-]

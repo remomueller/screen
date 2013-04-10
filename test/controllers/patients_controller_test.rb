@@ -19,8 +19,8 @@ class PatientsControllerTest < ActionController::TestCase
     unless TASK_TRACKER_URL.blank? or TT_EMAIL.blank? or TT_PASSWORD.blank?
       assert_equal 1, assigns(:stickies).first['id']
       assert_equal "6-month followup call", assigns(:stickies).first['description']
-      assert_equal ({ 'display' => 'No Date', 'id' => 'no_date' }), assigns(:stickies).first['month_year']
-      assert_equal ({ 'display' => 'April 2011', 'id' => '042011' }), assigns(:stickies).last['month_year']
+      assert_equal ({ display: 'No Date', id: 'no_date' }), assigns(:stickies).first['month_year']
+      assert_equal ({ display: 'April 2011', id: '042011' }), assigns(:stickies).last['month_year']
     end
     assert_template 'stickies'
     assert_response :success
@@ -48,15 +48,6 @@ class PatientsControllerTest < ActionController::TestCase
     Artifice.activate_with(app) do
       post :stickies, id: patients(:without_subject_code), format: 'js'
     end
-    assert_response :success
-  end
-
-  test "should get inline update" do
-    post :inline_update, id: @patient, item: 'city', update_value: 'Boston', format: 'js'
-
-    assert_not_nil assigns(:patient)
-    assert_equal 'Boston', assigns(:patient).city
-    assert_template 'inline_update'
     assert_response :success
   end
 
