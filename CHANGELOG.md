@@ -1,6 +1,7 @@
 ## 0.9.0
 
 ### Enhancements
+- Prescreens inline editing has been removed
 - **Gem Changes**
   - Updated to Rails 4.0.0.beta1
   - Updated to Contour 2.0.0.beta.4
