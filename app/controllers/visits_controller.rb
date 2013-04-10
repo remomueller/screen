@@ -4,8 +4,11 @@ class VisitsController < ApplicationController
   before_action :set_visit, only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_visit, only: [ :show, :edit, :update, :destroy ]
 
+  # GET /visits
+  # GET /visits.json
   def index
-    visit_scope = Visit.current
+    @order = scrub_order(Visit, params[:order], 'visits.patient_id')
+    visit_scope = Visit.current.order(@order)
 
     if params[:mrn].to_s.split(',').size > 1
       visit_scope = visit_scope.with_subject_code(params[:mrn].to_s.gsub(/\s/, '').split(','))
@@ -17,16 +20,13 @@ class VisitsController < ApplicationController
 
     visit_scope = visit_scope.subject_code_not_blank unless current_user.screener?
 
-    @visit_after = parse_date(params[:visit_after])
-    @visit_before = parse_date(params[:visit_before])
+    visit_after = parse_date(params[:visit_after])
+    visit_before = parse_date(params[:visit_before])
 
-    visit_scope = visit_scope.visit_before(@visit_before) unless @visit_before.blank?
-    visit_scope = visit_scope.visit_after(@visit_after) unless @visit_after.blank?
+    visit_scope = visit_scope.visit_before(visit_before) unless visit_before.blank?
+    visit_scope = visit_scope.visit_after(visit_after) unless visit_after.blank?
     visit_scope = visit_scope.where( outcome: params[:outcome] ) unless params[:outcome].blank?
     visit_scope = visit_scope.where( visit_type: params[:visit_type] ) unless params[:visit_type].blank?
-
-    @order = scrub_order(Visit, params[:order], 'visits.patient_id')
-    visit_scope = visit_scope.order(@order)
 
     if params[:format] == 'csv'
       generate_csv(visit_scope)
@@ -97,48 +97,6 @@ class VisitsController < ApplicationController
 
   private
 
-  def generate_csv(visit_scope)
-    @csv_string = CSV.generate do |csv|
-      csv << ["Patient ID", "Subject Code", "Visit Type", "Visit Date", "Outcome", "Comments"]
-      visit_scope.each do |visit|
-        csv << [
-          visit.patient.id,
-          visit.patient.subject_code,
-          visit.visit_type_name,
-          visit.visit_date.strftime("%Y-%m-%d"),
-          visit.outcome_name,
-          visit.comments
-        ]
-      end
-    end
-    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                          disposition: "attachment; filename=\"Visits #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
-  end
-
-  def generate_contact_csv(visit_scope)
-    @csv_string = CSV.generate do |csv|
-      csv << ["Visit Date", "Subject Code", "Last Name", "First Name", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
-      visit_scope.each do |visit|
-        csv << [
-          visit.visit_date.strftime("%Y-%m-%d"),
-          visit.patient.subject_code,
-          visit.patient.phi_last_name(current_user),
-          visit.patient.phi_first_name(current_user),
-          visit.patient.phi_address1(current_user),
-          visit.patient.phi_city(current_user),
-          visit.patient.phi_state(current_user),
-          visit.patient.phi_zip(current_user),
-          pretty_phone(visit.patient.phi_phone_home(current_user)),
-          pretty_phone(visit.patient.phi_phone_day(current_user))
-        ]
-      end
-    end
-    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                          disposition: "attachment; filename=\"Visits Contact List #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
-  end
-
-  private
-
     def set_visit
       visit = Visit.find_by_id(params[:id])
       @visit = visit if visit and visit.patient.editable_by?(current_user)
@@ -156,6 +114,46 @@ class VisitsController < ApplicationController
       params.require(:visit).permit(
         :patient_id, :visit_type, :visit_date, :outcome, :comments
       )
+    end
+
+    def generate_csv(visit_scope)
+      @csv_string = CSV.generate do |csv|
+        csv << ["Patient ID", "Subject Code", "Visit Type", "Visit Date", "Outcome", "Comments"]
+        visit_scope.each do |visit|
+          csv << [
+            visit.patient.id,
+            visit.patient.subject_code,
+            visit.visit_type_name,
+            visit.visit_date.strftime("%Y-%m-%d"),
+            visit.outcome_name,
+            visit.comments
+          ]
+        end
+      end
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                            disposition: "attachment; filename=\"Visits #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
+    end
+
+    def generate_contact_csv(visit_scope)
+      @csv_string = CSV.generate do |csv|
+        csv << ["Visit Date", "Subject Code", "Last Name", "First Name", "Address1", "City", "State", "Zip Code", "Home Phone", "Day Phone"]
+        visit_scope.each do |visit|
+          csv << [
+            visit.visit_date.strftime("%Y-%m-%d"),
+            visit.patient.subject_code,
+            visit.patient.phi_last_name(current_user),
+            visit.patient.phi_first_name(current_user),
+            visit.patient.phi_address1(current_user),
+            visit.patient.phi_city(current_user),
+            visit.patient.phi_state(current_user),
+            visit.patient.phi_zip(current_user),
+            pretty_phone(visit.patient.phi_phone_home(current_user)),
+            pretty_phone(visit.patient.phi_phone_day(current_user))
+          ]
+        end
+      end
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                            disposition: "attachment; filename=\"Visits Contact List #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
     end
 
 end
