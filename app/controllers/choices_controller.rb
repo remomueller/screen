@@ -1,58 +1,41 @@
 class ChoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :check_system_admin
+  before_action :set_choice, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_without_choice, only: [ :show, :edit, :update, :destroy ]
 
+  # GET /choices
+  # GET /choices.json
   def index
-    # current_user.update_column :choices_per_page, params[:choices_per_page].to_i if params[:choices_per_page].to_i >= 10 and params[:choices_per_page].to_i <= 200
-    choice_scope = Choice.current # current_user.all_viewable_choices
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| choice_scope = choice_scope.search(search_term) }
-
     @order = scrub_order(Choice, params[:order], 'choices.category')
-    choice_scope = choice_scope.order(@order)
-
-    @choice_count = choice_scope.count
-    @choices = choice_scope.page(params[:page]).per(40) # (current_user.choices_per_page)
+    @choices = Choice.current.search(params[:search]).order(@order).page(params[:page]).per(40)
   end
 
   # GET /choices/1
   # GET /choices/1.json
   def show
-    @choice = Choice.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @choice }
-    end
   end
 
   # GET /choices/new
-  # GET /choices/new.json
   def new
     @choice = Choice.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @choice }
-    end
   end
 
   # GET /choices/1/edit
   def edit
-    @choice = Choice.find(params[:id])
   end
 
   # POST /choices
   # POST /choices.json
   def create
-    @choice = current_user.choices.new(post_params)
+    @choice = current_user.choices.new(choice_params)
 
     respond_to do |format|
       if @choice.save
         format.html { redirect_to @choice, notice: 'Choice was successfully created.' }
-        format.json { render json: @choice, status: :created, location: @choice }
+        format.json { render action: 'show', status: :created, location: @choice }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @choice.errors, status: :unprocessable_entity }
       end
     end
@@ -61,34 +44,43 @@ class ChoicesController < ApplicationController
   # PUT /choices/1
   # PUT /choices/1.json
   def update
-    @choice = Choice.find(params[:id])
-
     respond_to do |format|
-      if @choice.update_attributes(post_params)
+      if @choice.update(choice_params)
         format.html { redirect_to @choice, notice: 'Choice was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @choice.errors, status: :unprocessable_entity }
       end
     end
   end
 
+  # DELETE /choices/1
+  # DELETE /choices/1.json
   def destroy
-    @choice = Choice.find(params[:id])
     @choice.destroy
 
-    redirect_to choices_path, notice: 'Choice was successfully deleted.'
+    respond_to do |format|
+      format.html { redirect_to choices_path, notice: 'Choice was successfully deleted.' }
+      format.json { head :no_content }
+    end
   end
 
   private
 
-  def post_params
-    params[:choice] ||= {}
+    def set_choice
+      @choice = Choice.find_by_id(params[:id])
+    end
 
-    params[:choice].slice(
-      :category, :name, :description, :color, :included_fields
-    )
-  end
+    def redirect_without_choice
+      empty_response_or_root_path(choices_path) unless @choice
+    end
+
+
+    def choice_params
+      params.require(:choice).permit(
+        :category, :name, :description, :color, :included_fields
+      )
+    end
 
 end
