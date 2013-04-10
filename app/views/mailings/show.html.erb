@@ -42,7 +42,7 @@
   <dd>
     <ul>
       <% @mailing.risk_factors.each do |choice| %>
-        <li><%= @choice = choice; render partial: 'choices/show' %> <%= choice.description %></li>
+        <li><%= render partial: 'choices/show', locals: { choice: choice } %> <%= choice.description %></li>
       <% end %>
     </ul>
   </dd>

@@ -6,24 +6,6 @@ class PrescreensControllerTest < ActionController::TestCase
     login(users(:screener))
   end
 
-  test "should get inline update" do
-    post :inline_update, id: @prescreen, item: 'eligibility', update_value: 'eligible', format: 'js'
-
-    assert_not_nil assigns(:prescreen)
-    assert_equal 'eligible', assigns(:prescreen).eligibility
-    assert_template 'inline_update'
-    assert_response :success
-  end
-
-  test "should get inline update for risk factors" do
-    post :inline_update, id: @prescreen, item: 'risk_factors', prescreen: { risk_factor_ids: []}, format: 'js'
-
-    assert_not_nil assigns(:prescreen)
-    assert_equal [], assigns(:prescreen).risk_factors.to_a
-    assert_template 'inline_update'
-    assert_response :success
-  end
-
   test "should get bulk" do
     get :bulk
     assert_response :success

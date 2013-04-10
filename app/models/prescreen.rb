@@ -108,14 +108,14 @@ class Prescreen < ActiveRecord::Base
           reason_for_visit = row_array[6]
           comment = row_array[7]
 
-          clinic = Clinic.find_or_create_by_name(clinic_name, { user_id: current_user.id })
-          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, doctor_type, { user_id: current_user.id })
+          clinic = Clinic.where( name: clinic_name ).first_or_create( user_id: current_user.id )
+          doctor = Doctor.where( name: doctor_name, doctor_type: doctor_type ).first_or_create( user_id: current_user.id )
 
           if (Prescreen::VALID_AGE.blank? or Prescreen::VALID_AGE.include?(age)) and not doctor.blacklisted? and not clinic.blacklisted? and mrn.size == 8
-            patient = Patient.find_or_create_by_mrn(mrn, { user_id: current_user.id })
-            patient.update_attributes(first_name: first_name, last_name: last_name, sex: sex, age: age)
-            prescreen = patient.prescreens.find_or_create_by_visit_at_and_clinic_id_and_doctor_id(time_start, clinic.id, doctor.id, { user_id: current_user.id })
-            prescreen.update_attributes(visit_duration: minutes, visit_units: 'minutes')
+            patient = Patient.where( mrn: mrn ).first_or_create( user_id: current_user.id )
+            patient.update_attributes( first_name: first_name, last_name: last_name, sex: sex, age: age )
+            prescreen = patient.prescreens.where( visit_at: time_start, clinic_id: clinic.id, doctor_id: doctor.id ).first_or_create( user_id: current_user.id )
+            prescreen.update_attributes( visit_duration: minutes, visit_units: 'minutes' )
           else
             ignored_prescreens += 1
           end

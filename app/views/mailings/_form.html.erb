@@ -106,7 +106,7 @@
       <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>
         <div class="row" style="margin-left:0px;line-height:20px">
           <% row_risk_factors.each_with_index do |choice, index| %>
-            <div class="span2" style="white-space:nowrap;<%= 'margin-left:0px' if index == 0 %>"><% if choice %><%= check_box_tag "mailing[risk_factor_ids][]", choice.id, @mailing.risk_factors.include?(choice) %> <%= @choice = choice; render partial: 'choices/show' %><% end %></div>
+            <div class="span2" style="white-space:nowrap;<%= 'margin-left:0px' if index == 0 %>"><% if choice %><%= check_box_tag "mailing[risk_factor_ids][]", choice.id, @mailing.risk_factors.include?(choice) %> <%= render partial: 'choices/show', locals: { choice: choice } %><% end %></div>
           <% end %>
         </div>
       <% end %>

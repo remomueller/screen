@@ -47,7 +47,7 @@
           <td style="text-align:center" colspan="3">
             <% if @object.respond_to?('risk_factors') %>
               <% @object.risk_factors.each do |choice| %>
-                <%= @choice = choice; render partial: 'choices/show' %>
+                <%= render partial: 'choices/show', locals: { choice: choice } %>
               <% end %>
             <% end %>
           </td>
