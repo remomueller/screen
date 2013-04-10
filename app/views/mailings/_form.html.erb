@@ -101,15 +101,19 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :risk_factors, class: 'control-label' %>
+    <%= f.label :risk_factors, nil, class: 'control-label' %>
     <div class="controls">
-      <% Choice.where(category: 'risk factors').in_groups_of(5).each do |row_risk_factors| %>
-        <div class="row" style="margin-left:0px;line-height:20px">
-          <% row_risk_factors.each_with_index do |choice, index| %>
-            <div class="span2" style="white-space:nowrap;<%= 'margin-left:0px' if index == 0 %>"><% if choice %><%= check_box_tag "mailing[risk_factor_ids][]", choice.id, @mailing.risk_factors.include?(choice) %> <%= render partial: 'choices/show', locals: { choice: choice } %><% end %></div>
-          <% end %>
-        </div>
-      <% end %>
+      <table style="width:100%;table-layout:fixed;">
+        <% Choice.where(category: 'risk factors').in_groups_of(4).each do |row_risk_factors| %>
+          <tr>
+            <% row_risk_factors.each_with_index do |choice, index| %>
+              <td style="white-space:nowrap;overflow:hidden;">
+                <% if choice %><label class="checkbox tag-checkbox <%= 'tag-selected' if @mailing.risk_factors.include?(choice) %>" style="margin-bottom: 0px;background-color: <%= choice.color %>"><%= check_box_tag "mailing[risk_factor_ids][]", choice.id, @mailing.risk_factors.include?(choice) %> <span class="tag-name"><%= choice.name %></span></label><% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
     </div>
   </div>
 

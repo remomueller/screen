@@ -101,20 +101,20 @@ class Mailing < ActiveRecord::Base
           phone_home = row_array[9].to_s.strip
           phone_day = row_array[10].to_s.strip
 
-          doctor = Doctor.find_or_create_by_name_and_doctor_type(doctor_name, doctor_type, { user_id: current_user.id })
+          doctor = Doctor.where( name: doctor_name, doctor_type: doctor_type ).first_or_create( user_id: current_user.id )
 
           if (use_mrns and identifier.size == 8) or (not use_mrns and not identifier.blank?)
             patient = if use_mrns
-              Patient.find_or_create_by_mrn(identifier, { user_id: current_user.id })
+              Patient.where( mrn: identifier ).first_or_create( user_id: current_user.id )
             else
-              Patient.find_or_create_by_subject_code(identifier, { user_id: current_user.id })
+              Patient.where( subject_code: identifier ).first_or_create( user_id: current_user.id )
             end
 
             patient_params = { first_name: first_name, last_name: last_name, address1: address1, city: city, state: state, zip: zip, phone_home: phone_home, phone_day: phone_day }
             patient_params.reject!{|key, val| val.blank?}
-            patient.update_attributes(patient_params)
+            patient.update(patient_params)
 
-            mailing = patient.mailings.find_or_create_by_sent_date_and_doctor_id(sent_date, doctor.id, { user_id: current_user.id })
+            mailing = patient.mailings.where( sent_date: sent_date, doctor_id: doctor.id).first_or_create( user_id: current_user.id )
           else
             ignored_mailings += 1
           end

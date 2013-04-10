@@ -1,4 +1,4 @@
-<%= render partial: 'layouts/per_page', locals: { object_count: @mailing_count, type: 'mailings' } %>
+<%= render partial: 'layouts/per_page', locals: { object_count: @mailings.total_count, type: 'mailings' } %>
 
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
