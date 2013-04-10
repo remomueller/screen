@@ -1,7 +1,7 @@
 <% @title = "Event: #{@event.name}" %>
 <div class="page-header">
   <h1>
-    <%= @title %>
+    <%= link_to @event.patient.phi_code(current_user), @event.patient %>  &middot; <%= @title %>
     <% if current_user.screener? or current_user.subject_handler? %>
       <%= link_to "Edit Event", edit_event_path(@event), class: 'btn btn-mini' %>
       <%= link_to "Delete Event", @event, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Event #{@event.name}?" } %>
@@ -11,9 +11,6 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Patient</dt>
-  <dd><%= link_to @event.patient.phi_code(current_user), @event.patient if @event.patient %></dd>
-
   <dt>Name</dt>
   <dd><%= @event.name %></dd>
 
