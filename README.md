@@ -55,7 +55,7 @@ This will run the task lib/tasks/flag_priority.rake using Cron
 ```console
 sudo crontab -e
 
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/screen && /usr/local/rvm/gems/ruby-2.0.0-p0/bin/bundle exec rake flag_priority RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/screen && /usr/local/rvm/gems/ruby-2.0.0-p195/bin/bundle exec rake flag_priority RAILS_ENV=production
 ```
 
 ## Contributing to Screen
