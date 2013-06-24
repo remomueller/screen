@@ -1,4 +1,4 @@
-## 0.9.3
+## 0.9.3 (June 24, 2013)
 
 ### Bug Fix
 - Fixed reference to image files
