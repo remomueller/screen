@@ -32,7 +32,7 @@ fire_postopafv = new Array()
 fire_time = new Array()
 fire_topbang = new Array()
 fire_icons = new Array()
-fire_colors = new Array("orange","blue","yellow","red","green")
+fire_colors = new Array("<%= asset_path('fireworks/orange.gif') %>", "<%= asset_path('fireworks/blue.gif') %>", "<%= asset_path('fireworks/yellow.gif') %>", "<%= asset_path('fireworks/red.gif') %>", "<%= asset_path('fireworks/green.gif') %>")
 fire_pause = fire_delay_in_seconds*1000
 
 for fire_i in [0..fire_no-1]
@@ -67,7 +67,7 @@ for fire_i in [0..fire_no-1]
       fire_j = fire_j + 1
   for fire_i in [0..fire_no-1]
     fire_j = Math.round(Math.random() * 4) unless fire_SameColor
-    fire_icons[fire_i] = 'assets/'+fire_colors[fire_j]+'.gif'
+    fire_icons[fire_i] = fire_colors[fire_j]
     document.getElementById("fire_no"+fire_i).innerHTML = '<b>*</b>'
     document.getElementById("fire_no"+fire_i).style.color=fire_colors[fire_j]
     setTimeout("fireOp("+fire_i+")",(1500*Math.random()))

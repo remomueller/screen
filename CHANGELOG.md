@@ -1,5 +1,8 @@
 ## 0.9.3
 
+### Bug Fix
+- Fixed reference to image files
+
 ## 0.9.2 (June 24, 2013)
 
 ### Enhancements
