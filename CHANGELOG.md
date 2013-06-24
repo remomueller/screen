@@ -1,5 +1,8 @@
 ## 0.9.4
 
+### Bug Fix
+- Fixed another reference to image files
+
 ## 0.9.3 (June 24, 2013)
 
 ### Bug Fix
