@@ -1,4 +1,4 @@
-## 0.9.2
+## 0.9.2 (June 24, 2013)
 
 ### Enhancements
 - Added reward for completing 150 baseline visits
