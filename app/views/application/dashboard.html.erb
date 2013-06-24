@@ -59,9 +59,14 @@
     <p><%= Visit.current.where("visit_date >= ?", Date.today - 1.month).size %> in past month</p>
 
     <% if baseline_choice = Choice.find_by_category_and_name('visit type', 'Baseline') %>
-      <center><%= Visit.current.where(visit_type: baseline_choice.id.to_s).size %> out of 150 baseline visits</center>
+      <% target_baseline_count = 150 %>
+      <% baseline_visit_count = Visit.current.where(visit_type: baseline_choice.id.to_s).size %>
+      <% if baseline_visit_count >= target_baseline_count %>
+        <div data-object="fireworks-initialize"></div>
+      <% end %>
+      <center><%= baseline_visit_count %> out of <%= target_baseline_count %> baseline visits</center>
       <div class="progress progress-striped active">
-        <div class="bar" style="width: <%= Visit.current.where(visit_type: baseline_choice.id.to_s).size * 100 / 150 %>%;"></div>
+        <div class="bar" style="width: <%= baseline_visit_count * 100 / target_baseline_count %>%;"></div>
       </div>
     <% end %>
   </div>

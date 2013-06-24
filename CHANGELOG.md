@@ -1,6 +1,7 @@
 ## 0.9.2
 
 ### Enhancements
+- Added reward for completing 150 baseline visits
 - **Gem Changes**
   - Updated to rails 4.0.0.rc2
 
