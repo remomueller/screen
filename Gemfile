@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '4.0.0.rc1'
+gem 'rails',                '4.0.0.rc2'
 
 # Database Adapter
 # Install instructions for Windows: http://blog.mmediasys.com/2011/07/07/installing-mysql-on-windows-7-x64-and-using-ruby-with-it/
@@ -15,10 +15,10 @@ gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.0.0'
-gem 'sass-rails',           '~> 4.0.0.rc1'
+gem 'sass-rails',           '~> 4.0.0.rc2'
 gem 'uglifier',             '>= 1.3.0'
 
-gem 'jbuilder',             '~> 1.4.0'
+gem 'jbuilder',             '~> 1.4'
 gem 'jquery-rails'
 gem 'turbolinks'
 
