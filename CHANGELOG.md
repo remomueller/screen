@@ -1,5 +1,8 @@
 ## 0.9.5
 
+### Enhancements
+- Use of Ruby 2.0.0-p247 is now recommended
+
 ## 0.9.4 (June 24, 2013)
 
 ### Bug Fix
