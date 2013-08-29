@@ -9,13 +9,13 @@
 <% width = '1074px' %>
 
 <%= form_tag import_prescreens_path, method: :post, class: 'form-horizontal' do %>
-  <div class="control-group">
+  <div class="form-group">
     <%= label :visit_date, 'Visit date', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= text_field_tag :visit_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
     </div>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <table class="blank padded" style="width:100%;table-layout:fixed">
       <thead>
         <tr>
@@ -48,7 +48,7 @@
       <fieldset>
         <legend>New Doctors</legend>
         <% doctors_unknown.each do |doctor| %>
-          <div class="control-group">
+          <div class="form-group">
             <%= link_to 'Whitelist', doctor_path(doctor, doctor: { status: 'whitelist' }, from: 'prescreens'), method: :put, class: 'btn btn-mini' %>
             <%= link_to 'Blacklist', doctor_path(doctor, doctor: { status: 'blacklist' }, from: 'prescreens'), method: :put, data: { confirm: "Blacklisting this doctor will PERMANENTLY remove all associated prescreens. Are you sure you want to blacklist #{doctor.name}?" }, class: 'btn btn-mini btn-danger' %> <%= link_to doctor.name, doctor %>
           </div>
@@ -61,7 +61,7 @@
       <fieldset>
         <legend>New Clinics</legend>
         <% clinics_unknown.each do |clinic| %>
-          <div class="control-group">
+          <div class="form-group">
             <%= link_to 'Whitelist', clinic_path(clinic, clinic: { status: 'whitelist' }, from: 'prescreens'), method: :put, class: 'btn btn-mini' %>
             <%= link_to 'Blacklist', clinic_path(clinic, clinic: { status: 'blacklist' }, from: 'prescreens'), method: :put, data: { confirm: "Blacklisting this clinic will PERMANENTLY remove all associated prescreens. Are you sure you want to blacklist #{clinic.name}?" }, class: 'btn btn-mini btn-danger' %> <%= link_to clinic.name, clinic %>
           </div>

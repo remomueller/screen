@@ -15,7 +15,7 @@
     </div>
   <% end %>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :patient_id, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= link_to @visit.patient.phi_code(current_user), @visit.patient if @visit.patient %>
@@ -23,28 +23,28 @@
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :visit_type, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.select :visit_type, [['---', nil]] + Choice.where(category: 'visit type').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :visit_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.text_field :visit_date, class: 'datepicker', value: @visit.visit_date ? @visit.visit_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :outcome, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.select :outcome, [['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :comments, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.text_area :comments, rows: 7, style: "width:99%" %>

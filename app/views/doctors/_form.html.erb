@@ -15,19 +15,19 @@
     </div>
   <% end %>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :name, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.text_field :name %>
     </div>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :doctor_type, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.select :doctor_type, [['---', nil]] + Doctor::DOCTOR_TYPE %>
     </div>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :status, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.select :status, [['---', nil],['Whitelist', 'whitelist'],['Blacklist', 'blacklist']] %>

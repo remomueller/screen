@@ -1,7 +1,7 @@
 <% if TASK_TRACKER_URL.blank? %>
   <%# Render blank (different from nothing) %>
 <% elsif current_user.task_tracker_screen_token.blank? or @group.blank? %>
-  <div class="control-group">
+  <div class="form-group">
     <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= text_field_tag "task_tracker_screen_token", '', style: "width:99%" %>
