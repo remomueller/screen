@@ -5,7 +5,7 @@
     <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= text_field_tag "task_tracker_screen_token", '', style: "width:99%" %>
-      <%= link_to 'Update My Screen Token', '#', class: 'btn btn-mini btn-primary', data: { object: 'screen-token-update', target: '#templates_form' } %>
+      <%= link_to 'Update My Screen Token', '#', class: 'btn btn-xs btn-primary', data: { object: 'screen-token-update', target: '#templates_form' } %>
       <small>Please enter your Task Tracker Screen Token: <%= link_to TASK_TRACKER_URL + "/settings#screen_token", TASK_TRACKER_URL + "/settings#screen_token", target: '_blank' %></small>
     </div>
   </div>

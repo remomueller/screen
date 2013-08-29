@@ -3,10 +3,10 @@
   <h1>
     <%= link_to @event.patient.phi_code(current_user), @event.patient %> &middot; <%= @title %>
     <% if current_user.screener? or current_user.subject_handler? %>
-      <%= link_to "Edit Event", edit_event_path(@event), class: 'btn btn-mini' %>
-      <%= link_to "Delete Event", @event, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Event #{@event.name}?" } %>
+      <%= link_to "Edit Event", edit_event_path(@event), class: 'btn btn-xs' %>
+      <%= link_to "Delete Event", @event, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Event #{@event.name}?" } %>
     <% end %>
-    <%= link_to "View Events", events_path, class: 'btn btn-mini' %>
+    <%= link_to "View Events", events_path, class: 'btn btn-xs' %>
   </h1>
 </div>
 
