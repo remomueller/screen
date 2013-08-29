@@ -3,7 +3,7 @@
 <% elsif current_user.task_tracker_screen_token.blank? or @templates.blank? %>
   <div class="control-group">
     <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= text_field_tag "task_tracker_screen_token", '', style: "width:99%" %>
       <%= link_to 'Update My Screen Token', '#', class: 'btn btn-mini btn-primary', data: { object: 'screen-token-update', target: '#templates_form' } %>
       <small>Please enter your Task Tracker Screen Token: <%= link_to TASK_TRACKER_URL + "/settings#screen_token", TASK_TRACKER_URL + "/settings#screen_token", target: '_blank' %></small>
@@ -12,13 +12,13 @@
 <% else %>
         <div class="control-group">
           <%= label 'call', 'tt_template_id', 'Template', class: 'col-md-2 control-label' %>
-          <div class="controls">
+          <div class="col-md-10">
             <%= select 'call', 'tt_template_id', options_for_select([['---', nil]] + @templates.collect{|t| [t['full_name'], t['id']]}, params[:tt_template_id]) %>
           </div>
         </div>
         <div class="control-group">
           <%= label_tag :initial_due_date, 'Initial Template Due Date', class: 'col-md-2 control-label' %>
-          <div class="controls">
+          <div class="col-md-10">
             <%= text_field_tag :initial_due_date, params[:initial_due_date], class: 'datepicker' %>
             <%= javascript_tag "$('.datepicker').datepicker({ showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true });" %>
           </div>

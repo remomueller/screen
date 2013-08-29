@@ -30,7 +30,7 @@
   </div>
   <div class="control-group">
     <%= label_tag :mrn_doctor_type, 'Doctor type', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= select_tag :mrn_doctor_type, options_for_select(Doctor::DOCTOR_TYPE, 'cardiologist'), name: 'doctor_type' %>
     </div>
   </div>
@@ -65,7 +65,7 @@
   </div>
   <div class="control-group">
     <%= label_tag :subject_code_doctor_type, 'Doctor type', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= select_tag :subject_code_doctor_type, options_for_select(Doctor::DOCTOR_TYPE, 'cardiologist'), name: 'doctor_type' %>
     </div>
   </div>

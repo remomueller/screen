@@ -17,98 +17,98 @@
 
   <div class="control-group">
     <%= f.label :mrn, 'MRN', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.screener? and current_user.access_phi? %><%= f.text_field :mrn %><% else %><%= @patient.phi_mrn(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :mrn_organization, 'MRN Organization', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.screener? and current_user.access_phi? %><%= f.text_field :mrn_organization, autocomplete: "off", data: { provide: "typeahead", source: Patient.current.uniq.pluck(:mrn_organization).select{|o| not o.blank?}.to_json } %><% else %><%= @patient.phi_mrn_organization(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :subject_code, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.text_field :subject_code %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :name_code, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.text_field :name_code %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :first_name, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :first_name %><% else %><%= @patient.phi_first_name(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :last_name, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :last_name %><% else %><%= @patient.phi_last_name(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :phone_home, 'Home Phone', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :phone_home %><% else %><%= @patient.phi_phone_home(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :phone_day, 'Day Phone', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :phone_day %><% else %><%= @patient.phi_phone_day(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :phone_alt, 'Alt Phone', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :phone_alt %><% else %><%= @patient.phi_phone_alt(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :email, nil, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :email %><% else %><%= @patient.phi_email(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :sex, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :sex %><% else %><%= @patient.phi_sex(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :age, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.number_field :age, { min: 0 } %><% else %><%= @patient.phi_age(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :address1, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :address1 %><% else %><%= @patient.phi_address1(current_user) %><% end %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :city, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :city %><% else %><%= @patient.phi_city(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :state, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :state %><% else %><%= @patient.phi_state(current_user) %><% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :zip, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <% if current_user.access_phi? %><%= f.text_field :zip %><% else %><%= @patient.phi_zip(current_user) %><% end %>
     </div>
   </div>

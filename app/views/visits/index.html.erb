@@ -9,20 +9,20 @@
   <div class="row">
     <div class="col-md-4 control-group">
       <%= label :mrn, 'Search', class: 'col-md-2 control-label' %>
-      <div class="controls">
+      <div class="col-md-10">
         <%= text_field_tag :mrn, params[:mrn] %>
       </div>
     </div>
     <div class="col-md-4 control-group">
       <%= label :visit_after, 'Visit Date After', class: 'col-md-2 control-label' %>
-      <div class="controls">
+      <div class="col-md-10">
         <%= text_field_tag 'visit_after', params[:visit_after], class: 'datepicker' %>
       </div>
     </div>
 
     <div class="col-md-4 control-group">
       <%= label :visit_before, 'Visit Date Before', class: 'col-md-2 control-label' %>
-      <div class="controls">
+      <div class="col-md-10">
         <%= text_field_tag 'visit_before', params[:visit_before], class: 'datepicker' %>
       </div>
     </div>
@@ -31,14 +31,14 @@
   <div class="row">
     <div class="col-md-4 control-group">
       <%= label :outcome, 'Outcome', class: 'col-md-2 control-label' %>
-      <div class="controls">
+      <div class="col-md-10">
         <%= select_tag :outcome, options_for_select([['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]}, params[:outcome]) %>
       </div>
     </div>
 
     <div class="col-md-4 control-group">
       <%= label :visit_type, 'Visit Type', class: 'col-md-2 control-label' %>
-      <div class="controls">
+      <div class="col-md-10">
         <%= select_tag :visit_type, options_for_select([['---', nil]] + Choice.where(category: 'visit type').collect{|c| [c.name, c.id]}, params[:visit_type]) %>
       </div>
     </div>

@@ -17,7 +17,7 @@
 
   <div class="control-group">
     <%= f.label :patient_id, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= link_to @prescreen.patient.phi_code(current_user), @prescreen.patient if @prescreen.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
@@ -25,56 +25,56 @@
 
   <div class="control-group">
     <%= f.label :clinic_id, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :clinic_id, Clinic::clinic_select %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :doctor_id, nil, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :doctor_id, Doctor::doctor_select %>
     </div>
   </div>
 
   <div class="control-group">
     <%= label_tag :visit_date, 'Visit date', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= text_field_tag :visit_date, @prescreen.visit_date, class: 'datepicker' %>
     </div>
   </div>
 
   <div class="control-group">
     <%= label_tag :visit_time, 'Visit time', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= text_field_tag :visit_time, @prescreen.visit_at_string %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :visit_duration, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.number_field :visit_duration, { min: 0 } %> <%= f.select :visit_units, ['minutes', 'hours'].collect{|i| [i,i]} %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :eligibility, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :eligibility, Prescreen::ELIGIBILITY %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :exclusion, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :risk_factors, nil, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <table style="width:100%;table-layout:fixed;">
         <% Choice.where(category: 'risk factors').in_groups_of(4).each do |row_risk_factors| %>
           <tr>

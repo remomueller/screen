@@ -17,25 +17,25 @@
 
   <div class="control-group">
     <%= f.label :category, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :category, Choice::CATEGORIES %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :name, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.text_field :name %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :description, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.text_area :description, rows: 7, style: "width:99%" %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :color, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.hidden_field :color, id: "choice_hexcolor" %>
       <div class="custom_widget">
         <div class="colorselector" data-object="color-selector" data-target="#choice_hexcolor" data-color="<%= @choice.color.blank? ? '#ffffff' : @choice.color %>" style="background-image: none">
@@ -46,7 +46,7 @@
   </div>
   <div class="control-group">
     <%= f.label :included_fields, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.text_area :included_fields, rows: 7, style: "width:99%" %>
       <div class="muted">Comma or Whitespace Separated</div>
       <small>

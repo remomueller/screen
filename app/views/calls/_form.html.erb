@@ -48,7 +48,7 @@
 
   <div class="control-group">
     <%= f.label :patient_id, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= link_to @call.patient.phi_code(current_user), @call.patient if @call.patient %>
       <%= f.hidden_field :patient_id %>
     </div>
@@ -56,7 +56,7 @@
 
   <div class="control-group">
     <%= f.label :call_type, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :call_type, [['---', nil]] + Choice.where(category: 'call type').collect{|c| [c.name, c.id]} %>
       <%= javascript_tag do %>
         window.$choices = {};
@@ -69,69 +69,69 @@
 
   <div class="control-group">
     <%= f.label :direction, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :direction, Call::CALL_DIRECTION %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :response, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :response, [['---', nil]] + Choice.where(category: 'call response').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
     <%= label_tag :call_date, 'Call date', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %> <%= link_to 'Current Time', "#", data: { object: 'set-current-time' } %>
     </div>
   </div>
 
   <div class="control-group">
     <%= label_tag :call_time, 'Call time', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= text_field_tag :call_time, @call.call_at_string %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :berlin, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.number_field :berlin %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :ess, 'ESS', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.number_field :ess %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :eligibility, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :eligibility, Call::ELIGIBILITY %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :exclusion, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :participation, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :comments, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.text_area :comments, rows: 7, style: "width:95%" %>
     </div>
   </div>
