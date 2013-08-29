@@ -33,7 +33,7 @@
   <div class="form-group">
     <%= f.label :visit_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :visit_date, class: 'datepicker', value: @visit.visit_date ? @visit.visit_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :visit_date, class: 'datepicker form-control', value: @visit.visit_date ? @visit.visit_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 

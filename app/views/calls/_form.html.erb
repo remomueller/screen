@@ -84,7 +84,7 @@
   <div class="form-group">
     <%= label_tag :call_date, 'Call date', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= text_field_tag :call_date, @call.call_date, class: 'datepicker' %> <%= link_to 'Current Time', "#", data: { object: 'set-current-time' } %>
+      <%= text_field_tag :call_date, @call.call_date, class: 'datepicker form-control' %> <%= link_to 'Current Time', "#", data: { object: 'set-current-time' } %>
     </div>
   </div>
 

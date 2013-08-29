@@ -54,14 +54,14 @@
   <div class="form-group">
     <%= f.label :sent_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :sent_date, class: 'datepicker', value: @mailing.sent_date ? @mailing.sent_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :sent_date, class: 'datepicker form-control', value: @mailing.sent_date ? @mailing.sent_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :response_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :response_date, class: 'datepicker', value: @mailing.response_date ? @mailing.response_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :response_date, class: 'datepicker form-control', value: @mailing.response_date ? @mailing.response_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 

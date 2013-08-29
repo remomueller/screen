@@ -46,7 +46,7 @@
   <div class="form-group">
     <%= f.label :administration_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :administration_date, class: 'datepicker', value: @evaluation.administration_date ? @evaluation.administration_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :administration_date, class: 'datepicker form-control', value: @evaluation.administration_date ? @evaluation.administration_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
@@ -67,21 +67,21 @@
   <div class="form-group">
     <%= f.label :expected_receipt_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :expected_receipt_date, class: 'datepicker', value: @evaluation.expected_receipt_date ? @evaluation.expected_receipt_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :expected_receipt_date, class: 'datepicker form-control', value: @evaluation.expected_receipt_date ? @evaluation.expected_receipt_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :receipt_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :receipt_date, class: 'datepicker', value: @evaluation.receipt_date ? @evaluation.receipt_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :receipt_date, class: 'datepicker form-control', value: @evaluation.receipt_date ? @evaluation.receipt_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :storage_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :storage_date, class: 'datepicker', value: @evaluation.storage_date ? @evaluation.storage_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :storage_date, class: 'datepicker form-control', value: @evaluation.storage_date ? @evaluation.storage_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
@@ -95,14 +95,14 @@
   <div class="form-group">
     <%= f.label :reimbursement_form_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :reimbursement_form_date, class: 'datepicker', value: @evaluation.reimbursement_form_date ? @evaluation.reimbursement_form_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :reimbursement_form_date, class: 'datepicker form-control', value: @evaluation.reimbursement_form_date ? @evaluation.reimbursement_form_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :scored_date, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :scored_date, class: 'datepicker', value: @evaluation.scored_date ? @evaluation.scored_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :scored_date, class: 'datepicker form-control', value: @evaluation.scored_date ? @evaluation.scored_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
