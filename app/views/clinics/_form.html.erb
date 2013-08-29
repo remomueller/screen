@@ -4,8 +4,8 @@
 
 <%= form_for(@clinic, html: { class: 'form-horizontal' }) do |f| %>
   <% if @clinic.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@clinic.errors.count, "error") %> prohibited this clinic from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@clinic.errors.count, "error") %> prohibited this clinic from being saved</h4>
 
       <ul>
       <% @clinic.errors.full_messages.each do |msg| %>

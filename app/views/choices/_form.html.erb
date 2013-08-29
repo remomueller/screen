@@ -4,8 +4,8 @@
 
 <%= form_for(@choice, html: { class: 'form-horizontal' }) do |f| %>
   <% if @choice.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@choice.errors.count, "error") %> prohibited this choice from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@choice.errors.count, "error") %> prohibited this choice from being saved</h4>
 
       <ul>
       <% @choice.errors.full_messages.each do |msg| %>

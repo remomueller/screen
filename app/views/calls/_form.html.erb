@@ -34,8 +34,8 @@
 
 <%= form_for(@call, html: { class: 'form-horizontal' }) do |f| %>
   <% if @call.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@call.errors.count, "error") %> prohibited this call from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@call.errors.count, "error") %> prohibited this call from being saved</h4>
 
       <ul>
       <% @call.errors.full_messages.each do |msg| %>
