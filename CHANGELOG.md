@@ -1,6 +1,7 @@
 ## 0.9.6
 
 ### Enhancements
+- Gravatars added for users
 - **Gem Changes**
   - Updated to contour 2.1.0.beta17
   - Updated to mysql 0.3.13

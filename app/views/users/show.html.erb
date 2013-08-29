@@ -10,8 +10,13 @@
     <% end %>
   </h1>
 </div>
-<% if current_user.system_admin? %>
-  <dl class="dl-horizontal">
+<dl class="dl-horizontal">
+  <dt>User Avatar</dt>
+  <dd><%= image_tag @user.avatar_url, class: 'img-rounded' %></dd>
+
+
+  <% if current_user.system_admin? %>
+
     <dt>Status</dt>
     <dd><%= @user.status %></dd>
 
@@ -26,5 +31,20 @@
 
     <dt>Access PHI</dt>
     <dd><%= @user.access_phi? %></dd>
-  </dl>
-<% end %>
+
+    <% if @user.authentications.size > 0 %>
+      <dt>Authentications</dt>
+      <dd>
+        <div style="margin-top:10px">
+          <% @user.authentications.each do |authentication| %>
+            <div class="authentication">
+              <%= image_tag "contour/#{authentication.provider}_32.png", height: "32px" %>
+              <div class="provider"><%= authentication.provider.titleize %></div>
+              <div class="uid"><%= authentication.uid %></div>
+            </div>
+          <% end %>
+        </div>
+      </dd>
+    <% end %>
+  <% end %>
+</dl>

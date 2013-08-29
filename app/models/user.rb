@@ -39,6 +39,11 @@ class User < ActiveRecord::Base
 
   # User Methods
 
+  def avatar_url(size = 80, default = 'mm')
+    gravatar_id = Digest::MD5.hexdigest(self.email.to_s.downcase)
+    "//gravatar.com/avatar/#{gravatar_id}.png?&s=#{size}&r=pg&d=#{default}"
+  end
+
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
     super and self.status == 'active' and not self.deleted?
