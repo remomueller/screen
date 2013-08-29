@@ -19,14 +19,16 @@ Contour.setup do |config|
   # Enter the items you wish to see in the menu
   config.menu_items = [
     {
-      name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right',
-      links: [{ name: 'Sign Up', path: 'new_user_registration_path' },
-              { divider: true },
-              { authentications: true }]
+      name: 'Sign Up', display: 'not_signed_in', path: 'new_user_registration_path', position: 'right'
     },
     {
-      name: 'current_user.name', eval: true, display: 'signed_in', path: 'user_path(current_user)', position: 'right',
-      links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true },
+      name: 'image_tag(current_user.avatar_url(18, "blank"))+" "+current_user.name', eval: true, display: 'signed_in', path: 'authentications_path', position: 'right',
+      links: [{ name: "About #{DEFAULT_APP_NAME} v#{Screen::VERSION::STRING}", path: 'about_path' },
+              { divider: true },
+              { header: 'Administrative', condition: 'current_user.system_admin?' },
+              { name: 'Users', path: 'users_path', condition: 'current_user.system_admin?' },
+              { divider: true, condition: 'current_user.system_admin?' },
+              { header: 'current_user.email', eval: true },
               { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
               { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
@@ -65,14 +67,6 @@ Contour.setup do |config|
     },
     {
       name: 'Choices', display: 'signed_in', path: 'choices_path', position: 'left', condition: 'current_user.system_admin?',
-      links: []
-    },
-    {
-      name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
-      links: []
-    },
-    {
-      name: 'About', display: 'always', path: 'about_path', position: 'left',
       links: []
     }
   ]
