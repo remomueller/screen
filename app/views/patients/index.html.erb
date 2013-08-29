@@ -10,19 +10,19 @@
   <%= hidden_field_tag :order %>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :mrn, 'Search', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :mrn, params[:mrn] %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :priority_only, 'Priority Only', class: 'control-label' %>
       <div class="controls">
         <%= check_box_tag :priority_only, '1', false, onclick: "$('#patients_search').submit()" %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :priority_message, 'Priority Message', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :priority_message, options_for_select([['---', nil]] + Patient::PRIORITY_MESSAGES, params[:priority_message]) %>

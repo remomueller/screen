@@ -43,7 +43,7 @@
 <% clinics_unknown = Clinic.current.where("status = '' or status IS NULL") %>
 
 <div class="row">
-  <div class="span6">
+  <div class="col-md-6">
     <% if doctors_unknown.size > 0 %>
       <fieldset>
         <legend>New Doctors</legend>
@@ -56,7 +56,7 @@
       </fieldset>
     <% end %>
   </div>
-  <div class="span6">
+  <div class="col-md-6">
     <% if clinics_unknown.size > 0 %>
       <fieldset>
         <legend>New Clinics</legend>

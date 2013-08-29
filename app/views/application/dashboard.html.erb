@@ -4,13 +4,13 @@
 </div>
 
 <div class="row">
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2><%= link_to 'Patients', patients_path %> <%= image_tag 'gentleface/16/user.png', alt: '' %></h2></div>
     <p><%= pluralize Patient.current.size, 'Patient' %> in Screen</p>
     <p><%= Patient.current.where("created_at >= ?", Time.now - 1.month).size %> added in past month</p>
   </div>
 
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2><%= link_to 'Prescreens', prescreens_path %> <%= image_tag 'gentleface/16/3x3_grid.png', alt: '' %></h2></div>
     <p><%= pluralize Prescreen.current.size, 'Screen' %></p>
     <p><%= Prescreen.current.where("visit_at >= ?", Time.now - 1.month).size %> in past month</p>
@@ -20,7 +20,7 @@
     <p><%= potentially_eligible = Prescreen.current.where(eligibility: 'potentially eligible').size %> <%= "(%d%%)" % ((potentially_eligible * 100) / Prescreen.current.size) rescue '' %> potentially eligible</p>
   </div>
 
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2><%= link_to 'Mailings', mailings_path %> <%= image_tag 'gentleface/16/mail.png', alt: '' %></h2></div>
     <p><%= pluralize Mailing.current.size, 'Mailing' %> sent</p>
     <p><%= Mailing.current.where("sent_date >= ?", Date.today - 1.month).size %> in past month</p>
@@ -30,7 +30,7 @@
     <p><%= Mailing.current.where("response_date >= ? and response_date <= ?", Date.today - 1.month, Date.today).size %> received in past month</p>
   </div>
 
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2><%= link_to 'Calls', calls_path %> <%= image_tag 'gentleface/16/phone_1.png', alt: '' %></h2></div>
     <p><%= pluralize Call.current.size, 'Call' %></p>
     <p><%= Call.current.where("call_time >= ?", Time.now - 1.month).size %> in past month</p>
@@ -38,7 +38,7 @@
 </div>
 
 <div class="row">
-  <div class="span3 offset3">
+  <div class="col-md-offset-3 col-md-3">
     <div class="page-header"><h2><%= link_to 'Evaluations', evaluations_path %> <%= image_tag 'gentleface/16/cert.png', alt: '' %></h2></div>
     <p><%= pluralize Evaluation.current.size, 'Evaluation' %> administered</p>
     <p><%= Evaluation.current.where("administration_date >= ?", Date.today - 1.month).size %> in past month</p>
@@ -51,7 +51,7 @@
     <p><%= Evaluation.current.where("scored_date >= ? and scored_date <= ?", Date.today - 1.month, Date.today).size %> scored in past month</p>
   </div>
 
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2><%= link_to 'Visits', visits_path %> <%= image_tag 'gentleface/16/users.png', alt: '' %></h2></div>
 
     <p><%= pluralize Visit.current.size, 'Visit' %></p>

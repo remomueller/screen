@@ -22,7 +22,7 @@
 <% end %>
 
 <div class="row">
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/user.png', alt: '' %> Patient</h2></div>
 
     <dl class="dl-horizontal">
@@ -44,7 +44,7 @@
       <dd><%= @patient.phi_name(current_user) %></dd>
     </dl>
   </div>
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/phone_1.png', alt: '', style: 'vertical-align:text-bottom' %> Contact</h2></div>
 
     <dl class="dl-horizontal">
@@ -61,7 +61,7 @@
       <dd><%= pretty_phone @patient.phi_email(current_user) %></dd>
     </dl>
   </div>
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/mail.png', alt: '', style: 'vertical-align:text-bottom' %> Address</h2></div>
 
     <dl class="dl-horizontal">
@@ -69,7 +69,7 @@
       <dd><%= @patient.phi_address(current_user) %></dd>
     </dl>
   </div>
-  <div class="span3">
+  <div class="col-md-3">
     <div class="page-header"><h2 style="white-space:nowrap"><%= image_tag 'gentleface/16/user.png', alt: '', style: 'vertical-align:text-bottom' %> Demographics</h2></div>
 
     <dl class="dl-horizontal">

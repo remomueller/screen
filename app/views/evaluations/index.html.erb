@@ -7,20 +7,20 @@
   <%= hidden_field_tag :order %>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :mrn, 'Search', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :mrn, params[:mrn] %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :administration_after, 'Administration Date After', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :administration_after, params[:administration_after], class: 'datepicker' %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :administration_before, 'Administration Date Before', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :administration_before, params[:administration_before], class: 'datepicker' %>
@@ -29,21 +29,21 @@
   </div>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :eligibility, 'Eligibility', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :eligibility, options_for_select(Evaluation::ELIGIBILITY, params[:eligibility]) %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :receipt_after, 'Receipt Date After', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :receipt_after, params[:receipt_after], class: 'datepicker' %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :receipt_before, 'Receipt Date Before', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :receipt_before, params[:receipt_before], class: 'datepicker' %>
@@ -52,21 +52,21 @@
   </div>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :administration_type, 'Administration Type', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :administration_type, options_for_select([['---', nil]] + Choice.where(category: 'administration type').collect{|c| [c.name, c.id]}, params[:administration_type]) %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :scored_after, 'Scored Date After', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :scored_after, params[:scored_after], class: 'datepicker' %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :scored_before, 'Scored Date Before', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :scored_before, params[:scored_before], class: 'datepicker' %>
@@ -75,7 +75,7 @@
   </div>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :evaluation_type, 'Evaluation Type', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :evaluation_type, options_for_select([['---', nil]] + Choice.where(category: 'evaluation type').collect{|c| [c.name, c.id]}, params[:evaluation_type]) %>

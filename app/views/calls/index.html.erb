@@ -7,20 +7,20 @@
   <%= hidden_field_tag :order %>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :mrn, 'Search', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :mrn, params[:mrn] %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :call_after, 'Call Date After', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :call_after, params[:call_after], class: 'datepicker' %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :call_before, 'Call Date Before', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag :call_before, params[:call_before], class: 'datepicker' %>
@@ -29,21 +29,21 @@
   </div>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :eligibility, 'Eligibility', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :eligibility, options_for_select(Call::ELIGIBILITY, params[:eligibility]) %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :user_id, 'Creator', class: 'control-label' %>
       <div class="controls">
         <%= select_tag 'user_id', options_for_select([['---', nil]] + User.current.with_call.collect{|u| [u.name, u.id]}, params[:user_id]) %>
       </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :response_id, 'Response', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :response_id, options_for_select([['---', nil]] + Choice.where(category: 'call response').collect{|c| [c.name, c.id]}, params[:response_id]) %>
