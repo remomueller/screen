@@ -1,6 +1,6 @@
 <%= render partial: 'layouts/per_page', locals: { object_count: @visits.total_count, type: 'visits' } %>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped">
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.patient_id", 'Patient', 'visits_search') %></th>
