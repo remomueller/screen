@@ -16,21 +16,21 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :patient_id, class: 'control-label' %>
+    <%= f.label :patient_id, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :patient_id, options_for_select([['---', nil]] + Patient.current.collect{|p| [p.phi_code(current_user), p.id]}, @event.patient_id) %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :class_name, class: 'control-label' %>
+    <%= f.label :class_name, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :class_name %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :class_id, class: 'control-label' %>
+    <%= f.label :class_id, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.number_field :class_id %>
     </div>

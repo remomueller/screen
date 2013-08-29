@@ -16,7 +16,7 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :patient_id, class: 'control-label' %>
+    <%= f.label :patient_id, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= link_to @evaluation.patient.phi_code(current_user), @evaluation.patient if @evaluation.patient %>
       <%= f.hidden_field :patient_id %>
@@ -24,7 +24,7 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :administration_type, class: 'control-label' %>
+    <%= f.label :administration_type, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :administration_type, [['---', nil]] + Choice.where(category: 'administration type').collect{|c| [c.name, c.id]} %>
       <%= javascript_tag do %>
@@ -37,105 +37,105 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :evaluation_type, class: 'control-label' %>
+    <%= f.label :evaluation_type, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :evaluation_type, [['---', nil]] + Choice.where(category: 'evaluation type').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :administration_date, class: 'control-label' %>
+    <%= f.label :administration_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :administration_date, class: 'datepicker', value: @evaluation.administration_date ? @evaluation.administration_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :source, class: 'control-label' %>
+    <%= f.label :source, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :source %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :embletta_unit_number, class: 'control-label' %>
+    <%= f.label :embletta_unit_number, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :embletta_unit_number %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :expected_receipt_date, class: 'control-label' %>
+    <%= f.label :expected_receipt_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :expected_receipt_date, class: 'datepicker', value: @evaluation.expected_receipt_date ? @evaluation.expected_receipt_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :receipt_date, class: 'control-label' %>
+    <%= f.label :receipt_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :receipt_date, class: 'datepicker', value: @evaluation.receipt_date ? @evaluation.receipt_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :storage_date, class: 'control-label' %>
+    <%= f.label :storage_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :storage_date, class: 'datepicker', value: @evaluation.storage_date ? @evaluation.storage_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :subject_notified, class: 'control-label' %>
+    <%= f.label :subject_notified, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.check_box :subject_notified %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :reimbursement_form_date, class: 'control-label' %>
+    <%= f.label :reimbursement_form_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :reimbursement_form_date, class: 'datepicker', value: @evaluation.reimbursement_form_date ? @evaluation.reimbursement_form_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :scored_date, class: 'control-label' %>
+    <%= f.label :scored_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :scored_date, class: 'datepicker', value: @evaluation.scored_date ? @evaluation.scored_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :ahi, 'AHI', class: 'control-label' %>
+    <%= f.label :ahi, 'AHI', class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.number_field :ahi, { min: 0, step: 0.01 } %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :eligibility, class: 'control-label' %>
+    <%= f.label :eligibility, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :eligibility, Evaluation::ELIGIBILITY %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :exclusion, class: 'control-label' %>
+    <%= f.label :exclusion, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :status, class: 'control-label' %>
+    <%= f.label :status, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :status, Evaluation::STATUS %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :comments, class: 'control-label' %>
+    <%= f.label :comments, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_area :comments, rows: 7, style: "width:99%" %>
     </div>

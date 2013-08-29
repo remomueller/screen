@@ -2,7 +2,7 @@
   <%# Render blank (different from nothing) %>
 <% elsif current_user.task_tracker_screen_token.blank? or @group.blank? %>
   <div class="control-group">
-    <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'control-label' %>
+    <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= text_field_tag "task_tracker_screen_token", '', style: "width:99%" %>
       <%= link_to 'Update My Screen Token', '#', class: 'btn btn-mini btn-primary', data: { object: 'screen-token-update', target: "#group_#{@call.tt_group_id}_call_form" } %>

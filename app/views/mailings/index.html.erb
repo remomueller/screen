@@ -8,20 +8,20 @@
 
   <div class="row">
     <div class="col-md-4 control-group">
-      <%= label :mrn, 'Search', class: 'control-label' %>
+      <%= label :mrn, 'Search', class: 'col-md-2 control-label' %>
       <div class="controls">
         <%= text_field_tag :mrn, params[:mrn] %>
       </div>
     </div>
     <div class="col-md-4 control-group">
-      <%= label :sent_after, 'Sent Date After', class: 'control-label' %>
+      <%= label :sent_after, 'Sent Date After', class: 'col-md-2 control-label' %>
       <div class="controls">
         <%= text_field_tag :sent_after, params[:sent_after], class: 'datepicker' %>
       </div>
     </div>
 
     <div class="col-md-4 control-group">
-      <%= label :sent_before, 'Sent Date Before', class: 'control-label' %>
+      <%= label :sent_before, 'Sent Date Before', class: 'col-md-2 control-label' %>
       <div class="controls">
         <%= text_field_tag :sent_before, params[:sent_before], class: 'datepicker' %>
       </div>
@@ -30,21 +30,21 @@
 
   <div class="row">
     <div class="col-md-4 control-group">
-      <%= label :eligibility, 'Eligibility', class: 'control-label' %>
+      <%= label :eligibility, 'Eligibility', class: 'col-md-2 control-label' %>
       <div class="controls">
         <%= select_tag :eligibility, options_for_select(Mailing::ELIGIBILITY, params[:eligibility] || 'potentially eligible') %>
       </div>
     </div>
 
     <div class="col-md-4 control-group">
-      <%= label :response_after, 'Response Date After', class: 'control-label' %>
+      <%= label :response_after, 'Response Date After', class: 'col-md-2 control-label' %>
       <div class="controls">
         <%= text_field_tag :response_after, params[:response_after], class: 'datepicker' %>
       </div>
     </div>
 
     <div class="col-md-4 control-group">
-      <%= label :response_before, 'Response Date Before', class: 'control-label' %>
+      <%= label :response_before, 'Response Date Before', class: 'col-md-2 control-label' %>
       <div class="controls">
         <%= text_field_tag :response_before, params[:response_before], class: 'datepicker' %>
       </div>
@@ -53,7 +53,7 @@
 
   <div class="row">
     <div class="col-md-4 control-group">
-      <%= label :ineligible, 'Exclude Ineligible From Calls, Evaluations, or Prescreens', class: 'control-label' %>
+      <%= label :ineligible, 'Exclude Ineligible From Calls, Evaluations, or Prescreens', class: 'col-md-2 control-label' %>
       <div class="controls">
         <%= check_box_tag :ineligible, '1', params[:ineligible] %>
       </div>

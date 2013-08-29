@@ -16,7 +16,7 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :patient_id, class: 'control-label' %>
+    <%= f.label :patient_id, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= link_to @visit.patient.phi_code(current_user), @visit.patient if @visit.patient %>
       <%= f.hidden_field :patient_id %>
@@ -24,28 +24,28 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :visit_type, class: 'control-label' %>
+    <%= f.label :visit_type, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :visit_type, [['---', nil]] + Choice.where(category: 'visit type').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :visit_date, class: 'control-label' %>
+    <%= f.label :visit_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :visit_date, class: 'datepicker', value: @visit.visit_date ? @visit.visit_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :outcome, class: 'control-label' %>
+    <%= f.label :outcome, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :outcome, [['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :comments, class: 'control-label' %>
+    <%= f.label :comments, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_area :comments, rows: 7, style: "width:99%" %>
     </div>

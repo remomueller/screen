@@ -37,7 +37,7 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :patient_id, class: 'control-label' %>
+    <%= f.label :patient_id, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= link_to @mailing.patient.phi_code(current_user), @mailing.patient if @mailing.patient %>
       <%= f.hidden_field :patient_id %>
@@ -45,63 +45,63 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :doctor_id, nil, class: 'control-label' %>
+    <%= f.label :doctor_id, nil, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :doctor_id, Doctor::doctor_select %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :sent_date, class: 'control-label' %>
+    <%= f.label :sent_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :sent_date, class: 'datepicker', value: @mailing.sent_date ? @mailing.sent_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :response_date, class: 'control-label' %>
+    <%= f.label :response_date, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :response_date, class: 'datepicker', value: @mailing.response_date ? @mailing.response_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :berlin, class: 'control-label' %>
+    <%= f.label :berlin, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :berlin %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :ess, 'ESS', class: 'control-label' %>
+    <%= f.label :ess, 'ESS', class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_field :ess %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :eligibility, class: 'control-label' %>
+    <%= f.label :eligibility, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :eligibility, Mailing::ELIGIBILITY %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :exclusion, class: 'control-label' %>
+    <%= f.label :exclusion, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :participation, class: 'control-label' %>
+    <%= f.label :participation, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]} %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :risk_factors, nil, class: 'control-label' %>
+    <%= f.label :risk_factors, nil, class: 'col-md-2 control-label' %>
     <div class="controls">
       <table style="width:100%;table-layout:fixed;">
         <% Choice.where(category: 'risk factors').in_groups_of(4).each do |row_risk_factors| %>
@@ -118,7 +118,7 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :comments, class: 'control-label' %>
+    <%= f.label :comments, class: 'col-md-2 control-label' %>
     <div class="controls">
       <%= f.text_area :comments, rows: 7, style: "width:99%" %>
     </div>
