@@ -3,10 +3,10 @@
   <h1>
     <%= @title %>
     <% if current_user.screener? %>
-      <%= link_to "Edit Choice", edit_choice_path(@choice), class: 'btn btn-xs' %>
+      <%= link_to "Edit Choice", edit_choice_path(@choice), class: 'btn btn-xs btn-default' %>
       <%= link_to "Delete Choice", @choice, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Choice #{@choice.name}?" } %>
     <% end %>
-    <%= link_to "View Choices", choices_path, class: 'btn btn-xs' %>
+    <%= link_to "View Choices", choices_path, class: 'btn btn-xs btn-default' %>
   </h1>
 </div>
 
