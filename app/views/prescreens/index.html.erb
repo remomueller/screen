@@ -3,7 +3,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag prescreens_path, method: :get, remote: true, id: "prescreens_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag prescreens_path, method: :get, remote: true, id: "prescreens_search", class: 'form-vertical', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="col-md-4 form-group">

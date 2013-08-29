@@ -3,7 +3,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag evaluations_path, method: :get, remote: true, id: "evaluations_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag evaluations_path, method: :get, remote: true, id: "evaluations_search", class: 'form-vertical', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
 
   <div class="row">

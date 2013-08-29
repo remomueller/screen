@@ -6,7 +6,7 @@
   </h1>
 </div>
 
-<%= form_tag patients_path, method: :get, remote: true, id: "patients_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag patients_path, method: :get, remote: true, id: "patients_search", class: 'form-vertical', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
 
   <div class="row">
