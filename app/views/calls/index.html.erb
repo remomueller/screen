@@ -51,9 +51,11 @@
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
-    <%= link_to 'Export CSV', '#', class: 'btn btn-default', data: { target: '#calls_search', object: 'export', format: 'csv' } %>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+      <%= link_to 'Export CSV', '#', class: 'btn btn-default', data: { target: '#calls_search', object: 'export', format: 'csv' } %>
+    </div>
   </div>
 <% end %>
 

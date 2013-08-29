@@ -34,8 +34,10 @@
       <%= select_tag :mrn_doctor_type, options_for_select(Doctor::DOCTOR_TYPE, 'cardiologist'), name: 'doctor_type' %>
     </div>
   </div>
-  <div class="form-actions">
-    <%= submit_tag "Import using MRNs", class: 'btn btn-primary' %>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= submit_tag "Import using MRNs", class: 'btn btn-primary' %>
+    </div>
   </div>
 <% end %>
 
@@ -69,7 +71,9 @@
       <%= select_tag :subject_code_doctor_type, options_for_select(Doctor::DOCTOR_TYPE, 'cardiologist'), name: 'doctor_type' %>
     </div>
   </div>
-  <div class="form-actions">
-    <%= submit_tag "Import using Subject Codes", class: 'btn btn-primary' %>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= submit_tag "Import using Subject Codes", class: 'btn btn-primary' %>
+    </div>
   </div>
 <% end %>

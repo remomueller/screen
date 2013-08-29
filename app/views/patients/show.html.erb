@@ -89,12 +89,14 @@
 </div>
 
 
-<div class="form-actions">
-  <%= link_to image_tag('gentleface/16/3x3_grid.png', alt: '') + ' Create Prescreen', new_prescreen_path(patient_id: @patient.id), class: 'btn btn-default' %>
-  <%= link_to image_tag('gentleface/16/mail.png', alt: '') + ' Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'btn btn-default' %>
-  <%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + ' Create Call', new_call_path(patient_id: @patient.id), class: 'btn btn-default' %>
-  <%= link_to image_tag('gentleface/16/cert.png', alt: '') + ' Create Evaluation', new_evaluation_path(patient_id: @patient.id), class: 'btn btn-default' %>
-  <%= link_to image_tag('gentleface/16/users.png', alt: '') + ' Create Visit', new_visit_path(patient_id: @patient.id), class: 'btn btn-default' %>
+<div class="form-group">
+  <div class="col-md-offset-2 col-md-10">
+    <%= link_to image_tag('gentleface/16/3x3_grid.png', alt: '') + ' Create Prescreen', new_prescreen_path(patient_id: @patient.id), class: 'btn btn-default' %>
+    <%= link_to image_tag('gentleface/16/mail.png', alt: '') + ' Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'btn btn-default' %>
+    <%= link_to image_tag('gentleface/16/phone_1.png', alt: '') + ' Create Call', new_call_path(patient_id: @patient.id), class: 'btn btn-default' %>
+    <%= link_to image_tag('gentleface/16/cert.png', alt: '') + ' Create Evaluation', new_evaluation_path(patient_id: @patient.id), class: 'btn btn-default' %>
+    <%= link_to image_tag('gentleface/16/users.png', alt: '') + ' Create Visit', new_visit_path(patient_id: @patient.id), class: 'btn btn-default' %>
+  </div>
 </div>
 
 
