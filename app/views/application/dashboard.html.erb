@@ -61,13 +61,24 @@
     <% if baseline_choice = Choice.find_by_category_and_name('visit type', 'Baseline') %>
       <% target_baseline_count = 150 %>
       <% baseline_visit_count = Visit.current.where(visit_type: baseline_choice.id.to_s).size %>
-      <% if baseline_visit_count >= target_baseline_count %>
-        <div data-object="fireworks-initialize"></div>
-      <% end %>
       <center><%= baseline_visit_count %> out of <%= target_baseline_count %> baseline visits</center>
       <div class="progress progress-striped active">
-        <div class="bar" style="width: <%= baseline_visit_count * 100 / target_baseline_count %>%;"></div>
+        <div class="progress-bar"  role="progressbar" aria-valuenow="<%= baseline_visit_count * 100 / target_baseline_count %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= baseline_visit_count * 100 / target_baseline_count %>%"></div>
       </div>
+
     <% end %>
   </div>
 </div>
+
+<% if baseline_visit_count >= target_baseline_count %>
+  <div class="jumbotron" style="margin-top:20px">
+    <div class="container">
+      <h1>Target Goal</h1>
+      <p><span class="label label-success">Completed</span> <%= baseline_visit_count %> of <%= pluralize target_baseline_count, 'baseline visit' %></p>
+      <blockquote>
+        Act as if what you do makes a difference. It does.
+        <small>William James</small>
+      </blockquote>
+    </div>
+  </div>
+<% end %>

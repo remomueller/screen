@@ -3,6 +3,7 @@
 ### Enhancements
 - Gravatars added for users
 - Reorganized Menu
+- Reward modified for completing 150 baseline visits
 - **Gem Changes**
   - Updated to contour 2.1.0.beta17
   - Updated to mysql 0.3.13
