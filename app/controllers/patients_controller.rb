@@ -28,8 +28,6 @@ class PatientsController < ApplicationController
   # GET /patients
   # GET /patients.json
   def index
-    params[:mrn] ||= params[:term]
-
     @order = scrub_order(Patient, params[:order], 'patients.id')
     @order = "priority DESC, " + @order if params[:priority_only] == '1'
     patient_scope = Patient.current.order(@order)
@@ -48,7 +46,7 @@ class PatientsController < ApplicationController
 
     if params[:autocomplete] == 'true'
       @patients = patient_scope.page(params[:page]).per(10)
-      render json: @patients.collect{|p| { id: p.phi_code(current_user).to_s, text: p.phi_code(current_user) + " - " + p.phi_name(current_user) }}
+      render json: @patients.collect{|p| { value: p.phi_code(current_user).to_s, text: [p.phi_code(current_user), p.phi_name(current_user)].reject{ |i| i.blank? }.join(" - ") }}
     else
       @patients = patient_scope.page(params[:page]).per(20)
     end

@@ -14,35 +14,17 @@
         $(field).attr('disabled', 'disabled')
         $(field).parent().hide()
 
-jQuery ->
-
-  $("#mrn").select2(
-    placeholder: "Enter Code(s) or one MRN"
-    allowClear: true,
-    width: 'resolve'
-    minimumInputLength: 1
-    tags: []
-    tokenSeparators: [",", " "]
-    initSelection: (element, callback) ->
-      callback([])
-    ajax:
-      url: root_url + "patients"
-      dataType: 'json'
-      data: (term, page) -> { term: term, autocomplete: 'true' }
-      results: (data, page) -> # parse the results into the format expected by Select2.
-          return results: data
-  ).on("change", (e) ->
-    $(this).closest('form').submit()
+@initializeTypeahead = () ->
+  $('#mrn').each( () ->
+    $this = $(this)
+    $this.typeahead(
+      remote: root_url + 'patients' + "?mrn=%QUERY" + "&autocomplete=true"
+      template: '<p>{{text}}</p>'
+      engine: Hogan
+    )
   )
 
-
-  # $("#mrn")
-  #   .autocomplete(
-  #     source: root_url + "patients?autocomplete=true"
-  #     html: true
-  #     close: (event, ui) ->
-  #       $(this).closest('form').submit()
-  #   )
+jQuery ->
 
   $(document)
     .on('click', '[data-object~="screen-token-update"]', () ->
@@ -80,3 +62,5 @@ jQuery ->
         $(el).ColorPickerHide();
     )
   )
+
+  initializeTypeahead()
