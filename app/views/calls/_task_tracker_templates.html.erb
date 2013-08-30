@@ -4,7 +4,7 @@
   <div class="form-group">
     <%= label :task_tracker_screen_token, 'Task Tracker Token', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= text_field_tag "task_tracker_screen_token", '', style: "width:99%" %>
+      <%= text_field_tag "task_tracker_screen_token", '', class: 'form-control' %>
       <%= link_to 'Update My Screen Token', '#', class: 'btn btn-xs btn-primary', data: { object: 'screen-token-update', target: '#templates_form' } %>
       <small>Please enter your Task Tracker Screen Token: <%= link_to TASK_TRACKER_URL + "/settings#screen_token", TASK_TRACKER_URL + "/settings#screen_token", target: '_blank' %></small>
     </div>
@@ -13,7 +13,7 @@
         <div class="form-group">
           <%= label 'call', 'tt_template_id', 'Template', class: 'col-md-2 control-label' %>
           <div class="col-md-10">
-            <%= select 'call', 'tt_template_id', options_for_select([['---', nil]] + @templates.collect{|t| [t['full_name'], t['id']]}, params[:tt_template_id]) %>
+            <%= select 'call', 'tt_template_id', options_for_select([['---', nil]] + @templates.collect{|t| [t['full_name'], t['id']]}, params[:tt_template_id]), {}, class: 'form-control' %>
           </div>
         </div>
         <div class="form-group">

@@ -1,6 +1,6 @@
 <%= render partial: 'layouts/per_page', locals: { object_count: @clinics.total_count, type: 'clinics', per_page: 40 } %>
 
-<table class="table table-hover table-bordered" style="width:100%;table-layout:fixed">
+<table class="table table-striped" style="table-layout:fixed">
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, "clinics.name", "Name", 'clinics_search') %></th>

@@ -26,7 +26,7 @@
   <div class="form-group">
     <%= f.label :administration_type, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :administration_type, [['---', nil]] + Choice.where(category: 'administration type').collect{|c| [c.name, c.id]} %>
+      <%= f.select :administration_type, [['---', nil]] + Choice.where(category: 'administration type').collect{|c| [c.name, c.id]}, {}, class: 'form-control' %>
       <%= javascript_tag do %>
         window.$choices = {};
         <% Choice.where(category: 'administration type').each do |c| %>
@@ -39,7 +39,7 @@
   <div class="form-group">
     <%= f.label :evaluation_type, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :evaluation_type, [['---', nil]] + Choice.where(category: 'evaluation type').collect{|c| [c.name, c.id]} %>
+      <%= f.select :evaluation_type, [['---', nil]] + Choice.where(category: 'evaluation type').collect{|c| [c.name, c.id]}, {}, class: 'form-control' %>
     </div>
   </div>
 
@@ -53,14 +53,14 @@
   <div class="form-group">
     <%= f.label :source, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :source %>
+      <%= f.text_field :source, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :embletta_unit_number, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :embletta_unit_number %>
+      <%= f.text_field :embletta_unit_number, class: 'form-control' %>
     </div>
   </div>
 
@@ -88,7 +88,9 @@
   <div class="form-group">
     <%= f.label :subject_notified, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.check_box :subject_notified %>
+      <div class="checkbox">
+        <%= f.check_box :subject_notified %>
+      </div>
     </div>
   </div>
 
@@ -109,35 +111,35 @@
   <div class="form-group">
     <%= f.label :ahi, 'AHI', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.number_field :ahi, { min: 0, step: 0.01 } %>
+      <%= f.number_field :ahi, { min: 0, step: 0.01, class: 'form-control' } %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :eligibility, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :eligibility, Evaluation::ELIGIBILITY %>
+      <%= f.select :eligibility, Evaluation::ELIGIBILITY, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :exclusion, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
+      <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]}, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :status, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :status, Evaluation::STATUS %>
+      <%= f.select :status, Evaluation::STATUS, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :comments, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
+      <%= f.text_area :comments, rows: 7, class: 'form-control' %>
     </div>
   </div>
 

@@ -7,21 +7,21 @@
   <%= hidden_field_tag :order %>
   <div class="row">
     <div class="col-md-4 form-group">
-      <%= label :mrn, 'Search', class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
-        <%= text_field_tag :mrn, params[:mrn] %>
+      <%= label :mrn, 'Search', class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
+        <%= text_field_tag :mrn, params[:mrn], class: 'form-control' %>
       </div>
     </div>
     <div class="col-md-4 form-group">
-      <%= label :visit_after, 'Visit Date After', class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
+      <%= label :visit_after, 'Visit Date After', class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
         <%= text_field_tag 'visit_after', params[:visit_after], class: 'datepicker form-control' %>
       </div>
     </div>
 
     <div class="col-md-4 form-group">
-      <%= label :visit_before, 'Visit Date Before', class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
+      <%= label :visit_before, 'Visit Date Before', class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
         <%= text_field_tag 'visit_before', params[:visit_before], class: 'datepicker form-control' %>
       </div>
     </div>
@@ -29,22 +29,22 @@
 
   <div class="row">
     <div class="col-md-4 form-group">
-      <%= label :eligibility, 'Eligibility', class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
-        <%= select_tag :eligibility, options_for_select(Prescreen::ELIGIBILITY, params[:eligibility]) %>
+      <%= label :eligibility, 'Eligibility', class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
+        <%= select_tag :eligibility, options_for_select(Prescreen::ELIGIBILITY, params[:eligibility]), class: 'form-control' %>
       </div>
     </div>
 
     <div class="col-md-4 form-group">
-      <%= label :not_called, 'Not Called', class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
+      <%= label :not_called, 'Not Called', class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
         <%= check_box_tag :not_called %>
       </div>
     </div>
   </div>
 
   <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
+    <div class="col-md-offset-3 col-md-9">
       <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
     </div>
   </div>

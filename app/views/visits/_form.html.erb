@@ -26,7 +26,7 @@
   <div class="form-group">
     <%= f.label :visit_type, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :visit_type, [['---', nil]] + Choice.where(category: 'visit type').collect{|c| [c.name, c.id]} %>
+      <%= f.select :visit_type, [['---', nil]] + Choice.where(category: 'visit type').collect{|c| [c.name, c.id]}, {}, class: 'form-control' %>
     </div>
   </div>
 
@@ -40,14 +40,14 @@
   <div class="form-group">
     <%= f.label :outcome, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :outcome, [['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]} %>
+      <%= f.select :outcome, [['---', nil]] + Choice.where(category: 'visit outcome').collect{|c| [c.name, c.id]}, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :comments, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
+      <%= f.text_area :comments, rows: 7, class: 'form-control' %>
     </div>
   </div>
 

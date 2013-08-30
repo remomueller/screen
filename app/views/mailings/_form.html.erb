@@ -47,7 +47,7 @@
   <div class="form-group">
     <%= f.label :doctor_id, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :doctor_id, Doctor::doctor_select %>
+      <%= f.select :doctor_id, Doctor::doctor_select, {}, class: 'form-control' %>
     </div>
   </div>
 
@@ -68,35 +68,35 @@
   <div class="form-group">
     <%= f.label :berlin, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :berlin %>
+      <%= f.text_field :berlin, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :ess, 'ESS', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :ess %>
+      <%= f.text_field :ess, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :eligibility, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :eligibility, Mailing::ELIGIBILITY %>
+      <%= f.select :eligibility, Mailing::ELIGIBILITY, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :exclusion, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]} %>
+      <%= f.select :exclusion, [['---', nil]] + Choice.where(category: 'exclusion').collect{|c| [c.name, c.id]}, {}, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :participation, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]} %>
+      <%= f.select :participation, [['---', nil]] + Choice.where(category: 'participation').collect{|c| [c.name, c.id]}, {}, class: 'form-control' %>
     </div>
   </div>
 
@@ -120,7 +120,7 @@
   <div class="form-group">
     <%= f.label :comments, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_area :comments, rows: 7, style: "width:99%" %>
+      <%= f.text_area :comments, rows: 7, class: 'form-control' %>
     </div>
   </div>
 

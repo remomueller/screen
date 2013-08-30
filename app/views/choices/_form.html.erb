@@ -18,19 +18,19 @@
   <div class="form-group">
     <%= f.label :category, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :category, Choice::CATEGORIES %>
+      <%= f.select :category, Choice::CATEGORIES, {}, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :name, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :name %>
+      <%= f.text_field :name, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :description, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_area :description, rows: 7, style: "width:99%" %>
+      <%= f.text_area :description, rows: 7, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
@@ -47,10 +47,10 @@
   <div class="form-group">
     <%= f.label :included_fields, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_area :included_fields, rows: 7, style: "width:99%" %>
-      <div class="muted">Comma or Whitespace Separated</div>
-      <small>
-      Valid Choices:
+      <%= f.text_area :included_fields, rows: 7, class: 'form-control' %>
+      <div class="bs-callout bs-callout-info">
+        <h4>Comma or Whitespace Separated</h4>
+        Valid Choices:
         <span class="muted">
           <% if ['call type'].include?(@choice.category) %>
             <%= Call::TOGGLE_FIELDS.join(', ') %>
@@ -58,7 +58,8 @@
             <%= Evaluation::TOGGLE_FIELDS.join(', ') %>
           <% end %>
         </span>
-      </small>
+      </div>
+
     </div>
   </div>
 
