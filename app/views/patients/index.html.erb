@@ -19,13 +19,15 @@
     <div class="col-md-4 form-group">
       <%= label :priority_only, 'Priority Only', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
-        <%= check_box_tag :priority_only, '1', false, onclick: "$('#patients_search').submit()" %>
+        <div class="checkbox" style="margin-top:0px">
+          <%= check_box_tag :priority_only, '1', false, onclick: "$('#patients_search').submit()" %>
+        </div>
       </div>
     </div>
     <div class="col-md-4 form-group">
-      <%= label :priority_message, 'Priority Message', class: 'col-md-2 control-label' %>
-      <div class="col-md-10">
-        <%= select_tag :priority_message, options_for_select([['---', nil]] + Patient::PRIORITY_MESSAGES, params[:priority_message]) %>
+      <%= label :priority_message, 'Priority Message', class: 'col-md-3 control-label' %>
+      <div class="col-md-9">
+        <%= select_tag :priority_message, options_for_select([['---', nil]] + Patient::PRIORITY_MESSAGES, params[:priority_message]), class: 'form-control' %>
       </div>
     </div>
   </div>

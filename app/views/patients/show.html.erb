@@ -88,8 +88,7 @@
   </div>
 </div>
 
-
-<div class="form-group">
+<div class="row">
   <div class="col-md-offset-2 col-md-10">
     <%= link_to image_tag('gentleface/16/3x3_grid.png', alt: '') + ' Create Prescreen', new_prescreen_path(patient_id: @patient.id), class: 'btn btn-default' %>
     <%= link_to image_tag('gentleface/16/mail.png', alt: '') + ' Create Mailing', new_mailing_path(patient_id: @patient.id), class: 'btn btn-default' %>
@@ -99,6 +98,7 @@
   </div>
 </div>
 
+<div class="clear">&nbsp;</div>
 
 <%= @events = @patient.events.order("events.event_time DESC"); render partial: 'events/events_mini' %>
 
