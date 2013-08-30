@@ -1,10 +1,12 @@
 ## 0.9.6
 
 ### Enhancements
-- Gravatars added for users
-- Reorganized Menu
-- Reward modified for completing 150 baseline visits
-- Simplified patient search typeahead
+- **General Changes**
+  - The interface now uses [Bootstrap 3](http://getbootstrap.com/)
+  - Gravatars added for users
+  - Reorganized Menu
+  - Reward modified for completing 150 baseline visits
+  - Simplified patient search typeahead
 - **Gem Changes**
   - Updated to contour 2.1.0.beta17
   - Updated to mysql 0.3.13
