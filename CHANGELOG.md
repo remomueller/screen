@@ -8,7 +8,7 @@
   - Reward modified for completing 150 baseline visits
   - Simplified patient search typeahead
 - **Gem Changes**
-  - Updated to contour 2.1.0.beta17
+  - Updated to contour 2.1.0.rc
   - Updated to mysql 0.3.13
 
 ## 0.9.5 (July 9, 2013)
