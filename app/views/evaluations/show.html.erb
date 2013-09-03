@@ -1,13 +1,12 @@
 <% @title = "Evaluation #{@evaluation.name}" %>
 <div class="page-header">
   <h1>
-    <%= link_to @evaluation.patient.phi_code(current_user), @evaluation.patient %> &middot; <%= @title %>
-    <% if current_user.screener? or current_user.subject_handler? %>
-      <%= link_to "Edit Evaluation", edit_evaluation_path(@evaluation), class: 'btn btn-xs btn-default' %>
-      <%= link_to "Delete Evaluation", @evaluation, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Evaluation #{@evaluation.name}?" } %>
-    <% end %>
-    <%= link_to "View Evaluations", evaluations_path, class: 'btn btn-xs btn-default' %>
+    <%= link_to 'Evaluations', evaluations_path %> &middot; <%= link_to @evaluation.patient.phi_code(current_user), @evaluation.patient %> &middot; <%= @title %>
   </h1>
+  <% if current_user.screener? or current_user.subject_handler? %>
+    <%= link_to "Edit Evaluation", edit_evaluation_path(@evaluation), class: 'btn btn-xs btn-default' %>
+    <%= link_to "Delete Evaluation", @evaluation, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Evaluation #{@evaluation.name}?" } %>
+  <% end %>
 </div>
 
 <dl class="dl-horizontal">

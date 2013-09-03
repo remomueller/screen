@@ -1,14 +1,13 @@
-<% @title = "#{@user.name}" %>
+<% @title = @user.name %>
 <div class="page-header">
   <h1>
-    <%= @title %>
+    <%= link_to 'Users', users_path %> &middot; <%= @title %>
     <small><%= @user.email %></small>
-    <% if current_user.system_admin? %>
-      <%= link_to "Edit User", edit_user_path(@user), class: 'btn btn-xs btn-default' %>
-      <%= link_to 'Delete User', @user, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{@user.name}?" } unless current_user == @user %>
-      <%= link_to "View Users", users_path, class: 'btn btn-xs btn-default' %>
-    <% end %>
   </h1>
+  <% if current_user.system_admin? %>
+    <%= link_to "Edit User", edit_user_path(@user), class: 'btn btn-xs btn-default' %>
+    <%= link_to 'Delete User', @user, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{@user.name}?" } unless current_user == @user %>
+  <% end %>
 </div>
 <dl class="dl-horizontal">
   <dt>User Avatar</dt>

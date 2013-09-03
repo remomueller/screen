@@ -1,13 +1,12 @@
-<% @title = "Patient: #{@patient.phi_code(current_user)}" %>
+<% @title = @patient.phi_code(current_user) %>
 <div class="page-header">
   <h1>
-    <%= @title %>
-    <% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_patients.include?(@patient) %>
-      <%= link_to "Edit Patient", edit_patient_path(@patient), class: 'btn btn-xs btn-default' %>
-      <%= link_to "Delete Patient", @patient, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Patient #{@patient.phi_name(current_user)}?" } %>
-    <% end %>
-    <%= link_to "View Patients", patients_path, class: 'btn btn-xs btn-default' %>
+    <%= link_to 'Patients', patients_path %> &middot; <%= @title %>
   </h1>
+  <% if current_user.screener? or current_user.subject_handler? %> <%# current_user.all_patients.include?(@patient) %>
+    <%= link_to "Edit Patient", edit_patient_path(@patient), class: 'btn btn-xs btn-default' %>
+    <%= link_to "Delete Patient", @patient, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Patient #{@patient.phi_name(current_user)}?" } %>
+  <% end %>
 </div>
 
 <% unless @patient.priority_message.blank? %>
