@@ -1,5 +1,15 @@
 ## 0.9.7
 
+### Enhancements
+- **Gem Changes**
+  - Updated to rails 4.0.2
+  - Updated to contour 2.2.0.rc2
+  - Updated to kaminari 0.15.0
+  - Updated to coffee-rails 4.0.1
+  - Updated to sass-rails 4.0.1
+  - Updated to simplecov 0.8.2
+  - Updated to mysql 0.3.14
+
 ## 0.9.6 (September 3, 2013)
 
 ### Enhancements

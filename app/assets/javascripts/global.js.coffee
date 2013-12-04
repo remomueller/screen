@@ -14,6 +14,26 @@
         $(field).attr('disabled', 'disabled')
         $(field).parent().hide()
 
+@loadColorSelectors = () ->
+  $('[data-object~="color-selector"]').each( () ->
+    $this = $(this)
+    $this.ColorPicker(
+      color: $this.data('color')
+      onShow: (colpkr) ->
+        $(colpkr).fadeIn(500)
+        return false
+      onHide: (colpkr) ->
+        $(colpkr).fadeOut(500)
+        $($this.data('form')).submit()
+        return false
+      onChange: (hsb, hex, rgb) ->
+        $($this.data('target')).val('#' + hex)
+        $($this.data('target')+"_display").css('backgroundColor', '#' + hex)
+      onSubmit: (hsb, hex, rgb, el) ->
+        $(el).ColorPickerHide();
+    )
+  )
+
 @initializeTypeahead = () ->
   $('#mrn').each( () ->
     $this = $(this)
@@ -29,6 +49,18 @@
       local: $this.data('local')
     )
   )
+
+@ready = () ->
+  contourReady()
+  initializeTypeahead()
+  loadColorSelectors()
+  updateFields($('#call_call_type'))
+  $('#call_call_type').change( () -> updateFields($(this)) )
+  updateFields($('#evaluation_administration_type'))
+  $('#evaluation_administration_type').change( () -> updateFields($(this)) )
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
 
 jQuery ->
 
@@ -50,23 +82,3 @@ jQuery ->
       $($(this).data('target') + '_form').hide();
       $($(this).data('target') + '_show').show();
     )
-
-  $('[data-object~="color-selector"]').each( () ->
-    $this = $(this)
-    $this.ColorPicker(
-      color: $this.data('color')
-      onShow: (colpkr) ->
-        $(colpkr).fadeIn(500)
-        return false
-      onHide: (colpkr) ->
-        $(colpkr).fadeOut(500)
-        return false
-      onChange: (hsb, hex, rgb) ->
-        $($this.data('target')).val('#' + hex)
-        $($this.data('target')+"_display").css('backgroundColor', '#' + hex)
-      onSubmit: (hsb, hex, rgb, el) ->
-        $(el).ColorPickerHide();
-    )
-  )
-
-  initializeTypeahead()
