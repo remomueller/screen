@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
 
   layout "contour/layouts/application"
 
+  def dashboard
+    flash.delete(:notice)
+  end
+
   protected
 
   def check_system_admin
