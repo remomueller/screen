@@ -9,6 +9,7 @@
   - Updated to sass-rails 4.0.1
   - Updated to simplecov 0.8.2
   - Updated to mysql 0.3.14
+- Removed support for Ruby 1.9.3
 
 ## 0.9.6 (September 3, 2013)
 
