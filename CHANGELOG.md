@@ -1,5 +1,8 @@
 ## 0.9.9
 
+### Enhancements
+- Bootstrap 3 styling changes for user form
+
 ## 0.9.8 (December 5, 2013)
 
 ### Enhancements

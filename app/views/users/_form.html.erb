@@ -18,51 +18,59 @@
   <div class="form-group">
     <%= f.label :first_name, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :first_name %>
+      <%= f.text_field :first_name, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :last_name, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :last_name %>
+      <%= f.text_field :last_name, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :status, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.select :status, User::STATUS %>
+      <%= f.select :status, User::STATUS, {}, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :email, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.text_field :email %>
+      <%= f.text_field :email, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :system_admin, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.check_box :system_admin %>
+      <label class="checkbox" style="width:185px">
+        <%= f.check_box :system_admin %>
+      </label>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :screener, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.check_box :screener %>
+      <label class="checkbox" style="width:185px">
+        <%= f.check_box :screener %>
+      </label>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :subject_handler, nil, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.check_box :subject_handler %>
+      <label class="checkbox" style="width:185px">
+        <%= f.check_box :subject_handler %>
+      </label>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :access_phi, 'Access PHI', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= f.check_box :access_phi %>
+      <label class="checkbox" style="width:185px">
+        <%= f.check_box :access_phi %>
+      </label>
     </div>
   </div>
 
