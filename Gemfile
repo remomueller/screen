@@ -9,7 +9,7 @@ gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              '2.2.0.rc2'
+gem 'contour',              '~> 2.2.1'
 gem 'kaminari',             '~> 0.15.0'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 
