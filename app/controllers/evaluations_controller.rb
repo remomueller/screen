@@ -44,7 +44,7 @@ class EvaluationsController < ApplicationController
       return
     end
 
-    @evaluations = evaluation_scope.page(params[:page]).per(20)
+    @evaluations = evaluation_scope.page(params[:page]).per( 40 )
   end
 
   # GET /evaluations/1
