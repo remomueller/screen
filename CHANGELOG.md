@@ -1,5 +1,7 @@
 ## 0.9.11
 
+### Enhancements
+- Fully enabled turbolinks for all pages
 - Use of Ruby 2.1.1 is now recommended
 - **Gem Changes**
   - Updated to rails 4.0.3
