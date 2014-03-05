@@ -1,8 +1,6 @@
 Screen::Application.routes.draw do
 
-  resources :visits
-
-  resources :evaluations
+  resources :calls
 
   resources :choices
 
@@ -10,14 +8,9 @@ Screen::Application.routes.draw do
 
   resources :doctors
 
-  resources :calls do
-    member do
-      post :show_group
-    end
-    collection do
-      post :task_tracker_templates
-    end
-  end
+  resources :evaluations
+
+  resources :events
 
   resources :mailings do
     collection do
@@ -26,19 +19,11 @@ Screen::Application.routes.draw do
     end
   end
 
-  resources :events
 
-  resources :patients do
-    member do
-      post :inline_update
-      post :stickies
-    end
-  end
+
+  resources :patients
 
   resources :prescreens do
-    member do
-      post :inline_update
-    end
     collection do
       get :bulk
       post :import
@@ -48,6 +33,8 @@ Screen::Application.routes.draw do
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 
   resources :users
+
+  resources :visits
 
   get "/about" => "application#about", as: :about
   get "/about/use" => "application#use", as: :about_use

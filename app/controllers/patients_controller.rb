@@ -4,27 +4,6 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_patient, only: [ :show, :edit, :update, :destroy ]
 
-  def stickies
-    @patient = Patient.find_by_id(params[:id])
-    if @patient and not @patient.subject_code.blank?
-      current_user.update_attributes task_tracker_screen_token: params[:screen_token] unless params[:screen_token].blank?
-      result_hash = send_message("stickies.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'unassigned' => '1', 'editable_only' => '0', 'status[]' => ['completed', 'planned'], 'tag_filter' => 'any', 'tag_names[]' => ['Phone Call', 'Visit'], 'search' => @patient.subject_code, 'order' => 'stickies.due_date DESC' }, "get")
-      stickies = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
-      @stickies = []
-      stickies.each do |s|
-        s['due_date'] = Time.parse(s['due_date']) rescue ''
-        s['month_year'] = if s['due_date'].blank?
-          { display: 'No Date', id: 'no_date' }
-        else
-          { display: s['due_date'].strftime('%B') + (s['due_date'].year == Date.today.year ? "" : " #{s['due_date'].year}" ), id: s['due_date'].strftime("%m%Y") }
-        end
-        @stickies << s
-      end
-    else
-      render nothing: true
-    end
-  end
-
   # GET /patients
   # GET /patients.json
   def index

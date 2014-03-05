@@ -4,23 +4,6 @@ class CallsController < ApplicationController
   before_action :set_call, only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_call, only: [ :show, :edit, :update, :destroy ]
 
-  def show_group
-    @call = Call.find_by_id(params[:id])
-    if @call
-      current_user.update_attributes task_tracker_screen_token: params[:screen_token] unless params[:screen_token].blank?
-      result_hash = send_message("groups/#{@call.tt_group_id}.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token }, "get")
-      @group = result_hash[:result].blank? ? {} : ActiveSupport::JSON.decode(result_hash[:result])
-    else
-      render nothing: true
-    end
-  end
-
-  def task_tracker_templates
-    current_user.update_attributes task_tracker_screen_token: params[:screen_token] unless params[:screen_token].blank?
-    result_hash = send_message("templates.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'editable_only' => '1' }, "get")
-    @templates = result_hash[:result].blank? ? [] : ActiveSupport::JSON.decode(result_hash[:result])
-  end
-
   # GET /calls
   # GET /calls.json
   def index
@@ -78,13 +61,6 @@ class CallsController < ApplicationController
 
     respond_to do |format|
       if @call.save
-        if @call.tt_template_id
-          additional_text = "Subject Code: #{@call.patient.subject_code}\n\nCreated by Screen\n\n#{@call.comments}"
-          result_hash = send_message("groups.json", { 'api_token' => 'screen_token', 'screen_token' => current_user.task_tracker_screen_token, 'group[template_id]' => @call.tt_template_id, 'group[initial_due_date]' => params[:initial_due_date], 'group[description]' => additional_text }, "post")
-          @group = result_hash[:result].blank? ? {} : ActiveSupport::JSON.decode(result_hash[:result])
-          @call.update_attributes tt_group_id: @group['id'] unless @group['id'].blank?
-        end
-
         format.html { redirect_to @call.patient, notice: 'Call was successfully created.' }
         format.json { render action: 'show', status: :created, location: @call }
       else

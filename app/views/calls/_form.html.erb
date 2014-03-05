@@ -136,22 +136,12 @@
     </div>
   </div>
 
-  <div id="task_tracker_templates">
-    <%= image_tag "contour/ajax-loader.gif" %>
-  </div>
-
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
       <%= f.submit nil, class: 'btn btn-primary' %>
       <%= cancel %>
     </div>
   </div>
-<% end %>
-
-<%= form_tag task_tracker_templates_calls_path, method: :post, remote: true, style: 'display:inline', id: 'templates_form', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag 'screen_token', '' %>
-  <%= hidden_field_tag 'tt_template_id', @call.tt_template_id %>
-  <%= hidden_field_tag 'initial_due_date', params[:initial_due_date] %>
 <% end %>
 
 <%= javascript_tag do %>

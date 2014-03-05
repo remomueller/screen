@@ -1,5 +1,8 @@
 ## 0.9.11
 
+### Breaking Changes
+- Removed Task Tracker integration
+
 ### Enhancements
 - Fully enabled turbolinks for all pages
 - Use of Ruby 2.1.1 is now recommended

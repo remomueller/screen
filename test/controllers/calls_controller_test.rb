@@ -1,80 +1,9 @@
 require 'test_helper'
-require 'artifice'
 
 class CallsControllerTest < ActionController::TestCase
   setup do
     @call = calls(:one)
     login(users(:screener))
-  end
-
-  test "should get task tracker templates" do
-    app = proc do |env|
-      [200, { 'Content-Type' => 'application/json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
-    end
-    Artifice.activate_with(app) do
-      post :task_tracker_templates, format: 'js'
-    end
-    assert_not_nil assigns(:templates)
-    # Can't assert this if the task tracker server is down or not set
-    unless TASK_TRACKER_URL.blank? or TT_EMAIL.blank? or TT_PASSWORD.blank?
-      assert_equal 1, assigns(:templates).first['id']
-      assert_equal "Template One - Project One", assigns(:templates).first['full_name']
-    end
-    assert_template 'task_tracker_templates'
-    assert_response :success
-  end
-
-  test "should get task tracker templates with redirect" do
-    app = proc do |env|
-      if env['PATH_INFO'].split('/').last == 'templates.json'
-        # Temporary Redirect
-        [307, { 'Content-Type' => 'application/json', 'Location' => 'http://localhost/new/templates_new_location.json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
-      else
-        [200, { 'Content-Type' => 'application/json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
-      end
-    end
-    Artifice.activate_with(app) do
-      post :task_tracker_templates, format: 'js'
-    end
-    assert_not_nil assigns(:templates)
-    # Can't assert this if the task tracker server is down or not set
-    unless TASK_TRACKER_URL.blank? or TT_EMAIL.blank? or TT_PASSWORD.blank?
-      assert_equal 1, assigns(:templates).first['id']
-      assert_equal "Template One - Project One", assigns(:templates).first['full_name']
-    end
-    assert_template 'task_tracker_templates'
-    assert_response :success
-  end
-
-  test "should fail gracefully on unknown server response for task tracker templates" do
-    app = proc do |env|
-      [500, { 'Content-Type' => 'text/html' }, [ "Internal Server Error" ]]
-    end
-    Artifice.activate_with(app) do
-      post :task_tracker_templates, format: 'js'
-    end
-    assert_not_nil assigns(:templates)
-    assert_equal [], assigns(:templates)
-    assert_template 'task_tracker_templates'
-    assert_response :success
-  end
-
-  test "should recover from incorrect service url for task tracker templates" do
-    app = proc do |env|
-      if env['PATH_INFO'].split('/').last == 'templates.json'
-        # Temporary Redirect to an incorrect URL
-        [307, { 'Content-Type' => 'application/json', 'Location' => 'not\\a\\uri' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
-      else
-        [200, { 'Content-Type' => 'application/json' }, [ [{ id: 1, full_name: "Template One - Project One" }].to_json ]]
-      end
-    end
-    Artifice.activate_with(app) do
-      post :task_tracker_templates, format: 'js'
-    end
-    assert_not_nil assigns(:templates)
-    assert_equal [], assigns(:templates)
-    assert_template 'task_tracker_templates'
-    assert_response :success
   end
 
   test "should get csv" do
@@ -135,28 +64,6 @@ class CallsControllerTest < ActionController::TestCase
     assert_redirected_to patient_path(assigns(:call).patient)
   end
 
-  test "should create call using template and assigning group from task tracker" do
-    app = proc do |env|
-      [200, { 'Content-Type' => 'application/json' }, [ { id: 1, description: "Group Description", template_id: 5 }.to_json ]]
-    end
-    Artifice.activate_with(app) do
-      assert_difference('Call.count') do
-        post :create, call: { patient_id: @call.patient_id, call_type: choices(:call_type), direction: 'incoming', tt_template_id: 1 }, call_date: "02/28/2012", call_time: "5:45pm", initial_due_date: "03/28/2012"
-      end
-    end
-
-    assert_not_nil assigns(:group)
-    # Can't assert this if the task tracker server is down or not set
-    unless TASK_TRACKER_URL.blank? or TT_EMAIL.blank? or TT_PASSWORD.blank?
-      assert_equal 1, assigns(:group)['id']
-      assert_equal 5, assigns(:group)['template_id']
-    end
-    assert_not_nil assigns(:call)
-    assert_equal users(:screener), assigns(:call).user
-    assert_equal Time.local(2012, 2, 28, 17, 45, 0), assigns(:call).call_time
-    assert_redirected_to patient_path(assigns(:call).patient)
-  end
-
   test "should not create call with blank call date" do
     assert_difference('Call.count', 0) do
       post :create, call: { patient_id: @call.patient_id }, call_date: '', call_time: "5:45pm"
@@ -170,21 +77,6 @@ class CallsControllerTest < ActionController::TestCase
 
   test "should show call" do
     get :show, id: @call
-    assert_response :success
-  end
-
-  test "should show group for call" do
-    post :show_group, id: @call, format: 'js'
-    assert_not_nil assigns(:call)
-    assert_not_nil assigns(:group)
-    assert_template 'show_group'
-    assert_response :success
-  end
-
-  test "should not show group for invalid call" do
-    post :show_group, id: -1, format: 'js'
-    assert_nil assigns(:group)
-    assert_nil assigns(:call)
     assert_response :success
   end
 

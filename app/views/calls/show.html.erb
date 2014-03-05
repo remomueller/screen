@@ -40,13 +40,3 @@
   <dt>Comments</dt>
   <dd><%= @call.comments %></dd>
 </dl>
-
-<% unless @call.tt_group_id.blank? %>
-  <div id="show_group_<%= @call.tt_group_id %>">
-    <%= image_tag "contour/ajax-loader.gif" %>
-  </div>
-
-  <%= form_tag show_group_call_path(@call), method: :post, remote: true, style: 'display:inline', id: "group_#{@call.tt_group_id}_call_form", data: { object: 'form-load' } do %>
-    <%= hidden_field_tag 'screen_token', '' %>
-  <% end %>
-<% end %>
