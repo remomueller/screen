@@ -8,7 +8,7 @@ class ClinicsController < ApplicationController
   # GET /clinics.json
   def index
     @order = scrub_order(Clinic, params[:order], 'clinics.name')
-    @clinics = Clinic.current.search(params[:search]).order(@order).page(params[:page]).per(40)
+    @clinics = Clinic.current.search(params[:search]).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /clinics/1
