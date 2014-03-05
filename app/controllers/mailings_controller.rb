@@ -61,7 +61,7 @@ class MailingsController < ApplicationController
       return
     end
 
-    @mailings = mailing_scope.page(params[:page]).per(20) # (current_user.mailings_per_page)
+    @mailings = mailing_scope.page(params[:page]).per( 40 )
   end
 
   # GET /mailings/1
