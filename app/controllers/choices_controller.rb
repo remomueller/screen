@@ -8,7 +8,7 @@ class ChoicesController < ApplicationController
   # GET /choices.json
   def index
     @order = scrub_order(Choice, params[:order], 'choices.category')
-    @choices = Choice.current.search(params[:search]).order(@order).page(params[:page]).per(40)
+    @choices = Choice.current.search(params[:search]).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /choices/1
