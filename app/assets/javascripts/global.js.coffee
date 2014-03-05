@@ -62,7 +62,7 @@
   $('#call_call_type').change( () -> updateFields($(this)) )
   updateFields($('#evaluation_administration_type'))
   $('#evaluation_administration_type').change( () -> updateFields($(this)) )
-  setFocusToField("#search")
+  setFocusToField("#search, #mrn")
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
