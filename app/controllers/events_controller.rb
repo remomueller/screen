@@ -21,7 +21,7 @@ class EventsController < ApplicationController
     event_scope = event_scope.with_patient(params[:patient_id]) unless params[:patient_id].blank?
     event_scope = event_scope.subject_code_not_blank unless current_user.screener?
 
-    @events = event_scope.page(params[:page]).per(20) # (current_user.events_per_page)
+    @events = event_scope.page(params[:page]).per( 40 )
   end
 
   # GET /events/1
