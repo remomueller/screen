@@ -6,8 +6,8 @@
   </h1>
 </div>
 
-<%= form_tag patients_path, method: :get, remote: true, id: "patients_search", class: 'form-vertical', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+<%= form_tag patients_path, method: :get, class: 'form-vertical' do %>
+  <%= hidden_field_tag :order, params[:order] %>
 
   <div class="row">
     <div class="col-md-4 form-group">
@@ -33,9 +33,10 @@
   </div>
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-      <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+      <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
+      <%= link_to 'Reset', patients_path, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
 
-<div id="patients"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
+<%= render partial: 'patients/patients' %>

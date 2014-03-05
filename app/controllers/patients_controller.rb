@@ -48,7 +48,7 @@ class PatientsController < ApplicationController
       @patients = patient_scope.page(params[:page]).per(10)
       render json: @patients.collect{|p| { value: p.phi_code(current_user).to_s, text: [p.phi_code(current_user), p.phi_name(current_user)].reject{ |i| i.blank? }.join(" - ") }}
     else
-      @patients = patient_scope.page(params[:page]).per(20)
+      @patients = patient_scope.page(params[:page]).per( 40 )
     end
   end
 

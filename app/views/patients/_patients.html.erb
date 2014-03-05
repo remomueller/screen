@@ -1,14 +1,14 @@
-<%= render partial: 'layouts/per_page', locals: { object_count: @patients.total_count, type: 'users' } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @patients.total_count } %>
 
 <table class="table table-striped" style="table-layout:fixed"><col width="38px" />
   <thead>
     <tr>
       <th><%= image_tag 'gentleface/16/flag.png', style: 'vertical-align:text-bottom', alt: '', title: 'Priority Followup' %></th>
 
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.mrn", 'MRN', 'patients_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.subject_code", 'Subject Code', 'patients_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.first_name", 'First Name', 'patients_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.last_name", 'Last Name', 'patients_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.mrn", 'MRN') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.subject_code", 'Subject Code') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.first_name", 'First Name') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "patients.last_name", 'Last Name') %></th>
 
       <th>Latest Event</th>
       <th>Events</th>
