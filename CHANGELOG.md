@@ -1,4 +1,4 @@
-## 0.9.11
+## 0.9.11 (March 5, 2014)
 
 ### Breaking Changes
 - Removed Task Tracker integration
