@@ -1,14 +1,14 @@
-<%= render partial: 'layouts/per_page', locals: { object_count: @calls.total_count, type: 'calls' } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @calls.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.patient_id', 'Patient', 'calls_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.response', 'Response', 'calls_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.call_time', 'Call time', 'calls_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.patient_id', 'Patient') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.response', 'Response') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.call_time', 'Call time') %></th>
       <th>Berlin</th>
       <th>ESS</th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.eligibility', 'Eligibility', 'calls_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'calls.eligibility', 'Eligibility') %></th>
       <th>Comments</th>
     </tr>
   </thead>

@@ -3,8 +3,8 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag calls_path, method: :get, remote: true, id: "calls_search", class: 'form-vertical', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+<%= form_tag calls_path, method: :get, id: "calls_search", class: 'form-vertical' do %>
+  <%= hidden_field_tag :order, params[:order] %>
 
   <div class="row">
     <div class="col-md-4 form-group">
@@ -53,10 +53,11 @@
 
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-      <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+      <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
+      <%= link_to 'Reset', calls_path, class: 'btn btn-default' %>
       <%= link_to 'Export CSV', '#', class: 'btn btn-default', data: { target: '#calls_search', object: 'export', format: 'csv' } %>
     </div>
   </div>
 <% end %>
 
-<div id="calls"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
+<%= render partial: 'calls/calls' %>

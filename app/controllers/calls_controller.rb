@@ -52,7 +52,7 @@ class CallsController < ApplicationController
       return
     end
 
-    @calls = call_scope.page(params[:page]).per(20)
+    @calls = call_scope.page(params[:page]).per( 40 )
   end
 
   # GET /calls/1
