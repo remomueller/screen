@@ -1,6 +1,11 @@
 ## 0.9.11
 
 - Use of Ruby 2.1.1 is now recommended
+- **Gem Changes**
+  - Updated to rails 4.0.3
+  - Updated to mysql2 0.3.15
+  - Updated to contour 2.4.0.beta3
+  - Updated to kaminari 0.15.1
 
 ## 0.9.10 (January 8, 2014)
 
