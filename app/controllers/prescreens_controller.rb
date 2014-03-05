@@ -47,7 +47,7 @@ class PrescreensController < ApplicationController
     prescreen_scope = prescreen_scope.visit_before(visit_before) unless visit_before.blank?
     prescreen_scope = prescreen_scope.visit_after(visit_after) unless visit_after.blank?
 
-    @prescreens = prescreen_scope.page(params[:page]).per(40) # (current_user.prescreens_per_page)
+    @prescreens = prescreen_scope.page(params[:page]).per( 40 )
   end
 
   # GET /prescreens/1

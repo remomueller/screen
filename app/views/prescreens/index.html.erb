@@ -3,8 +3,8 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag prescreens_path, method: :get, remote: true, id: "prescreens_search", class: 'form-vertical', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+<%= form_tag prescreens_path, method: :get, class: 'form-vertical' do %>
+  <%= hidden_field_tag :order, params[:order] %>
   <div class="row">
     <div class="col-md-4 form-group">
       <%= label :mrn, 'Search', class: 'col-md-3 control-label' %>
@@ -45,9 +45,10 @@
 
   <div class="form-group">
     <div class="col-md-offset-3 col-md-9">
-      <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+      <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
+      <%= link_to 'Reset', prescreens_path, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
 
-<div id="prescreens"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
+<%= render partial: 'prescreens/prescreens' %>
