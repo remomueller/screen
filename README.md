@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/screen.png)](https://gemnasium.com/remomueller/screen)
 [![Code Climate](https://codeclimate.com/github/remomueller/screen.png)](https://codeclimate.com/github/remomueller/screen)
 
-Manage prescreens and call log. Using Rails 4.0+ and Ruby 2.1.0+.
+Manage prescreens and call log. Using Rails 4.0+ and Ruby 2.1+.
 
 ## Installation
 
@@ -55,7 +55,7 @@ This will run the task lib/tasks/flag_priority.rake using Cron
 ```
 sudo crontab -e
 
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/screen && /usr/local/rvm/gems/ruby-2.1.0/bin/bundle exec rake flag_priority RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/screen && /usr/local/rvm/gems/ruby-2.1.1/bin/bundle exec rake flag_priority RAILS_ENV=production
 ```
 
 ## Contributing to Screen
