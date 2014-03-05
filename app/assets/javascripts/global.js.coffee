@@ -61,24 +61,21 @@
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
-
-jQuery ->
-
-  $(document)
-    .on('click', '[data-object~="screen-token-update"]', () ->
-      $('#screen_token').val($('#task_tracker_screen_token').val())
-      $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize(), null, 'script')
-      false
-    )
-    .on('click', '[data-object~="ignore"]', () ->
-      false
-    )
-    .on('click', '[data-object~="export"]', () ->
-      window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
-      false
-    )
-    .on('click', '[data-object~="form-reset-and-hide"]', () ->
-      $($(this).data('target') + '_form_form')[0].reset();
-      $($(this).data('target') + '_form').hide();
-      $($(this).data('target') + '_show').show();
-    )
+$(document)
+  .on('click', '[data-object~="screen-token-update"]', () ->
+    $('#screen_token').val($('#task_tracker_screen_token').val())
+    $.post($($(this).data('target')).attr('action'), $($(this).data('target')).serialize(), null, 'script')
+    false
+  )
+  .on('click', '[data-object~="ignore"]', () ->
+    false
+  )
+  .on('click', '[data-object~="export"]', () ->
+    window.location = $($(this).data('target')).attr('action') + '.' + $(this).data('format') + '?' + $($(this).data('target')).serialize()
+    false
+  )
+  .on('click', '[data-object~="form-reset-and-hide"]', () ->
+    $($(this).data('target') + '_form_form')[0].reset();
+    $($(this).data('target') + '_form').hide();
+    $($(this).data('target') + '_show').show();
+  )
