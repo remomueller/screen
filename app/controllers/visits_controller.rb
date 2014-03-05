@@ -36,7 +36,7 @@ class VisitsController < ApplicationController
       return
     end
 
-    @visits = visit_scope.page(params[:page]).per(20)
+    @visits = visit_scope.page(params[:page]).per( 40 )
   end
 
   # GET /visits/1

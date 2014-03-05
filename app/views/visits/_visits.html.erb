@@ -1,12 +1,12 @@
-<%= render partial: 'layouts/per_page', locals: { object_count: @visits.total_count, type: 'visits' } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @visits.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.patient_id", 'Patient', 'visits_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_type", 'Visit type', 'visits_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_date", 'Visit date', 'visits_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.outcome", 'Outcome', 'visits_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.patient_id", 'Patient') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_type", 'Visit type') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.visit_date", 'Visit date') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, "visits.outcome", 'Outcome') %></th>
     </tr>
   </thead>
 
