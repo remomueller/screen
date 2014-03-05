@@ -50,6 +50,10 @@
     )
   )
 
+@setFocusToField = (element_id) ->
+  val = $(element_id).val()
+  $(element_id).focus().val('').val(val)
+
 @ready = () ->
   contourReady()
   initializeTypeahead()
@@ -58,6 +62,7 @@
   $('#call_call_type').change( () -> updateFields($(this)) )
   updateFields($('#evaluation_administration_type'))
   $('#evaluation_administration_type').change( () -> updateFields($(this)) )
+  setFocusToField("#search")
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
